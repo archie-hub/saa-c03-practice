@@ -1,4 +1,4 @@
-# credit_repo
+# saa-c03-practice
 
 ## SAA-C03 practice exams
 
@@ -24,9 +24,9 @@ Progress is stored in your browser's `localStorage`, so it's per browser and per
 1. Merge this branch into `main`.
 2. In the repository, go to **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**,
    select `main` and the `/docs` folder, and save.
-3. The site appears at `https://archie-hub.github.io/credit_repo/` within a minute or two.
+3. The site appears at `https://archie-hub.github.io/saa-c03-practice/` within a minute or two.
 
-Note: GitHub Pages on a private repository requires a paid GitHub plan. On a free plan, the repository must be public.
+Note: GitHub Pages on a free plan requires the repository to be public.
 
 ### Run locally
 
