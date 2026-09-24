@@ -45,6 +45,10 @@ Practice questions organized by the official SAA-C03 exam guide structure:
 - 4.3 Design cost-optimized database solutions
 - 4.4 Design cost-optimized network architectures
 
+## Web app
+
+These questions power the practice-exam site in [`../docs/`](../docs/). See the repository [README](../README.md).
+
 ## How to use
 
 Each question has its answer and explanation in a collapsible `<details>` block, plus a link to the
