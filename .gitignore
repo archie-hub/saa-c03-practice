@@ -1,0 +1,39 @@
+# Secrets and credentials: never commit these
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.ppk
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+credentials
+credentials.*
+.aws/
+.netrc
+.npmrc
+.pypirc
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+# Personal exam-history exports downloaded from the web app
+saa-c03-history-*.json
+
+# Local Claude Code settings (may hold personal tokens)
+.claude/settings.local.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+__pycache__/

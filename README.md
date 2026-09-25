@@ -50,3 +50,20 @@ The script checks that every question has at least 4 options, a valid answer, an
 for "Select TWO/THREE" questions. Keep the existing format: a `**N.**` stem, `- A.` options, and a `<details>`
 block with the `**X.**` answer and a `Resource:` link. Question IDs are `<domain>-<number>`, so avoid renumbering
 existing questions or past exam history will point at the wrong questions.
+
+### Keeping secrets out of this repository
+
+This repository is public, so credentials must never be committed. Several layers guard against it:
+
+- **`.gitignore`** excludes `.env` files, private keys and certificates, cloud credential files, Terraform state,
+  and exam-history exports from the web app.
+- **Pre-commit hook:** `.githooks/pre-commit` runs `scripts/check_secrets.py --staged`, plus `gitleaks` if it's
+  installed, and blocks the commit if it finds anything. Enable it once per clone with
+  `git config core.hooksPath .githooks`. Claude Code sessions enable it automatically through `.claude/settings.json`.
+- **CI:** `.github/workflows/secret-scan.yml` scans the full history with the same script and with Gitleaks on every
+  push and pull request.
+- **GitHub push protection:** in **Settings → Code security**, turn on **Secret scanning** and **Push protection**
+  (free for public repositories). GitHub then rejects pushes that contain known credential types before they
+  reach the repository.
+
+If a secret is ever pushed, deleting it in a later commit isn't enough. Revoke or rotate it immediately.
