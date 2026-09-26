@@ -119,6 +119,7 @@ main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 48px; outline: none
 }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-2 > .card { margin-bottom: 0; }
+.grid-2 > * { min-width: 0; }
 .stack-16 > * + * { margin-top: 16px; }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .row.between { justify-content: space-between; }
