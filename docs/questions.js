@@ -4407,7 +4407,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "da88607e49",
-     "text": "S3 Standard for 30 days → S3 Glacier Flexible Retrieval for the rest of the 7 years"
+     "text": "S3 Standard for 30 days → S3 Glacier Flexible Retrieval for the rest of the 7 years",
+     "why": "Flexible Retrieval costs more than Deep Archive over 7 years, and moving at day 30 adds retrieval waits and fees during the appeals period."
     },
     {
      "id": "8a81444353",
@@ -4415,11 +4416,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0d90d77751",
-     "text": "S3 Glacier Instant Retrieval from day 1 → S3 Glacier Deep Archive after 90 days"
+     "text": "S3 Glacier Instant Retrieval from day 1 → S3 Glacier Deep Archive after 90 days",
+     "why": "Glacier Instant Retrieval charges per retrieval, which gets expensive during the first 30 days of frequent access."
     },
     {
      "id": "c0bf463578",
-     "text": "S3 One Zone-IA from day 1 → S3 Glacier Flexible Retrieval after 90 days"
+     "text": "S3 One Zone-IA from day 1 → S3 Glacier Flexible Retrieval after 90 days",
+     "why": "One Zone-IA charges per retrieval during the busy first 30 days and keeps data in one AZ, and Flexible Retrieval costs more than Deep Archive."
     }
    ],
    "answer": [
@@ -4437,15 +4440,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5c66058b96",
-     "text": "S3 Glacier Flexible Retrieval"
+     "text": "S3 Glacier Flexible Retrieval",
+     "why": "Flexible Retrieval is an archive class: restores take minutes to hours and cost extra, which doesn't suit content that can suddenly go viral."
     },
     {
      "id": "100ce2b84d",
-     "text": "S3 One Zone-IA"
+     "text": "S3 One Zone-IA",
+     "why": "One Zone-IA charges per retrieval, keeps data in one AZ, and doesn't adjust to access patterns on its own."
     },
     {
      "id": "764393ca88",
-     "text": "S3 Standard-IA"
+     "text": "S3 Standard-IA",
+     "why": "Standard-IA charges per retrieval, so popular clips would cost more, and it doesn't adjust to access patterns on its own."
     },
     {
      "id": "2dfa23a0e6",
@@ -4471,15 +4477,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "2248e51754",
-     "text": "S3 Glacier Deep Archive"
+     "text": "S3 Glacier Deep Archive",
+     "why": "Deep Archive retrievals take hours, not milliseconds."
     },
     {
      "id": "ed48d58a8d",
-     "text": "S3 Standard"
+     "text": "S3 Standard",
+     "why": "S3 Standard costs more to store than the IA classes, which is wasteful for rarely accessed data."
     },
     {
      "id": "035bdb99fc",
-     "text": "S3 Standard-IA"
+     "text": "S3 Standard-IA",
+     "why": "Standard-IA stores data across multiple AZs, which costs more than One Zone-IA. That resilience isn't needed for copies that can be regenerated."
     }
    ],
    "answer": [
@@ -4497,11 +4506,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e21013d187",
-     "text": "S3 Standard"
+     "text": "S3 Standard",
+     "why": "S3 Standard costs more to store than Glacier Instant Retrieval, which is wasteful for data read about once a quarter."
     },
     {
      "id": "79c325b60f",
-     "text": "S3 Glacier Flexible Retrieval"
+     "text": "S3 Glacier Flexible Retrieval",
+     "why": "Flexible Retrieval restores take minutes to hours, not milliseconds."
     },
     {
      "id": "a1f47c4038",
@@ -4509,7 +4520,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "08dcedf5b0",
-     "text": "S3 Glacier Deep Archive"
+     "text": "S3 Glacier Deep Archive",
+     "why": "Deep Archive retrievals take hours, not milliseconds."
     }
    ],
    "answer": [
@@ -4531,15 +4543,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "a5253c161d",
-     "text": "Suspend versioning on the bucket, which removes the old versions"
+     "text": "Suspend versioning on the bucket, which removes the old versions",
+     "why": "Suspending versioning stops new versions from being created, but it doesn't delete the versions that already exist."
     },
     {
      "id": "f22e7bea43",
-     "text": "Turn on S3 Object Lock in Governance mode for the bucket"
+     "text": "Turn on S3 Object Lock in Governance mode for the bucket",
+     "why": "Object Lock prevents versions from being deleted, which makes the storage growth worse."
     },
     {
      "id": "edef8d44b2",
-     "text": "Turn on S3 Intelligent-Tiering for the current versions only"
+     "text": "Turn on S3 Intelligent-Tiering for the current versions only",
+     "why": "Intelligent-Tiering for current versions doesn't touch the old versions that are driving the cost."
     }
    ],
    "answer": [
@@ -4557,7 +4572,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "36f801bf25",
-     "text": "S3 Inventory reports"
+     "text": "S3 Inventory reports",
+     "why": "S3 Inventory lists the objects in a bucket. It doesn't provide an organization-wide dashboard or cost recommendations."
     },
     {
      "id": "3205b5dd30",
@@ -4565,11 +4581,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "59caf92ef3",
-     "text": "Amazon Macie"
+     "text": "Amazon Macie",
+     "why": "Macie discovers sensitive data in S3. It doesn't analyze storage usage or cost."
     },
     {
      "id": "a268a728e7",
-     "text": "AWS CloudTrail data events"
+     "text": "AWS CloudTrail data events",
+     "why": "CloudTrail data events log object-level API calls (at extra cost). They don't summarize usage or recommend savings."
     }
    ],
    "answer": [
@@ -4591,15 +4609,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "792854e4aa",
-     "text": "Convert them to st1 Throughput Optimized HDD"
+     "text": "Convert them to st1 Throughput Optimized HDD",
+     "why": "st1 is cheaper, but it's a hard disk volume: much slower for random I/O and not allowed as a boot volume."
     },
     {
      "id": "0e5f521531",
-     "text": "Move the data to instance store volumes"
+     "text": "Move the data to instance store volumes",
+     "why": "Instance store is temporary storage that's lost when an instance stops, so it can't replace EBS volumes."
     },
     {
      "id": "fe4cf2fddb",
-     "text": "Migrate them to io2 with the same IOPS"
+     "text": "Migrate them to io2 with the same IOPS",
+     "why": "io2 costs more than gp2, so it increases cost."
     }
    ],
    "answer": [
@@ -4617,7 +4638,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "eca66cde0e",
-     "text": "Convert the snapshots to AMIs, which are stored at no charge"
+     "text": "Convert the snapshots to AMIs, which are stored at no charge",
+     "why": "AMIs are backed by EBS snapshots, so the snapshot storage is still billed."
     },
     {
      "id": "aa4c266c72",
@@ -4625,11 +4647,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "6723e3e05a",
-     "text": "Move the snapshots to S3 Glacier Deep Archive with a lifecycle rule"
+     "text": "Move the snapshots to S3 Glacier Deep Archive with a lifecycle rule",
+     "why": "EBS snapshots are managed by EBS, not stored in your S3 buckets, so S3 lifecycle rules can't move them to Glacier."
     },
     {
      "id": "304fdcd2ec",
-     "text": "Copy the snapshots to a cheaper Region and delete the originals"
+     "text": "Copy the snapshots to a cheaper Region and delete the originals",
+     "why": "Copying to another Region adds cross-Region transfer charges and still bills standard snapshot storage. The archive tier is far cheaper."
     }
    ],
    "answer": [
@@ -4647,11 +4671,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "3d8190dc6e",
-     "text": "Switch the file system to Max I/O performance mode"
+     "text": "Switch the file system to Max I/O performance mode",
+     "why": "Max I/O is a performance mode for highly parallel workloads. It doesn't change storage cost."
     },
     {
      "id": "4bc3f082fa",
-     "text": "Switch the file system to Provisioned Throughput mode"
+     "text": "Switch the file system to Provisioned Throughput mode",
+     "why": "Provisioned Throughput adds throughput charges. It doesn't reduce storage cost."
     },
     {
      "id": "7824bc7eb7",
@@ -4659,7 +4685,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "edc6633bf1",
-     "text": "Move the data to gp3 EBS volumes attached to each instance"
+     "text": "Move the data to gp3 EBS volumes attached to each instance",
+     "why": "EBS volumes can't be shared as one file system across instances the way EFS is, so the CMS would break."
     }
    ],
    "answer": [
@@ -4677,7 +4704,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "635d7da76e",
-     "text": "Amazon EFS with the EFS Archive class"
+     "text": "Amazon EFS with the EFS Archive class",
+     "why": "EFS is a file system. Backup software written for tape can't use it without the rewrite the company wants to avoid."
     },
     {
      "id": "09577190ea",
@@ -4685,11 +4713,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "e25709724a",
-     "text": "AWS Storage Gateway S3 File Gateway"
+     "text": "AWS Storage Gateway S3 File Gateway",
+     "why": "S3 File Gateway presents NFS and SMB file shares, not a tape library."
     },
     {
      "id": "1a7df327dd",
-     "text": "AWS DataSync with a daily scheduled task"
+     "text": "AWS DataSync with a daily scheduled task",
+     "why": "DataSync copies files between storage systems. The backup software would still need a tape target."
     }
    ],
    "answer": [
@@ -4711,15 +4741,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0295ffd6b0",
-     "text": "Dedicated Hosts"
+     "text": "Dedicated Hosts",
+     "why": "Dedicated Hosts are the most expensive option, paying for a whole physical server."
     },
     {
      "id": "ff6966574d",
-     "text": "On-Demand Instances"
+     "text": "On-Demand Instances",
+     "why": "On-Demand is full price, with no discount for being able to tolerate interruptions."
     },
     {
      "id": "21f6f56d0b",
-     "text": "3-year Reserved Instances"
+     "text": "3-year Reserved Instances",
+     "why": "A 3-year reservation is a commitment you pay for whether or not the simulation runs, and Spot is usually far cheaper for interruptible work."
     }
    ],
    "answer": [
@@ -4737,11 +4770,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6abc0708b1",
-     "text": "Spot Instances"
+     "text": "Spot Instances",
+     "why": "Spot Instances aren't a commitment discount, can be interrupted, and don't apply to Lambda."
     },
     {
      "id": "0a926a785d",
-     "text": "EC2 Instance Savings Plans"
+     "text": "EC2 Instance Savings Plans",
+     "why": "EC2 Instance Savings Plans only cover one instance family in one Region, and don't cover Fargate or Lambda."
     },
     {
      "id": "caa5b66658",
@@ -4749,7 +4784,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0332bbe10c",
-     "text": "Standard Reserved Instances"
+     "text": "Standard Reserved Instances",
+     "why": "Standard Reserved Instances apply to EC2 only and are tied to specific instance attributes, so they don't follow family or Region changes."
     }
    ],
    "answer": [
@@ -4771,15 +4807,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "733d8a7775",
-     "text": "Standard Reserved Instances (3-year)"
+     "text": "Standard Reserved Instances (3-year)",
+     "why": "A 3-year reservation is exactly the long-term commitment the organizer wants to avoid."
     },
     {
      "id": "3c564e280b",
-     "text": "Compute Savings Plans (1-year)"
+     "text": "Compute Savings Plans (1-year)",
+     "why": "Savings Plans give a discount but don't reserve capacity, and they're a 1-year commitment."
     },
     {
      "id": "336d8b93ea",
-     "text": "Spot Instances with a maximum price"
+     "text": "Spot Instances with a maximum price",
+     "why": "Spot Instances can be interrupted at any time and guarantee no capacity."
     }
    ],
    "answer": [
@@ -4797,15 +4836,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "d44c46d573",
-     "text": "Dedicated Instances"
+     "text": "Dedicated Instances",
+     "why": "Dedicated Instances run on single-tenant hardware but don't give visibility into physical sockets and cores."
     },
     {
      "id": "39b1c86dc1",
-     "text": "Shared tenancy"
+     "text": "Shared tenancy",
+     "why": "Shared tenancy runs on hardware shared with other customers, with no socket or core visibility."
     },
     {
      "id": "c7ea1256d1",
-     "text": "Spot Instances"
+     "text": "Spot Instances",
+     "why": "Spot Instances run on shared tenancy by default and can be interrupted, so they don't meet the licensing terms."
     },
     {
      "id": "bc0a2f83a6",
@@ -4827,15 +4869,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6f923bee98",
-     "text": "All Spot Instances of a single instance type, sized for the peak"
+     "text": "All Spot Instances of a single instance type, sized for the peak",
+     "why": "All-Spot puts the baseline at risk of interruption, a single instance type limits available Spot capacity, and sizing for the peak wastes money."
     },
     {
      "id": "ffefe76399",
-     "text": "All On-Demand Instances, sized for the peak and running around the clock"
+     "text": "All On-Demand Instances, sized for the peak and running around the clock",
+     "why": "Paying On-Demand rates for peak capacity around the clock is the waste the team wants to avoid."
     },
     {
      "id": "49c7b3f35e",
-     "text": "Dedicated Hosts for the baseline and On-Demand Instances for the peaks"
+     "text": "Dedicated Hosts for the baseline and On-Demand Instances for the peaks",
+     "why": "Dedicated Hosts are expensive, and On-Demand for short peaks costs more than Spot."
     },
     {
      "id": "0ca15c76d7",
@@ -4857,7 +4902,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "894a519a50",
-     "text": "Move to instances with NVMe instance store volumes"
+     "text": "Move to instances with NVMe instance store volumes",
+     "why": "Instance store improves local storage performance for workloads that need it. It isn't a general price-performance gain."
     },
     {
      "id": "78cdb603ea",
@@ -4865,11 +4911,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b0978a6e64",
-     "text": "Move to larger x86 instances and consolidate workloads"
+     "text": "Move to larger x86 instances and consolidate workloads",
+     "why": "Larger x86 instances cost more, and consolidation doesn't improve price-performance by itself."
     },
     {
      "id": "c23dd83384",
-     "text": "Move to Dedicated Hosts with the same instance type"
+     "text": "Move to Dedicated Hosts with the same instance type",
+     "why": "Dedicated Hosts cost more for the same instance type."
     }
    ],
    "answer": [
@@ -4887,15 +4935,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e5f5c83b83",
-     "text": "Resize them to a larger type so work finishes sooner"
+     "text": "Resize them to a larger type so work finishes sooner",
+     "why": "Larger instances cost more per hour and still run all day."
     },
     {
      "id": "26454864aa",
-     "text": "Move them to Dedicated Hosts to reduce the licensing cost"
+     "text": "Move them to Dedicated Hosts to reduce the licensing cost",
+     "why": "Dedicated Hosts cost more, and licensing isn't the problem here."
     },
     {
      "id": "16bd484b27",
-     "text": "Buy 3-year Reserved Instances that cover all of the instances"
+     "text": "Buy 3-year Reserved Instances that cover all of the instances",
+     "why": "Reserved Instances discount each hour but still pay for all the hours the instances sit unused."
     },
     {
      "id": "450f4a092f",
@@ -4917,11 +4968,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "c583fde773",
-     "text": "An EC2 Auto Scaling group with a minimum of four instances"
+     "text": "An EC2 Auto Scaling group with a minimum of four instances",
+     "why": "Four always-on instances cost more than the current two."
     },
     {
      "id": "693da252fc",
-     "text": "Amazon ECS on EC2 with four tasks across two instances"
+     "text": "Amazon ECS on EC2 with four tasks across two instances",
+     "why": "Containers on EC2 still mean paying for two instances around the clock."
     },
     {
      "id": "1352bfa304",
@@ -4929,7 +4982,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "3e83813986",
-     "text": "Larger EC2 instances behind an Application Load Balancer"
+     "text": "Larger EC2 instances behind an Application Load Balancer",
+     "why": "Larger instances plus a load balancer cost more, not less."
     }
    ],
    "answer": [
@@ -4947,11 +5001,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "b9be16ddeb",
-     "text": "AWS Artifact reports"
+     "text": "AWS Artifact reports",
+     "why": "AWS Artifact provides AWS's compliance reports, not cost checks."
     },
     {
      "id": "94258794d1",
-     "text": "AWS X-Ray"
+     "text": "AWS X-Ray",
+     "why": "X-Ray traces application requests. It doesn't look for idle resources."
     },
     {
      "id": "1d31b1a489",
@@ -4959,7 +5015,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "13896ff755",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans for software vulnerabilities, not wasted spend."
     }
    ],
    "answer": [
@@ -4977,15 +5034,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "52f31f253e",
-     "text": "An AWS CloudTrail trail with Insights events"
+     "text": "An AWS CloudTrail trail with Insights events",
+     "why": "CloudTrail Insights detects unusual API activity, not spending forecasts."
     },
     {
      "id": "5ad64e0790",
-     "text": "AWS Cost Explorer with a saved report"
+     "text": "AWS Cost Explorer with a saved report",
+     "why": "Cost Explorer reports show and forecast spending, but a saved report doesn't send alerts."
     },
     {
      "id": "e2f9329da7",
-     "text": "An AWS Config rule that checks instance types"
+     "text": "An AWS Config rule that checks instance types",
+     "why": "Config rules check resource configurations, not spending."
     },
     {
      "id": "3c9afccf35",
@@ -5007,7 +5067,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "7f432aa55b",
-     "text": "Enable VPC Flow Logs and add up the traffic by department"
+     "text": "Enable VPC Flow Logs and add up the traffic by department",
+     "why": "Flow Logs record network traffic, not the cost of each team's resources."
     },
     {
      "id": "917327cba3",
@@ -5015,11 +5076,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "4a509f1135",
-     "text": "Put each department's users in its own IAM group"
+     "text": "Put each department's users in its own IAM group",
+     "why": "IAM groups control permissions. Costs aren't attributed to whoever created a resource."
     },
     {
      "id": "e94d78fbbe",
-     "text": "Deploy each department's resources in a separate Region"
+     "text": "Deploy each department's resources in a separate Region",
+     "why": "Splitting by Region forces an arbitrary architecture on the teams and still can't attribute shared resources."
     }
    ],
    "answer": [
@@ -5037,11 +5100,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "a8f003a1eb",
-     "text": "Tag policies"
+     "text": "Tag policies",
+     "why": "Tag policies standardize how resources are tagged. They don't combine usage or share discounts."
     },
     {
      "id": "d45ed983b2",
-     "text": "Service control policies"
+     "text": "Service control policies",
+     "why": "SCPs limit what accounts can do. They have nothing to do with billing."
     },
     {
      "id": "8397e514ff",
@@ -5049,7 +5114,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f72a929fea",
-     "text": "Delegated administrator"
+     "text": "Delegated administrator",
+     "why": "A delegated administrator lets a member account manage a service for the organization. It doesn't affect pricing."
     }
    ],
    "answer": [
@@ -5071,15 +5137,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "68e7f6e3e8",
-     "text": "Global tables with on-demand capacity"
+     "text": "Global tables with on-demand capacity",
+     "why": "Global tables add replica Regions, which adds cost, and on-demand is priced for unpredictable traffic."
     },
     {
      "id": "4d68a0be57",
-     "text": "On-demand capacity"
+     "text": "On-demand capacity",
+     "why": "On-demand is priced for unknown or spiky traffic and usually costs more for steady, predictable load."
     },
     {
      "id": "8e85de0b53",
-     "text": "Provisioned capacity fixed at twice the average load"
+     "text": "Provisioned capacity fixed at twice the average load",
+     "why": "Provisioning twice the average load pays for capacity that's never used."
     }
    ],
    "answer": [
@@ -5097,7 +5166,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "114f4ca752",
-     "text": "DynamoDB Accelerator (DAX) in front of the table"
+     "text": "DynamoDB Accelerator (DAX) in front of the table",
+     "why": "DAX caches reads and adds its own cost. It doesn't reduce storage cost."
     },
     {
      "id": "747da81f2d",
@@ -5105,11 +5175,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "05f235346f",
-     "text": "Global tables with a replica in a lower-cost Region"
+     "text": "Global tables with a replica in a lower-cost Region",
+     "why": "A replica in another Region stores the data a second time, which adds storage cost."
     },
     {
      "id": "c76cb1bf0f",
-     "text": "More read capacity units provisioned on the table"
+     "text": "More read capacity units provisioned on the table",
+     "why": "More read capacity increases throughput cost and doesn't reduce storage cost."
     }
    ],
    "answer": [
@@ -5127,11 +5199,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "b54e40bd86",
-     "text": "A Lambda cron job that deletes items"
+     "text": "A Lambda cron job that deletes items",
+     "why": "A Lambda job calls `DeleteItem` for each record, which consumes write capacity and adds Lambda cost."
     },
     {
      "id": "89e8ffbc7a",
-     "text": "DynamoDB Streams"
+     "text": "DynamoDB Streams",
+     "why": "Streams record item changes. They don't delete anything."
     },
     {
      "id": "0d43aa13c1",
@@ -5139,13 +5213,14 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9ac95627ce",
-     "text": "Point-in-time recovery"
+     "text": "Point-in-time recovery",
+     "why": "Point-in-time recovery adds backup cost and doesn't delete items."
     }
    ],
    "answer": [
     "0d43aa13c1"
    ],
-   "explanation": "TTL deletes expired items in the background at no additional cost and without consuming write capacity, unlike a Lambda job that would call `DeleteItem` and consume write capacity for every deletion.",
+   "explanation": "TTL deletes expired items in the background at no additional cost and without consuming write capacity, unlike a Lambda job that would call `DeleteItem` and consume write capacity for every deletion. (Deletion isn't instant: DynamoDB typically removes expired items within a few days, so queries should filter out expired items.)",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html"
   },
   {
@@ -5157,15 +5232,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5d2df06e9f",
-     "text": "Run the database on Spot Instances through Amazon RDS"
+     "text": "Run the database on Spot Instances through Amazon RDS",
+     "why": "Amazon RDS doesn't offer Spot pricing."
     },
     {
      "id": "b740616263",
-     "text": "Move it to RDS Custom so that Spot pricing applies"
+     "text": "Move it to RDS Custom so that Spot pricing applies",
+     "why": "RDS Custom doesn't offer Spot pricing either."
     },
     {
      "id": "ff17f624f3",
-     "text": "Keep it On-Demand and scale the instance down at night"
+     "text": "Keep it On-Demand and scale the instance down at night",
+     "why": "The database has to run 24/7 at a stable size, so scaling it down at night isn't an option, and On-Demand is full price."
     },
     {
      "id": "f8d4d69f4b",
@@ -5191,15 +5269,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0d1903a685",
-     "text": "Increase allocated storage to raise baseline IOPS"
+     "text": "Increase allocated storage to raise baseline IOPS",
+     "why": "More allocated storage increases cost. It doesn't reduce it."
     },
     {
      "id": "fc6b397c67",
-     "text": "Enable Multi-AZ to spread the cost across AZs"
+     "text": "Enable Multi-AZ to spread the cost across AZs",
+     "why": "Multi-AZ adds a standby instance, which roughly doubles the instance cost."
     },
     {
      "id": "cfcee70111",
-     "text": "Add read replicas and shrink the primary instance"
+     "text": "Add read replicas and shrink the primary instance",
+     "why": "Read replicas are additional instances that add cost."
     }
    ],
    "answer": [
@@ -5217,7 +5298,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f85fd5e1ad",
-     "text": "AWS Snowball Edge to ship the Oracle database files to Amazon S3"
+     "text": "AWS Snowball Edge to ship the Oracle database files to Amazon S3",
+     "why": "Snowball ships data physically. It doesn't convert Oracle to another engine, so the licensing costs remain."
     },
     {
      "id": "bde607423f",
@@ -5225,11 +5307,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "8e0eb262c2",
-     "text": "AWS Application Migration Service to rehost the Oracle servers on EC2"
+     "text": "AWS Application Migration Service to rehost the Oracle servers on EC2",
+     "why": "Rehosting Oracle on EC2 keeps the Oracle licenses the company wants to drop."
     },
     {
      "id": "b75c894386",
-     "text": "AWS DataSync to copy the Oracle data files into Amazon RDS for Oracle"
+     "text": "AWS DataSync to copy the Oracle data files into Amazon RDS for Oracle",
+     "why": "RDS for Oracle keeps Oracle licensing, and DataSync copies files rather than migrating databases."
     }
    ],
    "answer": [
@@ -5247,7 +5331,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "54831a88f5",
-     "text": "Move to a larger instance class with more memory"
+     "text": "Move to a larger instance class with more memory",
+     "why": "Moving to a larger instance class is the expensive pattern finance is already questioning."
     },
     {
      "id": "52f7c3bf44",
@@ -5255,11 +5340,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9ad4a89325",
-     "text": "Enable Multi-AZ so the standby serves the reads"
+     "text": "Enable Multi-AZ so the standby serves the reads",
+     "why": "A standard Multi-AZ standby doesn't serve reads, so it adds cost without offloading traffic."
     },
     {
      "id": "6fbcf88c77",
-     "text": "Switch the storage to Provisioned IOPS (io2) volumes"
+     "text": "Switch the storage to Provisioned IOPS (io2) volumes",
+     "why": "Faster storage costs more and doesn't reduce the number of reads hitting the instance."
     }
    ],
    "answer": [
@@ -5277,7 +5364,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0cd73cb778",
-     "text": "RDS Proxy connection pooling"
+     "text": "RDS Proxy connection pooling",
+     "why": "RDS Proxy pools database connections. It doesn't manage storage."
     },
     {
      "id": "0655f09cac",
@@ -5285,11 +5373,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "4fbe6ad0b3",
-     "text": "Performance Insights"
+     "text": "Performance Insights",
+     "why": "Performance Insights helps diagnose database performance. It doesn't change storage."
     },
     {
      "id": "183ebce416",
-     "text": "Aurora Backtrack"
+     "text": "Aurora Backtrack",
+     "why": "Backtrack rewinds an Aurora database to an earlier point in time. It doesn't manage storage."
     }
    ],
    "answer": [
@@ -5307,11 +5397,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "7dd2f7f4f2",
-     "text": "Aurora Standard"
+     "text": "Aurora Standard",
+     "why": "Aurora Standard is the pay-per-I/O configuration that's causing the growing I/O charges."
     },
     {
      "id": "b982fc30eb",
-     "text": "Aurora Backtrack"
+     "text": "Aurora Backtrack",
+     "why": "Backtrack rewinds the database to an earlier point and adds its own cost. It doesn't reduce I/O charges."
     },
     {
      "id": "6866ef34d4",
@@ -5319,7 +5411,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5e93f5c138",
-     "text": "RDS for MySQL with gp3 storage"
+     "text": "RDS for MySQL with gp3 storage",
+     "why": "Moving to RDS for MySQL is a migration off Aurora, not a configuration change, and gives up Aurora's storage architecture."
     }
    ],
    "answer": [
@@ -5341,15 +5434,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "adcc14efbf",
-     "text": "Import the logs into DynamoDB and run a scan for each analysis"
+     "text": "Import the logs into DynamoDB and run a scan for each analysis",
+     "why": "DynamoDB isn't built for ad hoc SQL analytics, and full table scans are slow and expensive."
     },
     {
      "id": "9fb96d6eff",
-     "text": "Resize the cluster to larger RA3 nodes so queries finish sooner"
+     "text": "Resize the cluster to larger RA3 nodes so queries finish sooner",
+     "why": "Larger nodes cost more, and the cluster still runs all the time."
     },
     {
      "id": "e8348e2e84",
-     "text": "Load the logs into Amazon RDS for PostgreSQL and query them there"
+     "text": "Load the logs into Amazon RDS for PostgreSQL and query them there",
+     "why": "RDS means importing the data and running a database all the time for a few queries a week."
     }
    ],
    "answer": [
@@ -5371,15 +5467,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5bd2dedfc8",
-     "text": "Use Transfer Acceleration"
+     "text": "Use Transfer Acceleration",
+     "why": "Transfer Acceleration adds charges and doesn't take the traffic off the NAT gateway."
     },
     {
      "id": "f334f79b44",
-     "text": "Add a second NAT gateway"
+     "text": "Add a second NAT gateway",
+     "why": "A second NAT gateway adds hourly charges, and the data-processing charges stay the same."
     },
     {
      "id": "cb4fa1fd9d",
-     "text": "Use an internet gateway for private subnets"
+     "text": "Use an internet gateway for private subnets",
+     "why": "Routing private subnets to an internet gateway requires public IPs, which exposes the instances and makes the subnets public."
     }
    ],
    "answer": [
@@ -5397,15 +5496,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "84505e0912",
-     "text": "Cross-Region data transfer"
+     "text": "Cross-Region data transfer",
+     "why": "Data transferred between Regions is charged."
     },
     {
      "id": "12ca2ca592",
-     "text": "Cross-AZ data transfer between EC2 instances"
+     "text": "Cross-AZ data transfer between EC2 instances",
+     "why": "Data transferred between AZs is charged in each direction."
     },
     {
      "id": "87ea2727a0",
-     "text": "Data transfer from EC2 to the internet"
+     "text": "Data transfer from EC2 to the internet",
+     "why": "Data transferred from EC2 to the internet is charged."
     },
     {
      "id": "9d9575c211",
@@ -5431,15 +5533,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "82ba50537b",
-     "text": "Send the traffic over public IP addresses instead of private addresses"
+     "text": "Send the traffic over public IP addresses instead of private addresses",
+     "why": "Public IP addresses carry their own hourly charges and don't make data transfer cheaper."
     },
     {
      "id": "9a7ec9d5a6",
-     "text": "Route the traffic between tiers through a NAT gateway in each AZ"
+     "text": "Route the traffic between tiers through a NAT gateway in each AZ",
+     "why": "A NAT gateway adds data-processing charges on top of the existing transfer cost."
     },
     {
      "id": "4db69425a0",
-     "text": "Move every tier into a single AZ and remove the capacity in the other AZs"
+     "text": "Move every tier into a single AZ and remove the capacity in the other AZs",
+     "why": "A single AZ removes high availability, which the requirement says to keep."
     }
    ],
    "answer": [
@@ -5457,11 +5562,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5415ce3a21",
-     "text": "Turn on Requester Pays for public users"
+     "text": "Turn on Requester Pays for public users",
+     "why": "Requester Pays requires every request to be authenticated, so anonymous public users couldn't fetch the images."
     },
     {
      "id": "aafe6abced",
-     "text": "Replicate the bucket to every Region"
+     "text": "Replicate the bucket to every Region",
+     "why": "Replicating to every Region adds storage and replication charges, and users would still download directly from S3."
     },
     {
      "id": "1675968ef0",
@@ -5469,7 +5576,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "feddf501bd",
-     "text": "Enable S3 Transfer Acceleration on the bucket"
+     "text": "Enable S3 Transfer Acceleration on the bucket",
+     "why": "Transfer Acceleration adds charges and mainly speeds up long-distance uploads. It doesn't reduce data transfer out."
     }
    ],
    "answer": [
@@ -5487,7 +5595,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "a2e5caaa0e",
-     "text": "AWS Global Accelerator"
+     "text": "AWS Global Accelerator",
+     "why": "Global Accelerator speeds up internet users' traffic to AWS endpoints. It doesn't provide a private link from a data center, and it adds cost."
     },
     {
      "id": "01ed0c9022",
@@ -5495,11 +5604,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "db3ec18695",
-     "text": "A transit gateway in front of the VPN"
+     "text": "A transit gateway in front of the VPN",
+     "why": "A transit gateway adds its own charges, and the VPN still runs over the internet."
     },
     {
      "id": "2c6af183b3",
-     "text": "More VPN tunnels with ECMP"
+     "text": "More VPN tunnels with ECMP",
+     "why": "More tunnels add bandwidth, but the traffic still runs over the internet, with the same pricing and variability."
     }
    ],
    "answer": [
@@ -5521,15 +5632,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "cb92f4ebcf",
-     "text": "Peer every VPC with one VPC and share that VPC's NAT gateways"
+     "text": "Peer every VPC with one VPC and share that VPC's NAT gateways",
+     "why": "VPC peering doesn't allow edge-to-edge routing, so one VPC can't send internet traffic through another VPC's NAT gateway."
     },
     {
      "id": "eb98c9a87b",
-     "text": "Route the private subnets straight to each VPC's internet gateway"
+     "text": "Route the private subnets straight to each VPC's internet gateway",
+     "why": "Routing private subnets to an internet gateway requires public IPs, which exposes the instances."
     },
     {
      "id": "dd624fc719",
-     "text": "Add a second NAT gateway in each VPC to spread the processing load"
+     "text": "Add a second NAT gateway in each VPC to spread the processing load",
+     "why": "More NAT gateways add hourly cost instead of reducing it."
     }
    ],
    "answer": [
@@ -5551,15 +5665,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "57ccc56992",
-     "text": "Security groups with no attached instances"
+     "text": "Security groups with no attached instances",
+     "why": "Security groups are free, whether or not anything uses them."
     },
     {
      "id": "e3b11d69e9",
-     "text": "Gateway VPC endpoints with no traffic"
+     "text": "Gateway VPC endpoints with no traffic",
+     "why": "Gateway VPC endpoints (for S3 and DynamoDB) are free."
     },
     {
      "id": "22bfd69df1",
-     "text": "Route tables with no associated subnets"
+     "text": "Route tables with no associated subnets",
+     "why": "Route tables are free."
     }
    ],
    "answer": [
@@ -5577,15 +5694,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "66023d1804",
-     "text": "Peering charges per attachment-hour and per GB, the same way as Transit Gateway"
+     "text": "Peering charges per attachment-hour and per GB, the same way as Transit Gateway",
+     "why": "VPC peering has no attachment-hour charge; only data transfer is billed."
     },
     {
      "id": "8e7467e975",
-     "text": "Transit Gateway has no charges, while peering charges for each connection-hour"
+     "text": "Transit Gateway has no charges, while peering charges for each connection-hour",
+     "why": "Transit Gateway charges per attachment-hour and per GB processed, and peering has no hourly charge."
     },
     {
      "id": "b2424b8892",
-     "text": "Both are free; only data transfer out to the internet is charged for either"
+     "text": "Both are free; only data transfer out to the internet is charged for either",
+     "why": "Both bill for data transfer: peering for traffic that crosses AZs or Regions, and Transit Gateway per GB processed."
     },
     {
      "id": "9f740cbff5",
