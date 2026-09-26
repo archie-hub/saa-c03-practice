@@ -205,6 +205,60 @@ Why not the others:
 Resource: <https://docs.aws.amazon.com/filegateway/latest/files3/what-is-file-s3.html>
 </details>
 
+**46.** A hospital's on-premises imaging servers mount block storage over iSCSI, and the storage array is nearly full. The hospital wants to keep using iSCSI volumes on premises, store the full volumes durably in AWS, and keep only the frequently accessed data cached locally for low-latency reads, without buying more on-premises storage. What should it use?
+- A. S3 File Gateway, with NFS shares mounted on each server
+- B. Volume Gateway in cached volume mode
+- C. Volume Gateway in stored volume mode
+- D. Tape Gateway, with virtual tapes on each server
+
+<details><summary>Answer</summary>
+
+**B.** Cached volumes present iSCSI block volumes on premises, store the full data in S3, and keep a local copy of frequently accessed data, so the hospital doesn't need to grow its on-premises storage.
+
+Why not the others:
+- **A.** File Gateway provides NFS or SMB file shares, not the iSCSI block volumes the servers use.
+- **C.** Stored volumes keep the entire dataset on premises and back it up to AWS, so they need just as much local storage.
+- **D.** Tape Gateway presents a virtual tape library for backup software. It isn't primary block storage for the servers.
+
+Resource: <https://docs.aws.amazon.com/storagegateway/latest/vgw/WhatIsStorageGateway.html>
+</details>
+
+**47.** A software company is moving Linux build servers from an on-premises ZFS storage appliance. The builds need a shared NFS file system with very low, sub-millisecond latency, and the team relies on ZFS features such as instant snapshots and clones to spin up test environments from a copy of the data. They don't need SMB, iSCSI or multi-protocol access. What fits BEST?
+- A. Amazon FSx for NetApp ONTAP
+- B. Amazon EFS with Elastic Throughput
+- C. Amazon FSx for Windows File Server
+- D. Amazon FSx for OpenZFS
+
+<details><summary>Answer</summary>
+
+**D.** FSx for OpenZFS is a managed OpenZFS file system accessed over NFS, with low latency and ZFS features such as snapshots and clones, which makes it a natural fit for moving from an on-premises ZFS appliance.
+
+Why not the others:
+- **A.** FSx for NetApp ONTAP would work, but it's built for multi-protocol NFS, SMB and iSCSI access with ONTAP features, which this team doesn't need.
+- **B.** EFS doesn't offer ZFS snapshots and clones, and its latency is higher than FSx for OpenZFS.
+- **C.** FSx for Windows File Server provides SMB shares for Windows workloads, not NFS with ZFS features.
+
+Resource: <https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html>
+</details>
+
+**48.** A genomics application running on EC2 in the same Region as its S3 bucket downloads individual 50 GB reference files, and each download is slow because it runs as a single request. The application only ever needs the whole file, but the team wants the download to finish much faster using the network capacity the instance already has. What should the application do?
+- A. Download the file as many parallel byte-range fetches
+- B. Turn on S3 Transfer Acceleration for the bucket
+- C. Move the reference files to S3 Glacier Instant Retrieval
+- D. Enable versioning so that reads are spread across versions
+
+<details><summary>Answer</summary>
+
+**A.** Byte-range fetches use the HTTP `Range` header to download different parts of the same object in parallel over several connections, which gives much higher aggregate throughput than one long request.
+
+Why not the others:
+- **B.** Transfer Acceleration speeds up long-distance transfers over the internet. The instance is already in the same Region as the bucket.
+- **C.** Changing the storage class doesn't make downloads faster, and it adds retrieval charges.
+- **D.** Versioning keeps older object versions. It doesn't split a download into parallel parts.
+
+Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance-guidelines.html>
+</details>
+
 ---
 
 ## Task 3.2: Design high-performing and elastic compute solutions
@@ -443,6 +497,78 @@ Why not the others:
 Resource: <https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compute-optimizer.html>
 </details>
 
+**50.** A manufacturer's factory-floor control systems need single-digit-millisecond latency to the machines, and regulations require that some production data never leaves the plant. The company still wants to run the same EC2, EBS and ECS services and APIs it uses in its AWS Region, managed from the same console. What should it use?
+- A. AWS Local Zones near the factory
+- B. AWS Wavelength Zones on a 5G network
+- C. A Direct Connect link to the nearest Region
+- D. AWS Outposts racks installed in the plant
+
+<details><summary>Answer</summary>
+
+**D.** Outposts brings AWS infrastructure and services such as EC2, EBS and ECS into your own facility, managed from the same console and APIs, so data can stay on site with very low latency to local systems.
+
+Why not the others:
+- **A.** Local Zones are AWS facilities in metro areas, so data would still leave the plant.
+- **B.** Wavelength Zones sit inside telecom providers' 5G networks, so data would still leave the plant.
+- **C.** Direct Connect provides a private link to a Region, but the workload would still run in the Region, away from the plant.
+
+Resource: <https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html>
+</details>
+
+**51.** A video-editing studio in Los Angeles wants its artists to use cloud workstations with single-digit-millisecond latency, but the nearest AWS Region is too far away for that. The studio doesn't want to install or maintain any AWS hardware on its own premises. What should it use?
+- A. AWS Outposts in the studio's server room
+- B. An AWS Local Zone in the Los Angeles area
+- C. CloudFront in front of the workstations
+- D. Global Accelerator to the nearest Region
+
+<details><summary>Answer</summary>
+
+**B.** Local Zones place AWS compute, storage and other services in large metro areas, close to users, for single-digit-millisecond latency, without the customer hosting any hardware.
+
+Why not the others:
+- **A.** Outposts means installing and hosting AWS hardware on the studio's premises, which it wants to avoid.
+- **C.** CloudFront caches and delivers content. It doesn't run interactive workstations closer to users.
+- **D.** Global Accelerator improves the network path, but the workstations would still run in the distant Region.
+
+Resource: <https://docs.aws.amazon.com/local-zones/latest/ug/what-is-aws-local-zones.html>
+</details>
+
+**52.** A mobile gaming company is launching an augmented-reality game for smartphones on 5G networks. The game's servers must be as close as possible to the phones, inside the mobile carrier's network, so that traffic doesn't leave that network to reach the internet. What should the company deploy its game servers to?
+- A. AWS Wavelength Zones
+- B. AWS Local Zones
+- C. AWS Outposts servers
+- D. CloudFront edge locations
+
+<details><summary>Answer</summary>
+
+**A.** Wavelength Zones embed AWS compute and storage inside telecom providers' 5G networks, so traffic from mobile devices reaches the application without leaving the carrier's network.
+
+Why not the others:
+- **B.** Local Zones are close to users in metro areas, but they aren't inside the carrier's 5G network.
+- **C.** Outposts is AWS hardware installed in the customer's own facilities, not in a carrier's network.
+- **D.** Edge locations cache and deliver content. They don't run game servers.
+
+Resource: <https://docs.aws.amazon.com/wavelength/latest/developerguide/what-is-wavelength.html>
+</details>
+
+**53.** A startup is training a deep-learning model on millions of images. Training on its current general-purpose instances would take weeks, because the work consists of huge numbers of parallel matrix calculations. Which EC2 instance family is designed for this workload?
+- A. Memory optimized (R) instances
+- B. Storage optimized (I) instances
+- C. Accelerated computing (P) instances
+- D. Burstable general purpose (T) instances
+
+<details><summary>Answer</summary>
+
+**C.** Accelerated computing instances use hardware accelerators such as GPUs, which run the massively parallel calculations in deep-learning training far faster than general-purpose CPUs.
+
+Why not the others:
+- **A.** Memory optimized instances offer lots of RAM per vCPU, but no GPUs to speed up training.
+- **B.** Storage optimized instances provide fast local storage, not the parallel processing that training needs.
+- **D.** Burstable instances are for light workloads with occasional CPU spikes, not sustained heavy computation.
+
+Resource: <https://docs.aws.amazon.com/ec2/latest/instancetypes/ac.html>
+</details>
+
 ---
 
 ## Task 3.3: Determine high-performing database solutions
@@ -589,6 +715,96 @@ Why not the others:
 - **D.** DAX caches DynamoDB reads. It isn't a general in-memory store with sorted sets.
 
 Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html>
+</details>
+
+**54.** A fintech startup wants a single database for user balances that responds in microseconds for reads and single-digit milliseconds for writes, uses the Redis-compatible data structures its developers already know, and must not lose any committed write if a node fails. It doesn't want to run a separate cache in front of another database. What should it use?
+- A. ElastiCache for Redis OSS in front of Aurora
+- B. Amazon MemoryDB as the primary database
+- C. DynamoDB with DAX
+- D. ElastiCache for Memcached
+
+<details><summary>Answer</summary>
+
+**B.** MemoryDB is a durable, in-memory database that is Redis OSS and Valkey compatible. It stores writes in a Multi-AZ transaction log, so it can be the primary database, not just a cache.
+
+Why not the others:
+- **A.** This means running a cache in front of a separate database, which the startup wants to avoid.
+- **C.** DynamoDB isn't Redis-compatible, so developers couldn't use the data structures they know.
+- **D.** Memcached has no persistence or replication, so committed writes could be lost if a node fails.
+
+Resource: <https://docs.aws.amazon.com/memorydb/latest/devguide/what-is-memorydb.html>
+</details>
+
+**55.** An online retailer stores its product catalog in DynamoDB. Customers want to search it with free text, such as "waterproof hiking boots under $100", with typo tolerance, relevance ranking and filters by brand and size, which the current key-based queries can't do. What should be added to power search?
+- A. A global secondary index on the product name
+- B. Amazon Athena queries over a DynamoDB export
+- C. DAX in front of the table for faster lookups
+- D. Amazon OpenSearch Service, fed from the table
+
+<details><summary>Answer</summary>
+
+**D.** OpenSearch Service is built for full-text search, with relevance ranking, fuzzy matching and faceted filters. The catalog can be kept in sync from DynamoDB, which stays the system of record.
+
+Why not the others:
+- **A.** A global secondary index supports exact key lookups on another attribute, not free-text search with typo tolerance and relevance.
+- **B.** Athena runs SQL over data in S3. It isn't built for interactive, relevance-ranked text search.
+- **C.** DAX speeds up the same key-based lookups. It doesn't add search features.
+
+Resource: <https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html>
+</details>
+
+**56.** An orders table in DynamoDB uses `orderId` as its partition key. A new support dashboard needs to list all of a given customer's orders, sorted by order date, and today it does this with a full table scan that's slow and expensive. The team is fine with the dashboard showing data that's a second or so behind. What should they add?
+- A. A global secondary index keyed on `customerId` and `orderDate`
+- B. A larger read capacity setting so the scan finishes faster
+- C. DynamoDB Streams, feeding a Lambda function that scans the table
+- D. A local secondary index on `customerId` added to the existing table
+
+<details><summary>Answer</summary>
+
+**A.** A global secondary index lets you query the table by a different partition key and sort key, such as `customerId` and `orderDate`. It's updated asynchronously, so its reads are eventually consistent, which the dashboard accepts.
+
+Why not the others:
+- **B.** More capacity makes the scan finish sooner, but it still reads the whole table every time and costs more.
+- **C.** Streams capture changes. Scanning the table from Lambda is still a full scan.
+- **D.** A local secondary index must share the table's partition key (`orderId`), and it can only be created with the table, not added later.
+
+Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html>
+</details>
+
+**57.** A pricing service caches product prices from RDS in ElastiCache. Prices change a few times a day, and whenever one changes, customers must never see the old price from the cache; stale reads have already caused refund requests. Reads vastly outnumber writes. Which caching strategy should the service use?
+- A. Lazy loading, with a long TTL on every key
+- B. Lazy loading only, with no TTL on any key
+- C. Write-through, updating the cache on every write
+- D. No cache: send every read straight to the database
+
+<details><summary>Answer</summary>
+
+**C.** With write-through, the application updates the cache at the same time as the database, so cached prices are never stale. Because writes are rare, the extra work on each write is small.
+
+Why not the others:
+- **A.** Lazy loading only refreshes a key when it expires or is missing, so a long TTL means customers can see an old price for a long time.
+- **B.** Without a TTL or updates on write, lazily loaded prices could stay stale indefinitely.
+- **D.** Sending every read to the database removes the benefit of caching for a very read-heavy workload.
+
+Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html>
+</details>
+
+**58.** A telecom company runs a large self-managed Apache Cassandra cluster for call records. The team spends too much time patching nodes and planning capacity, and wants a serverless, fully managed service that its existing applications can use with the same Cassandra Query Language (CQL) drivers and queries. What should it use?
+- A. Amazon DocumentDB
+- B. Amazon Neptune
+- C. Amazon Timestream
+- D. Amazon Keyspaces
+
+<details><summary>Answer</summary>
+
+**D.** Amazon Keyspaces is a serverless, Cassandra-compatible database, so existing applications can use the same CQL drivers and queries while AWS manages the infrastructure and scaling.
+
+Why not the others:
+- **A.** DocumentDB is MongoDB-compatible, not Cassandra-compatible, so the CQL applications would need rewriting.
+- **B.** Neptune is a graph database. It doesn't support CQL.
+- **C.** Timestream is a time-series database with its own query language, not CQL.
+
+Resource: <https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspaces.html>
 </details>
 
 ---
@@ -739,6 +955,60 @@ Why not the others:
 Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html>
 </details>
 
+**59.** A multinational company has VPCs in eight Regions and 40 branch offices on three continents. Its network team wants to build and operate one global network on the AWS backbone, with central policies that define which segments (such as production, development and branches) can talk to each other, rather than managing transit gateways and peerings Region by Region. What should it use?
+- A. A full mesh of inter-Region VPC peering connections
+- B. AWS Cloud WAN, managed through a core network policy
+- C. A separate Site-to-Site VPN from each branch to each Region
+- D. VPN CloudHub on a single virtual private gateway
+
+<details><summary>Answer</summary>
+
+**B.** Cloud WAN builds and manages a global network across Regions and on-premises locations from a single core network policy, including network segments that control which parts of the network can communicate.
+
+Why not the others:
+- **A.** A peering mesh across eight Regions grows unmanageable, isn't transitive, and doesn't connect branch offices.
+- **C.** Hundreds of separate VPN connections are hard to manage and give no central segmentation policy.
+- **D.** CloudHub connects VPN sites through one virtual private gateway in one Region. It isn't a global, policy-driven network.
+
+Resource: <https://docs.aws.amazon.com/network-manager/latest/cloudwan/what-is-cloudwan.html>
+</details>
+
+**60.** A company's 300 employees now work mostly from home. Each person needs secure access from a laptop to private applications in a VPC and to on-premises systems reached through the VPC, using a standard OpenVPN-based client, with authentication through the corporate Active Directory. The team wants a managed, elastic service rather than its own VPN servers. What should it use?
+- A. AWS Site-to-Site VPN from each employee's home router
+- B. AWS Direct Connect hosted connections for each employee
+- C. AWS Client VPN with Active Directory authentication
+- D. A bastion host in a public subnet with SSH keys per user
+
+<details><summary>Answer</summary>
+
+**C.** Client VPN is a managed, scalable VPN service that lets individual users connect to a VPC, and to networks reachable through it, from OpenVPN-based clients, with authentication options that include Active Directory.
+
+Why not the others:
+- **A.** Site-to-Site VPN connects whole networks through customer gateway devices. It isn't set up for individual laptops, and home routers can't support it.
+- **B.** Direct Connect provides dedicated links for data centers, not remote access for individual employees.
+- **D.** A bastion host gives shell access to servers, not network access to applications, and it means managing SSH keys for everyone.
+
+Resource: <https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html>
+</details>
+
+**61.** A company has one Direct Connect connection from its data center into a colocation facility. It now needs that same connection to reach VPCs in `us-east-1`, `us-west-2` and `eu-west-1`, without ordering extra circuits for each Region. What should it use?
+- A. A Direct Connect gateway associated with the VPCs' gateways
+- B. VPC peering from a `us-east-1` VPC to the other two Regions
+- C. Three separate Direct Connect connections, one per Region
+- D. A NAT gateway in the connected VPC to forward the traffic
+
+<details><summary>Answer</summary>
+
+**A.** A Direct Connect gateway is a global resource: one private or transit virtual interface can reach virtual private gateways or transit gateways, and through them VPCs, in multiple Regions.
+
+Why not the others:
+- **B.** VPC peering doesn't allow edge-to-edge routing, so on-premises traffic can't pass through one VPC to reach peered VPCs.
+- **C.** Separate connections in each Region are the extra circuits and cost the company wants to avoid.
+- **D.** A NAT gateway provides outbound internet access. It can't route private traffic from on premises to other Regions.
+
+Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html>
+</details>
+
 ---
 
 ## Task 3.5: Determine high-performing data ingestion and transformation solutions
@@ -831,4 +1101,94 @@ Why not the others:
 - **D.** DataSync would still be limited by the 100 Mbps link, taking well over a year.
 
 Resource: <https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html>
+</details>
+
+**49.** A research institute needs to move 80 TB from an on-premises NFS server to Amazon EFS over its 10 Gbps Direct Connect link, and then keep the two in sync every night for a month while researchers finish migrating. The team wants a managed service that handles scheduling, encryption in transit and integrity checks, rather than tuning rsync scripts. What should they use?
+- A. AWS Snowball Edge devices shipped every week
+- B. S3 Transfer Acceleration into a staging bucket
+- C. AWS DataSync, with an agent in the data center
+- D. AWS Transfer Family with an SFTP endpoint
+
+<details><summary>Answer</summary>
+
+**C.** DataSync moves data online between on-premises storage (such as NFS) and AWS storage services including EFS, with scheduled tasks, encryption in transit and built-in integrity verification.
+
+Why not the others:
+- **A.** Shipping devices every week is slow and awkward for nightly syncing, and a 10 Gbps link can already move the data quickly.
+- **B.** Transfer Acceleration speeds up uploads to S3 over the internet. It doesn't sync an NFS server with EFS.
+- **D.** Transfer Family gives external users an SFTP or FTP endpoint. It doesn't copy data from an NFS server on a schedule.
+
+Resource: <https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html>
+</details>
+
+**62.** A company's S3 data lake is queried by Athena, Redshift Spectrum and EMR. Today, access is controlled through complex S3 bucket policies and IAM policies, and analysts in different departments should see only certain columns and rows, such as hiding salary columns from most users. The company wants to manage these fine-grained permissions in one place. What should it use?
+- A. S3 Access Points, one for each department's analysts
+- B. IAM policies that list the columns allowed
+- C. AWS Lake Formation permissions on the Data Catalog
+- D. Amazon Macie jobs that hide the sensitive columns
+
+<details><summary>Answer</summary>
+
+**C.** Lake Formation manages permissions centrally at the database, table, column and row level on Data Catalog resources, and integrated services such as Athena, Redshift Spectrum and EMR enforce them.
+
+Why not the others:
+- **A.** Access points control access to objects in S3, not to specific columns or rows inside the data.
+- **B.** IAM policies can't restrict access to individual columns or rows in a data lake.
+- **D.** Macie discovers sensitive data. It doesn't enforce who can see which columns.
+
+Resource: <https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html>
+</details>
+
+**63.** Sales managers want interactive dashboards with charts and drill-downs built from data in Redshift and Athena, shared with 200 business users who don't write SQL, and embedded in an internal portal. The team wants a serverless business intelligence service with per-user pricing instead of licensed BI servers. What should they use?
+- A. Amazon Quick Sight (formerly Amazon QuickSight)
+- B. Amazon Athena saved queries shared with the users
+- C. Amazon CloudWatch dashboards built from the data
+- D. Amazon OpenSearch Dashboards on a managed domain
+
+<details><summary>Answer</summary>
+
+**A.** Amazon Quick Sight, formerly QuickSight and now part of Amazon Quick, is a serverless BI service for interactive dashboards over sources such as Redshift and Athena, with sharing and embedding for business users.
+
+Why not the others:
+- **B.** Saved queries still require users to work with SQL, and they aren't interactive dashboards.
+- **C.** CloudWatch dashboards show operational metrics and logs, not business data from Redshift or Athena.
+- **D.** OpenSearch Dashboards visualizes data indexed in OpenSearch, mainly for search and log analytics, not BI over Redshift and Athena.
+
+Resource: <https://docs.aws.amazon.com/quick/latest/userguide/what-is.html>
+</details>
+
+**64.** A data engineering team has hundreds of existing Apache Spark and Hive jobs, some with custom libraries and tuned cluster settings, that process petabytes of clickstream data every night. They want to run these jobs on AWS with as few code changes as possible, and control cluster configuration and instance types, including Spot Instances. What should they use?
+- A. AWS Glue DataBrew recipes
+- B. Amazon EMR clusters
+- C. Amazon Athena queries
+- D. Amazon Data Firehose
+
+<details><summary>Answer</summary>
+
+**B.** Amazon EMR runs open-source frameworks such as Spark and Hive, so existing jobs run with few changes, and it gives control over cluster configuration and instance types, including Spot Instances.
+
+Why not the others:
+- **A.** DataBrew is a visual, no-code data preparation tool. It doesn't run existing Spark and Hive jobs.
+- **C.** Athena runs SQL queries. It doesn't run Spark or Hive jobs with custom libraries and tuned clusters.
+- **D.** Data Firehose delivers streaming data to destinations. It doesn't run batch Spark or Hive jobs.
+
+Resource: <https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html>
+</details>
+
+**65.** Dozens of an insurance company's business partners send claim files every day over SFTP to a server in the company's data center, which is being shut down. The partners can't change their existing SFTP scripts or clients, and the company wants the files to land directly in S3 without managing any SFTP servers. What should it use?
+- A. AWS DataSync with an agent at each partner
+- B. S3 Transfer Acceleration for the partners
+- C. An S3 File Gateway at each partner site
+- D. AWS Transfer Family with an SFTP endpoint
+
+<details><summary>Answer</summary>
+
+**D.** Transfer Family provides a fully managed SFTP (and FTPS, FTP or AS2) endpoint that stores files directly in S3 or EFS, so partners keep using their existing SFTP clients and scripts.
+
+Why not the others:
+- **A.** DataSync would mean installing agents at partners' sites, and partners would have to change how they send files.
+- **B.** Transfer Acceleration speeds up uploads through the S3 API. Partners would have to replace their SFTP scripts.
+- **C.** File Gateway provides NFS or SMB shares, and partners would need to host appliances and change their tools.
+
+Resource: <https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html>
 </details>
