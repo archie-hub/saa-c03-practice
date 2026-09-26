@@ -6,8 +6,8 @@ A static web app for practicing the AWS Certified Solutions Architect – Associ
 It lives in [`docs/`](docs/) and runs on GitHub Pages with no server.
 
 - **65-question exams** weighted by domain like the real exam (D1 30%, D2 26%, D3 24%, D4 20%), with a
-  130-minute timer (optional). You can also choose a single domain, a different length, or study mode (check
-  each answer as you go).
+  130-minute timer (optional). Exams start in study mode (check each answer as you go); switch to exam mode
+  to see your score only at the end. You can also choose a single domain or a different length.
 - **A different exam each time.** *Balanced* mode draws the questions you've seen least, so successive exams
   rotate through the whole bank. *Weak spots* puts your recently missed questions first. *Random* is a plain
   shuffle. Answer options are shuffled on every run.

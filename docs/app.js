@@ -278,8 +278,8 @@
             </label>
             <label class="field">Feedback
               <select name="study">
+                <option value="1" selected>Study mode: check each answer</option>
                 <option value="0">Exam mode: score at the end</option>
-                <option value="1">Study mode: check each answer</option>
               </select>
             </label>
           </div>
