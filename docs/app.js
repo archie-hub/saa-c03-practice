@@ -500,12 +500,12 @@
         </form>
         ${run.study && run.checked[id] ? explanationHtml(run, q) : ''}
         <div class="row between">
-          <div class="row">
-            <button data-action="prev" ${run.current === 0 ? 'disabled' : ''}>← Previous</button>
-            <button data-action="next" ${run.current === ids.length - 1 ? 'disabled' : ''}>Next →</button>
+          <div class="row q-nav">
+            <button data-action="prev" aria-label="Previous" ${run.current === 0 ? 'disabled' : ''}><span class="wide-only">← Previous</span><span class="narrow-only">← Prev</span></button>
+            ${run.study ? `<button data-action="check" aria-label="Check answer" ${canCheck ? '' : 'disabled'}><span class="wide-only">Check answer</span><span class="narrow-only">Check</span></button>` : ''}
+            <button data-action="next" aria-label="Next" ${run.current === ids.length - 1 ? 'disabled' : ''}>Next →</button>
           </div>
           <div class="row">
-            ${run.study ? `<button data-action="check" ${canCheck ? '' : 'disabled'}>Check answer</button>` : ''}
             <button data-action="flag" class="${flagged ? 'flag-on' : ''}" aria-pressed="${flagged}">${flagged ? '⚑ Flagged' : '⚐ Flag for review'}</button>
           </div>
         </div>
