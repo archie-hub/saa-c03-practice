@@ -50,6 +50,53 @@
       run.order[qid] = run.order[qid].map((l) => toId(qid, l)).filter(Boolean);
     }
   }
+  // Rebuilds an exam run from an imported file using only known fields with
+  // checked types, so a crafted export can't inject markup into the page.
+  // Returns null if the run isn't usable. `legacy` runs (history format v1)
+  // store Markdown letters A-F instead of option ids.
+  function sanitizeImportedRun(r, legacy) {
+    const isObj = (o) => !!o && typeof o === 'object' && !Array.isArray(o);
+    const qidRe = /^\d-\d{1,3}$/;
+    const optRe = legacy ? /^[A-F]$/ : /^[0-9a-f]{10}$/;
+    const num = (v, max = Number.MAX_SAFE_INTEGER) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? Math.min(max, Math.max(0, n)) : 0;
+    };
+    const int = (v, max) => Math.round(num(v, max));
+    const qidList = (a) => (Array.isArray(a) ? a.filter((q) => typeof q === 'string' && qidRe.test(q)) : []);
+    const optList = (a) => (Array.isArray(a) ? a.filter((o) => typeof o === 'string' && optRe.test(o)) : []);
+    const perQid = (o, fn) => Object.fromEntries(Object.entries(isObj(o) ? o : {}).filter(([k]) => qidRe.test(k)).map(([k, v]) => [k, fn(v)]));
+    const counts = (o, keyRe) => Object.fromEntries(Object.entries(isObj(o) ? o : {})
+      .filter(([k, v]) => keyRe.test(k) && isObj(v))
+      .map(([k, v]) => [k, { correct: int(v.correct), total: int(v.total) }]));
+    if (!isObj(r) || typeof r.id !== 'string' || !/^[a-z0-9]{1,40}$/i.test(r.id) || !isObj(r.result) || !isObj(r.answers)) return null;
+    const res = r.result;
+    return {
+      id: r.id,
+      createdAt: num(r.createdAt),
+      finishedAt: num(r.finishedAt),
+      mode: Object.prototype.hasOwnProperty.call(MODES, r.mode) ? r.mode : 'random',
+      domain: DOMAINS.some((d) => d.id === Number(r.domain)) ? Number(r.domain) : null,
+      study: r.study === true,
+      timed: r.timed === true,
+      limitSec: num(r.limitSec),
+      elapsedSec: num(r.elapsedSec),
+      qids: qidList(r.qids),
+      order: perQid(r.order, optList),
+      answers: perQid(r.answers, optList),
+      flagged: qidList(r.flagged),
+      checked: perQid(r.checked, () => true),
+      current: 0,
+      result: {
+        correct: int(res.correct),
+        answered: int(res.answered),
+        total: int(res.total),
+        pct: int(res.pct, 100),
+        byDomain: counts(res.byDomain, /^\d$/),
+        byTask: counts(res.byTask, /^\d\.\d$/),
+      },
+    };
+  }
   function migrateLegacyAnswers(s) {
     s.runs.forEach(convertLegacyRun);
     convertLegacyRun(s.active);
@@ -396,7 +443,7 @@
           <td class="num"><strong>${r.result.pct}%</strong> <span class="muted small">${r.result.correct}/${r.result.total}</span></td>
           <td><span class="badge ${pass ? 'pass' : 'fail'}">${pass ? '✓ Pass' : '✗ Below target'}</span></td>
           <td class="num">${fmtDuration(r.elapsedSec)}</td>
-          <td><div class="row" style="justify-content:flex-end"><a class="btn ghost" href="#/results/${r.id}">Review</a>${withActions ? `<button class="ghost danger" data-action="delete-run" data-id="${r.id}">Delete</button>` : ''}</div></td>
+          <td><div class="row" style="justify-content:flex-end"><a class="btn ghost" href="#/results/${esc(r.id)}">Review</a>${withActions ? `<button class="ghost danger" data-action="delete-run" data-id="${esc(r.id)}">Delete</button>` : ''}</div></td>
         </tr>`;
       }).join('')}</tbody></table></div>`;
   }
@@ -777,10 +824,11 @@
       try {
         const data = JSON.parse(reader.result);
         if (!data || !Array.isArray(data.runs)) throw new Error('missing runs');
-        const valid = data.runs.filter((r) => r && r.id && Array.isArray(r.qids) && r.result && r.answers);
+        const legacy = !data.historyVersion || data.historyVersion < HISTORY_FORMAT_VERSION;
+        const valid = data.runs.map((r) => sanitizeImportedRun(r, legacy)).filter(Boolean);
         const known = new Set(state.runs.map((r) => r.id));
         const added = valid.filter((r) => !known.has(r.id));
-        if (!data.historyVersion || data.historyVersion < HISTORY_FORMAT_VERSION) added.forEach(convertLegacyRun);
+        if (legacy) added.forEach(convertLegacyRun);
         state.runs.push(...added);
         save();
         alert(`Imported ${added.length} exam${added.length === 1 ? '' : 's'} (${valid.length - added.length} already present).`);
