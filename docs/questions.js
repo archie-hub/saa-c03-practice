@@ -262,7 +262,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "b2e22890ab",
-     "text": "Create an IAM user in Account B and share its access keys with the developer for the migration"
+     "text": "Create an IAM user in Account B and share its access keys with the developer for the migration",
+     "why": "Shared long-term access keys aren't tied to the developer, don't expire on their own, and have to be revoked by hand when the migration ends."
     },
     {
      "id": "35c309d4ab",
@@ -270,11 +271,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ddfd6efed9",
-     "text": "Attach an SCP to Account B that allows the developer's IAM user from Account A"
+     "text": "Attach an SCP to Account B that allows the developer's IAM user from Account A",
+     "why": "SCPs never grant permissions, so an SCP can't give a user in another account access to anything."
     },
     {
      "id": "06f1042c83",
-     "text": "Route the request through the existing VPN and reach DynamoDB in Account B over a private IP"
+     "text": "Route the request through the existing VPN and reach DynamoDB in Account B over a private IP",
+     "why": "DynamoDB access is authorized by IAM no matter which network path a request takes. A VPN provides connectivity, not credentials or permissions."
     }
    ],
    "answer": [
@@ -296,15 +299,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "d854024ac4",
-     "text": "AWS Firewall Manager"
+     "text": "AWS Firewall Manager",
+     "why": "Firewall Manager centrally manages WAF, Shield, security group and Network Firewall policies. It doesn't limit IAM permissions."
     },
     {
      "id": "f8a6f91aed",
-     "text": "Resource-based policies"
+     "text": "Resource-based policies",
+     "why": "Resource-based policies control who can access a particular resource. They can't cap what a role is allowed to do across all services."
     },
     {
      "id": "725fc32dc7",
-     "text": "Session policies only"
+     "text": "Session policies only",
+     "why": "A session policy only applies when it's passed while assuming the role, so a developer could simply not pass one. It isn't a permanent cap on the role."
     }
    ],
    "answer": [
@@ -326,15 +332,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "7fe748d8b4",
-     "text": "Allowed, because SCPs don't apply to S3 actions"
+     "text": "Allowed, because SCPs don't apply to S3 actions",
+     "why": "SCPs apply to every AWS service's actions, including S3."
     },
     {
      "id": "309527b84f",
-     "text": "Allowed, because the IAM group policy is more specific than the SCP"
+     "text": "Allowed, because the IAM group policy is more specific than the SCP",
+     "why": "IAM doesn't rank policies by how specific they are. An explicit deny wins over any allow."
     },
     {
      "id": "9066331c72",
-     "text": "The result depends on which policy was attached first"
+     "text": "The result depends on which policy was attached first",
+     "why": "Policy evaluation doesn't depend on the order policies were attached."
     }
    ],
    "answer": [
@@ -352,7 +361,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1e60235ca0",
-     "text": "An IAM user for each customer, created at sign-up by a Lambda function"
+     "text": "An IAM user for each customer, created at sign-up by a Lambda function",
+     "why": "IAM users are meant for a limited number of people and workloads, not millions of app customers, and each account has a quota on how many it can have."
     },
     {
      "id": "111e1fdff2",
@@ -360,11 +370,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "368355374f",
-     "text": "IAM Identity Center, with each customer added as a workforce user"
+     "text": "IAM Identity Center, with each customer added as a workforce user",
+     "why": "IAM Identity Center is for employees (workforce) signing in to AWS accounts and business apps, not for public customer sign-up in a mobile app."
     },
     {
      "id": "07660abe55",
-     "text": "AWS Directory Service Simple AD, with a group for each customer's S3 prefix"
+     "text": "AWS Directory Service Simple AD, with a group for each customer's S3 prefix",
+     "why": "Simple AD is a managed directory for Windows workloads. It doesn't handle mobile sign-up or issue per-user AWS credentials."
     }
    ],
    "answer": [
@@ -382,7 +394,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "7dc8d4655e",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans workloads for software vulnerabilities and network exposure. It doesn't analyze resource policies for external access."
     },
     {
      "id": "3be2787c63",
@@ -390,11 +403,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "7c68280a58",
-     "text": "AWS Artifact"
+     "text": "AWS Artifact",
+     "why": "AWS Artifact is where you download AWS's own compliance reports and agreements."
     },
     {
      "id": "ebb3f441d9",
-     "text": "AWS Audit Manager"
+     "text": "AWS Audit Manager",
+     "why": "Audit Manager collects evidence to help you prepare for audits. It doesn't find resources shared outside your organization."
     }
    ],
    "answer": [
@@ -416,15 +431,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "d8e70a1b17",
-     "text": "AWS Systems Manager"
+     "text": "AWS Systems Manager",
+     "why": "Systems Manager manages and operates instances and resources. It doesn't create accounts or set up a landing zone with guardrails."
     },
     {
      "id": "bd97c4a141",
-     "text": "AWS Service Catalog alone"
+     "text": "AWS Service Catalog alone",
+     "why": "Service Catalog can offer approved products, and Control Tower's Account Factory uses it, but on its own it doesn't provide guardrails, logging or a landing zone."
     },
     {
      "id": "7391455283",
-     "text": "AWS Config"
+     "text": "AWS Config",
+     "why": "AWS Config provides detective rules only. It can't create accounts or apply preventive controls such as SCPs."
     }
    ],
    "answer": [
@@ -442,7 +460,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8984708df8",
-     "text": "Share one IAM user among the on-call rotation so pager alerts always come from the same identity"
+     "text": "Share one IAM user among the on-call rotation so pager alerts always come from the same identity",
+     "why": "A shared IAM user means no one can tell which person did what, which breaks accountability and auditing."
     },
     {
      "id": "2fff6f3c1c",
@@ -450,11 +469,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "fb75f459c6",
-     "text": "Bake long-term access keys into a golden AMI so new instances start with working credentials immediately"
+     "text": "Bake long-term access keys into a golden AMI so new instances start with working credentials immediately",
+     "why": "Long-term keys baked into an AMI end up on every copy of the image, can leak easily, and are hard to rotate."
     },
     {
      "id": "e642d81731",
-     "text": "Reserve the root user for billing tasks, since ordinary IAM users can't be given access to the Billing console"
+     "text": "Reserve the root user for billing tasks, since ordinary IAM users can't be given access to the Billing console",
+     "why": "IAM users and roles can be given Billing console access once IAM access to billing is activated, so the root user isn't needed for billing."
     },
     {
      "id": "4a30fd14ab",
@@ -481,15 +502,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f0aa1293df",
-     "text": "Enable VPC Flow Logs in each account and send them to a central CloudWatch Logs group"
+     "text": "Enable VPC Flow Logs in each account and send them to a central CloudWatch Logs group",
+     "why": "VPC Flow Logs record network traffic metadata, not API calls."
     },
     {
      "id": "914daefaa6",
-     "text": "Use an AWS Config aggregator in the management account to collect configuration history"
+     "text": "Use an AWS Config aggregator in the management account to collect configuration history",
+     "why": "AWS Config records resource configuration changes, not every API call, and it doesn't prove the records weren't altered."
     },
     {
      "id": "39d79e97a3",
-     "text": "Create a CloudWatch metric filter in each account and a cross-account dashboard of API calls"
+     "text": "Create a CloudWatch metric filter in each account and a cross-account dashboard of API calls",
+     "why": "Metric filters count matching events for alarms. They don't create a complete, tamper-evident record of every API call."
     }
    ],
    "answer": [
@@ -511,15 +535,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5e9d245670",
-     "text": "AWS Shield Standard, which protects the ALB automatically"
+     "text": "AWS Shield Standard, which protects the ALB automatically",
+     "why": "Shield Standard protects against common network and transport-layer DDoS attacks. It doesn't inspect requests for SQL injection or XSS."
     },
     {
      "id": "59d8bdacba",
-     "text": "Amazon GuardDuty, with findings sent to Amazon EventBridge"
+     "text": "Amazon GuardDuty, with findings sent to Amazon EventBridge",
+     "why": "GuardDuty detects threats from logs and reports findings. It doesn't block malicious HTTP requests."
     },
     {
      "id": "241c6e47ae",
-     "text": "Network ACL rules that block the attackers' source addresses"
+     "text": "Network ACL rules that block the attackers' source addresses",
+     "why": "Network ACLs filter by IP address and port and can't inspect request contents, and attackers can easily switch IPs."
     }
    ],
    "answer": [
@@ -537,7 +564,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "390f451458",
-     "text": "AWS WAF alone"
+     "text": "AWS WAF alone",
+     "why": "AWS WAF filters HTTP(S) requests at Layer 7. It doesn't absorb UDP reflection floods, and it doesn't include SRT access or DDoS cost protection."
     },
     {
      "id": "b63cd30128",
@@ -545,11 +573,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "93b5c0a43c",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans workloads for software vulnerabilities. It has nothing to do with DDoS protection."
     },
     {
      "id": "6670eeaf95",
-     "text": "AWS Shield Standard"
+     "text": "AWS Shield Standard",
+     "why": "Shield Standard is free and automatic, but it doesn't include Shield Response Team access, advanced diagnostics or cost protection."
     }
    ],
    "answer": [
@@ -571,15 +601,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5c8bf2df01",
-     "text": "Security groups apply to subnets; NACLs apply to each instance's network interface"
+     "text": "Security groups apply to subnets; NACLs apply to each instance's network interface",
+     "why": "This is reversed: security groups apply to network interfaces (instances), and network ACLs apply to subnets."
     },
     {
      "id": "6af33eb96a",
-     "text": "Security groups are stateless and support deny rules; NACLs are stateful and allow-only"
+     "text": "Security groups are stateless and support deny rules; NACLs are stateful and allow-only",
+     "why": "This is reversed: security groups are stateful and allow-only, while network ACLs are stateless and support deny rules."
     },
     {
      "id": "2c9f8b1a13",
-     "text": "Both are stateful, but only NACLs evaluate numbered rules in order and support deny rules"
+     "text": "Both are stateful, but only NACLs evaluate numbered rules in order and support deny rules",
+     "why": "Network ACLs are stateless, not stateful: return traffic must be allowed explicitly."
     }
    ],
    "answer": [
@@ -597,11 +630,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "a41fda6715",
-     "text": "Detach the internet gateway from the VPC until the attack stops"
+     "text": "Detach the internet gateway from the VPC until the attack stops",
+     "why": "Detaching the internet gateway cuts off all internet traffic for the whole VPC, not just the one attacker."
     },
     {
      "id": "100ed18797",
-     "text": "Attach an IAM policy that denies requests from that `aws:SourceIp`"
+     "text": "Attach an IAM policy that denies requests from that `aws:SourceIp`",
+     "why": "IAM policies control calls to AWS APIs. They don't filter network traffic reaching your instances."
     },
     {
      "id": "360af418bf",
@@ -609,7 +644,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "7be6033a51",
-     "text": "Add a deny rule for the address to each instance's security group"
+     "text": "Add a deny rule for the address to each instance's security group",
+     "why": "Security groups only support allow rules, so they can't deny a specific IP address."
     }
    ],
    "answer": [
@@ -627,15 +663,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ceddd159a2",
-     "text": "An Elastic IP address attached to each instance in the private subnet"
+     "text": "An Elastic IP address attached to each instance in the private subnet",
+     "why": "An Elastic IP only works through an internet gateway route, which would make the instances reachable from the internet, the opposite of the requirement."
     },
     {
      "id": "5eedd252c1",
-     "text": "A virtual private gateway attached to the VPC, with route propagation enabled"
+     "text": "A virtual private gateway attached to the VPC, with route propagation enabled",
+     "why": "A virtual private gateway connects the VPC to an on-premises network over VPN, not to the internet."
     },
     {
      "id": "4f924a89b4",
-     "text": "A route from the private subnet directly to the internet gateway"
+     "text": "A route from the private subnet directly to the internet gateway",
+     "why": "Routing the subnet straight to an internet gateway makes it a public subnet. Instances would need public IPs, which also exposes them to inbound connections."
     },
     {
      "id": "9c325bb478",
@@ -657,15 +696,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f40cc880bc",
-     "text": "AWS Direct Connect"
+     "text": "AWS Direct Connect",
+     "why": "Direct Connect links an on-premises network to AWS. It doesn't change how EC2 instances in a VPC reach S3, and it adds significant cost."
     },
     {
      "id": "d7f80ec0b2",
-     "text": "A Site-to-Site VPN connection"
+     "text": "A Site-to-Site VPN connection",
+     "why": "A Site-to-Site VPN connects an on-premises network to the VPC. It doesn't give the instances a cheaper path to S3."
     },
     {
      "id": "0e8a15cb4f",
-     "text": "An S3 interface endpoint (AWS PrivateLink)"
+     "text": "An S3 interface endpoint (AWS PrivateLink)",
+     "why": "An S3 interface endpoint would also bypass the NAT gateway, but it's billed per hour and per GB. A gateway endpoint for S3 is free."
     },
     {
      "id": "724e94c2d3",
@@ -691,15 +733,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "473cb3cd4c",
-     "text": "A transit gateway shared with each customer's account through AWS RAM"
+     "text": "A transit gateway shared with each customer's account through AWS RAM",
+     "why": "Transit gateways can't route between VPCs with overlapping CIDRs, and they give customers network-level routing into the provider's VPC."
     },
     {
      "id": "0d24fa82ea",
-     "text": "An internet-facing ALB, restricted to customer IP ranges by a security group"
+     "text": "An internet-facing ALB, restricted to customer IP ranges by a security group",
+     "why": "An internet-facing load balancer isn't private, and maintaining IP allowlists for 300 customers is fragile."
     },
     {
      "id": "03095f9360",
-     "text": "A VPC peering connection with each customer VPC, plus route table entries"
+     "text": "A VPC peering connection with each customer VPC, plus route table entries",
+     "why": "VPC peering doesn't work between overlapping CIDRs, and each peering opens routing between whole VPCs rather than exposing one service."
     }
    ],
    "answer": [
@@ -717,7 +762,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "41c33e394c",
-     "text": "Amazon Macie"
+     "text": "Amazon Macie",
+     "why": "Amazon Macie discovers sensitive data such as PII in S3. It doesn't analyze logs for threats."
     },
     {
      "id": "0fd341e3a5",
@@ -725,11 +771,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "bba47c20e1",
-     "text": "AWS Audit Manager"
+     "text": "AWS Audit Manager",
+     "why": "Audit Manager collects evidence for compliance audits. It doesn't detect threats."
     },
     {
      "id": "dd2b55f566",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans for software vulnerabilities and network exposure. It doesn't analyze log activity for threats."
     }
    ],
    "answer": [
@@ -751,15 +799,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "290f825369",
-     "text": "Amazon Detective"
+     "text": "Amazon Detective",
+     "why": "Amazon Detective helps investigate the root cause of security findings. It doesn't scan for vulnerabilities."
     },
     {
      "id": "cc2a6045c2",
-     "text": "AWS Security Hub"
+     "text": "AWS Security Hub",
+     "why": "Security Hub aggregates findings from other services, including Inspector, but doesn't scan workloads for CVEs itself."
     },
     {
      "id": "169664a350",
-     "text": "Amazon GuardDuty"
+     "text": "Amazon GuardDuty",
+     "why": "GuardDuty detects threats by analyzing activity logs. It doesn't scan software packages for known CVEs."
     }
    ],
    "answer": [
@@ -777,15 +828,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f47936173c",
-     "text": "AWS Trusted Advisor"
+     "text": "AWS Trusted Advisor",
+     "why": "Trusted Advisor runs best-practice checks, but it doesn't aggregate GuardDuty, Inspector and Macie findings or score accounts against security standards."
     },
     {
      "id": "f7852e6108",
-     "text": "Amazon CloudWatch"
+     "text": "Amazon CloudWatch",
+     "why": "CloudWatch collects metrics, logs and alarms. It isn't a security findings dashboard."
     },
     {
      "id": "7e11a38cd7",
-     "text": "Amazon Detective"
+     "text": "Amazon Detective",
+     "why": "Detective is for investigating individual findings in depth. The team already uses it, and it doesn't aggregate findings or produce security scores."
     },
     {
      "id": "cdd4517194",
@@ -807,11 +861,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e873c7167f",
-     "text": "AWS Systems Manager Parameter Store (standard parameter)"
+     "text": "AWS Systems Manager Parameter Store (standard parameter)",
+     "why": "Parameter Store has no built-in automatic rotation for database passwords."
     },
     {
      "id": "ab89e9e0b3",
-     "text": "AWS KMS with automatic key rotation enabled"
+     "text": "AWS KMS with automatic key rotation enabled",
+     "why": "KMS key rotation changes the key material used for encryption. It doesn't rotate a database password."
     },
     {
      "id": "85d1506619",
@@ -819,7 +875,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "3aa3289fcd",
-     "text": "An S3 object encrypted with SSE-S3"
+     "text": "An S3 object encrypted with SSE-S3",
+     "why": "An encrypted S3 object stores the password securely, but nothing rotates it or updates the database."
     }
    ],
    "answer": [
@@ -841,15 +898,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "a15c2e1c8a",
-     "text": "Put all tiers in private subnets and attach one security group shared by every tier"
+     "text": "Put all tiers in private subnets and attach one security group shared by every tier",
+     "why": "With every tier in private subnets there's no internet-facing entry point, and one shared security group lets every tier reach the database."
     },
     {
      "id": "d23d49ff9b",
-     "text": "Put the database in a public subnet and protect it with a strong password and TLS"
+     "text": "Put the database in a public subnet and protect it with a strong password and TLS",
+     "why": "A database in a public subnet stays reachable from the internet. A strong password and TLS don't remove that exposure."
     },
     {
      "id": "253cbce0c4",
-     "text": "Put all three tiers in public subnets and restrict traffic between them with network ACLs"
+     "text": "Put all three tiers in public subnets and restrict traffic between them with network ACLs",
+     "why": "Putting all tiers in public subnets exposes the app and database tiers. Stateless, IP-based network ACLs are also harder to manage than security group references."
     }
    ],
    "answer": [
@@ -867,7 +927,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "372c9d5d16",
-     "text": "An IAM user for each client, with SigV4-signed requests"
+     "text": "An IAM user for each client, with SigV4-signed requests",
+     "why": "Per-client IAM users don't scale for app users, and they require SigV4 signing in the app, which the team wants to avoid."
     },
     {
      "id": "00d623d46a",
@@ -875,11 +936,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "d56dd1b69a",
-     "text": "A network ACL that allows only the clients' IP addresses"
+     "text": "A network ACL that allows only the clients' IP addresses",
+     "why": "API Gateway is a managed public endpoint, so network ACLs don't apply to it, and an IP address doesn't identify a signed-in user."
     },
     {
      "id": "8be358d173",
-     "text": "An AWS WAF rate-based rule attached to the API stage"
+     "text": "An AWS WAF rate-based rule attached to the API stage",
+     "why": "A rate-based rule limits request volume per IP. It doesn't check whether the caller has a valid token."
     }
    ],
    "answer": [
@@ -901,15 +964,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "faddb4913e",
-     "text": "An Elastic IP address on each private instance"
+     "text": "An Elastic IP address on each private instance",
+     "why": "An Elastic IP makes the instances reachable from the internet and still relies on SSH keys and an open port 22."
     },
     {
      "id": "406dc490b6",
-     "text": "EC2 Serial Console only"
+     "text": "EC2 Serial Console only",
+     "why": "EC2 Serial Console is for troubleshooting boot and network problems, not a day-to-day, audited shell for administrators."
     },
     {
      "id": "1ddd597d00",
-     "text": "A second, more tightly locked-down bastion host in a public subnet"
+     "text": "A second, more tightly locked-down bastion host in a public subnet",
+     "why": "Another bastion host still needs port 22 open and SSH keys to manage, which is what the team wants to get rid of."
     }
    ],
    "answer": [
@@ -927,15 +993,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "77ee1b5142",
-     "text": "Route 53 private hosted zones that override unwanted domain names"
+     "text": "Route 53 private hosted zones that override unwanted domain names",
+     "why": "Private hosted zones answer DNS queries for your own domains. They don't inspect or filter traffic."
     },
     {
      "id": "30bcb06ded",
-     "text": "Security groups in each VPC, shared across accounts through AWS RAM"
+     "text": "Security groups in each VPC, shared across accounts through AWS RAM",
+     "why": "Security groups filter by IP address and port only. They can't inspect traffic statefully by content or filter by domain name."
     },
     {
      "id": "f8e8ad5009",
-     "text": "AWS Shield Standard applied to each VPC's internet gateway"
+     "text": "AWS Shield Standard applied to each VPC's internet gateway",
+     "why": "Shield Standard protects against DDoS attacks. It doesn't provide firewall rules or domain filtering."
     },
     {
      "id": "3a9aa3370e",
@@ -957,11 +1026,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "353829e946",
-     "text": "VPC peering"
+     "text": "VPC peering",
+     "why": "VPC peering connects two VPCs. It can't connect an on-premises data center."
     },
     {
      "id": "72014b9b9c",
-     "text": "An internet gateway"
+     "text": "An internet gateway",
+     "why": "An internet gateway gives a VPC internet access. It doesn't create an encrypted connection to a data center."
     },
     {
      "id": "c6f0a6c72b",
@@ -969,7 +1040,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "32d4d9a04c",
-     "text": "AWS Direct Connect without encryption"
+     "text": "AWS Direct Connect without encryption",
+     "why": "Direct Connect won't be ready in time, and it isn't encrypted by default."
     }
    ],
    "answer": [
@@ -987,11 +1059,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "20426de779",
-     "text": "S3 Transfer Acceleration, with a bucket policy that requires the accelerate endpoint"
+     "text": "S3 Transfer Acceleration, with a bucket policy that requires the accelerate endpoint",
+     "why": "Transfer Acceleration speeds up transfers to and from S3. It doesn't restrict who can read the bucket."
     },
     {
      "id": "960657d320",
-     "text": "A public bucket policy that allows reads only from CloudFront's published IP ranges"
+     "text": "A public bucket policy that allows reads only from CloudFront's published IP ranges",
+     "why": "CloudFront's IP ranges are shared by every CloudFront customer, so any distribution could read the bucket, and the bucket would be public."
     },
     {
      "id": "ad730241a9",
@@ -999,7 +1073,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5929df1699",
-     "text": "A pre-signed URL generated for every object and embedded in the application's web pages"
+     "text": "A pre-signed URL generated for every object and embedded in the application's web pages",
+     "why": "Pre-signed URLs let anyone holding the URL read the object directly from S3. They don't limit access to CloudFront."
     }
    ],
    "answer": [
@@ -1017,11 +1092,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "c795cbb38a",
-     "text": "SSE-S3 (Amazon S3 managed keys)"
+     "text": "SSE-S3 (Amazon S3 managed keys)",
+     "why": "With SSE-S3, S3 manages the keys, so there's no key policy to revoke one engineer's use of the key and no per-request KMS audit trail."
     },
     {
      "id": "063369ad63",
-     "text": "Client-side encryption with a locally stored key"
+     "text": "Client-side encryption with a locally stored key",
+     "why": "With client-side encryption, AWS never sees the key, so key usage can't be audited in CloudTrail, and it isn't server-side encryption."
     },
     {
      "id": "c03964e609",
@@ -1029,7 +1106,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9f1613511b",
-     "text": "SSE-C with keys supplied by the client"
+     "text": "SSE-C with keys supplied by the client",
+     "why": "With SSE-C you supply the key with every request. AWS doesn't store it or log its use in KMS, so there's no key policy or CloudTrail key trail."
     }
    ],
    "answer": [
@@ -1047,15 +1125,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8ea12316aa",
-     "text": "Disable S3 Versioning on the bucket"
+     "text": "Disable S3 Versioning on the bucket",
+     "why": "Versioning keeps previous versions of objects. It has no effect on how often S3 calls KMS."
     },
     {
      "id": "78cd83a70e",
-     "text": "Switch the bucket to SSE-C"
+     "text": "Switch the bucket to SSE-C",
+     "why": "SSE-C avoids KMS entirely, but clients must then supply and manage the key on every request, which means rewriting the application."
     },
     {
      "id": "ad403ff70c",
-     "text": "Turn on S3 Transfer Acceleration"
+     "text": "Turn on S3 Transfer Acceleration",
+     "why": "Transfer Acceleration speeds up long-distance transfers. It doesn't reduce KMS calls."
     },
     {
      "id": "ce9d2185ac",
@@ -1077,15 +1158,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ef0befbc94",
-     "text": "MFA Delete, enabled on the bucket by the root user"
+     "text": "MFA Delete, enabled on the bucket by the root user",
+     "why": "MFA Delete only requires MFA to delete object versions. The root user with the MFA device can still delete them, and objects can still be overwritten with new versions."
     },
     {
      "id": "93bd3fab06",
-     "text": "S3 Versioning with a bucket policy that denies `s3:DeleteObject`"
+     "text": "S3 Versioning with a bucket policy that denies `s3:DeleteObject`",
+     "why": "A bucket policy can be changed or removed by the root user or an administrator, so it can't guarantee nobody deletes objects."
     },
     {
      "id": "d85337d308",
-     "text": "S3 Object Lock in Governance mode with a 7-year retention period"
+     "text": "S3 Object Lock in Governance mode with a 7-year retention period",
+     "why": "Governance mode can be bypassed by users with the `s3:BypassGovernanceRetention` permission, so it doesn't stop everyone."
     },
     {
      "id": "7527cdbdf6",
@@ -1107,15 +1191,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1914c0d938",
-     "text": "Modify the instance, turn on encryption, and apply the change immediately"
+     "text": "Modify the instance, turn on encryption, and apply the change immediately",
+     "why": "Encryption at rest can't be turned on for an existing unencrypted RDS instance."
     },
     {
      "id": "f956d3d5e6",
-     "text": "Create an encrypted read replica and promote it to replace the primary"
+     "text": "Create an encrypted read replica and promote it to replace the primary",
+     "why": "RDS doesn't allow an encrypted read replica of an unencrypted instance."
     },
     {
      "id": "502ad8aa60",
-     "text": "Turn on TLS at the instance level a second time to trigger re-encryption"
+     "text": "Turn on TLS at the instance level a second time to trigger re-encryption",
+     "why": "TLS protects data in transit. It doesn't encrypt data at rest."
     },
     {
      "id": "0d3343edab",
@@ -1137,11 +1224,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e8d113e3ec",
-     "text": "Amazon GuardDuty"
+     "text": "Amazon GuardDuty",
+     "why": "GuardDuty detects threats from activity logs. It doesn't classify the contents of S3 objects."
     },
     {
      "id": "5ac1feaa23",
-     "text": "AWS Glue DataBrew"
+     "text": "AWS Glue DataBrew",
+     "why": "DataBrew can flag PII in a dataset you profile, but it's a data-preparation tool. It doesn't automatically discover sensitive data across all of your S3 buckets."
     },
     {
      "id": "d7ab2afc46",
@@ -1149,7 +1238,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b7e99ada16",
-     "text": "Amazon Comprehend Medical"
+     "text": "Amazon Comprehend Medical",
+     "why": "Comprehend Medical extracts medical information from text you send it. It doesn't scan S3 buckets for PII."
     }
    ],
    "answer": [
@@ -1167,7 +1257,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e6ea8933a1",
-     "text": "A self-signed certificate uploaded to IAM"
+     "text": "A self-signed certificate uploaded to IAM",
+     "why": "Browsers don't trust self-signed certificates, and certificates uploaded to IAM don't renew themselves."
     },
     {
      "id": "7e1d818996",
@@ -1175,11 +1266,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "30defc3841",
-     "text": "AWS Private Certificate Authority"
+     "text": "AWS Private Certificate Authority",
+     "why": "AWS Private CA issues private certificates that public browsers don't trust, and it has its own charges."
     },
     {
      "id": "6585b686fe",
-     "text": "AWS KMS with an asymmetric key"
+     "text": "AWS KMS with an asymmetric key",
+     "why": "KMS asymmetric keys are for signing and encryption. They aren't TLS certificates, and CloudFront and ALBs can't use them as one."
     }
    ],
    "answer": [
@@ -1201,15 +1294,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "1ce9feb844",
-     "text": "SSE-S3"
+     "text": "SSE-S3",
+     "why": "SSE-S3 is S3's own server-side encryption, with keys managed entirely by S3. It doesn't give you dedicated HSMs."
     },
     {
      "id": "bfaa4f4931",
-     "text": "AWS KMS with AWS managed keys"
+     "text": "AWS KMS with AWS managed keys",
+     "why": "AWS managed keys live in KMS's shared, multi-tenant service, and AWS controls them, not the customer."
     },
     {
      "id": "6527e9c0a5",
-     "text": "AWS Secrets Manager"
+     "text": "AWS Secrets Manager",
+     "why": "Secrets Manager stores and rotates secrets. It doesn't provide dedicated hardware security modules."
     }
    ],
    "answer": [
@@ -1227,7 +1323,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "7282ce1fdb",
-     "text": "Default bucket encryption with SSE-KMS and a customer managed key"
+     "text": "Default bucket encryption with SSE-KMS and a customer managed key",
+     "why": "Default encryption protects data at rest. It doesn't stop clients from using plain HTTP."
     },
     {
      "id": "007ee2beca",
@@ -1235,11 +1332,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f477b74cc2",
-     "text": "S3 Block Public Access turned on at the account and bucket levels"
+     "text": "S3 Block Public Access turned on at the account and bucket levels",
+     "why": "Block Public Access prevents public access. It doesn't require HTTPS for authorized requests."
     },
     {
      "id": "d44a3f540f",
-     "text": "An S3 Access Point with a VPC network origin for every client"
+     "text": "An S3 Access Point with a VPC network origin for every client",
+     "why": "A VPC-restricted access point limits where requests come from, not whether they use HTTPS."
     }
    ],
    "answer": [
@@ -1257,11 +1356,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f85789143d",
-     "text": "S3 Versioning with MFA Delete on every bucket"
+     "text": "S3 Versioning with MFA Delete on every bucket",
+     "why": "Versioning with MFA Delete protects against deletion. It doesn't stop a bucket from being made public."
     },
     {
      "id": "97b9923e91",
-     "text": "Server access logging with alerts on public reads"
+     "text": "Server access logging with alerts on public reads",
+     "why": "Access logs and alerts only tell you after a bucket has already been made public."
     },
     {
      "id": "d4a2ce0cba",
@@ -1269,7 +1370,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "a651e0e60d",
-     "text": "S3 Object Lock in Compliance mode on every bucket"
+     "text": "S3 Object Lock in Compliance mode on every bucket",
+     "why": "Object Lock prevents objects from being deleted or overwritten. It doesn't control public access."
     }
    ],
    "answer": [
@@ -1287,15 +1389,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "98171748ed",
-     "text": "Make the snapshot public so that the other account can copy it"
+     "text": "Make the snapshot public so that the other account can copy it",
+     "why": "Encrypted snapshots can't be shared publicly. Only unencrypted snapshots can."
     },
     {
      "id": "2891477039",
-     "text": "Copy the snapshot with the AWS managed key `aws/ebs`, then share the copy instead"
+     "text": "Copy the snapshot with the AWS managed key `aws/ebs`, then share the copy instead",
+     "why": "Snapshots encrypted with the AWS managed key `aws/ebs` can't be shared with other accounts at all."
     },
     {
      "id": "2472bb7878",
-     "text": "Nothing further; EBS in the other account decrypts customer managed keys automatically once a snapshot is shared"
+     "text": "Nothing further; EBS in the other account decrypts customer managed keys automatically once a snapshot is shared",
+     "why": "The other account needs permission to use the customer managed key. Without it, it can't decrypt the snapshot."
     },
     {
      "id": "9f1f8d8aa8",
@@ -1317,15 +1422,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "94f2899162",
-     "text": "S3 Cross-Region Replication of data exported from each service"
+     "text": "S3 Cross-Region Replication of data exported from each service",
+     "why": "Cross-Region Replication copies S3 objects only. Exporting each service's data yourself isn't a backup service, and there's no vault lock."
     },
     {
      "id": "83a51cafe9",
-     "text": "AWS DataSync tasks that copy each resource's data to a second Region"
+     "text": "AWS DataSync tasks that copy each resource's data to a second Region",
+     "why": "DataSync moves file and object data. It doesn't back up RDS or DynamoDB, or enforce retention."
     },
     {
      "id": "08b4704718",
-     "text": "Lambda functions that snapshot each resource and copy it to another Region"
+     "text": "Lambda functions that snapshot each resource and copy it to another Region",
+     "why": "Custom Lambda functions are exactly the patchwork the company wants to replace, and nothing stops an administrator from deleting backups early."
     },
     {
      "id": "473bd70ceb",
@@ -1351,15 +1459,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b6d4ad38bd",
-     "text": "Every 30 days, matching the default Secrets Manager schedule"
+     "text": "Every 30 days, matching the default Secrets Manager schedule",
+     "why": "Secrets Manager's rotation schedule has nothing to do with KMS. KMS rotates customer managed keys every 365 days by default."
     },
     {
      "id": "b82b1e7fec",
-     "text": "Every 90 days, and the rotation period can't be changed"
+     "text": "Every 90 days, and the rotation period can't be changed",
+     "why": "The default is every 365 days, not 90, and the period can be customized."
     },
     {
      "id": "4a2e7f919c",
-     "text": "Never automatically; customer managed keys can only be rotated on demand"
+     "text": "Never automatically; customer managed keys can only be rotated on demand",
+     "why": "Automatic rotation is available and turned on here. On-demand rotation is an additional option."
     }
    ],
    "answer": [
@@ -1377,15 +1488,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "d2abdd45bb",
-     "text": "AWS CloudTrail"
+     "text": "AWS CloudTrail",
+     "why": "CloudTrail records API calls. It doesn't evaluate resources against rules or keep configuration history."
     },
     {
      "id": "8f5434eaea",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans for software vulnerabilities and network exposure. It doesn't check resource configurations against custom rules."
     },
     {
      "id": "f08f002c72",
-     "text": "AWS Trusted Advisor"
+     "text": "AWS Trusted Advisor",
+     "why": "Trusted Advisor runs a fixed set of best-practice checks. It doesn't evaluate custom rules continuously or keep configuration history."
     },
     {
      "id": "fb007c5580",
@@ -1407,11 +1521,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "c06bd6b762",
-     "text": "AWS Config"
+     "text": "AWS Config",
+     "why": "AWS Config evaluates your own resources' configurations. It doesn't provide AWS's compliance reports."
     },
     {
      "id": "c3a8484100",
-     "text": "AWS Security Hub"
+     "text": "AWS Security Hub",
+     "why": "Security Hub aggregates security findings for your accounts. It doesn't provide AWS's attestation reports."
     },
     {
      "id": "af90fd8d45",
@@ -1419,7 +1535,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "41fefeca41",
-     "text": "AWS Audit Manager"
+     "text": "AWS Audit Manager",
+     "why": "Audit Manager helps you collect evidence for your own audits. AWS's SOC and PCI reports come from AWS Artifact."
     }
    ],
    "answer": [
@@ -1437,11 +1554,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "72d139f7ee",
-     "text": "Turn on default SSE-S3 encryption for the application's S3 bucket"
+     "text": "Turn on default SSE-S3 encryption for the application's S3 bucket",
+     "why": "SSE-S3 protects data at rest in S3. It's already on and doesn't affect browser-to-ALB traffic."
     },
     {
      "id": "e3c285c2de",
-     "text": "Turn on automatic rotation for the application's KMS key"
+     "text": "Turn on automatic rotation for the application's KMS key",
+     "why": "KMS key rotation is key hygiene for data at rest. It doesn't encrypt traffic in transit."
     },
     {
      "id": "461156955e",
@@ -1449,7 +1568,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "61dd1e81fe",
-     "text": "Turn on EBS encryption for the instances in the target group"
+     "text": "Turn on EBS encryption for the instances in the target group",
+     "why": "EBS encryption protects data at rest on the volumes. It's already on and doesn't affect client traffic."
     },
     {
      "id": "c785b0d2f9",
