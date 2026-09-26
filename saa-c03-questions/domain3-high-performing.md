@@ -1071,7 +1071,7 @@ Resource: <https://docs.aws.amazon.com/athena/latest/ug/what-is.html>
 - A. Amazon EMR
 - B. AWS Lambda only
 - C. AWS Glue
-- D. Amazon QuickSight
+- D. Amazon Quick Sight
 
 <details><summary>Answer</summary>
 
@@ -1080,7 +1080,7 @@ Resource: <https://docs.aws.amazon.com/athena/latest/ug/what-is.html>
 Why not the others:
 - **A.** EMR runs big-data frameworks like Spark. It doesn't provide crawlers or its own central data catalog.
 - **B.** Lambda alone has no crawlers or central catalog, and each invocation is limited to 15 minutes.
-- **D.** QuickSight builds BI dashboards. It doesn't run ETL or discover schemas.
+- **D.** Amazon Quick Sight (formerly QuickSight) builds BI dashboards. It doesn't run ETL or discover schemas.
 
 Resource: <https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html>
 </details>

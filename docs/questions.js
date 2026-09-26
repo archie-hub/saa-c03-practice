@@ -6169,9 +6169,9 @@ window.QUESTION_BANK = {
      "text": "AWS Glue"
     },
     {
-     "id": "681ada08e5",
-     "text": "Amazon QuickSight",
-     "why": "QuickSight builds BI dashboards. It doesn't run ETL or discover schemas."
+     "id": "55c7a281f8",
+     "text": "Amazon Quick Sight",
+     "why": "Amazon Quick Sight (formerly QuickSight) builds BI dashboards. It doesn't run ETL or discover schemas."
     }
    ],
    "answer": [
