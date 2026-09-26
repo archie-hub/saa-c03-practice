@@ -10,6 +10,13 @@
   const PASS_PCT = 72;
   const STORE_KEY = 'saa-c03-practice-v1';
   const THEME_KEY = 'saa-c03-theme';
+  // v1 exam history stored answers/option order by Markdown letter (A-F). Since
+  // saa-c03-questions/*.md was reshuffled to fix a bias toward "A", answers are
+  // now stored by a stable option id instead. LEGACY_OPTION_MAP (generated once,
+  // from the bank as it was before the reshuffle) lets old letter-based history
+  // be converted to ids the first time it's loaded.
+  const HISTORY_FORMAT_VERSION = 2;
+  const LETTERS = 'ABCDEF';
   const MODES = {
     fresh: { label: 'Balanced', help: 'Questions you have seen least go first, so each new exam rotates through the bank.' },
     weak: { label: 'Weak spots', help: 'Questions you got wrong last time come first, then unseen ones, then your lowest-accuracy ones.' },
@@ -24,15 +31,43 @@
   let reviewFilter = 'all';
 
   // ---------- storage ----------
+  // Converts one run's answers/option order from v1 (Markdown letter A-F) to
+  // v2 (stable option id), using the pre-reshuffle snapshot in
+  // LEGACY_OPTION_MAP. Used both for history already in localStorage and for
+  // history imported from an old export file.
+  function convertLegacyRun(run) {
+    if (!run) return;
+    const map = window.LEGACY_OPTION_MAP || {};
+    const toId = (qid, letter) => {
+      const ids = map[qid];
+      const idx = LETTERS.indexOf(letter);
+      return ids && idx >= 0 ? ids[idx] : null;
+    };
+    for (const qid of Object.keys(run.answers || {})) {
+      run.answers[qid] = run.answers[qid].map((l) => toId(qid, l)).filter(Boolean);
+    }
+    for (const qid of Object.keys(run.order || {})) {
+      run.order[qid] = run.order[qid].map((l) => toId(qid, l)).filter(Boolean);
+    }
+  }
+  function migrateLegacyAnswers(s) {
+    s.runs.forEach(convertLegacyRun);
+    convertLegacyRun(s.active);
+    s.historyVersion = HISTORY_FORMAT_VERSION;
+  }
   function load() {
     try {
       const raw = localStorage.getItem(STORE_KEY);
       const s = raw ? JSON.parse(raw) : null;
-      if (s && Array.isArray(s.runs)) return { runs: s.runs, active: s.active || null };
+      if (s && Array.isArray(s.runs)) {
+        const loaded = { runs: s.runs, active: s.active || null, historyVersion: s.historyVersion || 1 };
+        if (loaded.historyVersion < HISTORY_FORMAT_VERSION) migrateLegacyAnswers(loaded);
+        return loaded;
+      }
     } catch (e) {
       storageOK = false;
     }
-    return { runs: [], active: null };
+    return { runs: [], active: null, historyVersion: HISTORY_FORMAT_VERSION };
   }
   function save() {
     try {
@@ -46,7 +81,6 @@
   // ---------- helpers ----------
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
-  const LETTERS = 'ABCDEF';
   const WORDS = { 2: 'TWO', 3: 'THREE' };
   function shuffle(arr) {
     const a = arr.slice();
@@ -162,7 +196,7 @@
   }
   function createRun({ mode, qids, study, timed, domain }) {
     const order = {};
-    for (const id of qids) order[id] = shuffle(QUESTIONS.get(id).options.map((o) => o.key));
+    for (const id of qids) order[id] = shuffle(QUESTIONS.get(id).options.map((o) => o.id));
     return {
       id: uid(),
       createdAt: Date.now(),
@@ -440,11 +474,11 @@
       </div>`;
   }
 
-  function optionHtml(run, q, key, idx, { review }) {
-    const opt = q.options.find((o) => o.key === key);
-    const chosen = (run.answers[q.id] || []).includes(key);
+  function optionHtml(run, q, optId, idx, { review }) {
+    const opt = q.options.find((o) => o.id === optId);
+    const chosen = (run.answers[q.id] || []).includes(optId);
     const reveal = review || (run.study && run.checked[q.id]);
-    const isAnswer = q.answer.includes(key);
+    const isAnswer = q.answer.includes(optId);
     let cls = 'option';
     let verdict = '';
     if (reveal) {
@@ -454,14 +488,14 @@
     } else if (chosen) cls += ' selected';
     const type = q.select > 1 ? 'checkbox' : 'radio';
     const full = q.select > 1 && (run.answers[q.id] || []).length >= q.select && !chosen;
-    const input = review ? '' : `<input type="${type}" name="opt" value="${key}" ${chosen ? 'checked' : ''} ${reveal || full ? 'disabled' : ''}>`;
+    const input = review ? '' : `<input type="${type}" name="opt" value="${optId}" ${chosen ? 'checked' : ''} ${reveal || full ? 'disabled' : ''}>`;
     const tag = review ? 'div' : 'label';
     return `<${tag} class="${cls}">${input}<span class="key">${LETTERS[idx]}.</span><span>${fmt(opt.text)}</span>${verdict ? `<span class="verdict">${verdict}</span>` : ''}</${tag}>`;
   }
   function explanationHtml(run, q) {
     const ok = isCorrect(run, q.id);
     const answered = (run.answers[q.id] || []).length > 0;
-    const letters = run.order[q.id].map((k, i) => (q.answer.includes(k) ? LETTERS[i] : null)).filter(Boolean).join(', ');
+    const letters = run.order[q.id].map((optId, i) => (q.answer.includes(optId) ? LETTERS[i] : null)).filter(Boolean).join(', ');
     return `<div class="explain ${ok ? 'good' : 'bad'}">
       <strong>${ok ? '✓ Correct' : answered ? '✗ Incorrect' : '– Not answered'}</strong> · Answer: ${letters}
       ${q.explanation ? `<p style="margin:6px 0 6px">${fmt(q.explanation)}</p>` : ''}
@@ -723,7 +757,7 @@
     import: () => document.getElementById('import-file').click(),
     reset: () => {
       if (!confirm('Delete ALL exam history and any exam in progress? This cannot be undone. Consider exporting first.')) return;
-      state = { runs: [], active: null };
+      state = { runs: [], active: null, historyVersion: HISTORY_FORMAT_VERSION };
       save();
       render();
     },
@@ -745,6 +779,7 @@
         const valid = data.runs.filter((r) => r && r.id && Array.isArray(r.qids) && r.result && r.answers);
         const known = new Set(state.runs.map((r) => r.id));
         const added = valid.filter((r) => !known.has(r.id));
+        if (!data.historyVersion || data.historyVersion < HISTORY_FORMAT_VERSION) added.forEach(convertLegacyRun);
         state.runs.push(...added);
         save();
         alert(`Imported ${added.length} exam${added.length === 1 ? '' : 's'} (${valid.length - added.length} already present).`);
