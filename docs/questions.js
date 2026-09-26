@@ -6709,6 +6709,171 @@ window.QUESTION_BANK = {
    "resource": "https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html"
   },
   {
+   "id": "4-41",
+   "domain": 4,
+   "task": "4.1",
+   "stem": "A research lab keeps 2 PB of old satellite images in S3 Glacier Flexible Retrieval. A new project needs about 400 TB of them restored for reprocessing, but the project won't start for two weeks, so a restore that takes many hours is perfectly acceptable. Which retrieval option minimizes the cost of the restore?",
+   "select": 1,
+   "options": [
+    {
+     "id": "233aaf2287",
+     "text": "Expedited retrieval, for every object",
+     "why": "Expedited retrievals return data in minutes, but they're the most expensive option, which is wasted money here."
+    },
+    {
+     "id": "05baf1efe6",
+     "text": "Standard retrieval, with provisioned capacity",
+     "why": "Provisioned capacity guarantees capacity for Expedited retrievals and adds cost. It doesn't make Standard retrievals cheaper."
+    },
+    {
+     "id": "11b221e319",
+     "text": "Bulk retrieval, the lowest-cost option"
+    },
+    {
+     "id": "a7edd05857",
+     "text": "Copy the objects to S3 Standard-IA first",
+     "why": "Objects in Glacier Flexible Retrieval must be restored before they can be copied, so this still needs a retrieval and adds storage cost."
+    }
+   ],
+   "answer": [
+    "11b221e319"
+   ],
+   "explanation": "Bulk retrieval is the lowest-cost way to restore data from S3 Glacier Flexible Retrieval. It typically completes within 5 to 12 hours, which is fine when the data isn't needed urgently.",
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html"
+  },
+  {
+   "id": "4-42",
+   "domain": 4,
+   "task": "4.1",
+   "stem": "An S3 bucket's storage bill is much higher than the total size of the objects listed in it. Investigation shows that a video-upload app often starts multipart uploads that fail partway through and are never completed or cleaned up, and the uploaded parts keep incurring storage charges. What is the simplest ongoing fix?",
+   "select": 1,
+   "options": [
+    {
+     "id": "6b1810c275",
+     "text": "A lifecycle rule that aborts incomplete multipart uploads after 7 days"
+    },
+    {
+     "id": "073f0b5c19",
+     "text": "S3 Versioning, so that incomplete uploads can be rolled back",
+     "why": "Versioning keeps older versions of completed objects. It doesn't clean up parts from failed uploads, and it can increase storage."
+    },
+    {
+     "id": "bb18a1faed",
+     "text": "A lifecycle rule that transitions all objects to Glacier after 7 days",
+     "why": "Transitioning objects changes the storage class of completed objects. It doesn't remove the leftover parts of failed uploads."
+    },
+    {
+     "id": "497285c96c",
+     "text": "S3 Transfer Acceleration, so that fewer uploads fail partway",
+     "why": "Faster uploads might fail less often, but leftover parts from uploads that still fail would keep piling up."
+    }
+   ],
+   "answer": [
+    "6b1810c275"
+   ],
+   "explanation": "A lifecycle rule with `AbortIncompleteMultipartUpload` automatically removes the parts of uploads that haven't completed within a set number of days, so they stop incurring storage charges.",
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incomplete-mpu-lifecycle-config.html"
+  },
+  {
+   "id": "4-43",
+   "domain": 4,
+   "task": "4.1",
+   "stem": "Engineers take EBS snapshots of 150 volumes by hand before each deployment, and nobody ever deletes them, so the account now holds thousands of snapshots going back three years. The company only needs daily snapshots kept for 14 days. What should it use to create and clean up snapshots automatically?",
+   "select": 1,
+   "options": [
+    {
+     "id": "f72035e191",
+     "text": "S3 lifecycle rules on the bucket that stores the snapshots",
+     "why": "EBS snapshots aren't stored in a bucket you control, so S3 lifecycle rules can't manage them."
+    },
+    {
+     "id": "0e5d8125b5",
+     "text": "EBS Snapshots Archive for every snapshot as soon as it's made",
+     "why": "The archive tier suits rarely restored, long-term snapshots, with a 90-day minimum. It doesn't delete anything and would cost more for 14-day retention."
+    },
+    {
+     "id": "e682eab3b7",
+     "text": "AWS Config rules that flag snapshots older than 14 days",
+     "why": "Config rules can flag old snapshots, but they don't create or delete them."
+    },
+    {
+     "id": "00ae944aa1",
+     "text": "Amazon Data Lifecycle Manager policies with 14-day retention"
+    }
+   ],
+   "answer": [
+    "00ae944aa1"
+   ],
+   "explanation": "Data Lifecycle Manager creates EBS snapshots on a schedule for tagged volumes and deletes them automatically according to a retention rule, such as keeping 14 days of daily snapshots.",
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.html"
+  },
+  {
+   "id": "4-44",
+   "domain": 4,
+   "task": "4.1",
+   "stem": "A company already stores 800 TB of user uploads in S3 Intelligent-Tiering. Analysis shows that more than half of the objects haven't been accessed for over six months, and the business is fine with waiting several hours to retrieve those rare old objects. How can storage costs be reduced further, while keeping Intelligent-Tiering's automatic tiering?",
+   "select": 1,
+   "options": [
+    {
+     "id": "ae35a96b71",
+     "text": "Move every object to S3 Standard-IA with a lifecycle rule",
+     "why": "Standard-IA costs more than the archive tiers, charges per retrieval, and gives up automatic tiering."
+    },
+    {
+     "id": "562d0900da",
+     "text": "Turn on the Archive and Deep Archive Access tiers"
+    },
+    {
+     "id": "0f4520cb70",
+     "text": "Turn on S3 Versioning for the Intelligent-Tiering bucket",
+     "why": "Versioning keeps previous object versions, which adds storage rather than reducing it."
+    },
+    {
+     "id": "5993f00558",
+     "text": "Replicate the bucket to a lower-cost AWS Region",
+     "why": "Replication adds a second copy of the data, which increases cost."
+    }
+   ],
+   "answer": [
+    "562d0900da"
+   ],
+   "explanation": "Intelligent-Tiering's optional archive tiers must be turned on. Once they are, objects not accessed for at least 90 days move to Archive Access and after 180 days to Deep Archive Access, for much lower storage costs, with retrieval taking minutes to hours.",
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering-overview.html"
+  },
+  {
+   "id": "4-45",
+   "domain": 4,
+   "task": "4.1",
+   "stem": "A development team uses an Amazon EFS file system to share build caches between test instances that all run in one Availability Zone. The data can easily be regenerated if it's lost, and the team wants to reduce storage cost without changing how the instances mount the file system over NFS. What should they use?",
+   "select": 1,
+   "options": [
+    {
+     "id": "df2eb00046",
+     "text": "An EFS Regional file system in Max I/O mode",
+     "why": "Max I/O is a performance mode that doesn't reduce cost, and Regional storage costs more than One Zone."
+    },
+    {
+     "id": "429d214993",
+     "text": "S3 Standard, with the build caches uploaded there",
+     "why": "S3 isn't an NFS file system, so the instances and build tools would need changing."
+    },
+    {
+     "id": "ac67d204d5",
+     "text": "An EFS One Zone file system"
+    },
+    {
+     "id": "a2e129f6bc",
+     "text": "EBS gp3 volumes attached to each test instance",
+     "why": "EBS volumes can't be shared by several instances as one file system the way EFS can."
+    }
+   ],
+   "answer": [
+    "ac67d204d5"
+   ],
+   "explanation": "One Zone file systems store data in a single Availability Zone, which costs less than Regional storage across several AZs. That's a reasonable trade-off for data that can be regenerated, and instances still mount it over NFS.",
+   "resource": "https://docs.aws.amazon.com/efs/latest/ug/features.html"
+  },
+  {
    "id": "4-11",
    "domain": 4,
    "task": "4.2",
@@ -7105,6 +7270,237 @@ window.QUESTION_BANK = {
    "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolidated-billing.html"
   },
   {
+   "id": "4-46",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "Last month, a developer's misconfigured script launched dozens of large instances in an unused Region, and nobody noticed until the invoice arrived. The company's spending varies a lot from week to week, so fixed budget thresholds would trigger false alarms constantly. What should it use to be alerted quickly to unusual spending patterns?",
+   "select": 1,
+   "options": [
+    {
+     "id": "195b0aac15",
+     "text": "AWS Cost Anomaly Detection with alert subscriptions"
+    },
+    {
+     "id": "71a5f08702",
+     "text": "AWS Budgets with one fixed monthly threshold",
+     "why": "A fixed threshold either misses unusual spending that stays under it or fires constantly when spending naturally varies."
+    },
+    {
+     "id": "8123b2917a",
+     "text": "AWS Trusted Advisor's weekly cost checks",
+     "why": "Trusted Advisor flags idle or underused resources. It doesn't learn spending patterns or alert on anomalies."
+    },
+    {
+     "id": "62f1e79aa4",
+     "text": "CloudTrail Insights events on the management account",
+     "why": "CloudTrail Insights detects unusual API activity, not unusual spending."
+    }
+   ],
+   "answer": [
+    "195b0aac15"
+   ],
+   "explanation": "Cost Anomaly Detection uses machine learning to learn normal spending patterns and alerts on unusual spikes, such as a sudden jump in EC2 spend in one Region, without fixed thresholds.",
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html"
+  },
+  {
+   "id": "4-47",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "A finance analyst needs to see how the company's AWS spending has changed over the past 12 months, broken down by service and by the `team` cost allocation tag, and to filter the results to a single linked account, in order to prepare a quarterly review. Which tool should the analyst use?",
+   "select": 1,
+   "options": [
+    {
+     "id": "64d88d14cf",
+     "text": "AWS Budgets, with a budget for each team",
+     "why": "Budgets track spending against limits you set and alert you. They aren't a tool for analyzing 12 months of history."
+    },
+    {
+     "id": "ddb01c8073",
+     "text": "AWS Trusted Advisor cost optimization checks",
+     "why": "Trusted Advisor flags specific savings opportunities. It doesn't show spending history by service or tag."
+    },
+    {
+     "id": "c0c1489d5b",
+     "text": "AWS Compute Optimizer rightsizing recommendations",
+     "why": "Compute Optimizer recommends resource sizes. It doesn't analyze spending history."
+    },
+    {
+     "id": "c2c34c4abc",
+     "text": "AWS Cost Explorer, grouped by service and tag"
+    }
+   ],
+   "answer": [
+    "c2c34c4abc"
+   ],
+   "explanation": "Cost Explorer lets you view and analyze historical cost and usage, grouping and filtering by service, linked account, tag and other dimensions, and it can also forecast future spending.",
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html"
+  },
+  {
+   "id": "4-48",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "A company runs a large fleet of M-family EC2 instances in `eu-west-1`. It's certain the fleet will stay on the M family in that Region for at least three years, although instance sizes and operating systems may change. It wants the biggest Savings Plans discount available for that commitment. What should it buy?",
+   "select": 1,
+   "options": [
+    {
+     "id": "70ac51f163",
+     "text": "Compute Savings Plans with a three-year term",
+     "why": "Compute Savings Plans are more flexible, but their maximum discount (up to 66%) is lower, and that flexibility isn't needed here."
+    },
+    {
+     "id": "683c49b71e",
+     "text": "EC2 Instance Savings Plans for three years"
+    },
+    {
+     "id": "03c2b43fa1",
+     "text": "Spot Instances for the entire fleet",
+     "why": "Spot Instances can be interrupted, which doesn't suit a long-term production fleet, and they aren't a commitment discount."
+    },
+    {
+     "id": "b425faf228",
+     "text": "On-Demand Capacity Reservations",
+     "why": "Capacity Reservations guarantee capacity at On-Demand prices. They don't provide a discount."
+    }
+   ],
+   "answer": [
+    "683c49b71e"
+   ],
+   "explanation": "EC2 Instance Savings Plans commit to one instance family in one Region, but still apply across sizes, operating systems and tenancy within it, and they offer the largest Savings Plans discount (up to 72% off On-Demand).",
+   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html"
+  },
+  {
+   "id": "4-49",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "A video-rendering company runs thousands of interruption-tolerant jobs on an EC2 Fleet of Spot Instances across many instance types. It wants to keep costs low while also reducing how often instances get interrupted, rather than always grabbing the absolute cheapest capacity pool. Which allocation strategy should the fleet use?",
+   "select": 1,
+   "options": [
+    {
+     "id": "37cde6cd6c",
+     "text": "`lowest-price`, using only the single cheapest pool",
+     "why": "Choosing the cheapest pool alone ignores available capacity, so interruptions tend to be more frequent."
+    },
+    {
+     "id": "62129e44ad",
+     "text": "`diversified`, spreading evenly across every pool",
+     "why": "Spreading evenly across every pool doesn't favor pools with spare capacity or low prices."
+    },
+    {
+     "id": "64ca1558e5",
+     "text": "`price-capacity-optimized` across the instance pools"
+    },
+    {
+     "id": "8b60ebce90",
+     "text": "`capacity-optimized-prioritized`, in a fixed order",
+     "why": "A fixed priority order suits workloads that prefer particular instance types. It doesn't optimize for price."
+    }
+   ],
+   "answer": [
+    "64ca1558e5"
+   ],
+   "explanation": "The `price-capacity-optimized` strategy chooses Spot pools with the most available capacity and then the lowest price among them, balancing cost against interruptions. AWS recommends it for most Spot workloads.",
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html"
+  },
+  {
+   "id": "4-50",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "An analytics company runs hundreds of containerized data-processing tasks every night on Amazon ECS with AWS Fargate. The tasks checkpoint their progress and can be restarted if stopped, and the team doesn't want to start managing EC2 instances. How can it lower the compute cost of these tasks?",
+   "select": 1,
+   "options": [
+    {
+     "id": "cb908f8a80",
+     "text": "Run the tasks on the Fargate Spot capacity provider"
+    },
+    {
+     "id": "e5cdf46310",
+     "text": "Move the tasks to ECS on EC2 On-Demand Instances",
+     "why": "Moving to EC2 means managing instances, which the team wants to avoid, and On-Demand pricing gives no discount."
+    },
+    {
+     "id": "616f0231f9",
+     "text": "Increase each task's CPU and memory so they finish faster",
+     "why": "Larger tasks cost more per hour, and finishing sooner doesn't usually offset that."
+    },
+    {
+     "id": "ecce827cdc",
+     "text": "Buy EC2 Instance Savings Plans for the Fargate tasks",
+     "why": "EC2 Instance Savings Plans apply only to EC2 instances, not Fargate. Compute Savings Plans would cover Fargate."
+    }
+   ],
+   "answer": [
+    "cb908f8a80"
+   ],
+   "explanation": "Fargate Spot runs interruption-tolerant ECS tasks on spare capacity at a discount compared with regular Fargate pricing. Tasks get a two-minute warning before they're stopped, which checkpointing handles.",
+   "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html"
+  },
+  {
+   "id": "4-51",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "A company runs about 300 Lambda functions written in Python and Node.js, with no native x86-specific dependencies. Lambda is now one of its larger costs, and the team wants a low-effort way to get better price-performance without rewriting the functions. What should they change?",
+   "select": 1,
+   "options": [
+    {
+     "id": "f0e7f2c9db",
+     "text": "Raise every function's memory to the maximum",
+     "why": "More memory raises the price per millisecond, and many functions won't run fast enough to offset that."
+    },
+    {
+     "id": "699e322e75",
+     "text": "Add provisioned concurrency to every function",
+     "why": "Provisioned concurrency reduces cold starts but adds a charge for keeping environments ready."
+    },
+    {
+     "id": "3dd123ef8c",
+     "text": "Move the functions to EC2 instances",
+     "why": "Moving to EC2 means rewriting deployment and managing servers, and paying for idle time."
+    },
+    {
+     "id": "991630083e",
+     "text": "Switch the functions to the `arm64` architecture"
+    }
+   ],
+   "answer": [
+    "991630083e"
+   ],
+   "explanation": "Lambda functions on the `arm64` architecture, which runs on AWS Graviton processors, can get significantly better price-performance than on `x86_64`, and interpreted languages without native x86 dependencies usually need no code changes.",
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html"
+  },
+  {
+   "id": "4-52",
+   "domain": 4,
+   "task": "4.2",
+   "stem": "A startup gives each engineer a sandbox account with a $200 monthly budget. When an account's actual spending reaches 100% of its budget, the company wants AWS to automatically stop that account's EC2 instances and apply a policy that blocks new resources from being launched, not just send an email. What should it use?",
+   "select": 1,
+   "options": [
+    {
+     "id": "cbfd60a48e",
+     "text": "Cost Anomaly Detection alerts sent to each engineer",
+     "why": "Anomaly alerts notify people about unusual spending. They don't take action."
+    },
+    {
+     "id": "fd98651567",
+     "text": "AWS Budgets with budget actions on each account"
+    },
+    {
+     "id": "4307ddbea9",
+     "text": "Trusted Advisor checks for idle resources",
+     "why": "Trusted Advisor flags idle resources, but it doesn't enforce a budget or stop instances."
+    },
+    {
+     "id": "c05fcac86f",
+     "text": "A Cost Explorer report saved for each account",
+     "why": "A saved report shows spending. It doesn't alert on thresholds or take action."
+    }
+   ],
+   "answer": [
+    "fd98651567"
+   ],
+   "explanation": "Budget actions can run automatically, or after approval, when a threshold is reached. They can apply an IAM policy or SCP and stop specific EC2 or RDS instances.",
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html"
+  },
+  {
    "id": "4-23",
    "domain": 4,
    "task": "4.3",
@@ -7435,6 +7831,171 @@ window.QUESTION_BANK = {
    "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html"
   },
   {
+   "id": "4-53",
+   "domain": 4,
+   "task": "4.3",
+   "stem": "A DynamoDB table in provisioned capacity mode, using the Standard table class, serves a steady 20,000 reads and 5,000 writes per second around the clock, and the company expects that to continue for at least three years. How can the cost of this throughput be reduced MOST?",
+   "select": 1,
+   "options": [
+    {
+     "id": "ce75e11660",
+     "text": "Switch the table to on-demand capacity mode",
+     "why": "On-demand pricing is designed for unpredictable traffic and usually costs more for steady load."
+    },
+    {
+     "id": "68fc32f1e4",
+     "text": "Change the table to the Standard-IA table class",
+     "why": "Standard-IA lowers storage costs but raises throughput prices, which is the opposite of what a busy table needs."
+    },
+    {
+     "id": "2dc8915c38",
+     "text": "Buy DynamoDB reserved capacity for the baseline"
+    },
+    {
+     "id": "bf3dd7f003",
+     "text": "Add a DAX cluster to handle all of the writes",
+     "why": "DAX caches reads. It doesn't handle writes, and it adds its own cost."
+    }
+   ],
+   "answer": [
+    "2dc8915c38"
+   ],
+   "explanation": "Reserved capacity gives discounted pricing for a committed amount of provisioned read and write capacity on Standard table class tables, which suits steady, long-term throughput.",
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/reserved-capacity.html"
+  },
+  {
+   "id": "4-54",
+   "domain": 4,
+   "task": "4.3",
+   "stem": "A team has a dozen Aurora PostgreSQL development databases that are used for a few hours on some weekdays and sit completely idle the rest of the time, including every weekend. They want to stop paying for compute while a database is idle, without scripts that stop and start clusters. What should they use?",
+   "select": 1,
+   "options": [
+    {
+     "id": "8defb062cd",
+     "text": "Aurora Serverless v2 that scales to 0 ACUs"
+    },
+    {
+     "id": "9a424a3a23",
+     "text": "Provisioned Aurora with Reserved Instances",
+     "why": "Reserved Instances discount instances that run all the time, but these databases sit idle most of the week."
+    },
+    {
+     "id": "d83ec9632b",
+     "text": "Aurora I/O-Optimized on smaller instances",
+     "why": "I/O-Optimized reduces I/O charges for busy databases. Instances still cost money while idle."
+    },
+    {
+     "id": "f41c971572",
+     "text": "A read replica for each development database",
+     "why": "Read replicas are extra instances that add cost."
+    }
+   ],
+   "answer": [
+    "8defb062cd"
+   ],
+   "explanation": "Aurora Serverless v2 can scale down to 0 ACUs and pause automatically after a period of no connections, so idle databases don't incur compute charges, and they resume when a connection arrives.",
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2-auto-pause.html"
+  },
+  {
+   "id": "4-55",
+   "domain": 4,
+   "task": "4.3",
+   "stem": "A marketing analytics team runs a few heavy SQL reports on its data warehouse at the start of each month, and almost nothing the rest of the time. Today it pays for a provisioned Redshift cluster that runs 24/7. The team wants to keep using Redshift SQL and its existing BI tools while paying only when queries run. What should they move to?",
+   "select": 1,
+   "options": [
+    {
+     "id": "cc9b0c9d21",
+     "text": "A larger provisioned cluster with Reserved Nodes",
+     "why": "Reserved Nodes discount a cluster that runs all the time, but the team still pays for it while idle."
+    },
+    {
+     "id": "bc2fd6c101",
+     "text": "Amazon RDS for PostgreSQL, run on demand",
+     "why": "RDS is a transactional database, not a data warehouse, and moving would mean migrating data and queries."
+    },
+    {
+     "id": "dc6d9ca2de",
+     "text": "Amazon DynamoDB with on-demand capacity",
+     "why": "DynamoDB is a key-value database. It can't run the team's SQL reports or BI tools."
+    },
+    {
+     "id": "35b05cfc93",
+     "text": "Amazon Redshift Serverless"
+    }
+   ],
+   "answer": [
+    "35b05cfc93"
+   ],
+   "explanation": "Redshift Serverless provisions and scales data warehouse capacity automatically, and you pay only for the capacity used while queries run, with no charge for idle compute. Existing SQL and BI tools keep working.",
+   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html"
+  },
+  {
+   "id": "4-56",
+   "domain": 4,
+   "task": "4.3",
+   "stem": "A company runs steady workloads on Aurora, RDS, DynamoDB and ElastiCache, and expects to move some workloads between these services over the next year as part of a modernization project. It wants one commitment-based discount that keeps applying as usage shifts between database services. What should it buy?",
+   "select": 1,
+   "options": [
+    {
+     "id": "7d6249cb79",
+     "text": "RDS Reserved Instances for every current database",
+     "why": "Reserved Instances are tied to specific RDS instances, so they stop helping when workloads move to other services."
+    },
+    {
+     "id": "e297dac342",
+     "text": "A Database Savings Plan"
+    },
+    {
+     "id": "78b4186534",
+     "text": "Compute Savings Plans",
+     "why": "Compute Savings Plans cover EC2, Fargate and Lambda, not database services."
+    },
+    {
+     "id": "852451bae6",
+     "text": "EC2 Instance Savings Plans",
+     "why": "EC2 Instance Savings Plans cover one EC2 instance family, not database services."
+    }
+   ],
+   "answer": [
+    "e297dac342"
+   ],
+   "explanation": "Database Savings Plans reduce costs by up to 35% across services including Aurora, RDS, DynamoDB and ElastiCache, and keep applying when a workload moves between them, for example from RDS to DynamoDB.",
+   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html"
+  },
+  {
+   "id": "4-57",
+   "domain": 4,
+   "task": "4.3",
+   "stem": "An RDS for MySQL database was set up years ago on Provisioned IOPS (io1) storage with 3,000 provisioned IOPS, and monitoring shows it rarely goes above 2,000 IOPS. The storage bill is higher than the team expected. Which change lowers storage cost while still meeting the workload's needs?",
+   "select": 1,
+   "options": [
+    {
+     "id": "98e1a1bf6b",
+     "text": "Raise the provisioned IOPS to 10,000",
+     "why": "Provisioning more IOPS raises the cost, and the workload doesn't need them."
+    },
+    {
+     "id": "368427ba0f",
+     "text": "Switch to magnetic (standard) storage",
+     "why": "Magnetic storage is a previous-generation option with low, unpredictable performance, and AWS doesn't recommend it for new use."
+    },
+    {
+     "id": "f1099294de",
+     "text": "Switch the storage to gp3"
+    },
+    {
+     "id": "bbb6c6398f",
+     "text": "Enable Multi-AZ for the database",
+     "why": "Multi-AZ adds a standby with its own storage, roughly doubling the cost."
+    }
+   ],
+   "answer": [
+    "f1099294de"
+   ],
+   "explanation": "gp3 storage on RDS includes a baseline of 3,000 IOPS in its storage price, which covers this workload, so moving off io1 removes the separate charge for provisioned IOPS.",
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html"
+  },
+  {
    "id": "4-33",
    "domain": 4,
    "task": "4.4",
@@ -7697,6 +8258,105 @@ window.QUESTION_BANK = {
    ],
    "explanation": "VPC peering connections themselves have no hourly charge — only the data transferred over them is billed. Transit Gateway, by contrast, charges per attachment-hour plus per GB processed through it.",
    "resource": "https://aws.amazon.com/transit-gateway/pricing/"
+  },
+  {
+   "id": "4-58",
+   "domain": 4,
+   "task": "4.4",
+   "stem": "A regional news site serves almost all of its readers in North America and Europe through CloudFront. The CloudFront bill includes delivery from edge locations worldwide, and the team is willing to accept slightly higher latency for the rare readers elsewhere in exchange for lower cost. What should they change?",
+   "select": 1,
+   "options": [
+    {
+     "id": "f8ed746fd2",
+     "text": "Choose a lower-cost CloudFront price class"
+    },
+    {
+     "id": "19f1ea4182",
+     "text": "Replace CloudFront with Global Accelerator",
+     "why": "Global Accelerator doesn't cache content, and it adds its own charges."
+    },
+    {
+     "id": "37d05f0d53",
+     "text": "Serve the site directly from the S3 bucket",
+     "why": "Serving directly from S3 loses caching and usually costs more in data transfer."
+    },
+    {
+     "id": "e1e51e319b",
+     "text": "Enable Transfer Acceleration on the origin",
+     "why": "Transfer Acceleration speeds up transfers to S3, and it adds charges rather than reducing them."
+    }
+   ],
+   "answer": [
+    "f8ed746fd2"
+   ],
+   "explanation": "A price class limits CloudFront to edge locations in lower-cost regions, such as North America and Europe. Readers elsewhere are still served, from those edge locations, with somewhat higher latency.",
+   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesGeneral.html"
+  },
+  {
+   "id": "4-59",
+   "domain": 4,
+   "task": "4.4",
+   "stem": "A cost review shows a growing charge for public IPv4 addresses across hundreds of EC2 instances and load balancers. Most of these instances only need outbound internet access or are reached through a load balancer, and the company's clients and networks already support IPv6. Which change reduces this charge?",
+   "select": 1,
+   "options": [
+    {
+     "id": "6374ffa2cb",
+     "text": "Replace public IPv4 addresses with Elastic IPs",
+     "why": "Elastic IPs are public IPv4 addresses too, and they're charged the same way."
+    },
+    {
+     "id": "56678b07a7",
+     "text": "Add a second NAT gateway in each Availability Zone",
+     "why": "NAT gateways add hourly and data-processing charges, and each one uses its own public IPv4 address."
+    },
+    {
+     "id": "3b1ae5b8ea",
+     "text": "Give every instance its own public IPv4 address",
+     "why": "More public IPv4 addresses increase the charge."
+    },
+    {
+     "id": "350a8306d3",
+     "text": "Use IPv6, and remove public IPv4 where not needed"
+    }
+   ],
+   "answer": [
+    "350a8306d3"
+   ],
+   "explanation": "AWS charges for every public IPv4 address, including Elastic IPs, but not for IPv6 addresses. Moving to IPv6 (for example, dual-stack or IPv6-only subnets, with an egress-only internet gateway for outbound traffic) and removing unneeded public IPv4 addresses reduces the charge.",
+   "resource": "https://aws.amazon.com/vpc/pricing/"
+  },
+  {
+   "id": "4-60",
+   "domain": 4,
+   "task": "4.4",
+   "stem": "A fleet of EC2 instances in private subnets makes billions of DynamoDB requests a month, and all of that traffic goes out through a NAT gateway. The NAT gateway's data-processing charges are now larger than the DynamoDB bill itself. What is the MOST cost-effective fix?",
+   "select": 1,
+   "options": [
+    {
+     "id": "70d5c7c482",
+     "text": "An interface VPC endpoint for DynamoDB",
+     "why": "An interface endpoint also avoids the NAT gateway, but it's billed per hour and per GB, while a gateway endpoint is free."
+    },
+    {
+     "id": "b4299cb958",
+     "text": "A gateway VPC endpoint for DynamoDB"
+    },
+    {
+     "id": "822ee45cce",
+     "text": "A second NAT gateway in each Availability Zone",
+     "why": "More NAT gateways add hourly charges, and the data-processing charges stay the same."
+    },
+    {
+     "id": "65b6e5ce6f",
+     "text": "DynamoDB Accelerator (DAX) in front of the table",
+     "why": "DAX could reduce some reads, but it adds its own cost, and writes and uncached reads would still go through the NAT gateway."
+    }
+   ],
+   "answer": [
+    "b4299cb958"
+   ],
+   "explanation": "A gateway endpoint for DynamoDB adds a route so traffic reaches DynamoDB without passing through the NAT gateway, and gateway endpoints have no charge.",
+   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html"
   }
  ]
 };
