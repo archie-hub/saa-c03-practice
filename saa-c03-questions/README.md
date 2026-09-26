@@ -8,12 +8,12 @@ Practice questions organized by the official SAA-C03 exam guide structure:
 
 | File | Domain | Weight | Questions |
 |------|--------|--------|-----------|
-| [domain1-secure.md](domain1-secure.md) | 1: Design Secure Architectures | 30% | 45 |
+| [domain1-secure.md](domain1-secure.md) | 1: Design Secure Architectures | 30% | 65 |
 | [domain2-resilient.md](domain2-resilient.md) | 2: Design Resilient Architectures | 26% | 40 |
 | [domain3-high-performing.md](domain3-high-performing.md) | 3: Design High-Performing Architectures | 24% | 45 |
 | [domain4-cost-optimized.md](domain4-cost-optimized.md) | 4: Design Cost-Optimized Architectures | 20% | 40 |
 
-**Total: 170 questions**
+**Total: 190 questions**
 
 ## Exam format (from the exam guide)
 
