@@ -1592,11 +1592,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "950b4a8a65",
-     "text": "Add more EC2 instances to the web tier and turn on cross-zone load balancing"
+     "text": "Add more EC2 instances to the web tier and turn on cross-zone load balancing",
+     "why": "More web servers don't help when the backend workers are the bottleneck. Nothing buffers the orders, so they're still dropped."
     },
     {
      "id": "8f540bb71c",
-     "text": "Move the backend database to a larger RDS instance class with Provisioned IOPS"
+     "text": "Move the backend database to a larger RDS instance class with Provisioned IOPS",
+     "why": "A bigger database doesn't buffer bursts of orders. The workers are still overwhelmed and still drop them."
     },
     {
      "id": "03a7dffff0",
@@ -1604,7 +1606,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "126dcd4b1d",
-     "text": "Add a second, equally weighted Route 53 record so traffic splits three ways"
+     "text": "Add a second, equally weighted Route 53 record so traffic splits three ways",
+     "why": "Another DNS record only splits traffic across stacks. Each stack's backend can still be overwhelmed, and nothing holds orders until workers are ready."
     }
    ],
    "answer": [
@@ -1622,7 +1625,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "97e37c29f7",
-     "text": "Amazon Data Firehose, partitioned by customer ID"
+     "text": "Amazon Data Firehose, partitioned by customer ID",
+     "why": "Data Firehose delivers streaming data to storage and analytics destinations. It isn't a work queue with exactly-once, per-customer ordered processing."
     },
     {
      "id": "87a9cb68de",
@@ -1630,11 +1634,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "e2a1ec99f3",
-     "text": "An SQS standard queue, using the customer ID as a message attribute"
+     "text": "An SQS standard queue, using the customer ID as a message attribute",
+     "why": "Standard queues deliver at least once with best-effort ordering. A message attribute doesn't change that."
     },
     {
      "id": "3037b939de",
-     "text": "An SNS standard topic with a subscription filter on the customer ID"
+     "text": "An SNS standard topic with a subscription filter on the customer ID",
+     "why": "SNS standard topics don't guarantee ordering or exactly-once delivery. Filter policies only decide which subscribers get a message."
     }
    ],
    "answer": [
@@ -1652,15 +1658,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5cb68f6668",
-     "text": "Three Lambda functions called in sequence, one for each downstream system"
+     "text": "Three Lambda functions called in sequence, one for each downstream system",
+     "why": "Calling the systems in sequence couples them: a slow analytics step delays everything after it, and one failure breaks the chain."
     },
     {
      "id": "d99131f6ad",
-     "text": "One SQS queue polled by all three systems"
+     "text": "One SQS queue polled by all three systems",
+     "why": "With one queue, each message is consumed by only one consumer, so each system would see just a share of the events."
     },
     {
      "id": "d1db701005",
-     "text": "A shared EFS file that each system reads on a schedule"
+     "text": "A shared EFS file that each system reads on a schedule",
+     "why": "A shared file needs polling and locking, isn't event-driven, and tightly couples all three systems."
     },
     {
      "id": "2ffbb58950",
@@ -1682,11 +1691,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "76e7ad4732",
-     "text": "Short polling with a smaller `ReceiveMessage` batch size"
+     "text": "Short polling with a smaller `ReceiveMessage` batch size",
+     "why": "Polling mode and batch size change how messages are fetched, not what happens to a message that keeps failing."
     },
     {
      "id": "1b4bc25d4c",
-     "text": "A longer message retention period on the source queue"
+     "text": "A longer message retention period on the source queue",
+     "why": "A longer retention period only keeps the bad message around for longer."
     },
     {
      "id": "28bededeb1",
@@ -1694,7 +1705,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "4ae007545a",
-     "text": "A delivery delay that postpones new messages by 15 minutes"
+     "text": "A delivery delay that postpones new messages by 15 minutes",
+     "why": "A delivery delay postpones every new message. The failing message still comes back again and again."
     }
    ],
    "answer": [
@@ -1712,7 +1724,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "a232df489e",
-     "text": "Decrease the retention period so that messages expire sooner"
+     "text": "Decrease the retention period so that messages expire sooner",
+     "why": "Retention controls how long unprocessed messages are kept. Shortening it risks losing messages and doesn't stop redelivery during processing."
     },
     {
      "id": "f6025fc88d",
@@ -1720,11 +1733,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "2889894c9f",
-     "text": "Increase the delivery delay so that messages arrive later"
+     "text": "Increase the delivery delay so that messages arrive later",
+     "why": "A delivery delay only applies before a message is first delivered. It doesn't stop the message reappearing while a worker is still processing it."
     },
     {
      "id": "0c48af6f77",
-     "text": "Enable long polling by setting `WaitTimeSeconds` to 20"
+     "text": "Enable long polling by setting `WaitTimeSeconds` to 20",
+     "why": "Long polling reduces empty responses. It has no effect on messages being processed twice."
     }
    ],
    "answer": [
@@ -1742,11 +1757,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8a06960afa",
-     "text": "A dead-letter queue with a low `maxReceiveCount`"
+     "text": "A dead-letter queue with a low `maxReceiveCount`",
+     "why": "A dead-letter queue handles messages that keep failing. It doesn't reduce empty receives."
     },
     {
      "id": "96bf519d5c",
-     "text": "Message timers that delay each message by 15 minutes"
+     "text": "Message timers that delay each message by 15 minutes",
+     "why": "Message timers delay every message by up to 15 minutes, which slows pickup, against the requirement."
     },
     {
      "id": "2c652b365a",
@@ -1754,7 +1771,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "51003832a3",
-     "text": "A FIFO queue with content-based deduplication"
+     "text": "A FIFO queue with content-based deduplication",
+     "why": "FIFO deduplication prevents duplicate messages. It doesn't reduce empty `ReceiveMessage` responses."
     }
    ],
    "answer": [
@@ -1772,15 +1790,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "05b5af5e18",
-     "text": "EventBridge Scheduler, with one schedule created per step"
+     "text": "EventBridge Scheduler, with one schedule created per step",
+     "why": "EventBridge Scheduler triggers targets on a schedule. It doesn't orchestrate branching, retries, human approval or workflow state."
     },
     {
      "id": "fc438a987e",
-     "text": "An SQS queue with a separate Lambda consumer for each step"
+     "text": "An SQS queue with a separate Lambda consumer for each step",
+     "why": "You'd have to build state tracking, branching and approvals yourself, and SQS keeps messages for 14 days at most, far short of several months."
     },
     {
      "id": "ba2736705f",
-     "text": "AWS Step Functions Express workflows"
+     "text": "AWS Step Functions Express workflows",
+     "why": "Express workflows run for at most 5 minutes, so they can't wait months for documents."
     },
     {
      "id": "f9ce541d23",
@@ -1806,15 +1827,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "e4a030286b",
-     "text": "Amazon MQ, with a separate broker per partner"
+     "text": "Amazon MQ, with a separate broker per partner",
+     "why": "Amazon MQ is a message broker for applications using standard protocols. It has no built-in SaaS partner event sources."
     },
     {
      "id": "d3de8c02bc",
-     "text": "Amazon SNS with subscription filter policies"
+     "text": "Amazon SNS with subscription filter policies",
+     "why": "SNS can filter messages, but it has no built-in partner event sources for SaaS apps like Zendesk. EventBridge does."
     },
     {
      "id": "eb75255020",
-     "text": "AWS AppSync with a subscription for each target"
+     "text": "AWS AppSync with a subscription for each target",
+     "why": "AppSync is for building GraphQL APIs, not for routing events between services."
     }
    ],
    "answer": [
@@ -1832,15 +1856,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1f9925707e",
-     "text": "Amazon SNS"
+     "text": "Amazon SNS",
+     "why": "SNS is a pub/sub service with its own API. Clients would need rewriting, since it doesn't speak AMQP or MQTT as a broker."
     },
     {
      "id": "6efa60375b",
-     "text": "Amazon Kinesis"
+     "text": "Amazon Kinesis",
+     "why": "Kinesis is for streaming data and has its own API, so the ActiveMQ clients would need rewriting."
     },
     {
      "id": "56c5e48592",
-     "text": "Amazon SQS"
+     "text": "Amazon SQS",
+     "why": "SQS has its own API and doesn't support AMQP or MQTT, so the client code would need rewriting."
     },
     {
      "id": "dc28ae10da",
@@ -1862,7 +1889,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "c0f42258c5",
-     "text": "Turn on sticky sessions on the ALB with a long cookie duration"
+     "text": "Turn on sticky sessions on the ALB with a long cookie duration",
+     "why": "Sticky sessions keep a user on one instance, but the session is still lost when that instance is terminated, and load becomes uneven."
     },
     {
      "id": "754d7b6895",
@@ -1870,11 +1898,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "6cba2829f6",
-     "text": "Turn off scale-in on the Auto Scaling group during business hours"
+     "text": "Turn off scale-in on the Auto Scaling group during business hours",
+     "why": "Turning off scale-in wastes money, and sessions are still lost whenever an instance fails."
     },
     {
      "id": "8118b3f725",
-     "text": "Use larger instances so that fewer of them are needed at peak"
+     "text": "Use larger instances so that fewer of them are needed at peak",
+     "why": "Fewer, larger instances still keep sessions in memory, and losing one logs out even more users."
     }
    ],
    "answer": [
@@ -1892,7 +1922,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "e994fab5f2",
-     "text": "AWS Elastic Beanstalk with a single-instance environment"
+     "text": "AWS Elastic Beanstalk with a single-instance environment",
+     "why": "A single-instance environment doesn't scale out and still means managing a server."
     },
     {
      "id": "aae8d9c0ce",
@@ -1900,11 +1931,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "c9508b49d6",
-     "text": "EC2 instances in an Auto Scaling group with an Amazon RDS database"
+     "text": "EC2 instances in an Auto Scaling group with an Amazon RDS database",
+     "why": "EC2 instances and RDS are servers to patch and pay for even overnight at zero traffic, and they scale more slowly."
     },
     {
      "id": "4df6c3b601",
-     "text": "Amazon ECS on EC2 with a fixed number of container instances"
+     "text": "Amazon ECS on EC2 with a fixed number of container instances",
+     "why": "A fixed number of EC2 container instances can't absorb unpredictable spikes, and the team still manages those servers."
     }
    ],
    "answer": [
@@ -1926,15 +1959,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ae91d7467a",
-     "text": "AWS Batch with a managed EC2 Spot compute environment"
+     "text": "AWS Batch with a managed EC2 Spot compute environment",
+     "why": "AWS Batch runs batch jobs, not ongoing services, and an EC2 Spot environment still runs on EC2 instances with their own AMIs and capacity settings."
     },
     {
      "id": "a2412b9ebf",
-     "text": "Amazon ECS with an EC2 Auto Scaling group capacity provider"
+     "text": "Amazon ECS with an EC2 Auto Scaling group capacity provider",
+     "why": "An EC2 capacity provider means the containers still run on EC2 instances that you patch and size."
     },
     {
      "id": "8317f5b46c",
-     "text": "Amazon Lightsail instances with Docker installed"
+     "text": "Amazon Lightsail instances with Docker installed",
+     "why": "Lightsail instances are virtual servers that you patch and manage yourself."
     }
    ],
    "answer": [
@@ -1956,15 +1992,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "52ffc248ba",
-     "text": "Canary release deployments on the production stage"
+     "text": "Canary release deployments on the production stage",
+     "why": "Canary releases split traffic between API deployments. They don't limit how fast a single client can send requests."
     },
     {
      "id": "13fe3d9527",
-     "text": "Mapping templates that validate the request body"
+     "text": "Mapping templates that validate the request body",
+     "why": "Mapping templates transform request and response payloads. They don't limit request rates."
     },
     {
      "id": "1bb5595eea",
-     "text": "Stage-level response caching with a long TTL"
+     "text": "Stage-level response caching with a long TTL",
+     "why": "Caching cuts backend calls for repeated identical requests, but it doesn't stop one client flooding the API."
     }
    ],
    "answer": [
@@ -1982,7 +2021,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "71250abe3e",
-     "text": "A cron job on an EC2 instance that lists the bucket every minute"
+     "text": "A cron job on an EC2 instance that lists the bucket every minute",
+     "why": "Listing the bucket every minute is polling: it adds delay and cost and ties thumbnail creation to a schedule."
     },
     {
      "id": "23cfddae7a",
@@ -1990,11 +2030,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "77f102d377",
-     "text": "S3 Replication to a second bucket that's configured for thumbnails"
+     "text": "S3 Replication to a second bucket that's configured for thumbnails",
+     "why": "Replication only copies objects to another bucket. Something still has to create the thumbnails."
     },
     {
      "id": "a5b600b07b",
-     "text": "The web tier polls the bucket after each upload and resizes the image itself"
+     "text": "The web tier polls the bucket after each upload and resizes the image itself",
+     "why": "Having the web tier resize images slows down uploads and tightly couples the upload path to thumbnail creation."
     }
    ],
    "answer": [
@@ -2016,15 +2058,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "67910b2bef",
-     "text": "A larger RDS instance class"
+     "text": "A larger RDS instance class",
+     "why": "A larger instance class allows somewhat more connections, but a burst of concurrent Lambda functions can still exhaust them."
     },
     {
      "id": "8bd753aa73",
-     "text": "Multi-AZ"
+     "text": "Multi-AZ",
+     "why": "Multi-AZ adds a standby for failover. It doesn't let the primary accept more connections."
     },
     {
      "id": "e5725e9c0b",
-     "text": "Read replicas"
+     "text": "Read replicas",
+     "why": "Read replicas serve reads only. Writes, and the connections they need, still go to the primary."
     }
    ],
    "answer": [
@@ -2042,11 +2087,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1a887a37a5",
-     "text": "Amazon EFS with Elastic Throughput"
+     "text": "Amazon EFS with Elastic Throughput",
+     "why": "EFS is shared file storage, not an in-memory cache for database query results."
     },
     {
      "id": "f643e21f23",
-     "text": "AWS Global Accelerator in front of the database"
+     "text": "AWS Global Accelerator in front of the database",
+     "why": "Global Accelerator improves the network path to an endpoint. It doesn't cache anything or reduce database load."
     },
     {
      "id": "2d024f5411",
@@ -2054,7 +2101,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "2a113d9880",
-     "text": "Amazon S3 with S3 Intelligent-Tiering"
+     "text": "Amazon S3 with S3 Intelligent-Tiering",
+     "why": "S3 is object storage, not an in-memory cache, and Intelligent-Tiering is about storage cost."
     }
    ],
    "answer": [
@@ -2072,11 +2120,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0de65e54a6",
-     "text": "A failure in one component cascades to all the others"
+     "text": "A failure in one component cascades to all the others",
+     "why": "Cascading failures are a sign of tight coupling. Loose coupling contains a failure within one component."
     },
     {
      "id": "feee613a23",
-     "text": "Components share a local disk for hand-off files"
+     "text": "Components share a local disk for hand-off files",
+     "why": "A shared local disk ties components to the same host, which is tight coupling."
     },
     {
      "id": "8038bbecf1",
@@ -2084,7 +2134,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0881ff33a7",
-     "text": "Tiers communicate using hard-coded IP addresses"
+     "text": "Tiers communicate using hard-coded IP addresses",
+     "why": "Hard-coded IP addresses break whenever instances are replaced or scaled, which is tight coupling."
     },
     {
      "id": "e31cc33765",
@@ -2111,15 +2162,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "534804cec5",
-     "text": "AWS Direct Connect"
+     "text": "AWS Direct Connect",
+     "why": "Direct Connect links an on-premises network to AWS. It doesn't connect services to each other across VPCs."
     },
     {
      "id": "5931ea481f",
-     "text": "A full-mesh VPC peering topology between every pair of services"
+     "text": "A full-mesh VPC peering topology between every pair of services",
+     "why": "A full mesh of peering connections grows quickly with each new VPC and provides no service discovery or IAM authorization."
     },
     {
      "id": "97fcb746e8",
-     "text": "A NAT gateway shared across accounts"
+     "text": "A NAT gateway shared across accounts",
+     "why": "A NAT gateway gives private subnets outbound internet access. It provides no service discovery, routing between services or IAM authorization."
     }
    ],
    "answer": [
@@ -2137,15 +2191,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1d0ee69792",
-     "text": "Step scaling with several CloudWatch alarms at different thresholds"
+     "text": "Step scaling with several CloudWatch alarms at different thresholds",
+     "why": "Step scaling works, but you define the CloudWatch alarms and step adjustments yourself, which is more configuration."
     },
     {
      "id": "b7bd993ff2",
-     "text": "Scheduled scaling actions that run every hour"
+     "text": "Scheduled scaling actions that run every hour",
+     "why": "Scheduled scaling changes capacity at set times. It doesn't respond to actual CPU utilization."
     },
     {
      "id": "055c584e4f",
-     "text": "Simple scaling with a single CloudWatch alarm"
+     "text": "Simple scaling with a single CloudWatch alarm",
+     "why": "Simple scaling needs you to create the alarm and the adjustment, and it waits out a cooldown between each change."
     },
     {
      "id": "683fbb9626",
@@ -2167,7 +2224,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "fbed790d67",
-     "text": "Target tracking on request count per target with a very low target value"
+     "text": "Target tracking on request count per target with a very low target value",
+     "why": "Target tracking still reacts after traffic arrives, and new instances still take 10 minutes to become ready."
     },
     {
      "id": "7e3487be3d",
@@ -2175,11 +2233,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "098575437c",
-     "text": "Simple scaling on CPU utilization with a lower alarm threshold"
+     "text": "Simple scaling on CPU utilization with a lower alarm threshold",
+     "why": "A CPU alarm still reacts only after load rises, so users wait for the 10-minute boot."
     },
     {
      "id": "7f30a51cc1",
-     "text": "A longer default cooldown so that new instances aren't terminated too soon"
+     "text": "A longer default cooldown so that new instances aren't terminated too soon",
+     "why": "The cooldown controls how often scaling happens. It doesn't make new instances ready any sooner."
     }
    ],
    "answer": [
@@ -2197,7 +2257,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "827761282e",
-     "text": "A read replica placed in the same AZ as the primary"
+     "text": "A read replica placed in the same AZ as the primary",
+     "why": "A read replica in the same AZ fails along with the primary, and read replicas don't provide automatic failover."
     },
     {
      "id": "403b38e0f8",
@@ -2205,11 +2266,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "73ff5e5bc1",
-     "text": "A larger instance class"
+     "text": "A larger instance class",
+     "why": "A larger instance class is still a single instance in one AZ."
     },
     {
      "id": "054a601a9a",
-     "text": "Automated backups only"
+     "text": "Automated backups only",
+     "why": "Restoring from a backup is slow and manual, and loses recent writes. It isn't automatic failover."
     }
    ],
    "answer": [
@@ -2231,15 +2294,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "fcd77756aa",
-     "text": "Multi-AZ standbys serve reads in every database engine; read replicas exist only for backups"
+     "text": "Multi-AZ standbys serve reads in every database engine; read replicas exist only for backups",
+     "why": "A standard Multi-AZ standby doesn't serve reads, and read replicas are for scaling reads, not backups."
     },
     {
      "id": "e01c824a92",
-     "text": "Read replicas provide automatic failover by default; Multi-AZ is for scaling reads"
+     "text": "Read replicas provide automatic failover by default; Multi-AZ is for scaling reads",
+     "why": "This is reversed: Multi-AZ provides automatic failover, and read replicas scale reads."
     },
     {
      "id": "72eabfd3d9",
-     "text": "Both use synchronous replication, but only read replicas can be placed in another Region"
+     "text": "Both use synchronous replication, but only read replicas can be placed in another Region",
+     "why": "Multi-AZ uses synchronous replication, but read replicas use asynchronous replication."
     }
    ],
    "answer": [
@@ -2257,7 +2323,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "011fa19d26",
-     "text": "A single instance with CloudWatch alarm-based automatic recovery"
+     "text": "A single instance with CloudWatch alarm-based automatic recovery",
+     "why": "One instance is still a single point of failure in one AZ. Automatic recovery can't bring it back if that AZ is down."
     },
     {
      "id": "c30215880e",
@@ -2265,11 +2332,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b809f39466",
-     "text": "Keep the two instances in the same AZ, but add a second Application Load Balancer as backup"
+     "text": "Keep the two instances in the same AZ, but add a second Application Load Balancer as backup",
+     "why": "The instances are still in one AZ, so an AZ failure takes them all down. More load balancers don't help."
     },
     {
      "id": "d2c24ffef2",
-     "text": "One large EC2 instance with an Elastic IP address attached"
+     "text": "One large EC2 instance with an Elastic IP address attached",
+     "why": "One instance in one AZ still fails with that AZ. An Elastic IP doesn't add redundancy."
     }
    ],
    "answer": [
@@ -2287,11 +2356,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f04132ae73",
-     "text": "Multi-site active/active"
+     "text": "Multi-site active/active",
+     "why": "Active/active gives near-zero RTO and RPO at the highest cost, far more than an hours-level target needs."
     },
     {
      "id": "0eba709883",
-     "text": "Pilot light"
+     "text": "Pilot light",
+     "why": "Pilot light keeps core systems running in the DR Region, which costs more than needed for an hours-level RTO."
     },
     {
      "id": "7975698efe",
@@ -2299,7 +2370,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "6809b8c4af",
-     "text": "Warm standby"
+     "text": "Warm standby",
+     "why": "Warm standby runs a scaled-down copy of the whole stack, which costs more than needed for an hours-level RTO."
     }
    ],
    "answer": [
@@ -2317,11 +2389,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8f44425500",
-     "text": "Active/active"
+     "text": "Active/active",
+     "why": "In active/active, both Regions run the full application and serve traffic at the same time."
     },
     {
      "id": "f10578e5bc",
-     "text": "Warm standby"
+     "text": "Warm standby",
+     "why": "Warm standby keeps a scaled-down but running copy of the application servers, not switched-off ones."
     },
     {
      "id": "1086183747",
@@ -2329,7 +2403,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "d431ae0e9a",
-     "text": "Backup and restore"
+     "text": "Backup and restore",
+     "why": "Backup and restore recovers data from backups. The databases aren't kept continuously replicated."
     }
    ],
    "answer": [
@@ -2347,15 +2422,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "732e9f265c",
-     "text": "RDS Multi-AZ DB cluster"
+     "text": "RDS Multi-AZ DB cluster",
+     "why": "A Multi-AZ DB cluster stays within one Region, so it can't replicate across Regions."
     },
     {
      "id": "eaa1d645fd",
-     "text": "RDS cross-Region snapshot copies, restored on demand"
+     "text": "RDS cross-Region snapshot copies, restored on demand",
+     "why": "Snapshot copies are periodic, and restoring a large database takes time, so data loss and recovery time are both far larger."
     },
     {
      "id": "62fa2ae106",
-     "text": "DynamoDB global tables"
+     "text": "DynamoDB global tables",
+     "why": "DynamoDB is a NoSQL database, not a relational one."
     },
     {
      "id": "d9b7528ce5",
@@ -2365,7 +2443,7 @@ window.QUESTION_BANK = {
    "answer": [
     "d9b7528ce5"
    ],
-   "explanation": "Aurora Global Database typically replicates across Regions in under a second and lets a secondary Region be promoted to full read/write within about a minute, which snapshot copies or a single-Region Multi-AZ cluster can't match.",
+   "explanation": "Aurora Global Database typically replicates across Regions in under a second, and a secondary Region's cluster usually takes over as the primary within a few minutes, which snapshot copies or a single-Region Multi-AZ cluster can't match.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html"
   },
   {
@@ -2377,15 +2455,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ea2c1034dd",
-     "text": "RDS read replicas in each Region"
+     "text": "RDS read replicas in each Region",
+     "why": "RDS is relational, not NoSQL, and read replicas can't accept writes."
     },
     {
      "id": "ccb9e0f594",
-     "text": "Amazon ElastiCache in each Region, backed by a single database"
+     "text": "Amazon ElastiCache in each Region, backed by a single database",
+     "why": "A cache doesn't durably store writes. Every write still goes to the one database in one Region."
     },
     {
      "id": "ea20fdbd04",
-     "text": "A single-Region DynamoDB table plus DAX for caching"
+     "text": "A single-Region DynamoDB table plus DAX for caching",
+     "why": "DAX speeds up reads, but every write still goes to the single Region hosting the table."
     },
     {
      "id": "b139f4e83b",
@@ -2407,11 +2488,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "b0f3c2fb40",
-     "text": "Geolocation routing only"
+     "text": "Geolocation routing only",
+     "why": "Geolocation routing picks records based on where users are, not on the primary endpoint's health."
     },
     {
      "id": "ec5b170190",
-     "text": "Weighted routing with equal weights and no health checks"
+     "text": "Weighted routing with equal weights and no health checks",
+     "why": "Equal weights send half the traffic to each Region all the time, and without health checks they keep sending traffic to a failed endpoint."
     },
     {
      "id": "2ccd805c76",
@@ -2419,7 +2502,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "c4a6516a26",
-     "text": "Simple routing with multiple IP addresses returned in random order"
+     "text": "Simple routing with multiple IP addresses returned in random order",
+     "why": "Simple routing records aren't health-checked, so Route 53 keeps returning the failed endpoint's address."
     }
    ],
    "answer": [
@@ -2437,7 +2521,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5205fe1e33",
-     "text": "Weighted routing"
+     "text": "Weighted routing",
+     "why": "Weighted routing splits traffic in fixed proportions you set, not by measured latency."
     },
     {
      "id": "c47ea95f69",
@@ -2445,11 +2530,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "339197b1bb",
-     "text": "Geolocation routing"
+     "text": "Geolocation routing",
+     "why": "Geolocation routing uses where the viewer is, not the measured network latency the question asks for."
     },
     {
      "id": "b751778eb1",
-     "text": "Multivalue answer routing"
+     "text": "Multivalue answer routing",
+     "why": "Multivalue answer routing returns several healthy records at random, not the fastest one."
     }
    ],
    "answer": [
@@ -2467,15 +2554,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f004caab0e",
-     "text": "Amazon CloudFront"
+     "text": "Amazon CloudFront",
+     "why": "CloudFront is built for HTTP(S) content delivery, not arbitrary TCP/UDP game protocols."
     },
     {
      "id": "171b0f8fd1",
-     "text": "Route 53 simple routing"
+     "text": "Route 53 simple routing",
+     "why": "Simple routing has no health checks, so it can't fail over, and DNS caching would slow any change anyway."
     },
     {
      "id": "cfe3bdc14e",
-     "text": "A Network Load Balancer in a single Region"
+     "text": "A Network Load Balancer in a single Region",
+     "why": "A Network Load Balancer in one Region can't fail over to another Region."
     },
     {
      "id": "6d1e1906ab",
@@ -2497,7 +2587,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "14db546043",
-     "text": "An EBS volume with Multi-Attach"
+     "text": "An EBS volume with Multi-Attach",
+     "why": "EBS Multi-Attach only works with instances in the same AZ, and it needs a cluster-aware file system for concurrent writes."
     },
     {
      "id": "4ef77a16b1",
@@ -2505,11 +2596,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "16fbb3ae6d",
-     "text": "Instance store on each instance"
+     "text": "Instance store on each instance",
+     "why": "Instance store is local to each instance and not shared, and its data is lost when the instance stops."
     },
     {
      "id": "e2f7ce7f5d",
-     "text": "Amazon EFS One Zone"
+     "text": "Amazon EFS One Zone",
+     "why": "EFS One Zone stores data in a single AZ, so it doesn't survive the loss of that AZ."
     }
    ],
    "answer": [
@@ -2527,15 +2620,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "4fe4b9f217",
-     "text": "Move to a larger instance type to reduce the errors"
+     "text": "Move to a larger instance type to reduce the errors",
+     "why": "A larger instance type doesn't fix application errors or make them visible to health checks."
     },
     {
      "id": "6659ceee23",
-     "text": "Add a scheduled action that replaces every instance nightly"
+     "text": "Add a scheduled action that replaces every instance nightly",
+     "why": "Replacing instances nightly leaves unhealthy instances serving errors for hours in the meantime."
     },
     {
      "id": "23cee7e6ad",
-     "text": "Turn off health checks entirely so instances aren't replaced mid-incident"
+     "text": "Turn off health checks entirely so instances aren't replaced mid-incident",
+     "why": "Turning off health checks stops unhealthy instances from ever being replaced."
     },
     {
      "id": "22d9553e14",
@@ -2561,15 +2657,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "89903d0438",
-     "text": "S3 Transfer Acceleration, enabled on the source bucket"
+     "text": "S3 Transfer Acceleration, enabled on the source bucket",
+     "why": "Transfer Acceleration speeds up long-distance uploads. It doesn't copy objects to another Region."
     },
     {
      "id": "2b5de36d37",
-     "text": "A CloudFront distribution that uses the source bucket as its origin"
+     "text": "A CloudFront distribution that uses the source bucket as its origin",
+     "why": "CloudFront caches content at edge locations for delivery. It doesn't keep a durable copy in a second Region."
     },
     {
      "id": "9229e79b19",
-     "text": "A lifecycle rule that transitions objects to the other Region after 30 days"
+     "text": "A lifecycle rule that transitions objects to the other Region after 30 days",
+     "why": "Lifecycle rules change storage classes or expire objects. They can't move objects to another Region."
     }
    ],
    "answer": [
@@ -2591,15 +2690,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "792ad20f81",
-     "text": "AWS Application Migration Service (MGN)"
+     "text": "AWS Application Migration Service (MGN)",
+     "why": "Application Migration Service is built for one-time migrations. It isn't meant for ongoing DR with failback."
     },
     {
      "id": "24a9407a00",
-     "text": "AWS DataSync tasks scheduled every hour"
+     "text": "AWS DataSync tasks scheduled every hour",
+     "why": "DataSync copies files and objects, not whole servers at the block level, and an hourly schedule means an RPO of up to an hour."
     },
     {
      "id": "c28b844ca3",
-     "text": "AWS Backup with an hourly backup plan"
+     "text": "AWS Backup with an hourly backup plan",
+     "why": "Hourly backups mean an RPO of up to an hour, and restoring servers takes much longer than minutes."
     }
    ],
    "answer": [
@@ -2617,7 +2719,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8ada2d2d7d",
-     "text": "Nothing; outbound traffic switches to the internet gateway automatically until AZ-a recovers"
+     "text": "Nothing; outbound traffic switches to the internet gateway automatically until AZ-a recovers",
+     "why": "Instances in private subnets have no public IPs or route to the internet gateway, so nothing switches over automatically."
     },
     {
      "id": "26467b0ec6",
@@ -2625,11 +2728,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0b65adcf13",
-     "text": "Nothing; a NAT gateway created in one AZ fails over to other AZs automatically"
+     "text": "Nothing; a NAT gateway created in one AZ fails over to other AZs automatically",
+     "why": "A standard NAT gateway is zonal and doesn't fail over to other AZs."
     },
     {
      "id": "def42818a7",
-     "text": "Instances in the other AZs lose internet access; the fix is to add a second NAT gateway in AZ-a"
+     "text": "Instances in the other AZs lose internet access; the fix is to add a second NAT gateway in AZ-a",
+     "why": "A second NAT gateway in AZ-a fails along with AZ-a, so the other AZs still lose access."
     }
    ],
    "answer": [
@@ -2647,15 +2752,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "3218e3b712",
-     "text": "A NAT gateway in each Availability Zone"
+     "text": "A NAT gateway in each Availability Zone",
+     "why": "NAT gateways give private subnets outbound internet access. They don't provide a second path from the data center."
     },
     {
      "id": "93dc9914e7",
-     "text": "A VPC peering connection to a second VPC in another Region"
+     "text": "A VPC peering connection to a second VPC in another Region",
+     "why": "VPC peering connects two VPCs. It doesn't provide a backup path from the on-premises network."
     },
     {
      "id": "ad6e11d59b",
-     "text": "AWS Transit Gateway with a second attachment in the same Region"
+     "text": "AWS Transit Gateway with a second attachment in the same Region",
+     "why": "Another attachment inside AWS doesn't add a second path from the data center. The single Direct Connect link is still a single point of failure."
     },
     {
      "id": "05044a7f4a",
@@ -2677,11 +2785,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5b95e076b7",
-     "text": "Aurora Backtrack with a 72-hour window"
+     "text": "Aurora Backtrack with a 72-hour window",
+     "why": "Backtrack rewinds the database to an earlier point in time. It has nothing to do with how storage is replicated."
     },
     {
      "id": "428dcf0d08",
-     "text": "Aurora Serverless v2 capacity scaling"
+     "text": "Aurora Serverless v2 capacity scaling",
+     "why": "Serverless v2 scales compute capacity. It doesn't store or repair data copies."
     },
     {
      "id": "f61e6ef254",
@@ -2689,7 +2799,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ab72ef52e9",
-     "text": "Aurora Auto Scaling for Aurora Replicas"
+     "text": "Aurora Auto Scaling for Aurora Replicas",
+     "why": "Replica Auto Scaling adds or removes read replicas for read load. Storage durability doesn't depend on it."
     }
    ],
    "answer": [
@@ -2707,15 +2818,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "d8a57c5bd3",
-     "text": "Amazon Inspector network reachability findings"
+     "text": "Amazon Inspector network reachability findings",
+     "why": "Inspector's reachability findings analyze network configuration. They don't simulate failures."
     },
     {
      "id": "a784b4cfc8",
-     "text": "AWS Trusted Advisor fault tolerance checks"
+     "text": "AWS Trusted Advisor fault tolerance checks",
+     "why": "Trusted Advisor's fault tolerance checks flag configuration risks. They don't inject failures."
     },
     {
      "id": "3d815281fe",
-     "text": "AWS X-Ray service maps and traces"
+     "text": "AWS X-Ray service maps and traces",
+     "why": "X-Ray traces requests so you can observe behavior. It doesn't simulate failures."
     },
     {
      "id": "0b021fa4cb",
@@ -2737,11 +2851,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "81d8387095",
-     "text": "DynamoDB Streams processed into S3 by Lambda"
+     "text": "DynamoDB Streams processed into S3 by Lambda",
+     "why": "Streams keep item changes for only 24 hours, and you'd have to build the restore logic yourself."
     },
     {
      "id": "f491c79ca9",
-     "text": "Time to Live (TTL) on each item"
+     "text": "Time to Live (TTL) on each item",
+     "why": "TTL deletes items after they expire. It doesn't back anything up."
     },
     {
      "id": "a694fa75bc",
@@ -2749,7 +2865,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ac1c230572",
-     "text": "Daily on-demand backups started by EventBridge"
+     "text": "Daily on-demand backups started by EventBridge",
+     "why": "Daily backups can only restore to the moment each backup was taken, not to 2:16 PM."
     }
    ],
    "answer": [
@@ -2771,15 +2888,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "73829172b9",
-     "text": "VPC Flow Logs"
+     "text": "VPC Flow Logs",
+     "why": "VPC Flow Logs record IP traffic metadata. They can't show how long each service took to handle a request."
     },
     {
      "id": "c7fb5d0b19",
-     "text": "AWS Config"
+     "text": "AWS Config",
+     "why": "AWS Config records resource configuration changes, not request latency or errors."
     },
     {
      "id": "c0d687c1f8",
-     "text": "AWS CloudTrail"
+     "text": "AWS CloudTrail",
+     "why": "CloudTrail records calls to AWS APIs, not requests flowing between your own services."
     }
    ],
    "answer": [
