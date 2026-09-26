@@ -5,6 +5,7 @@ Run from the repository root after editing any question file:
 
     python3 scripts/build_questions.py
 """
+import hashlib
 import json
 import re
 import sys
@@ -22,6 +23,17 @@ ANSWER_RE = re.compile(r"^\*\*([A-F](?:,\s*[A-F])*)\.\*\*\s*(.*)")
 RESOURCE_RE = re.compile(r"^Resource:\s*<([^>]+)>")
 SELECT_IN_STEM_RE = re.compile(r"\s*\(Select (\w+)\.\)\s*$")
 WORDS = {"TWO": 2, "THREE": 3}
+
+
+def option_id(question_id, text):
+    """Stable option identifier, independent of the option's letter/position.
+
+    Exam history in users' browsers refers to answers by this id, so it must
+    stay the same across Markdown edits that only reorder options. It changes
+    only if the option's own text changes.
+    """
+    digest = hashlib.sha1(f"{question_id}:{text}".encode("utf-8")).hexdigest()
+    return digest[:10]
 
 
 def parse_file(path):
@@ -42,6 +54,9 @@ def parse_file(path):
             problems.append("answer letter not among options")
         if problems:
             sys.exit(f"{path.name} {q['id']}: " + ", ".join(problems))
+        id_by_letter = {o["key"]: option_id(q["id"], o["text"]) for o in q["options"]}
+        q["answer"] = [id_by_letter[a] for a in q["answer"]]
+        q["options"] = [{"id": id_by_letter[o["key"]], "text": o["text"]} for o in q["options"]]
         q["explanation"] = " ".join(q["explanation"]).strip()
         questions.append(q)
 
