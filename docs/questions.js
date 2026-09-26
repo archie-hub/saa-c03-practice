@@ -2917,15 +2917,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "8e3a5a99a4",
-     "text": "gp2 (General Purpose SSD) at 16 TiB"
+     "text": "gp2 (General Purpose SSD) at 16 TiB",
+     "why": "gp2 tops out at 16,000 IOPS per volume, however large the volume."
     },
     {
      "id": "8c907f8384",
-     "text": "gp3 (General Purpose SSD) at maximum IOPS"
+     "text": "gp3 (General Purpose SSD) at maximum IOPS",
+     "why": "gp3 tops out at 80,000 IOPS per volume, well short of 150,000."
     },
     {
      "id": "e13b867571",
-     "text": "st1 (Throughput Optimized HDD)"
+     "text": "st1 (Throughput Optimized HDD)",
+     "why": "st1 is a hard disk volume built for sequential throughput. It can't deliver high IOPS or sub-millisecond latency."
     },
     {
      "id": "eb6dc2776e",
@@ -2947,7 +2950,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "9f97d1e7e6",
-     "text": "io1"
+     "text": "io1",
+     "why": "io1 ties the IOPS you can provision to the volume's size, and it costs more, which is the problem the team already has."
     },
     {
      "id": "322c776e5a",
@@ -2955,11 +2959,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "7f0cae21fc",
-     "text": "Magnetic (standard)"
+     "text": "Magnetic (standard)",
+     "why": "Magnetic (standard) is a previous-generation volume type with low performance, and IOPS and throughput can't be provisioned."
     },
     {
      "id": "09489b01dc",
-     "text": "st1"
+     "text": "st1",
+     "why": "st1 is a hard disk volume for sequential throughput. IOPS and throughput can't be provisioned separately from size."
     }
    ],
    "answer": [
@@ -2977,15 +2983,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ff4d7eab26",
-     "text": "gp3 (General Purpose SSD)"
+     "text": "gp3 (General Purpose SSD)",
+     "why": "gp3 would work, but SSD storage costs more per GB than st1 for large sequential reads."
     },
     {
      "id": "786af702f5",
-     "text": "io2 (Provisioned IOPS SSD)"
+     "text": "io2 (Provisioned IOPS SSD)",
+     "why": "io2 is priced for high IOPS and low latency, which a sequential scan doesn't need."
     },
     {
      "id": "576ffc7d49",
-     "text": "sc1 (Cold HDD), used as the boot volume"
+     "text": "sc1 (Cold HDD), used as the boot volume",
+     "why": "HDD volumes can't be boot volumes, and sc1 is for rarely accessed data, with lower throughput than st1."
     },
     {
      "id": "95230d9293",
@@ -3011,15 +3020,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "471f6b4a2d",
-     "text": "Amazon EFS in Max I/O mode"
+     "text": "Amazon EFS in Max I/O mode",
+     "why": "EFS is a network file system, so its latency is higher than local NVMe for heavy random I/O."
     },
     {
      "id": "f8e6ada63c",
-     "text": "Amazon S3 Express One Zone"
+     "text": "Amazon S3 Express One Zone",
+     "why": "S3 Express One Zone is object storage accessed over the network, not a local block device for scratch files."
     },
     {
      "id": "898d500772",
-     "text": "An io2 EBS volume"
+     "text": "An io2 EBS volume",
+     "why": "An io2 volume is network-attached, persistent and costly, and still slower for random I/O than local NVMe."
     }
    ],
    "answer": [
@@ -3037,15 +3049,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "4715fff8c1",
-     "text": "S3 Glacier Instant Retrieval, mounted with Mountpoint"
+     "text": "S3 Glacier Instant Retrieval, mounted with Mountpoint",
+     "why": "Glacier Instant Retrieval is an archive storage class. Mountpoint gives file access to S3, not a high-throughput parallel file system."
     },
     {
      "id": "9f14abb270",
-     "text": "Amazon FSx for Windows File Server with SSD storage"
+     "text": "Amazon FSx for Windows File Server with SSD storage",
+     "why": "FSx for Windows File Server provides SMB shares for Windows workloads, not a parallel file system for HPC."
     },
     {
      "id": "42f1b4d37c",
-     "text": "Amazon EFS with Elastic Throughput and Max I/O mode"
+     "text": "Amazon EFS with Elastic Throughput and Max I/O mode",
+     "why": "EFS isn't built for hundreds of GB/s of parallel throughput and doesn't link to S3 as a data repository."
     },
     {
      "id": "a43eefa0e0",
@@ -3071,15 +3086,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "e118018c8e",
-     "text": "Amazon FSx for Lustre"
+     "text": "Amazon FSx for Lustre",
+     "why": "FSx for Lustre is a Linux file system for HPC. It doesn't provide SMB shares, AD integration or DFS."
     },
     {
      "id": "367c81be44",
-     "text": "Amazon EFS with Elastic Throughput"
+     "text": "Amazon EFS with Elastic Throughput",
+     "why": "EFS supports NFS only, for Linux clients, so it can't serve SMB shares."
     },
     {
      "id": "af95415707",
-     "text": "An S3 bucket mounted through s3fs"
+     "text": "An S3 bucket mounted through s3fs",
+     "why": "s3fs exposes a bucket as a file system on Linux. It isn't SMB and has no AD or DFS support."
     }
    ],
    "answer": [
@@ -3101,15 +3119,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ccb346b702",
-     "text": "Amazon EFS with cross-Region replication"
+     "text": "Amazon EFS with cross-Region replication",
+     "why": "EFS supports NFS only. It has no SMB or iSCSI access and no SnapMirror."
     },
     {
      "id": "0732767f9b",
-     "text": "Amazon FSx for OpenZFS"
+     "text": "Amazon FSx for OpenZFS",
+     "why": "FSx for OpenZFS is accessed over NFS only. It doesn't offer SMB, iSCSI or SnapMirror."
     },
     {
      "id": "c2fe93755d",
-     "text": "AWS Storage Gateway Tape Gateway"
+     "text": "AWS Storage Gateway Tape Gateway",
+     "why": "Tape Gateway presents virtual tapes for backup software. It isn't a primary file or block storage system."
     }
    ],
    "answer": [
@@ -3127,7 +3148,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "10f247e161",
-     "text": "S3 Glacier Deep Archive"
+     "text": "S3 Glacier Deep Archive",
+     "why": "Glacier Deep Archive is the cheapest, slowest archive storage class. It doesn't speed up uploads."
     },
     {
      "id": "7707e493e7",
@@ -3135,7 +3157,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f61ce6e79e",
-     "text": "Requester Pays"
+     "text": "Requester Pays",
+     "why": "Requester Pays makes the downloader pay for transfer costs. It doesn't affect upload speed."
     },
     {
      "id": "20b881cb4f",
@@ -3143,7 +3166,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ec0b03b085",
-     "text": "S3 Object Lock"
+     "text": "S3 Object Lock",
+     "why": "Object Lock prevents objects from being deleted or overwritten. It doesn't affect uploads."
     }
    ],
    "answer": [
@@ -3162,11 +3186,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6d30be684c",
-     "text": "Move the objects to S3 One Zone-IA, which has higher request limits"
+     "text": "Move the objects to S3 One Zone-IA, which has higher request limits",
+     "why": "One Zone-IA has the same request limits as other classes and adds retrieval fees, so it doesn't help."
     },
     {
      "id": "a9a38b096d",
-     "text": "Nothing; S3 is limited to 5,500 GET requests per second per bucket"
+     "text": "Nothing; S3 is limited to 5,500 GET requests per second per bucket",
+     "why": "The limit applies per prefix, not per bucket, so spreading objects across prefixes raises the ceiling."
     },
     {
      "id": "0216280b33",
@@ -3174,7 +3200,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "8f236089b3",
-     "text": "Enable versioning so that reads are spread across object versions"
+     "text": "Enable versioning so that reads are spread across object versions",
+     "why": "Versioning keeps older object versions. It doesn't spread requests across more capacity."
     }
    ],
    "answer": [
@@ -3192,11 +3219,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ad676c5f6e",
-     "text": "S3 Glacier Instant Retrieval"
+     "text": "S3 Glacier Instant Retrieval",
+     "why": "Glacier Instant Retrieval is for rarely accessed data and charges per retrieval, not for constantly re-read hot data."
     },
     {
      "id": "baecbcfba6",
-     "text": "S3 Intelligent-Tiering"
+     "text": "S3 Intelligent-Tiering",
+     "why": "Intelligent-Tiering saves cost when access patterns change. It doesn't offer higher performance than S3 Standard."
     },
     {
      "id": "e23df74724",
@@ -3204,7 +3233,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f0d540b63d",
-     "text": "S3 Standard-IA"
+     "text": "S3 Standard-IA",
+     "why": "Standard-IA is for infrequently accessed data and charges per retrieval, which is the opposite of this workload."
     }
    ],
    "answer": [
@@ -3222,15 +3252,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6057045e95",
-     "text": "AWS Transfer Family SFTP server"
+     "text": "AWS Transfer Family SFTP server",
+     "why": "Transfer Family provides a managed SFTP/FTP endpoint. It doesn't give workstations a local cache."
     },
     {
      "id": "f86a243a5e",
-     "text": "AWS DataSync with an on-premises agent"
+     "text": "AWS DataSync with an on-premises agent",
+     "why": "DataSync moves data between storage systems. It doesn't provide ongoing low-latency local access to files."
     },
     {
      "id": "8eacce8104",
-     "text": "Volume Gateway stored mode backed by EBS"
+     "text": "Volume Gateway stored mode backed by EBS",
+     "why": "Volume Gateway presents block volumes and backs them up as EBS snapshots, not as individual files stored as S3 objects."
     },
     {
      "id": "05e64c5aea",
@@ -3256,15 +3289,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "ece7fc9913",
-     "text": "Partition placement group"
+     "text": "Partition placement group",
+     "why": "A partition placement group separates groups of instances across racks for fault isolation, not for the lowest latency."
     },
     {
      "id": "3584c7904c",
-     "text": "Spread placement group"
+     "text": "Spread placement group",
+     "why": "A spread placement group puts each instance on distinct hardware, which is the opposite of packing them close together."
     },
     {
      "id": "1ae7bf0cd5",
-     "text": "No placement group"
+     "text": "No placement group",
+     "why": "Without a placement group there's no guarantee instances are close together, so latency is higher."
     }
    ],
    "answer": [
@@ -3286,15 +3322,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "4ac37e1b95",
-     "text": "Cluster placement group"
+     "text": "Cluster placement group",
+     "why": "A cluster placement group packs instances close together, so one hardware failure is more likely to hit several of them."
     },
     {
      "id": "780809513c",
-     "text": "Partition placement group"
+     "text": "Partition placement group",
+     "why": "A partition placement group is for large distributed systems. Instances within the same partition can share hardware."
     },
     {
      "id": "d1401fc1d0",
-     "text": "Dedicated Host"
+     "text": "Dedicated Host",
+     "why": "A Dedicated Host is one physical server, so every instance on it fails together."
     }
    ],
    "answer": [
@@ -3312,15 +3351,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "114e4a7fc3",
-     "text": "Cluster placement group"
+     "text": "Cluster placement group",
+     "why": "A cluster placement group packs instances close together, so a single rack failure can hit many nodes."
     },
     {
      "id": "51e94b7727",
-     "text": "No placement group"
+     "text": "No placement group",
+     "why": "Without a placement group, EC2 gives no rack-level separation the cluster can rely on."
     },
     {
      "id": "147348c9e9",
-     "text": "Spread placement group"
+     "text": "Spread placement group",
+     "why": "A spread placement group allows only 7 running instances per AZ, too few for a large Cassandra cluster."
     },
     {
      "id": "9e4733b5fc",
@@ -3342,11 +3384,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ecb6707a62",
-     "text": "Burstable (T)"
+     "text": "Burstable (T)",
+     "why": "Burstable T instances run on CPU credits and have relatively little memory. They're for light, spiky workloads."
     },
     {
      "id": "5a80a549d8",
-     "text": "Compute optimized (C)"
+     "text": "Compute optimized (C)",
+     "why": "Compute optimized instances have a high ratio of CPU to memory, the opposite of what's needed."
     },
     {
      "id": "d2a06208c4",
@@ -3354,7 +3398,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9cf588784b",
-     "text": "Storage optimized (I, D)"
+     "text": "Storage optimized (I, D)",
+     "why": "Storage optimized instances are built for fast local storage, not the most memory per vCPU."
     }
    ],
    "answer": [
@@ -3372,7 +3417,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f52fa25cf6",
-     "text": "Set the number of vCPUs in the function's configuration"
+     "text": "Set the number of vCPUs in the function's configuration",
+     "why": "Lambda has no setting for the number of vCPUs. CPU comes from the memory setting."
     },
     {
      "id": "da446c6a49",
@@ -3380,11 +3426,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "f96bb26b18",
-     "text": "Enable provisioned concurrency so more CPU is reserved"
+     "text": "Enable provisioned concurrency so more CPU is reserved",
+     "why": "Provisioned concurrency keeps execution environments initialized. It doesn't give each one more CPU."
     },
     {
      "id": "9d3221a1db",
-     "text": "Increase the function timeout so it has more time to run"
+     "text": "Increase the function timeout so it has more time to run",
+     "why": "A longer timeout only lets the function run longer. It doesn't make it faster."
     }
    ],
    "answer": [
@@ -3402,11 +3450,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f2a500034f",
-     "text": "Reserved concurrency set to the peak number of requests"
+     "text": "Reserved concurrency set to the peak number of requests",
+     "why": "Reserved concurrency limits or guarantees concurrent executions, but doesn't pre-initialize environments. It's already set high here."
     },
     {
      "id": "bff9af7c13",
-     "text": "A longer timeout on the function and on the API integration"
+     "text": "A longer timeout on the function and on the API integration",
+     "why": "A longer timeout doesn't avoid initialization time. Cold starts still happen."
     },
     {
      "id": "976f549c8a",
@@ -3414,7 +3464,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9ba15e006b",
-     "text": "A dead-letter queue that catches failed invocations"
+     "text": "A dead-letter queue that catches failed invocations",
+     "why": "A dead-letter queue captures failed asynchronous invocations. It doesn't affect cold starts."
     }
    ],
    "answer": [
@@ -3432,15 +3483,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "5a59009e23",
-     "text": "Lambda functions can't read from or write to S3"
+     "text": "Lambda functions can't read from or write to S3",
+     "why": "Lambda functions can read from and write to S3, using their execution role."
     },
     {
      "id": "db162da114",
-     "text": "Lambda doesn't support the runtime the job is written in"
+     "text": "Lambda doesn't support the runtime the job is written in",
+     "why": "Lambda supports many runtimes, plus custom runtimes and container images, so the language isn't the blocker."
     },
     {
      "id": "6eef0ae9bd",
-     "text": "Lambda functions can't use IAM execution roles"
+     "text": "Lambda functions can't use IAM execution roles",
+     "why": "Every Lambda function runs with an IAM execution role."
     },
     {
      "id": "3d1ae89096",
@@ -3462,11 +3516,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "7dd91a3354",
-     "text": "EC2 Image Builder"
+     "text": "EC2 Image Builder",
+     "why": "EC2 Image Builder builds and maintains AMIs and container images. It doesn't run batch jobs."
     },
     {
      "id": "ff70651efd",
-     "text": "AWS Step Functions alone"
+     "text": "AWS Step Functions alone",
+     "why": "Step Functions can orchestrate jobs, but on its own it doesn't queue thousands of jobs by priority or choose and provision compute."
     },
     {
      "id": "46aa40bfa5",
@@ -3474,7 +3530,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "de7f4d06f1",
-     "text": "Amazon Lightsail"
+     "text": "Amazon Lightsail",
+     "why": "Lightsail provides simple virtual servers. It has no job queues or automatic provisioning of Spot capacity."
     }
    ],
    "answer": [
@@ -3492,11 +3549,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "de4b42a2f2",
-     "text": "Amazon EC2, configured manually"
+     "text": "Amazon EC2, configured manually",
+     "why": "Configuring EC2 by hand means setting up load balancing and scaling yourself."
     },
     {
      "id": "00a59fa5b9",
-     "text": "AWS CloudFormation only"
+     "text": "AWS CloudFormation only",
+     "why": "CloudFormation provisions infrastructure from templates you write. It doesn't deploy an app from a code upload on its own."
     },
     {
      "id": "3f4203d707",
@@ -3504,7 +3563,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b1645f472c",
-     "text": "AWS Outposts"
+     "text": "AWS Outposts",
+     "why": "Outposts runs AWS infrastructure in your own data center. It doesn't manage deployments."
     }
    ],
    "answer": [
@@ -3522,11 +3582,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "2091b1f82a",
-     "text": "Sticky sessions on each target group"
+     "text": "Sticky sessions on each target group",
+     "why": "Sticky sessions keep a user on the same target. They don't route requests by URL path."
     },
     {
      "id": "05b3823fad",
-     "text": "Cross-zone load balancing"
+     "text": "Cross-zone load balancing",
+     "why": "Cross-zone load balancing spreads traffic evenly across AZs. It doesn't route by path."
     },
     {
      "id": "dadecc8698",
@@ -3534,7 +3596,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "197d1fb58d",
-     "text": "Connection draining (deregistration delay)"
+     "text": "Connection draining (deregistration delay)",
+     "why": "Deregistration delay lets in-flight requests finish when a target is removed. It doesn't route by path."
     }
    ],
    "answer": [
@@ -3552,15 +3615,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "19ab4edb0f",
-     "text": "Application Load Balancer"
+     "text": "Application Load Balancer",
+     "why": "An ALB works at Layer 7, handles HTTP(S) only (no UDP), and doesn't provide static IPs."
     },
     {
      "id": "de5ee6034f",
-     "text": "Classic Load Balancer"
+     "text": "Classic Load Balancer",
+     "why": "The Classic Load Balancer is a previous-generation service. It doesn't support UDP or static IPs per AZ."
     },
     {
      "id": "8aabb02fe3",
-     "text": "Gateway Load Balancer"
+     "text": "Gateway Load Balancer",
+     "why": "A Gateway Load Balancer passes traffic through inspection appliances. It isn't for serving application traffic."
     },
     {
      "id": "8ae15c1186",
@@ -3582,11 +3648,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ec575f725e",
-     "text": "Application Load Balancer"
+     "text": "Application Load Balancer",
+     "why": "An ALB terminates HTTP connections and opens new ones to targets, so it isn't transparent."
     },
     {
      "id": "a07adbb41d",
-     "text": "Network Load Balancer"
+     "text": "Network Load Balancer",
+     "why": "An NLB delivers traffic to targets as the destination. It isn't designed to pass traffic through appliances and back on its original path."
     },
     {
      "id": "be1618c7ac",
@@ -3594,7 +3662,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "fbddb2e4c2",
-     "text": "Classic Load Balancer"
+     "text": "Classic Load Balancer",
+     "why": "The Classic Load Balancer is a previous-generation service and can't insert appliances transparently."
     }
    ],
    "answer": [
@@ -3612,15 +3681,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0f735b7c45",
-     "text": "AWS Config"
+     "text": "AWS Config",
+     "why": "AWS Config tracks resource configurations and compliance. It doesn't recommend sizes."
     },
     {
      "id": "bfa5fa1b91",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector",
+     "why": "Amazon Inspector scans for software vulnerabilities. It doesn't analyze utilization."
     },
     {
      "id": "b838b855e1",
-     "text": "AWS Cost Explorer forecasts"
+     "text": "AWS Cost Explorer forecasts",
+     "why": "Cost Explorer forecasts predict future spending. They don't recommend sizes for EBS volumes or Lambda memory."
     },
     {
      "id": "57d142fb5e",
@@ -3642,7 +3714,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "1310cd1cb8",
-     "text": "Global tables"
+     "text": "Global tables",
+     "why": "Global tables replicate a table across Regions. They don't give microsecond reads."
     },
     {
      "id": "d6a3deefb0",
@@ -3650,11 +3723,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "166ba2cd3c",
-     "text": "ElastiCache Memcached as a write-through cache managed by AWS"
+     "text": "ElastiCache Memcached as a write-through cache managed by AWS",
+     "why": "ElastiCache would need caching logic written into the app, whereas DAX works with the existing DynamoDB API."
     },
     {
      "id": "46f013a2a1",
-     "text": "DynamoDB Streams"
+     "text": "DynamoDB Streams",
+     "why": "Streams capture item changes for other consumers. They don't speed up reads."
     }
    ],
    "answer": [
@@ -3672,11 +3747,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "a2fbf4249b",
-     "text": "Increase the writer instance to a larger instance class"
+     "text": "Increase the writer instance to a larger instance class",
+     "why": "The DBA has ruled out resizing, and reports would still compete with transactions on the same instance."
     },
     {
      "id": "f12a553c75",
-     "text": "Use Backtrack to rewind the database after each report"
+     "text": "Use Backtrack to rewind the database after each report",
+     "why": "Backtrack rewinds the database to an earlier point in time. It doesn't offload reads."
     },
     {
      "id": "3e2343db2b",
@@ -3684,7 +3761,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5cba4bf3ad",
-     "text": "Run the reports from a Lambda function against the writer"
+     "text": "Run the reports from a Lambda function against the writer",
+     "why": "The queries would still run on the writer, which is where the load problem is."
     }
    ],
    "answer": [
@@ -3702,11 +3780,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6f28b991b5",
-     "text": "RDS on a fixed large instance"
+     "text": "RDS on a fixed large instance",
+     "why": "A fixed instance doesn't scale with load, so it's oversized when idle and undersized in bursts."
     },
     {
      "id": "72da4814d1",
-     "text": "Redshift provisioned"
+     "text": "Redshift provisioned",
+     "why": "Redshift is a data warehouse for analytics, not a transactional database for an application."
     },
     {
      "id": "65a5dc0b01",
@@ -3714,7 +3794,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "297bca35cc",
-     "text": "RDS Custom"
+     "text": "RDS Custom",
+     "why": "RDS Custom gives access to the operating system for customization. It still runs on a fixed instance size."
     }
    ],
    "answer": [
@@ -3736,15 +3817,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9f3bc7e085",
-     "text": "Amazon Neptune"
+     "text": "Amazon Neptune",
+     "why": "Neptune is a graph database for relationship queries, not large-scale SQL analytics."
     },
     {
      "id": "2f5c161efa",
-     "text": "DynamoDB"
+     "text": "DynamoDB",
+     "why": "DynamoDB is a key-value database. It isn't built for complex joins and aggregations over history."
     },
     {
      "id": "f5ac6e49bd",
-     "text": "Amazon RDS for PostgreSQL"
+     "text": "Amazon RDS for PostgreSQL",
+     "why": "RDS for PostgreSQL is row-oriented OLTP, the same kind of database that's already a poor fit."
     }
    ],
    "answer": [
@@ -3762,15 +3846,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0872626313",
-     "text": "Amazon Keyspaces"
+     "text": "Amazon Keyspaces",
+     "why": "Keyspaces is a Cassandra-compatible wide-column database. It isn't built for multi-hop relationship queries."
     },
     {
      "id": "f293bd52ea",
-     "text": "Amazon DocumentDB"
+     "text": "Amazon DocumentDB",
+     "why": "DocumentDB stores JSON documents. It isn't built for traversing relationships."
     },
     {
      "id": "69cbf9ed7c",
-     "text": "Amazon Timestream"
+     "text": "Amazon Timestream",
+     "why": "Timestream is for time-series data such as metrics and IoT readings."
     },
     {
      "id": "108595bf14",
@@ -3792,15 +3879,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "2ae59c3246",
-     "text": "MongoDB-compatible documents → Keyspaces; Cassandra (CQL) → DocumentDB; IoT time series → Timestream"
+     "text": "MongoDB-compatible documents → Keyspaces; Cassandra (CQL) → DocumentDB; IoT time series → Timestream",
+     "why": "This swaps DocumentDB and Keyspaces: DocumentDB is MongoDB-compatible, and Keyspaces is Cassandra-compatible."
     },
     {
      "id": "d525e7b506",
-     "text": "MongoDB-compatible documents → Timestream; Cassandra (CQL) → Keyspaces; IoT time series → DocumentDB"
+     "text": "MongoDB-compatible documents → Timestream; Cassandra (CQL) → Keyspaces; IoT time series → DocumentDB",
+     "why": "Timestream is for time series and DocumentDB is for documents, so this swaps them."
     },
     {
      "id": "db8773357d",
-     "text": "MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Neptune; IoT time series → Keyspaces"
+     "text": "MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Neptune; IoT time series → Keyspaces",
+     "why": "Neptune is a graph database, not Cassandra-compatible, and Keyspaces isn't for time series."
     },
     {
      "id": "8b04f09dbe",
@@ -3822,7 +3912,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "852bd26c01",
-     "text": "TTL is deleting items too slowly; lower the TTL values on the hot items"
+     "text": "TTL is deleting items too slowly; lower the TTL values on the hot items",
+     "why": "TTL deletes don't use the table's write capacity, so they don't cause this throttling."
     },
     {
      "id": "158530a194",
@@ -3830,11 +3921,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "85c3b8a7c4",
-     "text": "Global tables are disabled; add a replica Region to spread the writes"
+     "text": "Global tables are disabled; add a replica Region to spread the writes",
+     "why": "Global tables replicate data to other Regions. They don't spread a hot key's load within the table."
     },
     {
      "id": "a97ca8b0cc",
-     "text": "The table is out of storage; request a storage quota increase for the table"
+     "text": "The table is out of storage; request a storage quota increase for the table",
+     "why": "DynamoDB tables have no practical size limit, so running out of storage isn't the cause."
     }
    ],
    "answer": [
@@ -3856,15 +3949,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "7c93cde71c",
-     "text": "ElastiCache for Memcached"
+     "text": "ElastiCache for Memcached",
+     "why": "Memcached has no sorted sets, persistence or built-in replication."
     },
     {
      "id": "90e9ab1865",
-     "text": "Amazon EFS with Elastic Throughput"
+     "text": "Amazon EFS with Elastic Throughput",
+     "why": "EFS is file storage, not an in-memory data store."
     },
     {
      "id": "bc50074519",
-     "text": "DynamoDB Accelerator (DAX)"
+     "text": "DynamoDB Accelerator (DAX)",
+     "why": "DAX caches DynamoDB reads. It isn't a general in-memory store with sorted sets."
     }
    ],
    "answer": [
@@ -3882,7 +3978,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f38d40aec9",
-     "text": "A larger ALB"
+     "text": "A larger ALB",
+     "why": "A bigger load balancer doesn't cache anything, so every request still reaches the origin."
     },
     {
      "id": "8cd9ca4f49",
@@ -3890,11 +3987,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "9917feef88",
-     "text": "Route 53 simple routing"
+     "text": "Route 53 simple routing",
+     "why": "Simple routing only answers DNS queries. It doesn't cache content or reduce origin load."
     },
     {
      "id": "8e8255f652",
-     "text": "AWS Global Accelerator for HTTP caching"
+     "text": "AWS Global Accelerator for HTTP caching",
+     "why": "Global Accelerator speeds up the network path to endpoints but doesn't cache content."
     }
    ],
    "answer": [
@@ -3916,15 +4015,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "6730765dc4",
-     "text": "A full mesh of VPC peering connections"
+     "text": "A full mesh of VPC peering connections",
+     "why": "A full mesh of peering connections is exactly what the team can no longer manage, and peering isn't transitive."
     },
     {
      "id": "6619172535",
-     "text": "Internet gateways"
+     "text": "Internet gateways",
+     "why": "Internet gateways give VPCs internet access. They don't connect private networks to each other."
     },
     {
      "id": "b63b9a0ee5",
-     "text": "A NAT gateway in each VPC"
+     "text": "A NAT gateway in each VPC",
+     "why": "NAT gateways give private subnets outbound internet access. They don't connect networks to each other."
     }
    ],
    "answer": [
@@ -3942,7 +4044,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "492637f6e2",
-     "text": "Yes, traffic is routed through VPC B automatically"
+     "text": "Yes, traffic is routed through VPC B automatically",
+     "why": "VPC peering isn't transitive, so traffic is never routed through VPC B."
     },
     {
      "id": "21a2eeb3bd",
@@ -3950,11 +4053,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "b91d8bf30a",
-     "text": "Yes, if A's route table sends C's CIDR to the A–B peering connection"
+     "text": "Yes, if A's route table sends C's CIDR to the A–B peering connection",
+     "why": "Route table entries can't make peering transitive, so VPC B won't forward the traffic."
     },
     {
      "id": "acc0a0e36f",
-     "text": "Only for IPv6 traffic between the VPCs"
+     "text": "Only for IPv6 traffic between the VPCs",
+     "why": "The no-transitive-routing rule applies to IPv6 as well as IPv4."
     }
    ],
    "answer": [
@@ -3972,7 +4077,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0bec3f7790",
-     "text": "Client VPN"
+     "text": "Client VPN",
+     "why": "Client VPN connects individual users' devices over the internet, not a data center at 10 Gbps."
     },
     {
      "id": "ea14490340",
@@ -3980,17 +4086,19 @@ window.QUESTION_BANK = {
     },
     {
      "id": "c2666055d0",
-     "text": "An internet gateway"
+     "text": "An internet gateway",
+     "why": "An internet gateway provides internet access. It isn't a private, dedicated connection."
     },
     {
      "id": "0f8186da2e",
-     "text": "Site-to-Site VPN"
+     "text": "Site-to-Site VPN",
+     "why": "Site-to-Site VPN runs over the public internet, so bandwidth isn't consistent, and each tunnel's bandwidth is limited."
     }
    ],
    "answer": [
     "ea14490340"
    ],
-   "explanation": "Direct Connect provides a dedicated, private network connection with consistent bandwidth up to 10 Gbps (or more with multiple connections), unlike a VPN, which runs encrypted over the shared public internet.",
+   "explanation": "Direct Connect provides a dedicated, private network connection with consistent bandwidth (dedicated ports come in 1, 10, 100 and 400 Gbps), unlike a VPN, which runs encrypted over the shared public internet.",
    "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html"
   },
   {
@@ -4006,15 +4114,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "5d55dfc7bc",
-     "text": "AWS PrivateLink interface endpoints for each branch office"
+     "text": "AWS PrivateLink interface endpoints for each branch office",
+     "why": "PrivateLink exposes specific services to other VPCs. It doesn't route traffic between branch offices."
     },
     {
      "id": "588ac368bf",
-     "text": "A Direct Connect transit virtual interface for each branch office"
+     "text": "A Direct Connect transit virtual interface for each branch office",
+     "why": "A transit virtual interface needs a Direct Connect circuit for each branch, which the company wants to avoid."
     },
     {
      "id": "0715aab504",
-     "text": "VPC peering connections between the VPC and each branch office"
+     "text": "VPC peering connections between the VPC and each branch office",
+     "why": "VPC peering connects VPCs. It can't connect on-premises branch offices."
     }
    ],
    "answer": [
@@ -4032,7 +4143,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "f70c55bb27",
-     "text": "Create one subnet that spans every AZ so instances can move freely"
+     "text": "Create one subnet that spans every AZ so instances can move freely",
+     "why": "A subnet always lives in exactly one AZ and can't span several."
     },
     {
      "id": "f389e8feab",
@@ -4040,11 +4152,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "02f7017b46",
-     "text": "Overlapping CIDRs are fine, because VPC peering translates addresses"
+     "text": "Overlapping CIDRs are fine, because VPC peering translates addresses",
+     "why": "VPC peering doesn't translate addresses, and VPCs with overlapping CIDRs can't be peered."
     },
     {
      "id": "fbb0ad230d",
-     "text": "Always use /28 subnets so each subnet wastes as few addresses as possible"
+     "text": "Always use /28 subnets so each subnet wastes as few addresses as possible",
+     "why": "/28 is the smallest subnet size, and AWS reserves 5 addresses in each subnet, so /28 subnets fill up quickly."
     }
    ],
    "answer": [
@@ -4062,7 +4176,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "ffc853f22e",
-     "text": "A CloudFront distribution with a Route 53 alias record"
+     "text": "A CloudFront distribution with a Route 53 alias record",
+     "why": "CloudFront delivers web content. It doesn't resolve DNS between a VPC and an on-premises network."
     },
     {
      "id": "b40f641964",
@@ -4070,11 +4185,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "d6fd1f4da1",
-     "text": "A DHCP options set that points the VPC at the on-premises DNS servers"
+     "text": "A DHCP options set that points the VPC at the on-premises DNS servers",
+     "why": "This only covers one direction: the VPC could resolve on-premises names, but on-premises servers still couldn't query the private hosted zone."
     },
     {
      "id": "67a4e50722",
-     "text": "Public hosted zones that contain copies of the private records"
+     "text": "Public hosted zones that contain copies of the private records",
+     "why": "Public hosted zones would expose the private records to the internet."
     }
    ],
    "answer": [
@@ -4096,15 +4213,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "76ab38d7b9",
-     "text": "An Elastic IP address on each instance"
+     "text": "An Elastic IP address on each instance",
+     "why": "An Elastic IP is a static public address. It doesn't affect network performance between instances."
     },
     {
      "id": "6aee3e7a3b",
-     "text": "VPC Flow Logs with a 1-minute aggregation interval"
+     "text": "VPC Flow Logs with a 1-minute aggregation interval",
+     "why": "Flow Logs record traffic metadata. They don't improve performance."
     },
     {
      "id": "889c867fb7",
-     "text": "A NAT gateway in each Availability Zone"
+     "text": "A NAT gateway in each Availability Zone",
+     "why": "NAT gateways give private subnets outbound internet access. They don't speed up traffic between instances."
     }
    ],
    "answer": [
@@ -4126,15 +4246,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "8cad1a95e5",
-     "text": "Amazon S3 event notifications"
+     "text": "Amazon S3 event notifications",
+     "why": "S3 event notifications announce object changes. They aren't a replayable stream for real-time data."
     },
     {
      "id": "a774ceb706",
-     "text": "Amazon SQS standard queue"
+     "text": "Amazon SQS standard queue",
+     "why": "In SQS, each message is processed by one consumer and then deleted, so it can't be replayed or read by two consumers independently."
     },
     {
      "id": "c831584363",
-     "text": "Amazon SNS standard topic"
+     "text": "Amazon SNS standard topic",
+     "why": "SNS delivers each message once to its current subscribers and doesn't keep it for replay."
     }
    ],
    "answer": [
@@ -4156,15 +4279,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "1d2feca36b",
-     "text": "AWS Glue batch jobs"
+     "text": "AWS Glue batch jobs",
+     "why": "Glue batch jobs run on a schedule rather than delivering streaming data continuously."
     },
     {
      "id": "0c1e5df088",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync",
+     "why": "DataSync moves files and objects between storage systems. It doesn't ingest streaming data."
     },
     {
      "id": "6611faa771",
-     "text": "Kinesis Data Streams with custom consumers"
+     "text": "Kinesis Data Streams with custom consumers",
+     "why": "Kinesis Data Streams would work, but the team would have to build and run the consumer applications."
     }
    ],
    "answer": [
@@ -4182,11 +4308,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "aef90da7a3",
-     "text": "Amazon RDS for PostgreSQL, after importing the files"
+     "text": "Amazon RDS for PostgreSQL, after importing the files",
+     "why": "RDS means importing the files and running a database all the time, which the team wants to avoid."
     },
     {
      "id": "233060d4e9",
-     "text": "An Amazon Redshift provisioned cluster"
+     "text": "An Amazon Redshift provisioned cluster",
+     "why": "A provisioned Redshift cluster costs money even when idle between reports."
     },
     {
      "id": "346aee3eaf",
@@ -4194,7 +4322,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "31ec00de24",
-     "text": "An always-on Amazon EMR cluster running Hive"
+     "text": "An always-on Amazon EMR cluster running Hive",
+     "why": "An always-on EMR cluster costs money even when idle between reports."
     }
    ],
    "answer": [
@@ -4212,11 +4341,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "0829216552",
-     "text": "Amazon EMR"
+     "text": "Amazon EMR",
+     "why": "EMR runs big-data frameworks like Spark. It doesn't provide crawlers or its own central data catalog."
     },
     {
      "id": "0869466528",
-     "text": "AWS Lambda only"
+     "text": "AWS Lambda only",
+     "why": "Lambda alone has no crawlers or central catalog, and each invocation is limited to 15 minutes."
     },
     {
      "id": "a037f7a678",
@@ -4224,7 +4355,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "681ada08e5",
-     "text": "Amazon QuickSight"
+     "text": "Amazon QuickSight",
+     "why": "QuickSight builds BI dashboards. It doesn't run ETL or discover schemas."
     }
    ],
    "answer": [
@@ -4246,15 +4378,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "a96dc1f6a8",
-     "text": "Site-to-Site VPN"
+     "text": "Site-to-Site VPN",
+     "why": "A VPN still runs over the same 100 Mbps link, so it would take well over a year."
     },
     {
      "id": "379ddbdf12",
-     "text": "S3 Transfer Acceleration"
+     "text": "S3 Transfer Acceleration",
+     "why": "Transfer Acceleration can't make the transfer faster than the site's own 100 Mbps link."
     },
     {
      "id": "67f3072d19",
-     "text": "AWS DataSync over the internet"
+     "text": "AWS DataSync over the internet",
+     "why": "DataSync would still be limited by the 100 Mbps link, taking well over a year."
     }
    ],
    "answer": [
