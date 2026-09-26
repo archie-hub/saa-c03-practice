@@ -97,15 +97,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "6b64dac04c",
-     "text": "Attach a permissions boundary to the root user that limits it to billing actions"
+     "text": "Attach a permissions boundary to the root user that limits it to billing actions",
+     "why": "Permissions boundaries apply only to IAM users and roles. They can't be attached to the root user, so they can't limit what it does."
     },
     {
      "id": "4bf3d5d242",
-     "text": "Create access keys for the root user and store them in AWS Secrets Manager for emergencies"
+     "text": "Create access keys for the root user and store them in AWS Secrets Manager for emergencies",
+     "why": "AWS recommends not creating root access keys at all. Keeping them in Secrets Manager still leaves long-term, all-powerful keys that could leak."
     },
     {
      "id": "22c7bfbdf5",
-     "text": "Create an IAM user with the `AdministratorAccess` policy, then delete the root user's password so it can never sign in again"
+     "text": "Create an IAM user with the `AdministratorAccess` policy, then delete the root user's password so it can never sign in again",
+     "why": "The root user can't be deleted, and in a standalone account its password can always be recovered by email. MFA is what protects the root user."
     },
     {
      "id": "a0bccc4c80",
@@ -127,11 +130,13 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "d56d8df8d3",
-     "text": "Add a bucket policy that allows anonymous reads from the instance's Elastic IP address"
+     "text": "Add a bucket policy that allows anonymous reads from the instance's Elastic IP address",
+     "why": "This makes objects readable by anyone sending requests from that address, relying on network location instead of identity. It's public access, which S3 Block Public Access exists to prevent."
     },
     {
      "id": "8bdd0c244e",
-     "text": "Move the IAM user's access keys into AWS Secrets Manager and have the job retrieve them at startup"
+     "text": "Move the IAM user's access keys into AWS Secrets Manager and have the job retrieve them at startup",
+     "why": "The job would still depend on a long-term IAM user access key; Secrets Manager only changes where the key is stored. An instance role removes the key entirely."
     },
     {
      "id": "ebce3620ff",
@@ -139,7 +144,8 @@ window.QUESTION_BANK = {
     },
     {
      "id": "cd32f050e6",
-     "text": "Rotate the IAM user's access keys automatically every 24 hours using a scheduled Lambda function"
+     "text": "Rotate the IAM user's access keys automatically every 24 hours using a scheduled Lambda function",
+     "why": "Frequent rotation shortens the exposure window if a key leaks, but still leaves long-term keys and custom rotation code to maintain. Instance profiles rotate temporary credentials automatically."
     }
    ],
    "answer": [
@@ -157,7 +163,8 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "bea065c257",
-     "text": "AWS Config rules with automatic remediation that turn CloudTrail back on"
+     "text": "AWS Config rules with automatic remediation that turn CloudTrail back on",
+     "why": "Config remediation reacts after the fact: CloudTrail stays off until Config notices and turns it back on. It also can't stop an account from leaving the organization."
     },
     {
      "id": "60e83f059a",
@@ -165,11 +172,13 @@ window.QUESTION_BANK = {
     },
     {
      "id": "de1fc5e9bc",
-     "text": "IAM permissions boundaries attached to every user and role in the Sandbox accounts"
+     "text": "IAM permissions boundaries attached to every user and role in the Sandbox accounts",
+     "why": "Administrators in each account can edit or detach permissions boundaries, and boundaries must be attached to every user and role one at a time, so they can't enforce this OU-wide."
     },
     {
      "id": "28618a7b20",
-     "text": "A budget action in AWS Budgets that stops EC2 and RDS resources once the threshold is hit"
+     "text": "A budget action in AWS Budgets that stops EC2 and RDS resources once the threshold is hit",
+     "why": "Budget actions respond to spending thresholds. They don't block API calls such as `cloudtrail:StopLogging` or `organizations:LeaveOrganization`."
     }
    ],
    "answer": [
@@ -191,15 +200,18 @@ window.QUESTION_BANK = {
     },
     {
      "id": "0c91d7c34d",
-     "text": "SCPs grant permissions to the IAM users and roles in the accounts they're attached to"
+     "text": "SCPs grant permissions to the IAM users and roles in the accounts they're attached to",
+     "why": "SCPs never grant permissions. An identity-based or resource-based policy must still allow the action for it to succeed."
     },
     {
      "id": "e73434ded8",
-     "text": "SCPs replace the IAM identity-based policies in the accounts they're attached to"
+     "text": "SCPs replace the IAM identity-based policies in the accounts they're attached to",
+     "why": "SCPs work alongside identity-based policies, and both must allow an action. They don't replace or remove them."
     },
     {
      "id": "0ba4cbdbd1",
-     "text": "SCPs restrict every principal in the organization, including the management account"
+     "text": "SCPs restrict every principal in the organization, including the management account",
+     "why": "SCPs don't affect users or roles in the management account. They apply only to member accounts."
     }
    ],
    "answer": [
@@ -217,15 +229,18 @@ window.QUESTION_BANK = {
    "options": [
     {
      "id": "624f988d88",
-     "text": "Amazon Cognito user pools federated with AD, with one app client per AWS account"
+     "text": "Amazon Cognito user pools federated with AD, with one app client per AWS account",
+     "why": "Cognito user pools are for customer-facing app sign-in. They don't provide workforce single sign-on to the AWS console across accounts."
     },
     {
      "id": "d61d7ddb24",
-     "text": "AWS Secrets Manager, storing a copy of each employee's AD password for every account"
+     "text": "AWS Secrets Manager, storing a copy of each employee's AD password for every account",
+     "why": "Storing copies of AD passwords is exactly what the company wants to avoid, and it doesn't provide a sign-in portal."
     },
     {
      "id": "7493786718",
-     "text": "IAM users in each account, with passwords kept in sync with AD by a scheduled script"
+     "text": "IAM users in each account, with passwords kept in sync with AD by a scheduled script",
+     "why": "Separate IAM users mean 15 sets of credentials per employee, with password copies stored in AWS. Sync scripts are also fragile."
     },
     {
      "id": "fe96fcb818",

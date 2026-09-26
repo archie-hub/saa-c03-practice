@@ -21,6 +21,8 @@ QUESTION_RE = re.compile(r"^\*\*(\d+)\.(?:\s*\(Select (\w+)\.\))?\*\*\s*(.*)")
 OPTION_RE = re.compile(r"^- ([A-F])\. (.+)")
 ANSWER_RE = re.compile(r"^\*\*([A-F](?:,\s*[A-F])*)\.\*\*\s*(.*)")
 RESOURCE_RE = re.compile(r"^Resource:\s*<([^>]+)>")
+WHY_HEADER_RE = re.compile(r"^Why not the others:\s*$")
+WHY_RE = re.compile(r"^- \*\*([A-F])\.\*\*\s+(.+)")
 SELECT_IN_STEM_RE = re.compile(r"\s*\(Select (\w+)\.\)\s*$")
 WORDS = {"TWO": 2, "THREE": 3}
 
@@ -52,11 +54,20 @@ def parse_file(path):
         letters = [o["key"] for o in q["options"]]
         if any(a not in letters for a in q["answer"]):
             problems.append("answer letter not among options")
+        wrong = [k for k in letters if k not in q["answer"]]
+        if any(k not in wrong for k in q["why"]):
+            problems.append("'why not' note for a correct or missing option")
+        if q["why"] and sorted(q["why"]) != sorted(wrong):
+            problems.append("'why not' notes must cover every wrong option")
         if problems:
             sys.exit(f"{path.name} {q['id']}: " + ", ".join(problems))
         id_by_letter = {o["key"]: option_id(q["id"], o["text"]) for o in q["options"]}
         q["answer"] = [id_by_letter[a] for a in q["answer"]]
-        q["options"] = [{"id": id_by_letter[o["key"]], "text": o["text"]} for o in q["options"]]
+        q["options"] = [
+            {"id": id_by_letter[o["key"]], "text": o["text"], **({"why": q["why"][o["key"]]} if o["key"] in q["why"] else {})}
+            for o in q["options"]
+        ]
+        del q["why"]
         q["explanation"] = " ".join(q["explanation"]).strip()
         questions.append(q)
 
@@ -85,6 +96,7 @@ def parse_file(path):
                 "answer": [],
                 "explanation": [],
                 "resource": None,
+                "why": {},
             }
             in_answer = False
         elif q is None:
@@ -101,6 +113,12 @@ def parse_file(path):
                 q["explanation"].append(m[2])
         elif in_answer and (m := RESOURCE_RE.match(line)):
             q["resource"] = m[1]
+        elif in_answer and WHY_HEADER_RE.match(line):
+            continue
+        elif in_answer and (m := WHY_RE.match(line)):
+            if m[1] in q["why"]:
+                sys.exit(f"{path.name} {q['id']}: two 'why not' notes for {m[1]}")
+            q["why"][m[1]] = m[2].strip()
         elif in_answer and line:
             q["explanation"].append(line)
     finish()

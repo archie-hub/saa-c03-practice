@@ -242,10 +242,16 @@ td.num, th.num { text-align: right; }
 .option.correct { border-color: var(--good); background: var(--good-wash); }
 .option.wrong { border-color: var(--bad); background: var(--bad-wash); }
 .option.locked { cursor: default; }
+.option .otext { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .option { flex-wrap: wrap; }
+  .option .verdict { flex-basis: 100%; margin-left: 0; text-align: right; }
+}
+.option .why { display: block; margin-top: 4px; font-size: 13px; color: var(--text-2); }
 .option .verdict { margin-left: auto; font-size: 12px; font-weight: 700; flex: none; }
 .option.correct .verdict { color: var(--good-ink); }
 .option.wrong .verdict { color: var(--bad-ink); }
-.explain { border-left: 3px solid var(--accent); background: var(--surface-2); padding: 12px 14px; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
+.explain { overflow-wrap: anywhere; border-left: 3px solid var(--accent); background: var(--surface-2); padding: 12px 14px; border-radius: 0 8px 8px 0; margin-bottom: 16px; }
 .explain.good { border-left-color: var(--good); }
 .explain.bad { border-left-color: var(--bad); }
 

@@ -15,6 +15,12 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 <details><summary>Answer</summary>
 
 **D.** The root user can't be deleted or have its password permanently removed, and it already has full access. Best practice is to enable MFA, avoid creating root access keys, and use other identities for everyday work.
+
+Why not the others:
+- **A.** Permissions boundaries apply only to IAM users and roles. They can't be attached to the root user, so they can't limit what it does.
+- **B.** AWS recommends not creating root access keys at all. Keeping them in Secrets Manager still leaves long-term, all-powerful keys that could leak.
+- **C.** The root user can't be deleted, and in a standalone account its password can always be recovered by email. MFA is what protects the root user.
+
 Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html>
 </details>
 
@@ -27,6 +33,12 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-pract
 <details><summary>Answer</summary>
 
 **C.** Instance profiles deliver temporary, automatically rotated credentials to the instance, removing the need for any long-term access keys at all.
+
+Why not the others:
+- **A.** This makes objects readable by anyone sending requests from that address, relying on network location instead of identity. It's public access, which S3 Block Public Access exists to prevent.
+- **B.** The job would still depend on a long-term IAM user access key; Secrets Manager only changes where the key is stored. An instance role removes the key entirely.
+- **D.** Frequent rotation shortens the exposure window if a key leaks, but still leaves long-term keys and custom rotation code to maintain. Instance profiles rotate temporary credentials automatically.
+
 Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html>
 </details>
 
@@ -39,6 +51,12 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-
 <details><summary>Answer</summary>
 
 **B.** SCPs set the maximum permissions for every principal in the member accounts under an OU, including administrators (but not the management account), so a well-written deny SCP can block both actions everywhere in the OU at once.
+
+Why not the others:
+- **A.** Config remediation reacts after the fact: CloudTrail stays off until Config notices and turns it back on. It also can't stop an account from leaving the organization.
+- **C.** Administrators in each account can edit or detach permissions boundaries, and boundaries must be attached to every user and role one at a time, so they can't enforce this OU-wide.
+- **D.** Budget actions respond to spending thresholds. They don't block API calls such as `cloudtrail:StopLogging` or `organizations:LeaveOrganization`.
+
 Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html>
 </details>
 
@@ -51,6 +69,12 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **A.** An action is allowed only if both the SCP and an IAM policy allow it. SCPs never grant access on their own and don't apply to the management account.
+
+Why not the others:
+- **B.** SCPs never grant permissions. An identity-based or resource-based policy must still allow the action for it to succeed.
+- **C.** SCPs work alongside identity-based policies, and both must allow an action. They don't replace or remove them.
+- **D.** SCPs don't affect users or roles in the management account. They apply only to member accounts.
+
 Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html>
 </details>
 
@@ -63,6 +87,12 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **D.** IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source, without duplicating passwords.
+
+Why not the others:
+- **A.** Cognito user pools are for customer-facing app sign-in. They don't provide workforce single sign-on to the AWS console across accounts.
+- **B.** Storing copies of AD passwords is exactly what the company wants to avoid, and it doesn't provide a sign-in portal.
+- **C.** Separate IAM users mean 15 sets of credentials per employee, with password copies stored in AWS. Sync scripts are also fragile.
+
 Resource: <https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html>
 </details>
 
