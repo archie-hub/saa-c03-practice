@@ -367,6 +367,186 @@ Why not the others:
 Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html>
 </details>
 
+**41.** A logistics company runs a self-managed Apache Kafka cluster on premises that dozens of producer and consumer applications use for shipment events. The team is tired of patching brokers and rebalancing partitions by hand, and wants to move to AWS without rewriting any producer or consumer code, which uses the standard Kafka client libraries. What should they use?
+- A. Amazon Kinesis Data Streams with the Kinesis Client Library
+- B. Amazon SQS FIFO queues, one for each Kafka topic
+- C. Amazon MSK (Managed Streaming for Apache Kafka)
+- D. Amazon MQ brokers running Apache ActiveMQ
+
+<details><summary>Answer</summary>
+
+**C.** Amazon MSK runs Apache Kafka for you, handling the brokers and their patching, and existing applications keep using the standard Kafka APIs and client libraries without code changes.
+
+Why not the others:
+- **A.** Kinesis Data Streams has its own API, so every Kafka producer and consumer would need rewriting.
+- **B.** SQS has its own API and a different model from Kafka topics and partitions, so the applications would need rewriting.
+- **D.** Amazon MQ runs ActiveMQ and RabbitMQ brokers, not Kafka, so the Kafka clients couldn't connect to it.
+
+Resource: <https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html>
+</details>
+
+**42.** A sports app shows live match scores. The mobile and web clients fetch data through a single GraphQL API that combines results from DynamoDB and two Lambda-backed services, and when a score changes, every subscribed client must see it within a second or two without polling. The team doesn't want to run its own GraphQL or WebSocket servers. What should they use?
+- A. AWS AppSync with GraphQL subscriptions
+- B. Amazon API Gateway REST APIs polled by each client
+- C. Amazon SNS mobile push notifications for every change
+- D. Amazon Kinesis Data Streams read directly by each client
+
+<details><summary>Answer</summary>
+
+**A.** AppSync is a managed GraphQL service that can combine several data sources behind one API, and its subscriptions push updates to connected clients in real time over WebSockets that AppSync manages.
+
+Why not the others:
+- **B.** REST APIs polled by clients mean constant requests and delayed updates, and they don't provide a GraphQL API.
+- **C.** Push notifications alert a device, but they aren't a data API, and they don't deliver live updates inside an open app reliably or quickly enough.
+- **D.** Letting mobile clients read a stream directly means giving them AWS credentials and building your own API, and Kinesis isn't a GraphQL service.
+
+Resource: <https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html>
+</details>
+
+**43.** An e-commerce site places an "order confirmation" message in an SQS queue as soon as a customer checks out. The business wants the confirmation email sent 5 minutes later, so that customers who cancel within that window never receive it. Every message should wait the same 5 minutes, and the team wants the simplest built-in way to do this. What should they configure?
+- A. A visibility timeout of 5 minutes on the queue
+- B. Long polling with `WaitTimeSeconds` set to 300
+- C. A dead-letter queue with a 5-minute redrive delay
+- D. Delay queue settings with `DelaySeconds` set to 300
+
+<details><summary>Answer</summary>
+
+**D.** A delay queue hides every new message from consumers for the configured delay, up to 15 minutes, so each confirmation becomes visible only 5 minutes after it's sent.
+
+Why not the others:
+- **A.** The visibility timeout only starts after a consumer receives a message, so messages would still be picked up straight away.
+- **B.** Long polling waits at most 20 seconds, and it only affects how long a receive call waits, not when messages become available.
+- **C.** A dead-letter queue collects messages that repeatedly fail processing. It doesn't delay delivery.
+
+Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-delay-queues.html>
+</details>
+
+**44.** A brokerage publishes trade events that must reach three downstream systems (settlement, risk and reporting). Each system must receive every event for a given account exactly once and in the order it was published, and each processes events at its own pace through its own queue. What should they use?
+- A. An SNS standard topic fanning out to three SQS standard queues
+- B. An SNS FIFO topic fanning out to three SQS FIFO queues
+- C. One SQS FIFO queue that all three systems read from
+- D. EventBridge rules sending to three SQS standard queues
+
+<details><summary>Answer</summary>
+
+**B.** An SNS FIFO topic delivering to SQS FIFO queues keeps strict ordering within each message group (such as the account ID) and deduplicates messages, while giving each system its own queue to consume at its own pace.
+
+Why not the others:
+- **A.** Standard topics and queues deliver at least once, with best-effort ordering, so events can arrive twice or out of order.
+- **C.** In a single queue, each message is consumed by only one reader, so each system would see only part of the events.
+- **D.** Standard queues don't guarantee ordering or exactly-once processing, so events can arrive twice or out of order.
+
+Resource: <https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html>
+</details>
+
+**45.** An IoT platform runs a short workflow for every incoming device reading: validate it, enrich it with device metadata, and write it to a database. Each run takes under a second, there are about 50,000 runs per second at peak, and the steps are idempotent, so occasionally running one twice is harmless. Which orchestration option is the MOST cost-effective?
+- A. AWS Step Functions Express workflows
+- B. AWS Step Functions Standard workflows
+- C. An EC2 fleet running a custom workflow engine
+- D. Amazon MQ with a consumer for each workflow step
+
+<details><summary>Answer</summary>
+
+**A.** Express workflows are built for high-volume, short-lived event processing lasting up to 5 minutes, and they're billed by number of runs and duration. Their at-least-once execution model is fine because the steps are idempotent.
+
+Why not the others:
+- **B.** Standard workflows are billed for every state transition and are designed for long-running, exactly-once workflows, which makes them far more expensive at 50,000 runs per second.
+- **C.** A custom workflow engine on EC2 means building, scaling and running the orchestration yourself.
+- **D.** Chaining steps through a message broker means building the orchestration yourself and running brokers.
+
+Resource: <https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html>
+</details>
+
+**46.** A survey service receives large bursts of form submissions whenever a marketing email goes out. Today an API Gateway HTTP API invokes a Lambda function that writes each submission straight to the database, and during bursts the database gets overwhelmed. The team wants to accept every submission instantly and process them at a steady rate, with as little code as possible in the request path. What should they do?
+- A. Raise the Lambda function's timeout so slow writes can finish
+- B. Add an ElastiCache cluster in front of the database for writes
+- C. Integrate the API directly with SQS, and process the queue with Lambda
+- D. Move the database to a larger instance class for the busy periods
+
+<details><summary>Answer</summary>
+
+**C.** API Gateway can send each request straight to an SQS queue with no code in the request path, so every submission is accepted immediately. A Lambda function then reads the queue at a controlled rate, protecting the database.
+
+Why not the others:
+- **A.** A longer timeout doesn't reduce the load. The database still gets every write at the same moment.
+- **B.** A cache speeds up reads, not writes, and every submission still has to reach the database.
+- **D.** A larger instance costs more all the time and can still be overwhelmed by a big enough burst, because nothing buffers the writes.
+
+Resource: <https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html>
+</details>
+
+**47.** Whenever a customer's loyalty tier changes in a DynamoDB table, the company wants to send a congratulations email and update a separate analytics store, without changing the application that writes to the table and without polling the table for changes. What is the BEST approach?
+- A. A scheduled Lambda function that scans the table every minute
+- B. DynamoDB Streams on the table, triggering a Lambda function
+- C. DynamoDB TTL on the tier attribute, triggering the email
+- D. A DAX cluster that forwards every write to the email service
+
+<details><summary>Answer</summary>
+
+**B.** DynamoDB Streams records every item change, including the old and new values, and can trigger a Lambda function automatically, so downstream actions run without changing the writing application or polling the table.
+
+Why not the others:
+- **A.** Scanning the table every minute is polling: it's slow, consumes read capacity, and makes changes hard to detect reliably.
+- **C.** TTL deletes items after they expire. It doesn't react to an attribute changing.
+- **D.** DAX is a read cache for DynamoDB. It doesn't forward changes to other services.
+
+Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html>
+</details>
+
+**48.** A Lambda function that processes uploaded files writes to a legacy on-premises database that can safely handle at most 20 concurrent connections. During a big upload burst, the function scaled to hundreds of concurrent executions and the database crashed. Other functions in the same account must keep their own ability to scale. What is the simplest fix?
+- A. Provisioned concurrency of 20 on the function
+- B. A longer timeout so each execution finishes its work
+- C. A larger memory setting so fewer executions are needed
+- D. Reserved concurrency of 20 on this function only
+
+<details><summary>Answer</summary>
+
+**D.** Reserved concurrency caps how many executions of one function can run at the same time, so the function never opens more than 20 connections. It also sets aside that capacity without limiting other functions.
+
+Why not the others:
+- **A.** Provisioned concurrency keeps environments initialized to reduce cold starts. It doesn't stop the function scaling beyond 20.
+- **B.** A longer timeout doesn't limit how many executions run at the same time.
+- **C.** More memory makes each execution faster, but it doesn't cap concurrency during a burst.
+
+Resource: <https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html>
+</details>
+
+**49.** A subscription service needs to send each of its 2 million customers a renewal reminder exactly 30 days before that customer's own renewal date. Today a cron job on an EC2 instance scans the database every hour to find due reminders, and it's become slow and fragile. The team wants AWS to invoke a Lambda function at each customer's specific time, with no servers to manage. What should they use?
+- A. SQS message timers set to 30 days before each renewal
+- B. CloudWatch alarms, one for each customer's renewal date
+- C. EventBridge Scheduler, one schedule for each reminder
+- D. A Step Functions Express workflow that waits for each reminder
+
+<details><summary>Answer</summary>
+
+**C.** EventBridge Scheduler can create millions of one-time or recurring schedules, each invoking a target such as a Lambda function at a precise time, without running any servers.
+
+Why not the others:
+- **A.** SQS message timers can delay a message by at most 15 minutes, not 30 days.
+- **B.** CloudWatch alarms watch metrics. They aren't a scheduling tool, and there are limits on how many an account can have.
+- **D.** Express workflows run for at most 5 minutes, so they can't wait for a date weeks away.
+
+Resource: <https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html>
+</details>
+
+**50.** An image-processing Lambda function is invoked asynchronously by S3 event notifications. When processing fails after its automatic retries, the team wants details of the failed event, including the error, sent to an SQS queue for investigation, without writing error-handling code inside the function. What should they configure?
+- A. A Lambda on-failure destination that sends to SQS
+- B. A longer function timeout so that fewer runs fail
+- C. Provisioned concurrency on the image function
+- D. S3 Replication of failed images to a second bucket
+
+<details><summary>Answer</summary>
+
+**A.** Lambda destinations send a record of each asynchronous invocation, including the request, response and error details, to a target such as an SQS queue when it succeeds or, as here, when it finally fails after retries.
+
+Why not the others:
+- **B.** A longer timeout might prevent some failures, but it doesn't capture the ones that still happen.
+- **C.** Provisioned concurrency reduces cold starts. It doesn't handle failed invocations.
+- **D.** Replication copies objects between buckets. It doesn't know which invocations failed or why.
+
+Resource: <https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html>
+</details>
+
 ---
 
 ## Task 2.2: Design highly available and/or fault-tolerant architectures
@@ -729,4 +909,184 @@ Why not the others:
 - **D.** CloudTrail records calls to AWS APIs, not requests flowing between your own services.
 
 Resource: <https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html>
+</details>
+
+**51.** A bank runs identical stacks of its payment application in two Regions. During a Regional impairment, the operations team wants to move all traffic to the healthy Region with a simple, reliable switch that they control manually, and that doesn't depend on the impaired Region's control plane or on a complex DNS change made under pressure. What should they use?
+- A. Route 53 weighted routing, with weights edited by hand
+- B. CloudFront with the healthy Region as the only origin
+- C. An Auto Scaling policy that scales the impaired Region to zero
+- D. Amazon Application Recovery Controller (ARC) routing controls
+
+<details><summary>Answer</summary>
+
+**D.** ARC routing controls are on/off switches, backed by a highly available data plane spread across five Regions, that shift traffic between Regional replicas through Route 53 health checks. Safety rules help prevent mistakes such as turning off every Region.
+
+Why not the others:
+- **A.** Editing record weights relies on Route 53's control plane during an incident and is easy to get wrong under pressure.
+- **B.** Reconfiguring CloudFront origins is a configuration change that takes time to deploy, and it isn't a purpose-built failover switch.
+- **C.** Scaling down the impaired Region's capacity doesn't redirect users, and it depends on that Region's control plane.
+
+Resource: <https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html>
+</details>
+
+**52.** Leadership has set an RTO of 1 hour and an RPO of 15 minutes for a customer-facing application made up of EC2, RDS, DynamoDB and S3. The architects want a service that assesses the application's current architecture against those targets, estimates whether they'd be met in different disruption scenarios, and recommends improvements, without running a manual review. What should they use?
+- A. AWS Trusted Advisor fault tolerance checks
+- B. AWS Resilience Hub resiliency assessments
+- C. AWS Fault Injection Service experiments
+- D. Amazon CloudWatch Synthetics canaries
+
+<details><summary>Answer</summary>
+
+**B.** Resilience Hub assesses an application's resources against a resiliency policy that sets RTO and RPO targets, estimates whether they're met for disruptions such as AZ or Region failure, and recommends improvements.
+
+Why not the others:
+- **A.** Trusted Advisor flags individual configuration risks. It doesn't assess a whole application against RTO and RPO targets.
+- **C.** FIS injects real failures to test behavior. It doesn't assess an architecture against targets or recommend changes.
+- **D.** Synthetics canaries monitor endpoints by running scripted checks. They don't assess recovery objectives.
+
+Resource: <https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.html>
+</details>
+
+**53.** A media company keeps copies of its video library in S3 buckets in three Regions, kept in sync with replication. Applications around the world should use one global endpoint that routes each request to the closest bucket, and if one Region becomes unavailable, requests should automatically go to another bucket without changing application code. What should they use?
+- A. S3 Transfer Acceleration on each of the three buckets
+- B. A Route 53 latency record for each bucket's website endpoint
+- C. An S3 Multi-Region Access Point in front of the buckets
+- D. A lifecycle rule that copies objects to the closest Region
+
+<details><summary>Answer</summary>
+
+**C.** A Multi-Region Access Point gives one global endpoint for buckets in several Regions. It routes requests over the AWS network to the lowest-latency bucket and can fail over to another Region's bucket.
+
+Why not the others:
+- **A.** Transfer Acceleration speeds up transfers to one bucket. It doesn't route requests across buckets or fail over.
+- **B.** Website endpoints only serve public, unauthenticated reads over HTTP, so applications couldn't use them for authenticated S3 API calls.
+- **D.** Lifecycle rules change storage classes or expire objects. They can't copy objects between Regions or route requests.
+
+Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPoints.html>
+</details>
+
+**54.** A news site serves images through CloudFront from an S3 bucket in `us-east-1`, with a replicated copy in `us-west-2`. During a recent S3 disruption in `us-east-1`, image requests failed until an engineer changed the distribution's origin by hand. The team wants CloudFront to retry the second bucket automatically when the primary returns errors. What should they configure?
+- A. A CloudFront origin group with origin failover
+- B. A longer CloudFront cache TTL for all the images
+- C. S3 Transfer Acceleration on the primary bucket
+- D. A Route 53 failover record in front of CloudFront
+
+<details><summary>Answer</summary>
+
+**A.** An origin group has a primary and a secondary origin. When the primary returns specified HTTP error codes or times out, CloudFront automatically retries the request against the secondary origin.
+
+Why not the others:
+- **B.** Longer caching helps with images already in the cache, but requests for anything not cached would still fail.
+- **C.** Transfer Acceleration speeds up transfers to one bucket. It doesn't provide a second origin to fail over to.
+- **D.** CloudFront itself is still up, so DNS failover in front of it wouldn't help. The failure is at the origin behind it.
+
+Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html>
+</details>
+
+**55.** A publishing platform stores article drafts on an Amazon EFS file system in `eu-west-1`. For disaster recovery, the company needs a continuously updated copy of the file system in `eu-central-1` with an RPO of about 15 minutes, and wants AWS to manage the copying rather than running its own sync scripts. What should they use?
+- A. An hourly AWS Backup plan with a copy to `eu-central-1`
+- B. A cron job that runs rsync between the two Regions
+- C. EFS lifecycle management to the Archive storage class
+- D. EFS replication to a file system in `eu-central-1`
+
+<details><summary>Answer</summary>
+
+**D.** EFS replication keeps a read-only copy of a file system in another Region (or the same Region) up to date automatically. After the initial copy, it maintains an RPO of 15 minutes for most file systems.
+
+Why not the others:
+- **A.** Hourly backups give an RPO of up to an hour, and restoring a backup takes longer than failing over to a replica.
+- **B.** Custom rsync scripts are exactly the self-managed copying the company wants to avoid, and they're hard to monitor.
+- **C.** Lifecycle management moves rarely used files to cheaper storage in the same file system. It doesn't create a copy in another Region.
+
+Resource: <https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html>
+</details>
+
+**56.** In a company's DR design, a scaled-down but fully functional copy of the whole application runs in the recovery Region at all times: its web and app servers handle a trickle of test traffic, and its database is continuously replicated. In a disaster, the team scales that environment up to full production size and redirects users. Which DR strategy is this?
+- A. Pilot light
+- B. Warm standby
+- C. Backup and restore
+- D. Multi-site active/active
+
+<details><summary>Answer</summary>
+
+**B.** Warm standby keeps a scaled-down but fully working copy of the production environment running in the recovery Region, so recovery means scaling it up. That gives an RTO measured in minutes.
+
+Why not the others:
+- **A.** In pilot light, only the core data layer is running. The application servers are switched off until a disaster.
+- **C.** Backup and restore has no running environment in the recovery Region. Everything is rebuilt from backups.
+- **D.** In active/active, both Regions serve full production traffic all the time, rather than one waiting at reduced size.
+
+Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
+</details>
+
+**57.** A global payments processor has decided that any Regional outage must cause essentially no downtime and no lost transactions. Budget is not the constraint: it can run full production capacity in several Regions at once, with every Region serving live customer traffic all the time. Which DR strategy matches this?
+- A. Pilot light
+- B. Warm standby
+- C. Active/active
+- D. Backup and restore
+
+<details><summary>Answer</summary>
+
+**C.** Multi-site active/active (active/active) runs the full workload in multiple Regions, all serving traffic, so losing a Region means only redirecting its users. It gives the lowest RTO and RPO, near zero, at the highest cost.
+
+Why not the others:
+- **A.** Pilot light keeps only the data layer running, so recovery means starting servers, which takes tens of minutes.
+- **B.** Warm standby runs a scaled-down copy that must be scaled up during a disaster, so there's still some downtime.
+- **D.** Backup and restore means rebuilding from backups, with an RTO and RPO measured in hours.
+
+Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
+</details>
+
+**58.** An Aurora MySQL cluster has a writer instance and two Aurora Replicas in other Availability Zones. The application connects using the cluster endpoint. If the writer instance fails, what happens?
+- A. Aurora promotes a replica to writer, and the cluster endpoint then points to it
+- B. The cluster stays read-only until an administrator restores it from a snapshot
+- C. The application must be reconfigured to connect to a replica's instance endpoint
+- D. Aurora launches a new writer in the same AZ and copies the data from a backup
+
+<details><summary>Answer</summary>
+
+**A.** When the writer fails, Aurora automatically promotes one of the Aurora Replicas, based on its priority tier, to be the new writer. The cluster endpoint always points to the current writer, so the application reconnects without configuration changes.
+
+Why not the others:
+- **B.** Aurora fails over automatically. Restoring from a snapshot would be slow and lose recent data.
+- **C.** The cluster endpoint follows the new writer automatically, so no reconfiguration is needed.
+- **D.** With replicas available, Aurora promotes one of them. Data lives in the shared cluster volume, so nothing is copied from a backup.
+
+Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html>
+</details>
+
+**59.** A regulated company runs Amazon RDS for PostgreSQL in `us-east-1` with automated backups and a 14-day retention period. An auditor now requires that the company can restore the database to a point in time in a second Region if `us-east-1` becomes unavailable, with the lowest operational effort. What should they enable?
+- A. Multi-AZ deployment in `us-east-1`
+- B. A read replica in the same Region
+- C. Manual snapshots copied once a week
+- D. Cross-Region automated backups
+
+<details><summary>Answer</summary>
+
+**D.** RDS can replicate automated backups (snapshots and transaction logs) to another Region, so the database can be restored to a point in time there, without scripts to copy snapshots.
+
+Why not the others:
+- **A.** Multi-AZ protects against an AZ failure within `us-east-1`, not the loss of the whole Region.
+- **B.** A replica in the same Region is lost along with that Region.
+- **C.** Weekly copies don't allow point-in-time restore, lose up to a week of data, and need ongoing manual effort.
+
+Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html>
+</details>
+
+**60.** A small API runs on six EC2 instances with public IP addresses, without a load balancer, to keep costs down. The team wants DNS queries for the API to return several healthy instance IP addresses, so clients can try another address if one fails, and wants unhealthy instances left out of the answers automatically. Which Route 53 routing policy fits?
+- A. Simple routing with all six IP addresses in one record
+- B. Multivalue answer routing with health checks
+- C. Geolocation routing with one record per country
+- D. Failover routing with a primary and a secondary
+
+<details><summary>Answer</summary>
+
+**B.** Multivalue answer routing returns up to eight healthy records for each query, chosen at random, and leaves out any record whose health check fails. It isn't a substitute for a load balancer, but it adds some availability at low cost.
+
+Why not the others:
+- **A.** Simple routing can return several addresses, but they aren't health-checked, so failed instances stay in the answers.
+- **C.** Geolocation routing picks records by the user's location. It doesn't return several healthy addresses.
+- **D.** Failover routing sends traffic to one primary target and a single backup, not several healthy addresses.
+
+Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-multivalue.html>
 </details>
