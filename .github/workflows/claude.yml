@@ -42,6 +42,8 @@ jobs:
           # Set whichever of these secrets you have; the other can stay unset.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # TEMPORARY: shows the full error while diagnosing failed runs. Remove after one run.
+          show_full_output: true
           # Let Claude rebuild the question data and syntax-check the app.
           claude_args: |
             --allowedTools "Bash(python3 scripts/build_questions.py),Bash(node --check:*)"
