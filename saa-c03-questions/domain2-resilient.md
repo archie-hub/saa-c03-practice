@@ -22,12 +22,12 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 - A. SQS standard queue
 - B. SQS FIFO queue with the customer ID as the message group ID
 - C. SNS standard topic
-- D. Kinesis Data Firehose
+- D. Amazon Data Firehose
 
 <details><summary>Answer</summary>
 
 **B.** FIFO queues keep order within a message group and deduplicate messages.
-Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html>
+Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html>
 </details>
 
 **3.** A single event must be delivered to three independent systems (billing, shipping, and analytics), and each must process it at its own pace. What is the BEST pattern?
@@ -123,7 +123,7 @@ Resource: <https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.
 <details><summary>Answer</summary>
 
 **B.** Keeping state out of the instances lets any of them serve any request.
-Resource: <https://aws.amazon.com/caching/session-management/>
+Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html>
 </details>
 
 **11.** An API has unpredictable traffic that ranges from zero to thousands of requests per second. The team wants no servers to manage. What is the BEST architecture?
@@ -311,7 +311,7 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
 </details>
 
-**26.** A global application needs a relational database with sub-second cross-Region replication and the ability to promote a secondary Region in under a minute. What fits?
+**26.** A global application needs a relational database with typically sub-second cross-Region replication and the ability to promote a secondary Region within minutes. What fits?
 - A. Amazon Aurora Global Database
 - B. RDS Multi-AZ
 - C. DynamoDB Accelerator
@@ -319,7 +319,7 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** Replication lag is typically under a second, and a secondary cluster usually takes over the primary role within a few minutes.
 Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html>
 </details>
 
@@ -421,13 +421,13 @@ Resource: <https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html>
 
 **35.** An application uses a single NAT gateway in one AZ. What happens if that AZ fails, and how is this fixed?
 - A. Instances in other AZs lose outbound internet access; deploy one NAT gateway per AZ and route each AZ to its own
-- B. Nothing happens; NAT gateways are Regional
+- B. Nothing happens; a NAT gateway created in one AZ fails over to other AZs automatically
 - C. Traffic moves automatically to the internet gateway
 - D. Use a NAT instance instead
 
 <details><summary>Answer</summary>
 
-**A.** NAT gateways are zonal resources.
+**A.** A standard (zonal) NAT gateway lives in one AZ. Alternatively, a regional NAT gateway expands across AZs automatically.
 Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html>
 </details>
 
@@ -476,7 +476,7 @@ Resource: <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
 <details><summary>Answer</summary>
 
 **A.**
-Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html>
+Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html>
 </details>
 
 **40.** Operations wants end-to-end tracing to find which microservice causes latency spikes and errors. Which service helps?

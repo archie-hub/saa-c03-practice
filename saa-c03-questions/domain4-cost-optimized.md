@@ -211,7 +211,7 @@ Resource: <https://aws.amazon.com/ec2/graviton/>
 <details><summary>Answer</summary>
 
 **A.**
-Resource: <https://aws.amazon.com/solutions/implementations/instance-scheduler-on-aws/>
+Resource: <https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html>
 </details>
 
 **18.** A lightly used internal API runs on two always-on EC2 instances and gets a few thousand requests a day. What is likely the MOST cost-effective re-architecture?
@@ -459,7 +459,7 @@ Resource: <https://aws.amazon.com/cloudfront/pricing/>
 <details><summary>Answer</summary>
 
 **A.**
-Resource: <https://aws.amazon.com/directconnect/pricing/>
+Resource: <https://aws.amazon.com/directconnect/pricing/pay-as-you-go/>
 </details>
 
 **38.** A company has 20 VPCs, and every one has its own NAT gateways. How can NAT costs be reduced?

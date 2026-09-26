@@ -1499,14 +1499,14 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "Kinesis Data Firehose"
+     "text": "Amazon Data Firehose"
     }
    ],
    "answer": [
     "B"
    ],
    "explanation": "FIFO queues keep order within a message group and deduplicate messages.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html"
   },
   {
    "id": "2-03",
@@ -1746,7 +1746,7 @@ window.QUESTION_BANK = {
     "B"
    ],
    "explanation": "Keeping state out of the instances lets any of them serve any request.",
-   "resource": "https://aws.amazon.com/caching/session-management/"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html"
   },
   {
    "id": "2-11",
@@ -2207,7 +2207,7 @@ window.QUESTION_BANK = {
    "id": "2-26",
    "domain": 2,
    "task": "2.2",
-   "stem": "A global application needs a relational database with sub-second cross-Region replication and the ability to promote a secondary Region in under a minute. What fits?",
+   "stem": "A global application needs a relational database with typically sub-second cross-Region replication and the ability to promote a secondary Region within minutes. What fits?",
    "select": 1,
    "options": [
     {
@@ -2230,7 +2230,7 @@ window.QUESTION_BANK = {
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Replication lag is typically under a second, and a secondary cluster usually takes over the primary role within a few minutes.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html"
   },
   {
@@ -2486,7 +2486,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Nothing happens; NAT gateways are Regional"
+     "text": "Nothing happens; a NAT gateway created in one AZ fails over to other AZs automatically"
     },
     {
      "key": "C",
@@ -2500,7 +2500,7 @@ window.QUESTION_BANK = {
    "answer": [
     "A"
    ],
-   "explanation": "NAT gateways are zonal resources.",
+   "explanation": "A standard (zonal) NAT gateway lives in one AZ. Alternatively, a regional NAT gateway expands across AZs automatically.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html"
   },
   {
@@ -2621,7 +2621,7 @@ window.QUESTION_BANK = {
     "A"
    ],
    "explanation": "",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html"
   },
   {
    "id": "2-40",
@@ -2657,7 +2657,7 @@ window.QUESTION_BANK = {
    "id": "3-01",
    "domain": 3,
    "task": "3.1",
-   "stem": "A database on EC2 needs 60,000 IOPS with consistent sub-millisecond latency on a single volume. Which EBS volume type fits?",
+   "stem": "A database on EC2 needs 150,000 IOPS with consistent sub-millisecond latency on a single volume. Which EBS volume type fits?",
    "select": 1,
    "options": [
     {
@@ -2680,7 +2680,7 @@ window.QUESTION_BANK = {
    "answer": [
     "A"
    ],
-   "explanation": "io2 Block Express supports up to 256,000 IOPS. gp3 tops out at 16,000 IOPS per volume.",
+   "explanation": "io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html"
   },
   {
@@ -2956,7 +2956,7 @@ window.QUESTION_BANK = {
     "A"
    ],
    "explanation": "It uses directory buckets and is co-located with compute.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-one-zone.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-high-performance.html"
   },
   {
    "id": "3-11",
@@ -4005,7 +4005,7 @@ window.QUESTION_BANK = {
    "answer": [
     "A"
    ],
-   "explanation": "Moving 500 TB over 100 Mbps would take more than a year. For online, ongoing transfers from NFS or SMB, DataSync is the right tool. The Transfer Family handles SFTP, FTPS, and FTP. (AWS has been retiring parts of the Snow Family, so check current availability. The exam still tests the offline-transfer concept.)",
+   "explanation": "Moving 500 TB over 100 Mbps would take more than a year. For online, ongoing transfers from NFS or SMB, DataSync is the right tool. The Transfer Family handles SFTP, FTPS, and FTP. (Snowball Edge is no longer available to new customers; AWS now points them to DataSync, AWS Data Transfer Terminal, or partner solutions. The exam still tests the offline-transfer concept.)",
    "resource": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html"
   },
   {
@@ -4516,7 +4516,7 @@ window.QUESTION_BANK = {
     "A"
    ],
    "explanation": "",
-   "resource": "https://aws.amazon.com/solutions/implementations/instance-scheduler-on-aws/"
+   "resource": "https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html"
   },
   {
    "id": "4-18",
@@ -5116,7 +5116,7 @@ window.QUESTION_BANK = {
     "A"
    ],
    "explanation": "",
-   "resource": "https://aws.amazon.com/directconnect/pricing/"
+   "resource": "https://aws.amazon.com/directconnect/pricing/pay-as-you-go/"
   },
   {
    "id": "4-38",

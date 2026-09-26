@@ -6,7 +6,7 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 ## Task 3.1: Determine high-performing and/or scalable storage solutions
 
-**1.** A database on EC2 needs 60,000 IOPS with consistent sub-millisecond latency on a single volume. Which EBS volume type fits?
+**1.** A database on EC2 needs 150,000 IOPS with consistent sub-millisecond latency on a single volume. Which EBS volume type fits?
 - A. io2 Block Express (Provisioned IOPS SSD)
 - B. gp3
 - C. st1
@@ -14,7 +14,7 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 <details><summary>Answer</summary>
 
-**A.** io2 Block Express supports up to 256,000 IOPS. gp3 tops out at 16,000 IOPS per volume.
+**A.** io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume.
 Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html>
 </details>
 
@@ -124,7 +124,7 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-perf
 <details><summary>Answer</summary>
 
 **A.** It uses directory buckets and is co-located with compute.
-Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-one-zone.html>
+Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-high-performance.html>
 </details>
 
 **11.** An on-premises application needs low-latency local access to frequently used files while storing all data durably in S3 as objects. What should be used?
@@ -559,6 +559,6 @@ Resource: <https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html>
 
 <details><summary>Answer</summary>
 
-**A.** Moving 500 TB over 100 Mbps would take more than a year. For online, ongoing transfers from NFS or SMB, DataSync is the right tool. The Transfer Family handles SFTP, FTPS, and FTP. (AWS has been retiring parts of the Snow Family, so check current availability. The exam still tests the offline-transfer concept.)
+**A.** Moving 500 TB over 100 Mbps would take more than a year. For online, ongoing transfers from NFS or SMB, DataSync is the right tool. The Transfer Family handles SFTP, FTPS, and FTP. (Snowball Edge is no longer available to new customers; AWS now points them to DataSync, AWS Data Transfer Terminal, or partner solutions. The exam still tests the offline-transfer concept.)
 Resource: <https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html>
 </details>
