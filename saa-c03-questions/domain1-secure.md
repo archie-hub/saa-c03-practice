@@ -7,10 +7,10 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 ## Task 1.1: Design secure access to AWS resources
 
 **1.** A company just created a new AWS account. Which action should the solutions architect take FIRST to secure the root user?
-- A. Create access keys for the root user and store them in AWS Secrets Manager
-- B. Enable MFA on the root user and use an IAM Identity Center or IAM identity for daily tasks
-- C. Delete the root user
-- D. Attach the `AdministratorAccess` policy to the root user
+- A. Create access keys for the root user and store them in AWS Secrets Manager for emergencies
+- B. Enable MFA on the root user and use IAM Identity Center or IAM identities for daily tasks
+- C. Delete the root user after creating an IAM user with the `AdministratorAccess` policy
+- D. Attach a permissions boundary to the root user that limits it to billing actions
 
 <details><summary>Answer</summary>
 
@@ -19,10 +19,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-pract
 </details>
 
 **2.** An application on Amazon EC2 needs to read objects from one S3 bucket. What is the MOST secure way to grant access?
-- A. Store an IAM user's access keys in the application configuration file
+- A. Create an IAM user for the application and store its access keys in a configuration file
 - B. Attach an IAM role with a least-privilege policy to the instance through an instance profile
-- C. Make the bucket public and restrict it by IP address
-- D. Put the root user's access keys in environment variables
+- C. Add a bucket policy that allows anonymous reads from the instance's Elastic IP address
+- D. Store the root user's access keys in Parameter Store and load them when the instance starts
 
 <details><summary>Answer</summary>
 
@@ -31,10 +31,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-
 </details>
 
 **3.** A company has 40 AWS accounts in AWS Organizations. Security wants to make sure that no account in the Sandbox OU can leave the organization or disable AWS CloudTrail, including account administrators. What should they use?
-- A. IAM permissions boundaries in every account
+- A. IAM permissions boundaries attached to every user and role in the Sandbox accounts
 - B. A service control policy (SCP) attached to the Sandbox OU
-- C. An S3 bucket policy
-- D. AWS Config rules with automatic remediation
+- C. An S3 bucket policy on the CloudTrail log bucket that denies object deletion
+- D. AWS Config rules with automatic remediation that turn CloudTrail back on
 
 <details><summary>Answer</summary>
 
@@ -43,10 +43,10 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 </details>
 
 **4.** Which statement about service control policies is TRUE?
-- A. SCPs grant permissions to IAM users
-- B. SCPs affect the management account
+- A. SCPs grant permissions to the IAM users and roles in the accounts they're attached to
+- B. SCPs restrict every principal in the organization, including the management account
 - C. SCPs limit the maximum available permissions but do not grant any permissions
-- D. SCPs replace IAM identity-based policies
+- D. SCPs replace the IAM identity-based policies in the accounts they're attached to
 
 <details><summary>Answer</summary>
 
@@ -55,22 +55,22 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 </details>
 
 **5.** A company wants its employees to sign in to multiple AWS accounts using their existing corporate Microsoft Active Directory credentials and a single portal. Which service is the BEST fit?
-- A. IAM users in each account with matching passwords
-- B. AWS IAM Identity Center connected to AD (through AWS Directory Service or an external IdP)
-- C. Amazon Cognito user pools
-- D. AWS Secrets Manager
+- A. IAM users in each account, with passwords kept in sync with AD by a scheduled script
+- B. AWS IAM Identity Center, using AD as the identity source
+- C. Amazon Cognito user pools federated with AD, with one app client per AWS account
+- D. AWS Secrets Manager, storing a copy of each employee's AD password for every account
 
 <details><summary>Answer</summary>
 
-**B.** IAM Identity Center gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source.
+**B.** IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source.
 Resource: <https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html>
 </details>
 
 **6.** A developer in Account A needs to manage DynamoDB tables in Account B. What is the recommended approach?
-- A. Create an IAM user in Account B and share its credentials
-- B. Create a role in Account B that trusts Account A, and allow the developer to call `sts:AssumeRole` on it
-- C. Use an SCP to allow cross-account access
-- D. Enable VPC peering between the accounts
+- A. Create an IAM user in Account B and share its access keys with the developer
+- B. Create a role in Account B that trusts Account A, and allow the developer to assume it
+- C. Attach an SCP to Account B that allows the developer's IAM user from Account A
+- D. Peer the accounts' VPCs and reach DynamoDB in Account B through a gateway endpoint
 
 <details><summary>Answer</summary>
 
@@ -103,10 +103,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_e
 </details>
 
 **9.** A mobile app needs to let millions of end users sign up and sign in, and then give them temporary credentials to upload to their own S3 prefix. Which combination is correct?
-- A. IAM users per customer
-- B. Amazon Cognito user pools for authentication and Cognito identity pools for temporary AWS credentials
-- C. IAM Identity Center
-- D. AWS Directory Service Simple AD
+- A. An IAM user for each customer, created at sign-up by a Lambda function
+- B. Cognito user pools for sign-in and Cognito identity pools for AWS credentials
+- C. IAM Identity Center, with each customer added as a workforce user
+- D. AWS Directory Service Simple AD, with a group for each customer's S3 prefix
 
 <details><summary>Answer</summary>
 
@@ -140,10 +140,10 @@ Resource: <https://docs.aws.amazon.com/controltower/latest/userguide/what-is-con
 
 **12. (Select TWO.)** Which are AWS IAM best practices?
 - A. Use temporary credentials through roles and federation instead of long-term access keys
-- B. Share IAM users between team members to reduce the number of credentials
-- C. Grant least privilege and refine it using access activity (last accessed information)
-- D. Embed access keys in AMIs so that instances start faster
-- E. Use the root user for billing and daily administration
+- B. Share IAM users among team members to reduce the number of credentials to manage
+- C. Grant least privilege and refine it using last accessed information
+- D. Embed access keys in AMIs so that new instances start with working credentials
+- E. Use the root user for billing tasks and for daily administration
 
 <details><summary>Answer</summary>
 
@@ -152,10 +152,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html>
 </details>
 
 **13.** Security needs an audit trail of every API call made in all accounts of an organization, stored centrally and protected from tampering. What is the BEST solution?
-- A. Enable VPC Flow Logs in each account
-- B. Create an organization trail in AWS CloudTrail that delivers to a central S3 bucket, with log file validation and S3 Object Lock
-- C. Use Amazon CloudWatch metrics
-- D. Use AWS Config aggregators only
+- A. Enable VPC Flow Logs in each account and send them to a central CloudWatch Logs group
+- B. Create an organization trail in CloudTrail that delivers to a central S3 bucket with Object Lock
+- C. Create a CloudWatch metric filter in each account and a cross-account dashboard of API calls
+- D. Use an AWS Config aggregator in the management account to collect configuration history
 
 <details><summary>Answer</summary>
 
@@ -168,10 +168,10 @@ Resource: <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-t
 ## Task 1.2: Design secure workloads and applications
 
 **14.** A public web application running behind an Application Load Balancer is being hit by SQL injection and cross-site scripting attempts. Which service mitigates this?
-- A. AWS Shield Standard
+- A. AWS Shield Standard, which protects the ALB automatically
 - B. AWS WAF with managed rule groups associated with the ALB
-- C. Network ACLs
-- D. Amazon GuardDuty
+- C. Network ACL rules that block the attackers' source addresses
+- D. Amazon GuardDuty, with findings sent to Amazon EventBridge
 
 <details><summary>Answer</summary>
 
@@ -192,10 +192,10 @@ Resource: <https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.
 </details>
 
 **16.** What is the key difference between security groups and network ACLs?
-- A. Security groups are stateless; NACLs are stateful
-- B. Security groups are stateful and support allow rules only; NACLs are stateless and support both allow and deny rules
-- C. NACLs apply to instances; security groups apply to subnets
-- D. Both support deny rules
+- A. Security groups are stateless and support deny rules; NACLs are stateful and allow-only
+- B. Security groups are stateful and allow-only; NACLs are stateless and support deny rules
+- C. Security groups apply to subnets; NACLs apply to each instance's network interface
+- D. Both are stateful, but only NACLs evaluate numbered rules in order and support deny rules
 
 <details><summary>Answer</summary>
 
@@ -204,10 +204,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-secur
 </details>
 
 **17.** A company must block a single malicious IP address from reaching every instance in a subnet. What is the simplest option?
-- A. Add a deny rule to the security group
-- B. Add a deny rule to the subnet's network ACL
-- C. Remove the internet gateway
-- D. Use an IAM policy with `aws:SourceIp`
+- A. Add a deny rule for the address to each instance's security group
+- B. Add a deny rule for the address to the subnet's network ACL
+- C. Detach the internet gateway from the VPC until the attack stops
+- D. Attach an IAM policy that denies requests from that `aws:SourceIp`
 
 <details><summary>Answer</summary>
 
@@ -216,10 +216,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.htm
 </details>
 
 **18.** Instances in a private subnet need to download OS patches from the internet without accepting inbound connections from it. What should be deployed?
-- A. An internet gateway route in the private subnet
+- A. A route from the private subnet directly to the internet gateway
 - B. A NAT gateway in a public subnet, with a route from the private subnet to it
-- C. An Elastic IP on each instance
-- D. A virtual private gateway
+- C. An Elastic IP address attached to each instance in the private subnet
+- D. A virtual private gateway attached to the VPC, with route propagation
 
 <details><summary>Answer</summary>
 
@@ -240,10 +240,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.
 </details>
 
 **20.** A company wants to expose an internal service in its VPC to hundreds of customer VPCs privately, without VPC peering and without overlapping-CIDR problems. What should be used?
-- A. VPC peering with each customer
-- B. AWS PrivateLink (an endpoint service behind a Network Load Balancer)
-- C. Transit Gateway with public routing
-- D. Internet-facing ALB
+- A. A VPC peering connection with each customer VPC, plus route table entries
+- B. AWS PrivateLink: an endpoint service behind a Network Load Balancer
+- C. A transit gateway shared with each customer's account through AWS RAM
+- D. An internet-facing ALB, restricted to customer IP ranges by a security group
 
 <details><summary>Answer</summary>
 
@@ -290,7 +290,7 @@ Resource: <https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-secu
 **24.** An application stores a database password that must rotate automatically every 30 days. Which service is designed for this?
 - A. AWS Systems Manager Parameter Store (standard parameter)
 - B. AWS Secrets Manager with automatic rotation
-- C. AWS KMS
+- C. AWS KMS with automatic key rotation enabled
 - D. An S3 object encrypted with SSE-S3
 
 <details><summary>Answer</summary>
@@ -300,10 +300,10 @@ Resource: <https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-
 </details>
 
 **25.** A three-tier application must be designed so that only the web tier is reachable from the internet and only the app tier can reach the database. What is the BEST design?
-- A. Put all tiers in public subnets with NACLs
-- B. Put the ALB in public subnets and the app and DB in private subnets, with security groups that reference each other (the DB SG allows only the app SG)
-- C. Put the DB in a public subnet with a strong password
-- D. Use a single security group for all tiers
+- A. Put all tiers in public subnets and restrict traffic between them with network ACLs
+- B. ALB in public subnets, app and DB in private subnets, DB SG allowing only the app SG
+- C. Put the database in a public subnet and protect it with a strong password and TLS
+- D. Put all tiers in private subnets and attach one security group shared by every tier
 
 <details><summary>Answer</summary>
 
@@ -312,10 +312,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.
 </details>
 
 **26.** An API built on Amazon API Gateway must authenticate users with JWTs issued by Amazon Cognito. What is the simplest option?
-- A. A Cognito user pool authorizer on API Gateway
-- B. IAM users per client
-- C. A NACL rule
-- D. AWS WAF rate-based rule
+- A. A Cognito user pool authorizer on the API methods
+- B. An IAM user for each client, with SigV4-signed requests
+- C. A network ACL that allows only the clients' IP addresses
+- D. An AWS WAF rate-based rule attached to the API stage
 
 <details><summary>Answer</summary>
 
@@ -336,10 +336,10 @@ Resource: <https://docs.aws.amazon.com/systems-manager/latest/userguide/session-
 </details>
 
 **28.** A company needs to centrally manage firewall rules, including stateful inspection and domain filtering for outbound traffic, across many VPCs. Which service is the BEST fit?
-- A. AWS Network Firewall, managed with AWS Firewall Manager
-- B. Security groups
-- C. Route 53 private hosted zones
-- D. AWS Shield Standard
+- A. AWS Network Firewall, managed centrally with AWS Firewall Manager
+- B. Security groups in each VPC, shared across accounts through AWS RAM
+- C. Route 53 private hosted zones that override unwanted domain names
+- D. AWS Shield Standard applied to each VPC's internet gateway
 
 <details><summary>Answer</summary>
 
@@ -360,14 +360,14 @@ Resource: <https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html>
 </details>
 
 **30.** Only CloudFront should be able to read objects in a private S3 bucket that serves as a CloudFront origin. What should be configured?
-- A. Origin access control (OAC) with a bucket policy that allows the CloudFront service principal
-- B. Make the bucket public
-- C. A pre-signed URL for every object
-- D. S3 Transfer Acceleration
+- A. Origin access control (OAC) and a bucket policy for the CloudFront service principal
+- B. A public bucket policy that allows reads only from CloudFront's published IP ranges
+- C. A pre-signed URL for every object, embedded in the application's web pages
+- D. S3 Transfer Acceleration, with a bucket policy that requires the accelerate endpoint
 
 <details><summary>Answer</summary>
 
-**A.** OAC replaces the legacy origin access identity (OAI).
+**A.** Use a `Condition` so only your distribution can read the bucket. OAC replaces the legacy origin access identity (OAI).
 Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html>
 </details>
 
@@ -376,10 +376,10 @@ Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/pr
 ## Task 1.3: Determine appropriate data security controls
 
 **31.** A company needs server-side encryption for S3 with an audit trail of key usage in CloudTrail and the ability to control who can use the key. Which option meets this requirement?
-- A. SSE-S3
+- A. SSE-S3 (Amazon S3 managed keys)
 - B. SSE-KMS with a customer managed key
-- C. SSE-C
-- D. No encryption; use bucket policies
+- C. SSE-C with keys supplied by the client
+- D. Client-side encryption with a locally stored key
 
 <details><summary>Answer</summary>
 
@@ -400,10 +400,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html
 </details>
 
 **33.** Compliance requires that log objects can't be deleted or overwritten by anyone, including the root user, for 7 years. What should be used?
-- A. S3 Versioning only
+- A. S3 Versioning with a bucket policy that denies `s3:DeleteObject`
 - B. S3 Object Lock in Compliance mode with a 7-year retention period
-- C. S3 Object Lock in Governance mode
-- D. MFA Delete only
+- C. S3 Object Lock in Governance mode with a 7-year retention period
+- D. MFA Delete, enabled on the bucket by the root user
 
 <details><summary>Answer</summary>
 
@@ -412,10 +412,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.htm
 </details>
 
 **34.** An existing unencrypted Amazon RDS instance must be encrypted. How can this be done?
-- A. Modify the instance and turn on encryption
-- B. Take a snapshot, copy the snapshot with encryption enabled, and restore a new instance from the encrypted copy
-- C. Enable encryption on the read replica
-- D. Enable TLS
+- A. Modify the instance, turn on encryption, and apply the change immediately
+- B. Snapshot the instance, copy the snapshot with encryption, and restore from the copy
+- C. Create an encrypted read replica and promote it to replace the primary
+- D. Turn on TLS and enforce it with the `rds.force_ssl` parameter
 
 <details><summary>Answer</summary>
 
@@ -437,9 +437,9 @@ Resource: <https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html>
 
 **36.** A company needs a public TLS certificate for its ALB and CloudFront distribution, with automatic renewal. What should be used?
 - A. AWS Certificate Manager (ACM)
-- B. AWS KMS
+- B. AWS KMS with an asymmetric key
 - C. A self-signed certificate uploaded to IAM
-- D. AWS CloudHSM
+- D. AWS Private Certificate Authority
 
 <details><summary>Answer</summary>
 
@@ -461,9 +461,9 @@ Resource: <https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.ht
 
 **38.** Every S3 request to a bucket must use HTTPS. How is this enforced?
 - A. A bucket policy that denies requests where `aws:SecureTransport` is `false`
-- B. Enable default encryption
-- C. Enable S3 Block Public Access
-- D. Use SSE-KMS
+- B. Default bucket encryption with SSE-KMS and a customer managed key
+- C. S3 Block Public Access turned on at the account and bucket levels
+- D. An S3 Access Point with a VPC network origin for each client
 
 <details><summary>Answer</summary>
 
@@ -473,9 +473,9 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-p
 
 **39.** A company wants to make sure no S3 bucket in the account can ever be made public, even by mistake. What should be enabled?
 - A. S3 Block Public Access at the account level
-- B. S3 Versioning
-- C. Server access logging
-- D. S3 Intelligent-Tiering
+- B. S3 Versioning with MFA Delete on every bucket
+- C. Server access logging with alerts on public reads
+- D. S3 Object Lock in Compliance mode on every bucket
 
 <details><summary>Answer</summary>
 
@@ -484,10 +484,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-
 </details>
 
 **40.** An encrypted EBS snapshot, encrypted with a customer managed KMS key, must be shared with another account. What is required?
-- A. Share the snapshot and grant the other account permission to use the KMS key in the key policy
-- B. Snapshots encrypted with any key can be shared without additional steps
-- C. Make the snapshot public
-- D. Copy the snapshot using the AWS managed key `aws/ebs`, then share it
+- A. Share the snapshot and grant the other account use of the KMS key in its key policy
+- B. Share the snapshot; EBS in the other account decrypts it automatically
+- C. Make the snapshot public so that the other account can copy it
+- D. Copy the snapshot with the AWS managed key `aws/ebs`, then share the copy
 
 <details><summary>Answer</summary>
 
@@ -496,10 +496,10 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapsh
 </details>
 
 **41.** A company needs automatic, cross-Region backups of EBS, RDS, DynamoDB, and EFS, with a central policy and vault lock to prevent deletion. Which service should they use?
-- A. AWS Backup with backup plans, cross-Region copy, and AWS Backup Vault Lock
-- B. Custom Lambda scripts
-- C. S3 Cross-Region Replication
-- D. AWS DataSync
+- A. AWS Backup with backup plans, cross-Region copy, and Vault Lock
+- B. Lambda functions that snapshot each resource and copy it to another Region
+- C. S3 Cross-Region Replication of data exported from each service
+- D. AWS DataSync tasks that copy each resource's data to a second Region
 
 <details><summary>Answer</summary>
 
@@ -508,10 +508,10 @@ Resource: <https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.h
 </details>
 
 **42.** How often does AWS KMS rotate a customer managed symmetric key when automatic rotation is enabled with default settings?
-- A. Every 90 days
+- A. Every 90 days; the rotation period can't be changed
 - B. Every year (365 days); the rotation period can be configured
-- C. Never
-- D. Every 30 days
+- C. Never; customer managed keys can be rotated only on demand
+- D. Every 30 days, matching the schedule for AWS managed keys
 
 <details><summary>Answer</summary>
 
@@ -543,15 +543,15 @@ Resource: <https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig
 Resource: <https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html>
 </details>
 
-**45. (Select TWO.)** Which options encrypt data in transit between clients and an application behind an ALB?
-- A. An HTTPS listener with an ACM certificate on the ALB
-- B. SSE-S3
-- C. An HTTP-to-HTTPS redirect rule on the ALB
-- D. EBS encryption
-- E. KMS key rotation
+**45. (Select TWO.)** Which TWO steps together make sure that all client traffic to an application behind an ALB is encrypted in transit?
+- A. Add an HTTPS listener to the ALB that uses an ACM certificate
+- B. Turn on default SSE-S3 encryption for the application's S3 bucket
+- C. Add a rule to the HTTP listener that redirects all requests to HTTPS
+- D. Turn on EBS encryption for the instances in the target group
+- E. Turn on automatic rotation for the application's KMS key
 
 <details><summary>Answer</summary>
 
-**A, C.**
+**A, C.** The HTTPS listener terminates TLS with the ACM certificate, and the redirect sends clients that connect over plain HTTP to HTTPS instead of serving them unencrypted. The other options protect data at rest.
 Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html>
 </details>

@@ -7,10 +7,10 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 ## Task 2.1: Design scalable and loosely coupled architectures
 
 **1.** An order-processing web tier sometimes gets traffic spikes that overwhelm the backend workers, and orders are lost. What design change decouples the tiers and prevents lost orders?
-- A. Add more EC2 instances to the web tier
-- B. Put orders in an Amazon SQS queue and scale the worker Auto Scaling group on queue depth
-- C. Use a larger RDS instance
-- D. Use Route 53 weighted routing
+- A. Add more EC2 instances to the web tier and turn on cross-zone load balancing
+- B. Send orders to an Amazon SQS queue and scale the workers on queue depth
+- C. Move the backend database to a larger RDS instance class with Provisioned IOPS
+- D. Use Route 53 weighted routing to spread requests across two web tiers
 
 <details><summary>Answer</summary>
 
@@ -19,22 +19,22 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 </details>
 
 **2.** Messages must be processed exactly once and in the order they're sent for each customer. Which queue type should be used?
-- A. SQS standard queue
+- A. SQS standard queue with the customer ID as a message attribute
 - B. SQS FIFO queue with the customer ID as the message group ID
-- C. SNS standard topic
-- D. Kinesis Data Firehose
+- C. SNS standard topic with a subscription filter on the customer ID
+- D. Amazon Data Firehose stream partitioned by the customer ID
 
 <details><summary>Answer</summary>
 
 **B.** FIFO queues keep order within a message group and deduplicate messages.
-Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html>
+Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html>
 </details>
 
 **3.** A single event must be delivered to three independent systems (billing, shipping, and analytics), and each must process it at its own pace. What is the BEST pattern?
-- A. One SQS queue polled by all three
+- A. One SQS queue polled by all three systems
 - B. An SNS topic that fans out to three SQS queues
 - C. Three Lambda functions called in sequence
-- D. A shared EFS file
+- D. A shared EFS file that each system reads on a schedule
 
 <details><summary>Answer</summary>
 
@@ -44,9 +44,9 @@ Resource: <https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html>
 
 **4.** A message fails processing over and over and blocks other work. What should be configured?
 - A. A dead-letter queue (DLQ) with a `maxReceiveCount` redrive policy
-- B. A longer retention period
-- C. Short polling
-- D. A larger message size
+- B. A longer message retention period on the source queue
+- C. Short polling with a smaller `ReceiveMessage` batch size
+- D. A delivery delay that postpones new messages by 15 minutes
 
 <details><summary>Answer</summary>
 
@@ -55,10 +55,10 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 </details>
 
 **5.** Consumers sometimes process the same SQS message twice because processing takes longer than expected. What should be adjusted?
-- A. Increase the visibility timeout to exceed the processing time
-- B. Decrease the retention period
-- C. Enable long polling
-- D. Increase the delay queue setting
+- A. Increase the visibility timeout so that it exceeds the processing time
+- B. Decrease the retention period so that messages expire sooner
+- C. Enable long polling by setting `WaitTimeSeconds` to 20
+- D. Increase the delivery delay so that messages arrive later
 
 <details><summary>Answer</summary>
 
@@ -67,10 +67,10 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 </details>
 
 **6.** A company wants to cut the number of empty ReceiveMessage responses, and the cost that comes with them, when polling SQS. What should be enabled?
-- A. Long polling (`WaitTimeSeconds` up to 20)
-- B. FIFO
-- C. A DLQ
-- D. Message timers
+- A. Long polling, with `WaitTimeSeconds` of up to 20 seconds
+- B. A FIFO queue with content-based deduplication
+- C. A dead-letter queue with a low `maxReceiveCount`
+- D. Message timers that delay each message by 15 minutes
 
 <details><summary>Answer</summary>
 
@@ -79,22 +79,22 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 </details>
 
 **7.** A workflow has several steps with retries, branching, human approval, and wait states of up to several months. Which service orchestrates it?
-- A. AWS Step Functions (Standard workflows)
-- B. Amazon SQS
-- C. A single Lambda function
-- D. Amazon EventBridge Scheduler
+- A. AWS Step Functions Standard workflows
+- B. AWS Step Functions Express workflows
+- C. An SQS queue with a Lambda consumer for each step
+- D. EventBridge Scheduler with one schedule per step
 
 <details><summary>Answer</summary>
 
-**A.** Standard workflows can run for up to one year. Express workflows are for high-volume executions that last up to 5 minutes.
+**A.** Standard workflows can run for up to one year. Express workflows (wrong here) are for high-volume executions that last up to 5 minutes.
 Resource: <https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html>
 </details>
 
 **8.** SaaS partner events (for example, from Zendesk) and AWS service events must be routed to different targets based on content rules. Which service should be used?
 - A. Amazon EventBridge
-- B. Amazon SNS
-- C. Amazon MQ
-- D. AWS AppSync
+- B. Amazon SNS with subscription filter policies
+- C. Amazon MQ with a broker for each partner
+- D. AWS AppSync with a subscription for each target
 
 <details><summary>Answer</summary>
 
@@ -115,22 +115,22 @@ Resource: <https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.
 </details>
 
 **10.** A stateless web application runs on EC2 behind an ALB. Session data is lost when instances scale in. What is the BEST fix for scalability?
-- A. Enable sticky sessions permanently
+- A. Turn on sticky sessions on the ALB with a long cookie duration
 - B. Store session state externally in ElastiCache or DynamoDB
-- C. Use larger instances
-- D. Disable scale-in
+- C. Use larger instances so that fewer of them are needed at peak
+- D. Turn off scale-in on the Auto Scaling group during business hours
 
 <details><summary>Answer</summary>
 
 **B.** Keeping state out of the instances lets any of them serve any request.
-Resource: <https://aws.amazon.com/caching/session-management/>
+Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html>
 </details>
 
 **11.** An API has unpredictable traffic that ranges from zero to thousands of requests per second. The team wants no servers to manage. What is the BEST architecture?
-- A. Amazon API Gateway + AWS Lambda + Amazon DynamoDB (on-demand)
-- B. EC2 + RDS
-- C. ECS on EC2 with fixed capacity
-- D. Elastic Beanstalk with a single instance
+- A. Amazon API Gateway, AWS Lambda, and DynamoDB in on-demand mode
+- B. EC2 instances in an Auto Scaling group with an Amazon RDS database
+- C. Amazon ECS on EC2 with a fixed number of container instances
+- D. AWS Elastic Beanstalk with a single-instance environment
 
 <details><summary>Answer</summary>
 
@@ -140,9 +140,9 @@ Resource: <https://docs.aws.amazon.com/wellarchitected/latest/serverless-applica
 
 **12.** A company wants to run containers without managing servers or clusters of EC2 instances. What should it use?
 - A. Amazon ECS or Amazon EKS with AWS Fargate
-- B. ECS on EC2
-- C. AWS Batch on Spot
-- D. Amazon Lightsail
+- B. Amazon ECS with an EC2 Auto Scaling group capacity provider
+- C. AWS Batch with a managed EC2 Spot compute environment
+- D. Amazon Lightsail instances with Docker installed
 
 <details><summary>Answer</summary>
 
@@ -151,10 +151,10 @@ Resource: <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Farga
 </details>
 
 **13.** An API backend must be protected from sudden bursts of requests from a single client. Which API Gateway feature helps?
-- A. Usage plans with throttling and API keys
-- B. Caching only
-- C. Canary deployments
-- D. Mapping templates
+- A. Usage plans with throttling limits and API keys
+- B. Stage-level response caching with a long TTL
+- C. Canary release deployments on the production stage
+- D. Mapping templates that validate the request body
 
 <details><summary>Answer</summary>
 
@@ -164,9 +164,9 @@ Resource: <https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gate
 
 **14.** An image-upload service must generate thumbnails as soon as images land in S3. What is the most loosely coupled approach?
 - A. S3 event notifications (or EventBridge) that invoke a Lambda function
-- B. A cron job on EC2 that lists the bucket every minute
-- C. Polling from the web tier
-- D. S3 Replication
+- B. A cron job on an EC2 instance that lists the bucket every minute
+- C. The web tier polls the bucket after each upload and resizes the image
+- D. S3 Replication to a second bucket that is configured for thumbnails
 
 <details><summary>Answer</summary>
 
@@ -188,9 +188,9 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html
 
 **16.** A company wants to cache frequently read, rarely changed database query results to take load off the database and lower latency. Which service should be used?
 - A. Amazon ElastiCache (Redis OSS or Memcached)
-- B. Amazon S3
-- C. Amazon EFS
-- D. AWS Global Accelerator
+- B. Amazon S3 with S3 Intelligent-Tiering
+- C. Amazon EFS with Elastic Throughput
+- D. AWS Global Accelerator in front of the database
 
 <details><summary>Answer</summary>
 
@@ -225,9 +225,9 @@ Resource: <https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice
 
 **19.** Which EC2 Auto Scaling policy keeps average CPU at 50% with the least configuration?
 - A. Target tracking scaling
-- B. Simple scaling
-- C. Step scaling
-- D. Scheduled scaling
+- B. Simple scaling with a CloudWatch alarm
+- C. Step scaling with several CloudWatch alarms
+- D. Scheduled scaling actions every hour
 
 <details><summary>Answer</summary>
 
@@ -236,10 +236,10 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-targ
 </details>
 
 **20.** Traffic rises at 8 AM every weekday, but new instances take 10 minutes to become ready. What avoids slow responses at the start of the day?
-- A. Scheduled scaling (or predictive scaling) combined with warm pools
-- B. Simple scaling on CPU
-- C. Manual scaling
-- D. Increase the cooldown
+- A. Scheduled (or predictive) scaling combined with a warm pool
+- B. Simple scaling on CPU utilization with a lower alarm threshold
+- C. Target tracking on request count per target with a low target
+- D. A longer default cooldown so that new instances aren't terminated
 
 <details><summary>Answer</summary>
 
@@ -264,10 +264,10 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.Multi
 </details>
 
 **22.** What is the main purpose of an RDS read replica compared with Multi-AZ?
-- A. Read replicas scale reads (asynchronous replication); Multi-AZ provides high availability (synchronous)
-- B. Both are synchronous
-- C. Read replicas give automatic failover by default
-- D. Multi-AZ standbys serve read traffic in all engines
+- A. Read replicas scale reads with asynchronous replication; Multi-AZ provides high availability
+- B. Both use synchronous replication, but only read replicas can be in another Region
+- C. Read replicas provide automatic failover by default; Multi-AZ is for scaling reads
+- D. Multi-AZ standbys serve reads in every engine; read replicas exist only for backups
 
 <details><summary>Answer</summary>
 
@@ -277,9 +277,9 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.
 
 **23.** A web application must keep running if an entire AZ fails. What is the minimum correct design?
 - A. An Auto Scaling group across at least two AZs behind an ALB
-- B. One large EC2 instance
-- C. Two instances in the same AZ
-- D. A single instance with an Elastic IP
+- B. One large EC2 instance with an Elastic IP address attached
+- C. Two instances in the same AZ behind an Application Load Balancer
+- D. A single instance with CloudWatch alarm-based automatic recovery
 
 <details><summary>Answer</summary>
 
@@ -311,15 +311,15 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html>
 </details>
 
-**26.** A global application needs a relational database with sub-second cross-Region replication and the ability to promote a secondary Region in under a minute. What fits?
+**26.** A global application needs a relational database with typically sub-second cross-Region replication and the ability to promote a secondary Region within minutes. What fits?
 - A. Amazon Aurora Global Database
-- B. RDS Multi-AZ
-- C. DynamoDB Accelerator
-- D. RDS cross-Region snapshots
+- B. RDS Multi-AZ DB cluster
+- C. DynamoDB global tables
+- D. RDS cross-Region snapshot copies
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** Replication lag is typically under a second, and a secondary cluster usually takes over the primary role within a few minutes.
 Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html>
 </details>
 
@@ -337,7 +337,7 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Glob
 
 **28.** Users should be sent to a secondary Region automatically when the primary Region's endpoint fails its health check. Which Route 53 routing policy should be used?
 - A. Failover routing with health checks
-- B. Simple routing
+- B. Simple routing with multiple IP addresses
 - C. Weighted routing with equal weights and no health checks
 - D. Geolocation routing only
 
@@ -349,9 +349,9 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failove
 
 **29.** Which Route 53 routing policy sends users to the Region with the lowest network latency?
 - A. Latency-based routing
-- B. Geolocation
-- C. Multivalue answer
-- D. Weighted
+- B. Geolocation routing
+- C. Multivalue answer routing
+- D. Weighted routing
 
 <details><summary>Answer</summary>
 
@@ -385,9 +385,9 @@ Resource: <https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html>
 
 **32.** Instances in an Auto Scaling group are marked healthy by EC2 status checks even when the application returns HTTP 500 errors. What fixes this?
 - A. Turn on ELB health checks for the Auto Scaling group
-- B. Increase the instance size
-- C. Disable health checks
-- D. Use scheduled scaling
+- B. Move to a larger instance type to reduce the errors
+- C. Turn off health checks so instances aren't replaced
+- D. Add a scheduled action that replaces instances nightly
 
 <details><summary>Answer</summary>
 
@@ -397,9 +397,9 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 
 **33.** A company must replicate S3 objects to another Region for compliance and DR. What is required?
 - A. S3 Cross-Region Replication, with versioning enabled on both buckets
-- B. S3 Transfer Acceleration
-- C. Lifecycle rules
-- D. CloudFront
+- B. S3 Transfer Acceleration, enabled on the source bucket
+- C. A lifecycle rule that transitions objects to the other Region
+- D. A CloudFront distribution that uses the bucket as its origin
 
 <details><summary>Answer</summary>
 
@@ -409,33 +409,33 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.htm
 
 **34.** A company wants to replicate on-premises servers to AWS continuously at the block level, for DR with an RPO of seconds and an RTO of minutes. Which service should it use?
 - A. AWS Elastic Disaster Recovery (AWS DRS)
-- B. AWS Backup
-- C. AWS DataSync
-- D. AWS Snowball
+- B. AWS Backup with an hourly backup plan
+- C. AWS DataSync tasks scheduled every hour
+- D. AWS Application Migration Service (MGN)
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** AWS DRS keeps servers replicated for recovery and failback. Application Migration Service uses similar replication but is built for one-time migrations, not ongoing DR.
 Resource: <https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html>
 </details>
 
 **35.** An application uses a single NAT gateway in one AZ. What happens if that AZ fails, and how is this fixed?
-- A. Instances in other AZs lose outbound internet access; deploy one NAT gateway per AZ and route each AZ to its own
-- B. Nothing happens; NAT gateways are Regional
-- C. Traffic moves automatically to the internet gateway
-- D. Use a NAT instance instead
+- A. Instances in other AZs lose internet access; create a NAT gateway in each AZ and route to it
+- B. Nothing happens; a NAT gateway created in one AZ fails over to other AZs automatically
+- C. Outbound traffic switches to the internet gateway automatically until the AZ recovers
+- D. Instances in other AZs lose internet access; add a second NAT gateway in the same AZ
 
 <details><summary>Answer</summary>
 
-**A.** NAT gateways are zonal resources.
+**A.** A standard (zonal) NAT gateway lives in one AZ. Alternatively, a regional NAT gateway expands across AZs automatically.
 Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html>
 </details>
 
 **36.** An on-premises data center connects to AWS through a single Direct Connect link. How can this be made highly available at the lowest cost?
 - A. Add a backup Site-to-Site VPN connection
 - B. Add another Direct Connect link at the same location
-- C. Use VPC peering
-- D. Use an internet gateway
+- C. Peer the VPC with a second VPC in another Region
+- D. Add a NAT gateway in each Availability Zone
 
 <details><summary>Answer</summary>
 
@@ -445,9 +445,9 @@ Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency
 
 **37.** Which Aurora feature keeps six copies of data across three AZs and repairs itself automatically?
 - A. The Aurora cluster storage volume
-- B. Aurora Backtrack
-- C. Aurora Serverless
-- D. Aurora Auto Scaling
+- B. Aurora Backtrack with a 72-hour window
+- C. Aurora Serverless v2 capacity scaling
+- D. Aurora Auto Scaling for Aurora Replicas
 
 <details><summary>Answer</summary>
 
@@ -457,9 +457,9 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.O
 
 **38.** A company wants to test how its workload behaves when AZs fail or instances are terminated, in a controlled way. Which service should it use?
 - A. AWS Fault Injection Service (FIS)
-- B. AWS Trusted Advisor
-- C. Amazon Inspector
-- D. AWS X-Ray
+- B. AWS Trusted Advisor fault tolerance checks
+- C. Amazon Inspector network reachability findings
+- D. AWS X-Ray service maps and traces
 
 <details><summary>Answer</summary>
 
@@ -469,14 +469,14 @@ Resource: <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
 
 **39.** A DynamoDB table must be recoverable to any second in the last 35 days. What should be enabled?
 - A. Point-in-time recovery (PITR)
-- B. DynamoDB Streams
-- C. TTL
-- D. DAX
+- B. DynamoDB Streams processed into S3 by Lambda
+- C. Daily on-demand backups started by EventBridge
+- D. Time to Live (TTL) on each item
 
 <details><summary>Answer</summary>
 
-**A.**
-Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html>
+**A.** PITR restores to any second in the recovery period (1–35 days, default 35).
+Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html>
 </details>
 
 **40.** Operations wants end-to-end tracing to find which microservice causes latency spikes and errors. Which service helps?
