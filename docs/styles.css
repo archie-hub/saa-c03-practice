@@ -120,6 +120,14 @@ main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 48px; outline: none
 @media (max-width: 720px) {
   .grid-2 { grid-template-columns: 1fr; }
 }
+/* Keep Previous, Check answer and Next on one line on narrow screens */
+.narrow-only { display: none; }
+@media (max-width: 560px) {
+  .q-nav { flex-wrap: nowrap; width: 100%; }
+  .q-nav button { flex: 1 1 0; min-width: 0; padding: 9px 8px; white-space: nowrap; }
+  .q-nav .wide-only { display: none; }
+  .q-nav .narrow-only { display: inline; }
+}
 
 /* Buttons & controls */
 button, .btn {
