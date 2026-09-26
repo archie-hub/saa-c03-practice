@@ -102,6 +102,11 @@ p { margin: 0 0 12px; }
 .topnav { display: flex; align-items: center; gap: 4px; }
 .topnav a { color: var(--text-2); text-decoration: none; padding: 6px 10px; border-radius: 8px; }
 .topnav a:hover { background: var(--surface-2); color: var(--text); }
+@media (max-width: 380px) {
+  .topbar { flex-wrap: wrap; row-gap: 4px; }
+  .topnav { width: 100%; justify-content: space-between; gap: 2px; }
+  .topnav a, .topnav button.ghost { padding-left: 6px; padding-right: 6px; }
+}
 main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 48px; outline: none; }
 .footer { max-width: 1000px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 13px; }
 
@@ -114,6 +119,7 @@ main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 48px; outline: none
 }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-2 > .card { margin-bottom: 0; }
+.grid-2 > * { min-width: 0; }
 .stack-16 > * + * { margin-top: 16px; }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .row.between { justify-content: space-between; }
