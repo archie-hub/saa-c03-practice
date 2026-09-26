@@ -15,6 +15,12 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 <details><summary>Answer</summary>
 
 **D.** The root user can't be deleted or have its password permanently removed, and it already has full access. Best practice is to enable MFA, avoid creating root access keys, and use other identities for everyday work.
+
+Why not the others:
+- **A.** Permissions boundaries apply only to IAM users and roles. They can't be attached to the root user, so they can't limit what it does.
+- **B.** AWS recommends not creating root access keys at all. Keeping them in Secrets Manager still leaves long-term, all-powerful keys that could leak.
+- **C.** The root user can't be deleted, and in a standalone account its password can always be recovered by email. MFA is what protects the root user.
+
 Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html>
 </details>
 
@@ -27,6 +33,12 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-pract
 <details><summary>Answer</summary>
 
 **C.** Instance profiles deliver temporary, automatically rotated credentials to the instance, removing the need for any long-term access keys at all.
+
+Why not the others:
+- **A.** This makes objects readable by anyone sending requests from that address, relying on network location instead of identity. It's public access, which S3 Block Public Access exists to prevent.
+- **B.** The job would still depend on a long-term IAM user access key; Secrets Manager only changes where the key is stored. An instance role removes the key entirely.
+- **D.** Frequent rotation shortens the exposure window if a key leaks, but still leaves long-term keys and custom rotation code to maintain. Instance profiles rotate temporary credentials automatically.
+
 Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html>
 </details>
 
@@ -39,6 +51,12 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-
 <details><summary>Answer</summary>
 
 **B.** SCPs set the maximum permissions for every principal in the member accounts under an OU, including administrators (but not the management account), so a well-written deny SCP can block both actions everywhere in the OU at once.
+
+Why not the others:
+- **A.** Config remediation reacts after the fact: CloudTrail stays off until Config notices and turns it back on. It also can't stop an account from leaving the organization.
+- **C.** Administrators in each account can edit or detach permissions boundaries, and boundaries must be attached to every user and role one at a time, so they can't enforce this OU-wide.
+- **D.** Budget actions respond to spending thresholds. They don't block API calls such as `cloudtrail:StopLogging` or `organizations:LeaveOrganization`.
+
 Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html>
 </details>
 
@@ -51,6 +69,12 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **A.** An action is allowed only if both the SCP and an IAM policy allow it. SCPs never grant access on their own and don't apply to the management account.
+
+Why not the others:
+- **B.** SCPs never grant permissions. An identity-based or resource-based policy must still allow the action for it to succeed.
+- **C.** SCPs work alongside identity-based policies, and both must allow an action. They don't replace or remove them.
+- **D.** SCPs don't affect users or roles in the management account. They apply only to member accounts.
+
 Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html>
 </details>
 
@@ -63,6 +87,12 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **D.** IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source, without duplicating passwords.
+
+Why not the others:
+- **A.** Cognito user pools are for customer-facing app sign-in. They don't provide workforce single sign-on to the AWS console across accounts.
+- **B.** Storing copies of AD passwords is exactly what the company wants to avoid, and it doesn't provide a sign-in portal.
+- **C.** Separate IAM users mean 15 sets of credentials per employee, with password copies stored in AWS. Sync scripts are also fragile.
+
 Resource: <https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html>
 </details>
 
@@ -91,7 +121,7 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boun
 </details>
 
 **8.** A finance analyst's IAM user belongs to a group whose policy explicitly allows `s3:*` on the `finance-reports` bucket. The analyst's account also sits under an OU with an SCP, added last month after an accidental-deletion incident, that explicitly denies `s3:DeleteObject` for every principal. The analyst, unaware the SCP exists, tries to delete a report object from the console. What happens?
-- A. Denied, because an explicit deny in any applicable policy always overrides an allow
+- A. Denied, because an explicit deny overrides any allow
 - B. Allowed, because SCPs don't apply to S3 actions
 - C. Allowed, because the IAM group policy is more specific than the SCP
 - D. The result depends on which policy was attached first
@@ -140,7 +170,7 @@ Resource: <https://docs.aws.amazon.com/controltower/latest/userguide/what-is-con
 
 **12. (Select TWO.)** A security audit produced a list of proposed IAM practices for the company to adopt. Which TWO should actually be adopted?
 - A. Share one IAM user among the on-call rotation so pager alerts always come from the same identity
-- B. Grant least privilege from the start, and refine it later using IAM Access Analyzer's last-accessed information
+- B. Grant least privilege from the start, and refine it later using IAM's last-accessed information
 - C. Bake long-term access keys into a golden AMI so new instances start with working credentials immediately
 - D. Reserve the root user for billing tasks, since ordinary IAM users can't be given access to the Billing console
 - E. Use temporary credentials from roles and federation instead of creating long-term access keys wherever possible
@@ -300,7 +330,7 @@ Resource: <https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-
 </details>
 
 **25.** A three-tier application (web, app, database) is being redesigned after a penetration test found the database directly reachable from the internet through a misconfigured route table. The web tier serves a few thousand requests per minute through an ALB, and the app tier talks to the database only on port 3306. The redesign must ensure only the web tier is reachable from the internet, and only the app tier can reach the database. What is the BEST design?
-- A. ALB in public subnets, app and DB in private subnets, DB security group allowing only the app tier's security group
+- A. ALB in public subnets; app and DB in private subnets; DB security group allows only the app tier's
 - B. Put all tiers in private subnets and attach one security group shared by every tier
 - C. Put the database in a public subnet and protect it with a strong password and TLS
 - D. Put all three tiers in public subnets and restrict traffic between them with network ACLs
@@ -415,7 +445,7 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.htm
 - A. Modify the instance, turn on encryption, and apply the change immediately
 - B. Create an encrypted read replica and promote it to replace the primary
 - C. Turn on TLS at the instance level a second time to trigger re-encryption
-- D. Snapshot the instance, copy the snapshot with encryption enabled, and restore a new instance from the encrypted copy
+- D. Snapshot it, copy the snapshot with encryption on, and restore from the copy
 
 <details><summary>Answer</summary>
 
@@ -461,7 +491,7 @@ Resource: <https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.ht
 
 **38.** A bucket already uses default encryption with SSE-KMS for data at rest, but a security scan flagged that it still accepts plain HTTP requests through the S3 REST API. Every request to the bucket must use HTTPS. How is this enforced?
 - A. Default bucket encryption with SSE-KMS and a customer managed key
-- B. A bucket policy that denies requests where `aws:SecureTransport` is `false`
+- B. A bucket policy denying requests where `aws:SecureTransport` is `false`
 - C. S3 Block Public Access turned on at the account and bucket levels
 - D. An S3 Access Point with a VPC network origin for every client
 

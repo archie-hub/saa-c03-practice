@@ -16,6 +16,11 @@ GitHub Pages from `main`); the question bank is Markdown in `saa-c03-questions/`
 - Keep options similar in length and plausible, so the correct answer can't be spotted by its length,
   and keep correct answers spread across letters rather than clustered on one.
 - Check facts against current AWS documentation, and link a specific docs page in `Resource:`.
+- Each question's answer block can end with a "Why not the others:" list: one `- **X.** reason` line per
+  wrong option, just before `Resource:` (see domain 1, questions 1–5). If a question has the list, it
+  must cover every wrong option and no correct one; the build script checks this. Keep each reason to
+  one or two sentences that say what the named service or approach actually does and why that doesn't
+  fit this scenario. When reordering options, move their notes' letters with them.
 - `docs/legacy-answer-map.js` is a frozen, one-time snapshot used to migrate exam history saved before
   options got stable ids. Never regenerate or edit it.
 

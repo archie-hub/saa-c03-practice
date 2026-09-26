@@ -490,7 +490,8 @@
     const full = q.select > 1 && (run.answers[q.id] || []).length >= q.select && !chosen;
     const input = review ? '' : `<input type="${type}" name="opt" value="${optId}" ${chosen ? 'checked' : ''} ${reveal || full ? 'disabled' : ''}>`;
     const tag = review ? 'div' : 'label';
-    return `<${tag} class="${cls}">${input}<span class="key">${LETTERS[idx]}.</span><span>${fmt(opt.text)}</span>${verdict ? `<span class="verdict">${verdict}</span>` : ''}</${tag}>`;
+    const why = reveal && !isAnswer && opt.why ? `<span class="why">${fmt(opt.why)}</span>` : '';
+    return `<${tag} class="${cls}">${input}<span class="key">${LETTERS[idx]}.</span><span class="otext">${fmt(opt.text)}${why}</span>${verdict ? `<span class="verdict">${verdict}</span>` : ''}</${tag}>`;
   }
   function explanationHtml(run, q) {
     const ok = isCorrect(run, q.id);

@@ -46,7 +46,8 @@ regenerate the data file the site loads and commit both:
 python3 scripts/build_questions.py   # writes docs/questions.js
 ```
 
-The script checks that every question has at least 4 options, a valid answer, and the right number of answers
-for "Select TWO/THREE" questions. Keep the existing format: a `**N.**` stem, `- A.` options, and a `<details>`
+The script checks that every question has at least 4 options, a valid answer, the right number of answers
+for "Select TWO/THREE" questions, and that any "Why not the others" notes cover exactly the wrong options.
+Those notes appear under each wrong option when you check an answer in study mode and when you review an exam. Keep the existing format: a `**N.**` stem, `- A.` options, and a `<details>`
 block with the `**X.**` answer and a `Resource:` link. Question IDs are `<domain>-<number>`, so avoid renumbering
 existing questions or past exam history will point at the wrong questions.
