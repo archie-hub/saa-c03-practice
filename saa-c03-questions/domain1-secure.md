@@ -121,7 +121,7 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boun
 </details>
 
 **8.** A finance analyst's IAM user belongs to a group whose policy explicitly allows `s3:*` on the `finance-reports` bucket. The analyst's account also sits under an OU with an SCP, added last month after an accidental-deletion incident, that explicitly denies `s3:DeleteObject` for every principal. The analyst, unaware the SCP exists, tries to delete a report object from the console. What happens?
-- A. Denied, because an explicit deny in any applicable policy always overrides an allow
+- A. Denied, because an explicit deny overrides any allow
 - B. Allowed, because SCPs don't apply to S3 actions
 - C. Allowed, because the IAM group policy is more specific than the SCP
 - D. The result depends on which policy was attached first
@@ -170,7 +170,7 @@ Resource: <https://docs.aws.amazon.com/controltower/latest/userguide/what-is-con
 
 **12. (Select TWO.)** A security audit produced a list of proposed IAM practices for the company to adopt. Which TWO should actually be adopted?
 - A. Share one IAM user among the on-call rotation so pager alerts always come from the same identity
-- B. Grant least privilege from the start, and refine it later using IAM Access Analyzer's last-accessed information
+- B. Grant least privilege from the start, and refine it later using IAM's last-accessed information
 - C. Bake long-term access keys into a golden AMI so new instances start with working credentials immediately
 - D. Reserve the root user for billing tasks, since ordinary IAM users can't be given access to the Billing console
 - E. Use temporary credentials from roles and federation instead of creating long-term access keys wherever possible
@@ -330,7 +330,7 @@ Resource: <https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-
 </details>
 
 **25.** A three-tier application (web, app, database) is being redesigned after a penetration test found the database directly reachable from the internet through a misconfigured route table. The web tier serves a few thousand requests per minute through an ALB, and the app tier talks to the database only on port 3306. The redesign must ensure only the web tier is reachable from the internet, and only the app tier can reach the database. What is the BEST design?
-- A. ALB in public subnets, app and DB in private subnets, DB security group allowing only the app tier's security group
+- A. ALB in public subnets; app and DB in private subnets; DB security group allows only the app tier's
 - B. Put all tiers in private subnets and attach one security group shared by every tier
 - C. Put the database in a public subnet and protect it with a strong password and TLS
 - D. Put all three tiers in public subnets and restrict traffic between them with network ACLs
@@ -445,7 +445,7 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.htm
 - A. Modify the instance, turn on encryption, and apply the change immediately
 - B. Create an encrypted read replica and promote it to replace the primary
 - C. Turn on TLS at the instance level a second time to trigger re-encryption
-- D. Snapshot the instance, copy the snapshot with encryption enabled, and restore a new instance from the encrypted copy
+- D. Snapshot it, copy the snapshot with encryption on, and restore from the copy
 
 <details><summary>Answer</summary>
 
@@ -491,7 +491,7 @@ Resource: <https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.ht
 
 **38.** A bucket already uses default encryption with SSE-KMS for data at rest, but a security scan flagged that it still accepts plain HTTP requests through the S3 REST API. Every request to the bucket must use HTTPS. How is this enforced?
 - A. Default bucket encryption with SSE-KMS and a customer managed key
-- B. A bucket policy that denies requests where `aws:SecureTransport` is `false`
+- B. A bucket policy denying requests where `aws:SecureTransport` is `false`
 - C. S3 Block Public Access turned on at the account and bucket levels
 - D. An S3 Access Point with a VPC network origin for every client
 

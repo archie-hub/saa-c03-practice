@@ -56,7 +56,7 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **5.** A video-transcoding consumer occasionally takes longer to process a message than expected, and the team notices the same video sometimes gets transcoded twice by two different workers. What should be adjusted to stop this duplicate processing?
 - A. Decrease the retention period so that messages expire sooner
-- B. Increase the visibility timeout so it comfortably exceeds the worst-case processing time
+- B. Raise the visibility timeout above the worst-case processing time
 - C. Increase the delivery delay so that messages arrive later
 - D. Enable long polling by setting `WaitTimeSeconds` to 20
 
@@ -396,7 +396,7 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 </details>
 
 **33.** A company must keep a continuously updated copy of its S3 objects in a second Region for both compliance and disaster recovery, and wants 99.99% of new objects to be copied within 15 minutes of being written. What is required?
-- A. S3 Cross-Region Replication, with versioning enabled on both buckets, and Replication Time Control (RTC) turned on
+- A. S3 Cross-Region Replication with S3 Replication Time Control (RTC)
 - B. S3 Transfer Acceleration, enabled on the source bucket
 - C. A CloudFront distribution that uses the source bucket as its origin
 - D. A lifecycle rule that transitions objects to the other Region after 30 days
@@ -421,7 +421,7 @@ Resource: <https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html>
 
 **35.** A VPC has instances in three Availability Zones, but only one NAT gateway, deployed in AZ-a's public subnet. During a maintenance event, AZ-a becomes unavailable. What happens to instances in the other AZs, and how should this be fixed going forward?
 - A. Nothing; outbound traffic switches to the internet gateway automatically until AZ-a recovers
-- B. Instances in the other AZs lose internet access; the fix is to create a NAT gateway in each AZ and route to the local one
+- B. Instances in the other AZs lose internet access; the fix is one NAT gateway per AZ
 - C. Nothing; a NAT gateway created in one AZ fails over to other AZs automatically
 - D. Instances in the other AZs lose internet access; the fix is to add a second NAT gateway in AZ-a
 

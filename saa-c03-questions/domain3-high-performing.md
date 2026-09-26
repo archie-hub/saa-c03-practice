@@ -106,7 +106,7 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-accele
 **9.** A content platform's single S3 bucket starts hitting request-rate limits during peak hours, even though the team had assumed S3 throughput was effectively unlimited for a single bucket. How can the application get well beyond 5,500 GET requests per second against this bucket?
 - A. Move the objects to S3 One Zone-IA, which has higher request limits
 - B. Nothing; S3 is limited to 5,500 GET requests per second per bucket
-- C. Spread objects across multiple prefixes, since request-rate limits apply per prefix
+- C. Spread objects across more prefixes, since request limits apply per prefix
 - D. Enable versioning so that reads are spread across object versions
 
 <details><summary>Answer</summary>
@@ -193,7 +193,7 @@ Resource: <https://aws.amazon.com/ec2/instance-types/>
 
 **16.** A CPU-bound Lambda function that resizes images runs noticeably slower than expected, and the developer assumes they need to directly configure the number of vCPUs, the way they would for an EC2 instance. How is more CPU actually allocated to a Lambda function?
 - A. Set the number of vCPUs in the function's configuration
-- B. Increase the memory setting, because CPU scales in proportion to memory
+- B. Increase the memory, which scales CPU in proportion
 - C. Enable provisioned concurrency so more CPU is reserved
 - D. Increase the function timeout so it has more time to run
 

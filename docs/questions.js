@@ -321,8 +321,8 @@ window.QUESTION_BANK = {
    "select": 1,
    "options": [
     {
-     "id": "54c4120fb2",
-     "text": "Denied, because an explicit deny in any applicable policy always overrides an allow"
+     "id": "d1ec679f9d",
+     "text": "Denied, because an explicit deny overrides any allow"
     },
     {
      "id": "7fe748d8b4",
@@ -338,7 +338,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "54c4120fb2"
+    "d1ec679f9d"
    ],
    "explanation": "In policy evaluation logic, an explicit deny in any applicable policy — including an SCP — always wins over an allow elsewhere.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html"
@@ -445,8 +445,8 @@ window.QUESTION_BANK = {
      "text": "Share one IAM user among the on-call rotation so pager alerts always come from the same identity"
     },
     {
-     "id": "e3b52fd0e7",
-     "text": "Grant least privilege from the start, and refine it later using IAM Access Analyzer's last-accessed information"
+     "id": "2fff6f3c1c",
+     "text": "Grant least privilege from the start, and refine it later using IAM's last-accessed information"
     },
     {
      "id": "fb75f459c6",
@@ -462,7 +462,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "e3b52fd0e7",
+    "2fff6f3c1c",
     "4a30fd14ab"
    ],
    "explanation": "IAM users and roles can be granted billing permissions directly, so the root user doesn't need to be reserved for billing, and shared credentials or embedded keys work against least privilege and auditability.",
@@ -836,8 +836,8 @@ window.QUESTION_BANK = {
    "select": 1,
    "options": [
     {
-     "id": "1751c5ca48",
-     "text": "ALB in public subnets, app and DB in private subnets, DB security group allowing only the app tier's security group"
+     "id": "6a86a628f2",
+     "text": "ALB in public subnets; app and DB in private subnets; DB security group allows only the app tier's"
     },
     {
      "id": "a15c2e1c8a",
@@ -853,7 +853,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "1751c5ca48"
+    "6a86a628f2"
    ],
    "explanation": "Referencing security groups by ID (rather than IP ranges) keeps access tightly scoped tier-to-tier even as instances scale in and out, and keeping the app and database tiers out of public subnets removes them from direct internet reachability.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html"
@@ -1118,12 +1118,12 @@ window.QUESTION_BANK = {
      "text": "Turn on TLS at the instance level a second time to trigger re-encryption"
     },
     {
-     "id": "662790427f",
-     "text": "Snapshot the instance, copy the snapshot with encryption enabled, and restore a new instance from the encrypted copy"
+     "id": "0d3343edab",
+     "text": "Snapshot it, copy the snapshot with encryption on, and restore from the copy"
     }
    ],
    "answer": [
-    "662790427f"
+    "0d3343edab"
    ],
    "explanation": "Encryption at rest can only be set when an RDS instance is created, so an existing unencrypted instance must be snapshotted, the snapshot copied with encryption turned on, and a new instance restored from that encrypted copy.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html"
@@ -1230,8 +1230,8 @@ window.QUESTION_BANK = {
      "text": "Default bucket encryption with SSE-KMS and a customer managed key"
     },
     {
-     "id": "f6ac9139ad",
-     "text": "A bucket policy that denies requests where `aws:SecureTransport` is `false`"
+     "id": "007ee2beca",
+     "text": "A bucket policy denying requests where `aws:SecureTransport` is `false`"
     },
     {
      "id": "f477b74cc2",
@@ -1243,7 +1243,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "f6ac9139ad"
+    "007ee2beca"
    ],
    "explanation": "Encrypting data at rest doesn't protect data in transit. A bucket policy that denies requests when `aws:SecureTransport` is `false` forces every request to use HTTPS.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html"
@@ -1595,8 +1595,8 @@ window.QUESTION_BANK = {
      "text": "Decrease the retention period so that messages expire sooner"
     },
     {
-     "id": "dd63a7cf3f",
-     "text": "Increase the visibility timeout so it comfortably exceeds the worst-case processing time"
+     "id": "f6025fc88d",
+     "text": "Raise the visibility timeout above the worst-case processing time"
     },
     {
      "id": "2889894c9f",
@@ -1608,7 +1608,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "dd63a7cf3f"
+    "f6025fc88d"
    ],
    "explanation": "If a message isn't deleted before the visibility timeout expires, SQS makes it visible to other consumers again, causing duplicate processing. Setting the timeout comfortably above the worst-case processing time prevents that.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html"
@@ -2436,8 +2436,8 @@ window.QUESTION_BANK = {
    "select": 1,
    "options": [
     {
-     "id": "12fb416621",
-     "text": "S3 Cross-Region Replication, with versioning enabled on both buckets, and Replication Time Control (RTC) turned on"
+     "id": "c1c0fc3c63",
+     "text": "S3 Cross-Region Replication with S3 Replication Time Control (RTC)"
     },
     {
      "id": "89903d0438",
@@ -2453,7 +2453,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "12fb416621"
+    "c1c0fc3c63"
    ],
    "explanation": "Cross-Region Replication requires versioning on both the source and destination buckets, and Replication Time Control adds the 15-minute, 99.99% SLA the requirement calls for.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html"
@@ -2500,8 +2500,8 @@ window.QUESTION_BANK = {
      "text": "Nothing; outbound traffic switches to the internet gateway automatically until AZ-a recovers"
     },
     {
-     "id": "8de43eaf12",
-     "text": "Instances in the other AZs lose internet access; the fix is to create a NAT gateway in each AZ and route to the local one"
+     "id": "26467b0ec6",
+     "text": "Instances in the other AZs lose internet access; the fix is one NAT gateway per AZ"
     },
     {
      "id": "0b65adcf13",
@@ -2513,7 +2513,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "8de43eaf12"
+    "26467b0ec6"
    ],
    "explanation": "A standard (zonal) NAT gateway lives entirely in one AZ, so instances in other AZs that route through it lose outbound connectivity if that AZ is impaired. The standard fix is one NAT gateway per AZ, with each AZ's private subnets routing to the NAT gateway in the same AZ. (A regional NAT gateway is a newer alternative that spans AZs automatically.)",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html"
@@ -2929,8 +2929,8 @@ window.QUESTION_BANK = {
      "text": "Nothing; S3 is limited to 5,500 GET requests per second per bucket"
     },
     {
-     "id": "03a24a881f",
-     "text": "Spread objects across multiple prefixes, since request-rate limits apply per prefix"
+     "id": "0216280b33",
+     "text": "Spread objects across more prefixes, since request limits apply per prefix"
     },
     {
      "id": "8f236089b3",
@@ -2938,7 +2938,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "03a24a881f"
+    "0216280b33"
    ],
    "explanation": "Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes, so spreading objects across more prefixes raises the effective ceiling.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html"
@@ -3135,8 +3135,8 @@ window.QUESTION_BANK = {
      "text": "Set the number of vCPUs in the function's configuration"
     },
     {
-     "id": "0726fc31e5",
-     "text": "Increase the memory setting, because CPU scales in proportion to memory"
+     "id": "da446c6a49",
+     "text": "Increase the memory, which scales CPU in proportion"
     },
     {
      "id": "f96bb26b18",
@@ -3148,7 +3148,7 @@ window.QUESTION_BANK = {
     }
    ],
    "answer": [
-    "0726fc31e5"
+    "da446c6a49"
    ],
    "explanation": "Lambda has no direct vCPU setting — CPU power scales in proportion to the configured memory, up to 10,240 MB, which gives up to 6 vCPUs.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html"
@@ -5213,12 +5213,12 @@ window.QUESTION_BANK = {
      "text": "Both are free; only data transfer out to the internet is charged for either"
     },
     {
-     "id": "3ca3d721a8",
-     "text": "Peering has no hourly charge, only data transfer; Transit Gateway charges per attachment-hour and per GB processed"
+     "id": "9f740cbff5",
+     "text": "Peering bills only data transfer; Transit Gateway bills per attachment-hour and per GB"
     }
    ],
    "answer": [
-    "3ca3d721a8"
+    "9f740cbff5"
    ],
    "explanation": "VPC peering connections themselves have no hourly charge — only the data transferred over them is billed. Transit Gateway, by contrast, charges per attachment-hour plus per GB processed through it.",
    "resource": "https://aws.amazon.com/transit-gateway/pricing/"

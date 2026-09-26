@@ -490,7 +490,7 @@ Resource: <https://aws.amazon.com/vpc/pricing/>
 - A. Peering charges per attachment-hour and per GB, the same way as Transit Gateway
 - B. Transit Gateway has no charges, while peering charges for each connection-hour
 - C. Both are free; only data transfer out to the internet is charged for either
-- D. Peering has no hourly charge, only data transfer; Transit Gateway charges per attachment-hour and per GB processed
+- D. Peering bills only data transfer; Transit Gateway bills per attachment-hour and per GB
 
 <details><summary>Answer</summary>
 
