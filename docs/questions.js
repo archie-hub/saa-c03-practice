@@ -97,19 +97,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Create access keys for the root user and store them in AWS Secrets Manager"
+     "text": "Create access keys for the root user and store them in AWS Secrets Manager for emergencies"
     },
     {
      "key": "B",
-     "text": "Enable MFA on the root user and use an IAM Identity Center or IAM identity for daily tasks"
+     "text": "Enable MFA on the root user and use IAM Identity Center or IAM identities for daily tasks"
     },
     {
      "key": "C",
-     "text": "Delete the root user"
+     "text": "Delete the root user after creating an IAM user with the `AdministratorAccess` policy"
     },
     {
      "key": "D",
-     "text": "Attach the `AdministratorAccess` policy to the root user"
+     "text": "Attach a permissions boundary to the root user that limits it to billing actions"
     }
    ],
    "answer": [
@@ -127,7 +127,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Store an IAM user's access keys in the application configuration file"
+     "text": "Create an IAM user for the application and store its access keys in a configuration file"
     },
     {
      "key": "B",
@@ -135,11 +135,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Make the bucket public and restrict it by IP address"
+     "text": "Add a bucket policy that allows anonymous reads from the instance's Elastic IP address"
     },
     {
      "key": "D",
-     "text": "Put the root user's access keys in environment variables"
+     "text": "Store the root user's access keys in Parameter Store and load them when the instance starts"
     }
    ],
    "answer": [
@@ -157,7 +157,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "IAM permissions boundaries in every account"
+     "text": "IAM permissions boundaries attached to every user and role in the Sandbox accounts"
     },
     {
      "key": "B",
@@ -165,11 +165,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "An S3 bucket policy"
+     "text": "An S3 bucket policy on the CloudTrail log bucket that denies object deletion"
     },
     {
      "key": "D",
-     "text": "AWS Config rules with automatic remediation"
+     "text": "AWS Config rules with automatic remediation that turn CloudTrail back on"
     }
    ],
    "answer": [
@@ -187,11 +187,11 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "SCPs grant permissions to IAM users"
+     "text": "SCPs grant permissions to the IAM users and roles in the accounts they're attached to"
     },
     {
      "key": "B",
-     "text": "SCPs affect the management account"
+     "text": "SCPs restrict every principal in the organization, including the management account"
     },
     {
      "key": "C",
@@ -199,7 +199,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "SCPs replace IAM identity-based policies"
+     "text": "SCPs replace the IAM identity-based policies in the accounts they're attached to"
     }
    ],
    "answer": [
@@ -217,25 +217,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "IAM users in each account with matching passwords"
+     "text": "IAM users in each account, with passwords kept in sync with AD by a scheduled script"
     },
     {
      "key": "B",
-     "text": "AWS IAM Identity Center connected to AD (through AWS Directory Service or an external IdP)"
+     "text": "AWS IAM Identity Center, using AD as the identity source"
     },
     {
      "key": "C",
-     "text": "Amazon Cognito user pools"
+     "text": "Amazon Cognito user pools federated with AD, with one app client per AWS account"
     },
     {
      "key": "D",
-     "text": "AWS Secrets Manager"
+     "text": "AWS Secrets Manager, storing a copy of each employee's AD password for every account"
     }
    ],
    "answer": [
     "B"
    ],
-   "explanation": "IAM Identity Center gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source.",
+   "explanation": "IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source.",
    "resource": "https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html"
   },
   {
@@ -247,19 +247,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Create an IAM user in Account B and share its credentials"
+     "text": "Create an IAM user in Account B and share its access keys with the developer"
     },
     {
      "key": "B",
-     "text": "Create a role in Account B that trusts Account A, and allow the developer to call `sts:AssumeRole` on it"
+     "text": "Create a role in Account B that trusts Account A, and allow the developer to assume it"
     },
     {
      "key": "C",
-     "text": "Use an SCP to allow cross-account access"
+     "text": "Attach an SCP to Account B that allows the developer's IAM user from Account A"
     },
     {
      "key": "D",
-     "text": "Enable VPC peering between the accounts"
+     "text": "Peer the accounts' VPCs and reach DynamoDB in Account B through a gateway endpoint"
     }
    ],
    "answer": [
@@ -337,19 +337,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "IAM users per customer"
+     "text": "An IAM user for each customer, created at sign-up by a Lambda function"
     },
     {
      "key": "B",
-     "text": "Amazon Cognito user pools for authentication and Cognito identity pools for temporary AWS credentials"
+     "text": "Cognito user pools for sign-in and Cognito identity pools for AWS credentials"
     },
     {
      "key": "C",
-     "text": "IAM Identity Center"
+     "text": "IAM Identity Center, with each customer added as a workforce user"
     },
     {
      "key": "D",
-     "text": "AWS Directory Service Simple AD"
+     "text": "AWS Directory Service Simple AD, with a group for each customer's S3 prefix"
     }
    ],
    "answer": [
@@ -431,19 +431,19 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Share IAM users between team members to reduce the number of credentials"
+     "text": "Share IAM users among team members to reduce the number of credentials to manage"
     },
     {
      "key": "C",
-     "text": "Grant least privilege and refine it using access activity (last accessed information)"
+     "text": "Grant least privilege and refine it using last accessed information"
     },
     {
      "key": "D",
-     "text": "Embed access keys in AMIs so that instances start faster"
+     "text": "Embed access keys in AMIs so that new instances start with working credentials"
     },
     {
      "key": "E",
-     "text": "Use the root user for billing and daily administration"
+     "text": "Use the root user for billing tasks and for daily administration"
     }
    ],
    "answer": [
@@ -462,19 +462,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Enable VPC Flow Logs in each account"
+     "text": "Enable VPC Flow Logs in each account and send them to a central CloudWatch Logs group"
     },
     {
      "key": "B",
-     "text": "Create an organization trail in AWS CloudTrail that delivers to a central S3 bucket, with log file validation and S3 Object Lock"
+     "text": "Create an organization trail in CloudTrail that delivers to a central S3 bucket with Object Lock"
     },
     {
      "key": "C",
-     "text": "Use Amazon CloudWatch metrics"
+     "text": "Create a CloudWatch metric filter in each account and a cross-account dashboard of API calls"
     },
     {
      "key": "D",
-     "text": "Use AWS Config aggregators only"
+     "text": "Use an AWS Config aggregator in the management account to collect configuration history"
     }
    ],
    "answer": [
@@ -492,7 +492,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Shield Standard"
+     "text": "AWS Shield Standard, which protects the ALB automatically"
     },
     {
      "key": "B",
@@ -500,11 +500,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Network ACLs"
+     "text": "Network ACL rules that block the attackers' source addresses"
     },
     {
      "key": "D",
-     "text": "Amazon GuardDuty"
+     "text": "Amazon GuardDuty, with findings sent to Amazon EventBridge"
     }
    ],
    "answer": [
@@ -552,19 +552,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Security groups are stateless; NACLs are stateful"
+     "text": "Security groups are stateless and support deny rules; NACLs are stateful and allow-only"
     },
     {
      "key": "B",
-     "text": "Security groups are stateful and support allow rules only; NACLs are stateless and support both allow and deny rules"
+     "text": "Security groups are stateful and allow-only; NACLs are stateless and support deny rules"
     },
     {
      "key": "C",
-     "text": "NACLs apply to instances; security groups apply to subnets"
+     "text": "Security groups apply to subnets; NACLs apply to each instance's network interface"
     },
     {
      "key": "D",
-     "text": "Both support deny rules"
+     "text": "Both are stateful, but only NACLs evaluate numbered rules in order and support deny rules"
     }
    ],
    "answer": [
@@ -582,19 +582,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Add a deny rule to the security group"
+     "text": "Add a deny rule for the address to each instance's security group"
     },
     {
      "key": "B",
-     "text": "Add a deny rule to the subnet's network ACL"
+     "text": "Add a deny rule for the address to the subnet's network ACL"
     },
     {
      "key": "C",
-     "text": "Remove the internet gateway"
+     "text": "Detach the internet gateway from the VPC until the attack stops"
     },
     {
      "key": "D",
-     "text": "Use an IAM policy with `aws:SourceIp`"
+     "text": "Attach an IAM policy that denies requests from that `aws:SourceIp`"
     }
    ],
    "answer": [
@@ -612,7 +612,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "An internet gateway route in the private subnet"
+     "text": "A route from the private subnet directly to the internet gateway"
     },
     {
      "key": "B",
@@ -620,11 +620,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "An Elastic IP on each instance"
+     "text": "An Elastic IP address attached to each instance in the private subnet"
     },
     {
      "key": "D",
-     "text": "A virtual private gateway"
+     "text": "A virtual private gateway attached to the VPC, with route propagation"
     }
    ],
    "answer": [
@@ -672,19 +672,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "VPC peering with each customer"
+     "text": "A VPC peering connection with each customer VPC, plus route table entries"
     },
     {
      "key": "B",
-     "text": "AWS PrivateLink (an endpoint service behind a Network Load Balancer)"
+     "text": "AWS PrivateLink: an endpoint service behind a Network Load Balancer"
     },
     {
      "key": "C",
-     "text": "Transit Gateway with public routing"
+     "text": "A transit gateway shared with each customer's account through AWS RAM"
     },
     {
      "key": "D",
-     "text": "Internet-facing ALB"
+     "text": "An internet-facing ALB, restricted to customer IP ranges by a security group"
     }
    ],
    "answer": [
@@ -800,7 +800,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "AWS KMS"
+     "text": "AWS KMS with automatic key rotation enabled"
     },
     {
      "key": "D",
@@ -822,19 +822,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Put all tiers in public subnets with NACLs"
+     "text": "Put all tiers in public subnets and restrict traffic between them with network ACLs"
     },
     {
      "key": "B",
-     "text": "Put the ALB in public subnets and the app and DB in private subnets, with security groups that reference each other (the DB SG allows only the app SG)"
+     "text": "ALB in public subnets, app and DB in private subnets, DB SG allowing only the app SG"
     },
     {
      "key": "C",
-     "text": "Put the DB in a public subnet with a strong password"
+     "text": "Put the database in a public subnet and protect it with a strong password and TLS"
     },
     {
      "key": "D",
-     "text": "Use a single security group for all tiers"
+     "text": "Put all tiers in private subnets and attach one security group shared by every tier"
     }
    ],
    "answer": [
@@ -852,19 +852,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "A Cognito user pool authorizer on API Gateway"
+     "text": "A Cognito user pool authorizer on the API methods"
     },
     {
      "key": "B",
-     "text": "IAM users per client"
+     "text": "An IAM user for each client, with SigV4-signed requests"
     },
     {
      "key": "C",
-     "text": "A NACL rule"
+     "text": "A network ACL that allows only the clients' IP addresses"
     },
     {
      "key": "D",
-     "text": "AWS WAF rate-based rule"
+     "text": "An AWS WAF rate-based rule attached to the API stage"
     }
    ],
    "answer": [
@@ -912,19 +912,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Network Firewall, managed with AWS Firewall Manager"
+     "text": "AWS Network Firewall, managed centrally with AWS Firewall Manager"
     },
     {
      "key": "B",
-     "text": "Security groups"
+     "text": "Security groups in each VPC, shared across accounts through AWS RAM"
     },
     {
      "key": "C",
-     "text": "Route 53 private hosted zones"
+     "text": "Route 53 private hosted zones that override unwanted domain names"
     },
     {
      "key": "D",
-     "text": "AWS Shield Standard"
+     "text": "AWS Shield Standard applied to each VPC's internet gateway"
     }
    ],
    "answer": [
@@ -972,25 +972,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Origin access control (OAC) with a bucket policy that allows the CloudFront service principal"
+     "text": "Origin access control (OAC) and a bucket policy for the CloudFront service principal"
     },
     {
      "key": "B",
-     "text": "Make the bucket public"
+     "text": "A public bucket policy that allows reads only from CloudFront's published IP ranges"
     },
     {
      "key": "C",
-     "text": "A pre-signed URL for every object"
+     "text": "A pre-signed URL for every object, embedded in the application's web pages"
     },
     {
      "key": "D",
-     "text": "S3 Transfer Acceleration"
+     "text": "S3 Transfer Acceleration, with a bucket policy that requires the accelerate endpoint"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "OAC replaces the legacy origin access identity (OAI).",
+   "explanation": "Use a `Condition` so only your distribution can read the bucket. OAC replaces the legacy origin access identity (OAI).",
    "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html"
   },
   {
@@ -1002,7 +1002,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "SSE-S3"
+     "text": "SSE-S3 (Amazon S3 managed keys)"
     },
     {
      "key": "B",
@@ -1010,11 +1010,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "SSE-C"
+     "text": "SSE-C with keys supplied by the client"
     },
     {
      "key": "D",
-     "text": "No encryption; use bucket policies"
+     "text": "Client-side encryption with a locally stored key"
     }
    ],
    "answer": [
@@ -1062,7 +1062,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "S3 Versioning only"
+     "text": "S3 Versioning with a bucket policy that denies `s3:DeleteObject`"
     },
     {
      "key": "B",
@@ -1070,11 +1070,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "S3 Object Lock in Governance mode"
+     "text": "S3 Object Lock in Governance mode with a 7-year retention period"
     },
     {
      "key": "D",
-     "text": "MFA Delete only"
+     "text": "MFA Delete, enabled on the bucket by the root user"
     }
    ],
    "answer": [
@@ -1092,19 +1092,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Modify the instance and turn on encryption"
+     "text": "Modify the instance, turn on encryption, and apply the change immediately"
     },
     {
      "key": "B",
-     "text": "Take a snapshot, copy the snapshot with encryption enabled, and restore a new instance from the encrypted copy"
+     "text": "Snapshot the instance, copy the snapshot with encryption, and restore from the copy"
     },
     {
      "key": "C",
-     "text": "Enable encryption on the read replica"
+     "text": "Create an encrypted read replica and promote it to replace the primary"
     },
     {
      "key": "D",
-     "text": "Enable TLS"
+     "text": "Turn on TLS and enforce it with the `rds.force_ssl` parameter"
     }
    ],
    "answer": [
@@ -1156,7 +1156,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS KMS"
+     "text": "AWS KMS with an asymmetric key"
     },
     {
      "key": "C",
@@ -1164,7 +1164,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "AWS CloudHSM"
+     "text": "AWS Private Certificate Authority"
     }
    ],
    "answer": [
@@ -1216,15 +1216,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Enable default encryption"
+     "text": "Default bucket encryption with SSE-KMS and a customer managed key"
     },
     {
      "key": "C",
-     "text": "Enable S3 Block Public Access"
+     "text": "S3 Block Public Access turned on at the account and bucket levels"
     },
     {
      "key": "D",
-     "text": "Use SSE-KMS"
+     "text": "An S3 Access Point with a VPC network origin for each client"
     }
    ],
    "answer": [
@@ -1246,15 +1246,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "S3 Versioning"
+     "text": "S3 Versioning with MFA Delete on every bucket"
     },
     {
      "key": "C",
-     "text": "Server access logging"
+     "text": "Server access logging with alerts on public reads"
     },
     {
      "key": "D",
-     "text": "S3 Intelligent-Tiering"
+     "text": "S3 Object Lock in Compliance mode on every bucket"
     }
    ],
    "answer": [
@@ -1272,19 +1272,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Share the snapshot and grant the other account permission to use the KMS key in the key policy"
+     "text": "Share the snapshot and grant the other account use of the KMS key in its key policy"
     },
     {
      "key": "B",
-     "text": "Snapshots encrypted with any key can be shared without additional steps"
+     "text": "Share the snapshot; EBS in the other account decrypts it automatically"
     },
     {
      "key": "C",
-     "text": "Make the snapshot public"
+     "text": "Make the snapshot public so that the other account can copy it"
     },
     {
      "key": "D",
-     "text": "Copy the snapshot using the AWS managed key `aws/ebs`, then share it"
+     "text": "Copy the snapshot with the AWS managed key `aws/ebs`, then share the copy"
     }
    ],
    "answer": [
@@ -1302,19 +1302,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Backup with backup plans, cross-Region copy, and AWS Backup Vault Lock"
+     "text": "AWS Backup with backup plans, cross-Region copy, and Vault Lock"
     },
     {
      "key": "B",
-     "text": "Custom Lambda scripts"
+     "text": "Lambda functions that snapshot each resource and copy it to another Region"
     },
     {
      "key": "C",
-     "text": "S3 Cross-Region Replication"
+     "text": "S3 Cross-Region Replication of data exported from each service"
     },
     {
      "key": "D",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync tasks that copy each resource's data to a second Region"
     }
    ],
    "answer": [
@@ -1332,7 +1332,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Every 90 days"
+     "text": "Every 90 days; the rotation period can't be changed"
     },
     {
      "key": "B",
@@ -1340,11 +1340,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Never"
+     "text": "Never; customer managed keys can be rotated only on demand"
     },
     {
      "key": "D",
-     "text": "Every 30 days"
+     "text": "Every 30 days, matching the schedule for AWS managed keys"
     }
    ],
    "answer": [
@@ -1417,35 +1417,35 @@ window.QUESTION_BANK = {
    "id": "1-45",
    "domain": 1,
    "task": "1.3",
-   "stem": "Which options encrypt data in transit between clients and an application behind an ALB?",
+   "stem": "Which TWO steps together make sure that all client traffic to an application behind an ALB is encrypted in transit?",
    "select": 2,
    "options": [
     {
      "key": "A",
-     "text": "An HTTPS listener with an ACM certificate on the ALB"
+     "text": "Add an HTTPS listener to the ALB that uses an ACM certificate"
     },
     {
      "key": "B",
-     "text": "SSE-S3"
+     "text": "Turn on default SSE-S3 encryption for the application's S3 bucket"
     },
     {
      "key": "C",
-     "text": "An HTTP-to-HTTPS redirect rule on the ALB"
+     "text": "Add a rule to the HTTP listener that redirects all requests to HTTPS"
     },
     {
      "key": "D",
-     "text": "EBS encryption"
+     "text": "Turn on EBS encryption for the instances in the target group"
     },
     {
      "key": "E",
-     "text": "KMS key rotation"
+     "text": "Turn on automatic rotation for the application's KMS key"
     }
    ],
    "answer": [
     "A",
     "C"
    ],
-   "explanation": "",
+   "explanation": "The HTTPS listener terminates TLS with the ACM certificate, and the redirect sends clients that connect over plain HTTP to HTTPS instead of serving them unencrypted. The other options protect data at rest.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html"
   },
   {
@@ -1457,19 +1457,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Add more EC2 instances to the web tier"
+     "text": "Add more EC2 instances to the web tier and turn on cross-zone load balancing"
     },
     {
      "key": "B",
-     "text": "Put orders in an Amazon SQS queue and scale the worker Auto Scaling group on queue depth"
+     "text": "Send orders to an Amazon SQS queue and scale the workers on queue depth"
     },
     {
      "key": "C",
-     "text": "Use a larger RDS instance"
+     "text": "Move the backend database to a larger RDS instance class with Provisioned IOPS"
     },
     {
      "key": "D",
-     "text": "Use Route 53 weighted routing"
+     "text": "Use Route 53 weighted routing to spread requests across two web tiers"
     }
    ],
    "answer": [
@@ -1487,7 +1487,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "SQS standard queue"
+     "text": "SQS standard queue with the customer ID as a message attribute"
     },
     {
      "key": "B",
@@ -1495,11 +1495,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "SNS standard topic"
+     "text": "SNS standard topic with a subscription filter on the customer ID"
     },
     {
      "key": "D",
-     "text": "Amazon Data Firehose"
+     "text": "Amazon Data Firehose stream partitioned by the customer ID"
     }
    ],
    "answer": [
@@ -1517,7 +1517,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "One SQS queue polled by all three"
+     "text": "One SQS queue polled by all three systems"
     },
     {
      "key": "B",
@@ -1529,7 +1529,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "A shared EFS file"
+     "text": "A shared EFS file that each system reads on a schedule"
     }
    ],
    "answer": [
@@ -1551,15 +1551,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "A longer retention period"
+     "text": "A longer message retention period on the source queue"
     },
     {
      "key": "C",
-     "text": "Short polling"
+     "text": "Short polling with a smaller `ReceiveMessage` batch size"
     },
     {
      "key": "D",
-     "text": "A larger message size"
+     "text": "A delivery delay that postpones new messages by 15 minutes"
     }
    ],
    "answer": [
@@ -1577,19 +1577,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Increase the visibility timeout to exceed the processing time"
+     "text": "Increase the visibility timeout so that it exceeds the processing time"
     },
     {
      "key": "B",
-     "text": "Decrease the retention period"
+     "text": "Decrease the retention period so that messages expire sooner"
     },
     {
      "key": "C",
-     "text": "Enable long polling"
+     "text": "Enable long polling by setting `WaitTimeSeconds` to 20"
     },
     {
      "key": "D",
-     "text": "Increase the delay queue setting"
+     "text": "Increase the delivery delay so that messages arrive later"
     }
    ],
    "answer": [
@@ -1607,19 +1607,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Long polling (`WaitTimeSeconds` up to 20)"
+     "text": "Long polling, with `WaitTimeSeconds` of up to 20 seconds"
     },
     {
      "key": "B",
-     "text": "FIFO"
+     "text": "A FIFO queue with content-based deduplication"
     },
     {
      "key": "C",
-     "text": "A DLQ"
+     "text": "A dead-letter queue with a low `maxReceiveCount`"
     },
     {
      "key": "D",
-     "text": "Message timers"
+     "text": "Message timers that delay each message by 15 minutes"
     }
    ],
    "answer": [
@@ -1637,25 +1637,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Step Functions (Standard workflows)"
+     "text": "AWS Step Functions Standard workflows"
     },
     {
      "key": "B",
-     "text": "Amazon SQS"
+     "text": "AWS Step Functions Express workflows"
     },
     {
      "key": "C",
-     "text": "A single Lambda function"
+     "text": "An SQS queue with a Lambda consumer for each step"
     },
     {
      "key": "D",
-     "text": "Amazon EventBridge Scheduler"
+     "text": "EventBridge Scheduler with one schedule per step"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Standard workflows can run for up to one year. Express workflows are for high-volume executions that last up to 5 minutes.",
+   "explanation": "Standard workflows can run for up to one year. Express workflows (wrong here) are for high-volume executions that last up to 5 minutes.",
    "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"
   },
   {
@@ -1671,15 +1671,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon SNS"
+     "text": "Amazon SNS with subscription filter policies"
     },
     {
      "key": "C",
-     "text": "Amazon MQ"
+     "text": "Amazon MQ with a broker for each partner"
     },
     {
      "key": "D",
-     "text": "AWS AppSync"
+     "text": "AWS AppSync with a subscription for each target"
     }
    ],
    "answer": [
@@ -1727,7 +1727,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Enable sticky sessions permanently"
+     "text": "Turn on sticky sessions on the ALB with a long cookie duration"
     },
     {
      "key": "B",
@@ -1735,11 +1735,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Use larger instances"
+     "text": "Use larger instances so that fewer of them are needed at peak"
     },
     {
      "key": "D",
-     "text": "Disable scale-in"
+     "text": "Turn off scale-in on the Auto Scaling group during business hours"
     }
    ],
    "answer": [
@@ -1757,19 +1757,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Amazon API Gateway + AWS Lambda + Amazon DynamoDB (on-demand)"
+     "text": "Amazon API Gateway, AWS Lambda, and DynamoDB in on-demand mode"
     },
     {
      "key": "B",
-     "text": "EC2 + RDS"
+     "text": "EC2 instances in an Auto Scaling group with an Amazon RDS database"
     },
     {
      "key": "C",
-     "text": "ECS on EC2 with fixed capacity"
+     "text": "Amazon ECS on EC2 with a fixed number of container instances"
     },
     {
      "key": "D",
-     "text": "Elastic Beanstalk with a single instance"
+     "text": "AWS Elastic Beanstalk with a single-instance environment"
     }
    ],
    "answer": [
@@ -1791,15 +1791,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "ECS on EC2"
+     "text": "Amazon ECS with an EC2 Auto Scaling group capacity provider"
     },
     {
      "key": "C",
-     "text": "AWS Batch on Spot"
+     "text": "AWS Batch with a managed EC2 Spot compute environment"
     },
     {
      "key": "D",
-     "text": "Amazon Lightsail"
+     "text": "Amazon Lightsail instances with Docker installed"
     }
    ],
    "answer": [
@@ -1817,19 +1817,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Usage plans with throttling and API keys"
+     "text": "Usage plans with throttling limits and API keys"
     },
     {
      "key": "B",
-     "text": "Caching only"
+     "text": "Stage-level response caching with a long TTL"
     },
     {
      "key": "C",
-     "text": "Canary deployments"
+     "text": "Canary release deployments on the production stage"
     },
     {
      "key": "D",
-     "text": "Mapping templates"
+     "text": "Mapping templates that validate the request body"
     }
    ],
    "answer": [
@@ -1851,15 +1851,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "A cron job on EC2 that lists the bucket every minute"
+     "text": "A cron job on an EC2 instance that lists the bucket every minute"
     },
     {
      "key": "C",
-     "text": "Polling from the web tier"
+     "text": "The web tier polls the bucket after each upload and resizes the image"
     },
     {
      "key": "D",
-     "text": "S3 Replication"
+     "text": "S3 Replication to a second bucket that is configured for thumbnails"
     }
    ],
    "answer": [
@@ -1911,15 +1911,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon S3"
+     "text": "Amazon S3 with S3 Intelligent-Tiering"
     },
     {
      "key": "C",
-     "text": "Amazon EFS"
+     "text": "Amazon EFS with Elastic Throughput"
     },
     {
      "key": "D",
-     "text": "AWS Global Accelerator"
+     "text": "AWS Global Accelerator in front of the database"
     }
    ],
    "answer": [
@@ -2006,15 +2006,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Simple scaling"
+     "text": "Simple scaling with a CloudWatch alarm"
     },
     {
      "key": "C",
-     "text": "Step scaling"
+     "text": "Step scaling with several CloudWatch alarms"
     },
     {
      "key": "D",
-     "text": "Scheduled scaling"
+     "text": "Scheduled scaling actions every hour"
     }
    ],
    "answer": [
@@ -2032,19 +2032,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Scheduled scaling (or predictive scaling) combined with warm pools"
+     "text": "Scheduled (or predictive) scaling combined with a warm pool"
     },
     {
      "key": "B",
-     "text": "Simple scaling on CPU"
+     "text": "Simple scaling on CPU utilization with a lower alarm threshold"
     },
     {
      "key": "C",
-     "text": "Manual scaling"
+     "text": "Target tracking on request count per target with a low target"
     },
     {
      "key": "D",
-     "text": "Increase the cooldown"
+     "text": "A longer default cooldown so that new instances aren't terminated"
     }
    ],
    "answer": [
@@ -2092,19 +2092,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Read replicas scale reads (asynchronous replication); Multi-AZ provides high availability (synchronous)"
+     "text": "Read replicas scale reads with asynchronous replication; Multi-AZ provides high availability"
     },
     {
      "key": "B",
-     "text": "Both are synchronous"
+     "text": "Both use synchronous replication, but only read replicas can be in another Region"
     },
     {
      "key": "C",
-     "text": "Read replicas give automatic failover by default"
+     "text": "Read replicas provide automatic failover by default; Multi-AZ is for scaling reads"
     },
     {
      "key": "D",
-     "text": "Multi-AZ standbys serve read traffic in all engines"
+     "text": "Multi-AZ standbys serve reads in every engine; read replicas exist only for backups"
     }
    ],
    "answer": [
@@ -2126,15 +2126,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "One large EC2 instance"
+     "text": "One large EC2 instance with an Elastic IP address attached"
     },
     {
      "key": "C",
-     "text": "Two instances in the same AZ"
+     "text": "Two instances in the same AZ behind an Application Load Balancer"
     },
     {
      "key": "D",
-     "text": "A single instance with an Elastic IP"
+     "text": "A single instance with CloudWatch alarm-based automatic recovery"
     }
    ],
    "answer": [
@@ -2216,15 +2216,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "RDS Multi-AZ"
+     "text": "RDS Multi-AZ DB cluster"
     },
     {
      "key": "C",
-     "text": "DynamoDB Accelerator"
+     "text": "DynamoDB global tables"
     },
     {
      "key": "D",
-     "text": "RDS cross-Region snapshots"
+     "text": "RDS cross-Region snapshot copies"
     }
    ],
    "answer": [
@@ -2276,7 +2276,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Simple routing"
+     "text": "Simple routing with multiple IP addresses"
     },
     {
      "key": "C",
@@ -2306,15 +2306,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Geolocation"
+     "text": "Geolocation routing"
     },
     {
      "key": "C",
-     "text": "Multivalue answer"
+     "text": "Multivalue answer routing"
     },
     {
      "key": "D",
-     "text": "Weighted"
+     "text": "Weighted routing"
     }
    ],
    "answer": [
@@ -2396,15 +2396,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Increase the instance size"
+     "text": "Move to a larger instance type to reduce the errors"
     },
     {
      "key": "C",
-     "text": "Disable health checks"
+     "text": "Turn off health checks so instances aren't replaced"
     },
     {
      "key": "D",
-     "text": "Use scheduled scaling"
+     "text": "Add a scheduled action that replaces instances nightly"
     }
    ],
    "answer": [
@@ -2426,15 +2426,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "S3 Transfer Acceleration"
+     "text": "S3 Transfer Acceleration, enabled on the source bucket"
     },
     {
      "key": "C",
-     "text": "Lifecycle rules"
+     "text": "A lifecycle rule that transitions objects to the other Region"
     },
     {
      "key": "D",
-     "text": "CloudFront"
+     "text": "A CloudFront distribution that uses the bucket as its origin"
     }
    ],
    "answer": [
@@ -2456,21 +2456,21 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS Backup"
+     "text": "AWS Backup with an hourly backup plan"
     },
     {
      "key": "C",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync tasks scheduled every hour"
     },
     {
      "key": "D",
-     "text": "AWS Snowball"
+     "text": "AWS Application Migration Service (MGN)"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "AWS DRS keeps servers replicated for recovery and failback. Application Migration Service uses similar replication but is built for one-time migrations, not ongoing DR.",
    "resource": "https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html"
   },
   {
@@ -2482,7 +2482,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Instances in other AZs lose outbound internet access; deploy one NAT gateway per AZ and route each AZ to its own"
+     "text": "Instances in other AZs lose internet access; create a NAT gateway in each AZ and route to it"
     },
     {
      "key": "B",
@@ -2490,11 +2490,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Traffic moves automatically to the internet gateway"
+     "text": "Outbound traffic switches to the internet gateway automatically until the AZ recovers"
     },
     {
      "key": "D",
-     "text": "Use a NAT instance instead"
+     "text": "Instances in other AZs lose internet access; add a second NAT gateway in the same AZ"
     }
    ],
    "answer": [
@@ -2520,11 +2520,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Use VPC peering"
+     "text": "Peer the VPC with a second VPC in another Region"
     },
     {
      "key": "D",
-     "text": "Use an internet gateway"
+     "text": "Add a NAT gateway in each Availability Zone"
     }
    ],
    "answer": [
@@ -2546,15 +2546,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Aurora Backtrack"
+     "text": "Aurora Backtrack with a 72-hour window"
     },
     {
      "key": "C",
-     "text": "Aurora Serverless"
+     "text": "Aurora Serverless v2 capacity scaling"
     },
     {
      "key": "D",
-     "text": "Aurora Auto Scaling"
+     "text": "Aurora Auto Scaling for Aurora Replicas"
     }
    ],
    "answer": [
@@ -2576,15 +2576,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS Trusted Advisor"
+     "text": "AWS Trusted Advisor fault tolerance checks"
     },
     {
      "key": "C",
-     "text": "Amazon Inspector"
+     "text": "Amazon Inspector network reachability findings"
     },
     {
      "key": "D",
-     "text": "AWS X-Ray"
+     "text": "AWS X-Ray service maps and traces"
     }
    ],
    "answer": [
@@ -2606,21 +2606,21 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "DynamoDB Streams"
+     "text": "DynamoDB Streams processed into S3 by Lambda"
     },
     {
      "key": "C",
-     "text": "TTL"
+     "text": "Daily on-demand backups started by EventBridge"
     },
     {
      "key": "D",
-     "text": "DAX"
+     "text": "Time to Live (TTL) on each item"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "PITR restores to any second in the recovery period (1–35 days, default 35).",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html"
   },
   {
@@ -2666,21 +2666,21 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "gp3"
+     "text": "gp3 (General Purpose SSD) at maximum IOPS"
     },
     {
      "key": "C",
-     "text": "st1"
+     "text": "st1 (Throughput Optimized HDD)"
     },
     {
      "key": "D",
-     "text": "sc1"
+     "text": "gp2 (General Purpose SSD) at 16 TiB"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume.",
+   "explanation": "io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume, and HDD volumes are built for throughput, not IOPS.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html"
   },
   {
@@ -2717,7 +2717,7 @@ window.QUESTION_BANK = {
    "id": "3-03",
    "domain": 3,
    "task": "3.1",
-   "stem": "A big data job reads large files sequentially and needs high throughput at low cost. Which EBS type fits?",
+   "stem": "A big data job frequently reads large files sequentially and needs high throughput at low cost. Which EBS type fits?",
    "select": 1,
    "options": [
     {
@@ -2726,15 +2726,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "io2"
+     "text": "io2 (Provisioned IOPS SSD)"
     },
     {
      "key": "C",
-     "text": "gp3"
+     "text": "gp3 (General Purpose SSD)"
     },
     {
      "key": "D",
-     "text": "sc1 for a boot volume"
+     "text": "sc1 (Cold HDD) as the boot volume"
     }
    ],
    "answer": [
@@ -2756,15 +2756,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "EFS"
+     "text": "Amazon EFS in Max I/O mode"
     },
     {
      "key": "C",
-     "text": "S3"
+     "text": "Amazon S3 Express One Zone"
     },
     {
      "key": "D",
-     "text": "io2 EBS"
+     "text": "An io2 EBS volume"
     }
    ],
    "answer": [
@@ -2786,15 +2786,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon EFS Standard"
+     "text": "Amazon EFS with Elastic Throughput and Max I/O mode"
     },
     {
      "key": "C",
-     "text": "FSx for Windows File Server"
+     "text": "Amazon FSx for Windows File Server with SSD storage"
     },
     {
      "key": "D",
-     "text": "S3 Glacier"
+     "text": "S3 Glacier Instant Retrieval mounted with Mountpoint"
     }
    ],
    "answer": [
@@ -2816,11 +2816,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon EFS"
+     "text": "Amazon EFS with Elastic Throughput"
     },
     {
      "key": "C",
-     "text": "FSx for Lustre"
+     "text": "Amazon FSx for Lustre"
     },
     {
      "key": "D",
@@ -2846,11 +2846,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon EFS"
+     "text": "Amazon EFS with cross-Region replication"
     },
     {
      "key": "C",
-     "text": "FSx for OpenZFS"
+     "text": "Amazon FSx for OpenZFS"
     },
     {
      "key": "D",
@@ -2907,25 +2907,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Spread objects across multiple prefixes; each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second"
+     "text": "Spread objects across multiple prefixes, since request limits apply per prefix"
     },
     {
      "key": "B",
-     "text": "S3 can't go beyond 5,500 GET requests per second per bucket"
+     "text": "Nothing; S3 is limited to 5,500 GET requests per second for each bucket"
     },
     {
      "key": "C",
-     "text": "Enable versioning"
+     "text": "Enable versioning so that reads are spread across object versions"
     },
     {
      "key": "D",
-     "text": "Use S3 One Zone-IA"
+     "text": "Move the objects to S3 One Zone-IA, which has higher request limits"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html"
   },
   {
@@ -2971,11 +2971,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync with an on-premises agent"
     },
     {
      "key": "C",
-     "text": "AWS Snowcone"
+     "text": "AWS Transfer Family SFTP server"
     },
     {
      "key": "D",
@@ -3057,19 +3057,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Partition"
+     "text": "Partition placement group"
     },
     {
      "key": "B",
-     "text": "Spread"
+     "text": "Spread placement group"
     },
     {
      "key": "C",
-     "text": "Cluster"
+     "text": "Cluster placement group"
     },
     {
      "key": "D",
-     "text": "None"
+     "text": "No placement group"
     }
    ],
    "answer": [
@@ -3117,25 +3117,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Increase the memory setting, because CPU scales in proportion to memory (up to 10,240 MB and 6 vCPUs)"
+     "text": "Increase the memory setting, because CPU scales in proportion to memory"
     },
     {
      "key": "B",
-     "text": "Set the vCPU count directly"
+     "text": "Set the number of vCPUs in the function's configuration"
     },
     {
      "key": "C",
-     "text": "Increase the timeout"
+     "text": "Increase the function timeout so that it has more time to run"
     },
     {
      "key": "D",
-     "text": "Enable provisioned concurrency"
+     "text": "Enable provisioned concurrency so that more CPU is reserved"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Memory can be set up to 10,240 MB, which gives up to 6 vCPUs.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html"
   },
   {
@@ -3151,15 +3151,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Reserved concurrency"
+     "text": "Reserved concurrency set to the peak number of requests"
     },
     {
      "key": "C",
-     "text": "A larger timeout"
+     "text": "A longer timeout on the function and on the API integration"
     },
     {
      "key": "D",
-     "text": "Dead-letter queues"
+     "text": "A dead-letter queue that catches failed invocations"
     }
    ],
    "answer": [
@@ -3181,15 +3181,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Lambda can't access S3"
+     "text": "Lambda functions can't read from or write to S3"
     },
     {
      "key": "C",
-     "text": "Lambda doesn't support Python"
+     "text": "Lambda doesn't support the Python runtime"
     },
     {
      "key": "D",
-     "text": "Lambda has no IAM integration"
+     "text": "Lambda functions can't use IAM execution roles"
     }
    ],
    "answer": [
@@ -3267,7 +3267,7 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Path-based routing listener rules"
+     "text": "Path-based routing in listener rules"
     },
     {
      "key": "B",
@@ -3275,11 +3275,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Sticky sessions"
+     "text": "Sticky sessions on each target group"
     },
     {
      "key": "D",
-     "text": "Connection draining"
+     "text": "Connection draining (deregistration delay)"
     }
    ],
    "answer": [
@@ -3327,25 +3327,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Gateway Load Balancer (GENEVE)"
+     "text": "Gateway Load Balancer"
     },
     {
      "key": "B",
-     "text": "ALB"
+     "text": "Application Load Balancer"
     },
     {
      "key": "C",
-     "text": "NLB"
+     "text": "Network Load Balancer"
     },
     {
      "key": "D",
-     "text": "CLB"
+     "text": "Classic Load Balancer"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Gateway Load Balancer uses GENEVE encapsulation to pass traffic transparently to the appliances.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html"
   },
   {
@@ -3421,15 +3421,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Increase the writer instance size"
+     "text": "Increase the writer instance to a larger instance class"
     },
     {
      "key": "C",
-     "text": "Enable Multi-AZ on RDS"
+     "text": "Run the reports from a Lambda function against the writer"
     },
     {
      "key": "D",
-     "text": "Use Backtrack"
+     "text": "Use Backtrack to rewind the database after each report"
     }
    ],
    "answer": [
@@ -3537,19 +3537,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "MongoDB-compatible JSON documents → Amazon DocumentDB; Cassandra (CQL) → Amazon Keyspaces; IoT time-series → Amazon Timestream"
+     "text": "MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Keyspaces; IoT time series → Timestream"
     },
     {
      "key": "B",
-     "text": "Cassandra → Neptune"
+     "text": "MongoDB-compatible documents → Keyspaces; Cassandra (CQL) → DocumentDB; IoT time series → Timestream"
     },
     {
      "key": "C",
-     "text": "Time-series → DocumentDB"
+     "text": "MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Neptune; IoT time series → Keyspaces"
     },
     {
      "key": "D",
-     "text": "Graph → Keyspaces"
+     "text": "MongoDB-compatible documents → Timestream; Cassandra (CQL) → Keyspaces; IoT time series → DocumentDB"
     }
    ],
    "answer": [
@@ -3571,15 +3571,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Not enough storage"
+     "text": "The table is out of storage; request a storage quota increase for the table"
     },
     {
      "key": "C",
-     "text": "Global tables are disabled"
+     "text": "Global tables are disabled; add a replica Region to spread the writes"
     },
     {
      "key": "D",
-     "text": "TTL is misconfigured"
+     "text": "TTL is deleting items too slowly; lower the TTL values on the hot items"
     }
    ],
    "answer": [
@@ -3605,11 +3605,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "DAX"
+     "text": "DynamoDB Accelerator (DAX)"
     },
     {
      "key": "D",
-     "text": "EFS"
+     "text": "Amazon EFS with Elastic Throughput"
     }
    ],
    "answer": [
@@ -3691,15 +3691,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Yes, automatically"
+     "text": "Yes, traffic is routed through VPC B automatically"
     },
     {
      "key": "C",
-     "text": "Yes, if the route tables include B's CIDR"
+     "text": "Yes, if A's route table sends C's CIDR to the A–B peering"
     },
     {
      "key": "D",
-     "text": "Only over IPv6"
+     "text": "Only for IPv6 traffic between the VPCs"
     }
    ],
    "answer": [
@@ -3742,30 +3742,30 @@ window.QUESTION_BANK = {
    "id": "3-37",
    "domain": 3,
    "task": "3.4",
-   "stem": "A company wants to connect branch offices to one another and to AWS using the AWS global network, with managed site-to-site VPN hub routing. What fits?",
+   "stem": "A company has several branch offices, each with its own Site-to-Site VPN connection to the same virtual private gateway. The branches must also be able to reach one another over those VPN connections. What should the company use?",
    "select": 1,
    "options": [
     {
      "key": "A",
-     "text": "AWS VPN CloudHub (multiple VPN connections to one virtual private gateway) or AWS Cloud WAN"
+     "text": "AWS VPN CloudHub, with a unique BGP ASN for each branch"
     },
     {
      "key": "B",
-     "text": "VPC peering"
+     "text": "VPC peering connections between the VPC and each branch office"
     },
     {
      "key": "C",
-     "text": "PrivateLink"
+     "text": "AWS PrivateLink interface endpoints for each branch office"
     },
     {
      "key": "D",
-     "text": "CloudFront"
+     "text": "A Direct Connect transit virtual interface for each branch office"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "CloudHub uses the virtual private gateway as a hub that routes traffic between the VPN connections. Each customer gateway needs its own BGP ASN. For large global networks, AWS Cloud WAN is the managed alternative.",
    "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html"
   },
   {
@@ -3777,25 +3777,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Avoid overlapping with on-premises and other VPC CIDRs, and size subnets for growth (AWS reserves 5 IP addresses per subnet)"
+     "text": "Avoid overlap with on-premises and other VPC CIDRs, and size subnets for growth"
     },
     {
      "key": "B",
-     "text": "Always use /28"
+     "text": "Always use /28 subnets so that each subnet wastes as few addresses as possible"
     },
     {
      "key": "C",
-     "text": "Overlap doesn't matter with peering"
+     "text": "Overlapping CIDRs are fine, because VPC peering translates addresses"
     },
     {
      "key": "D",
-     "text": "Subnets can span AZs"
+     "text": "Create one subnet that spans every AZ so that instances can move freely"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Each subnet lives in exactly one AZ.",
+   "explanation": "AWS reserves 5 IP addresses in every subnet, and each subnet lives in exactly one AZ.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html"
   },
   {
@@ -3811,15 +3811,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Public hosted zones"
+     "text": "Public hosted zones that contain copies of the private records"
     },
     {
      "key": "C",
-     "text": "A DHCP option set only"
+     "text": "A DHCP options set that points the VPC at the on-premises DNS servers"
     },
     {
      "key": "D",
-     "text": "CloudFront"
+     "text": "A CloudFront distribution with a Route 53 alias record"
     }
    ],
    "answer": [
@@ -3837,25 +3837,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Enhanced networking (ENA), plus EFA for HPC"
+     "text": "Enhanced networking with ENA, plus EFA for HPC"
     },
     {
      "key": "B",
-     "text": "Elastic IP addresses"
+     "text": "An Elastic IP address on each instance"
     },
     {
      "key": "C",
-     "text": "Multiple NAT gateways"
+     "text": "A NAT gateway in each Availability Zone"
     },
     {
      "key": "D",
-     "text": "VPC Flow Logs"
+     "text": "VPC Flow Logs with a 1-minute aggregation interval"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "ENA supports up to 100+ Gbps on supported instance types, and EFA adds OS-bypass networking for MPI and HPC.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html"
   },
   {
@@ -3871,11 +3871,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Amazon SQS standard"
+     "text": "Amazon SQS standard queue"
     },
     {
      "key": "C",
-     "text": "Amazon SNS"
+     "text": "Amazon SNS standard topic"
     },
     {
      "key": "D",
@@ -3927,19 +3927,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Amazon Athena (with the AWS Glue Data Catalog)"
+     "text": "Amazon Athena with the AWS Glue Data Catalog"
     },
     {
      "key": "B",
-     "text": "Amazon Redshift provisioned"
+     "text": "An Amazon Redshift provisioned cluster"
     },
     {
      "key": "C",
-     "text": "Amazon RDS"
+     "text": "Amazon RDS for PostgreSQL, after importing the files"
     },
     {
      "key": "D",
-     "text": "Amazon EMR always-on"
+     "text": "An always-on Amazon EMR cluster running Hive"
     }
    ],
    "answer": [
@@ -4021,15 +4021,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "S3 Standard forever"
+     "text": "S3 Standard for 30 days → S3 Glacier Flexible Retrieval for the rest of the 7 years"
     },
     {
      "key": "C",
-     "text": "S3 One Zone-IA from day 1"
+     "text": "S3 One Zone-IA from day 1 → S3 Glacier Flexible Retrieval after 90 days"
     },
     {
      "key": "D",
-     "text": "S3 Glacier Instant Retrieval from day 1"
+     "text": "S3 Glacier Instant Retrieval from day 1 → S3 Glacier Deep Archive after 90 days"
     }
    ],
    "answer": [
@@ -4119,7 +4119,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "S3 Standard"
+     "text": "S3 Standard storage class"
     }
    ],
    "answer": [
@@ -4137,25 +4137,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "A lifecycle rule to expire noncurrent versions after N days, and to abort incomplete multipart uploads"
+     "text": "A lifecycle rule that expires noncurrent versions after N days"
     },
     {
      "key": "B",
-     "text": "Disable versioning, which deletes old versions"
+     "text": "Suspend versioning on the bucket, which removes the old versions"
     },
     {
      "key": "C",
-     "text": "Enable Object Lock"
+     "text": "Turn on S3 Object Lock in Governance mode for the bucket"
     },
     {
      "key": "D",
-     "text": "Use Transfer Acceleration"
+     "text": "Turn on S3 Intelligent-Tiering for the current versions only"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Suspending versioning doesn't delete the versions that already exist.",
+   "explanation": "Also add a rule to abort incomplete multipart uploads. Suspending versioning doesn't delete the versions that already exist.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html"
   },
   {
@@ -4171,15 +4171,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "S3 Inventory only"
+     "text": "S3 Inventory reports"
     },
     {
      "key": "C",
-     "text": "CloudTrail"
+     "text": "AWS CloudTrail data events"
     },
     {
      "key": "D",
-     "text": "Macie"
+     "text": "Amazon Macie"
     }
    ],
    "answer": [
@@ -4197,25 +4197,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Migrate to gp3 with Elastic Volumes (no downtime)"
+     "text": "Migrate them to gp3 with Elastic Volumes"
     },
     {
      "key": "B",
-     "text": "Migrate to io2"
+     "text": "Migrate them to io2 with the same IOPS"
     },
     {
      "key": "C",
-     "text": "Migrate to instance store"
+     "text": "Move the data to instance store volumes"
     },
     {
      "key": "D",
-     "text": "Take more snapshots"
+     "text": "Convert them to st1 Throughput Optimized HDD"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "gp3 is about 20% cheaper per GB than gp2, and Elastic Volumes changes the type without downtime.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/requesting-ebs-volume-modifications.html"
   },
   {
@@ -4227,19 +4227,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Move the snapshots to EBS Snapshots Archive"
+     "text": "Move the snapshots to the EBS Snapshots Archive tier"
     },
     {
      "key": "B",
-     "text": "Delete them"
+     "text": "Move the snapshots to S3 Glacier Deep Archive with a lifecycle rule"
     },
     {
      "key": "C",
-     "text": "Copy them to another Region"
+     "text": "Copy the snapshots to a cheaper Region and delete the originals"
     },
     {
      "key": "D",
-     "text": "Convert them to AMIs"
+     "text": "Convert the snapshots to AMIs, which are stored at no charge"
     }
    ],
    "answer": [
@@ -4257,19 +4257,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "EFS lifecycle management to move files to EFS Infrequent Access or Archive"
+     "text": "EFS lifecycle management to the IA or Archive class"
     },
     {
      "key": "B",
-     "text": "Switch to EBS"
+     "text": "Move the data to gp3 EBS volumes attached to each instance"
     },
     {
      "key": "C",
-     "text": "Enable Provisioned Throughput"
+     "text": "Switch the file system to Provisioned Throughput mode"
     },
     {
      "key": "D",
-     "text": "Use Max I/O mode"
+     "text": "Switch the file system to Max I/O performance mode"
     }
    ],
    "answer": [
@@ -4287,25 +4287,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Storage Gateway, Tape Gateway (virtual tapes stored in S3 and S3 Glacier)"
+     "text": "AWS Storage Gateway Tape Gateway"
     },
     {
      "key": "B",
-     "text": "S3 File Gateway"
+     "text": "AWS Storage Gateway S3 File Gateway"
     },
     {
      "key": "C",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync with a daily scheduled task"
     },
     {
      "key": "D",
-     "text": "Amazon EFS"
+     "text": "Amazon EFS with the EFS Archive class"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Tape Gateway presents a virtual tape library to existing backup software and stores the tapes in S3 and S3 Glacier.",
    "resource": "https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html"
   },
   {
@@ -4317,11 +4317,11 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Spot Instances (up to 90% off On-Demand)"
+     "text": "Spot Instances"
     },
     {
      "key": "B",
-     "text": "On-Demand"
+     "text": "On-Demand Instances"
     },
     {
      "key": "C",
@@ -4329,13 +4329,13 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "Reserved Instances for 3 years on a workload that runs 1 hour a month"
+     "text": "3-year Reserved Instances"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Spot Instances get a 2-minute interruption notice.",
+   "explanation": "Spot Instances cost up to 90% less than On-Demand and get a 2-minute interruption notice.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html"
   },
   {
@@ -4385,11 +4385,11 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Spot blocks"
+     "text": "Spot Instances with a maximum price"
     },
     {
      "key": "D",
-     "text": "Savings Plans"
+     "text": "Compute Savings Plans (1-year)"
     }
    ],
    "answer": [
@@ -4437,19 +4437,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "A mixed instances policy: On-Demand (covered by Savings Plans) for the baseline and Spot for the peaks, spread across several instance types"
+     "text": "Mixed instances: Savings Plans-covered On-Demand baseline, Spot for peaks"
     },
     {
      "key": "B",
-     "text": "All On-Demand at peak size"
+     "text": "All On-Demand Instances, sized for the peak and running around the clock"
     },
     {
      "key": "C",
-     "text": "All Spot with a single instance type"
+     "text": "All Spot Instances of a single instance type, sized for the peak"
     },
     {
      "key": "D",
-     "text": "Dedicated Hosts"
+     "text": "Dedicated Hosts for the baseline and On-Demand Instances for the peaks"
     }
    ],
    "answer": [
@@ -4471,15 +4471,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "Move to Dedicated Hosts"
+     "text": "Move to Dedicated Hosts with the same instance type"
     },
     {
      "key": "C",
-     "text": "Use larger x86 instances"
+     "text": "Move to larger x86 instances and consolidate workloads"
     },
     {
      "key": "D",
-     "text": "Use instance store"
+     "text": "Move to instances with NVMe instance store volumes"
     }
    ],
    "answer": [
@@ -4497,25 +4497,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Stop them outside business hours (Instance Scheduler on AWS or scheduled Auto Scaling actions)"
+     "text": "Stop them outside business hours with Instance Scheduler on AWS"
     },
     {
      "key": "B",
-     "text": "Buy 3-year RIs"
+     "text": "Buy 3-year Reserved Instances that cover all of the instances"
     },
     {
      "key": "C",
-     "text": "Move them to Dedicated Hosts"
+     "text": "Move them to Dedicated Hosts to reduce the licensing cost"
     },
     {
      "key": "D",
-     "text": "Increase their size"
+     "text": "Resize them to a larger type so that work finishes sooner"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Scheduled Auto Scaling actions work too, for instances in an Auto Scaling group.",
    "resource": "https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html"
   },
   {
@@ -4527,25 +4527,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "API Gateway + Lambda (pay per request)"
+     "text": "Amazon API Gateway with AWS Lambda functions"
     },
     {
      "key": "B",
-     "text": "Larger EC2 instances"
+     "text": "Larger EC2 instances behind an Application Load Balancer"
     },
     {
      "key": "C",
-     "text": "Reserved Instances"
+     "text": "Amazon ECS on EC2 with four tasks across two instances"
     },
     {
      "key": "D",
-     "text": "ECS on EC2 with 4 tasks"
+     "text": "An EC2 Auto Scaling group with a minimum of four instances"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "With a few thousand requests a day, paying per request costs far less than two always-on instances.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html"
   },
   {
@@ -4561,7 +4561,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS Artifact"
+     "text": "AWS Artifact reports"
     },
     {
      "key": "C",
@@ -4591,15 +4591,15 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "AWS Cost Explorer only"
+     "text": "AWS Cost Explorer with a saved report"
     },
     {
      "key": "C",
-     "text": "CloudTrail"
+     "text": "An AWS CloudTrail trail with Insights events"
     },
     {
      "key": "D",
-     "text": "AWS Config"
+     "text": "An AWS Config rule that checks instance types"
     }
    ],
    "answer": [
@@ -4617,25 +4617,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Apply and activate cost allocation tags (and/or use separate accounts with consolidated billing)"
+     "text": "Apply and activate cost allocation tags, or use separate accounts"
     },
     {
      "key": "B",
-     "text": "Use IAM groups"
+     "text": "Put each department's users in its own IAM group"
     },
     {
      "key": "C",
-     "text": "Enable VPC Flow Logs"
+     "text": "Enable VPC Flow Logs and add up the traffic by department"
     },
     {
      "key": "D",
-     "text": "Use separate Regions"
+     "text": "Deploy each department's resources in a separate Region"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Separate accounts under consolidated billing also split costs cleanly.",
    "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html"
   },
   {
@@ -4651,7 +4651,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "B",
-     "text": "SCPs"
+     "text": "Service control policies"
     },
     {
      "key": "C",
@@ -4677,25 +4677,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Provisioned capacity with auto scaling (plus reserved capacity)"
+     "text": "Provisioned capacity with auto scaling"
     },
     {
      "key": "B",
-     "text": "On-demand"
+     "text": "On-demand capacity"
     },
     {
      "key": "C",
-     "text": "Global tables"
+     "text": "Provisioned capacity fixed at twice the average load"
     },
     {
      "key": "D",
-     "text": "DAX"
+     "text": "Global tables with on-demand capacity"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "On-demand is best for unknown or spiky traffic.",
+   "explanation": "Reserved capacity lowers the cost further. On-demand is best for unknown or spiky traffic.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html"
   },
   {
@@ -4707,25 +4707,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "The DynamoDB Standard-Infrequent Access table class, or TTL plus export to S3"
+     "text": "The DynamoDB Standard-Infrequent Access table class"
     },
     {
      "key": "B",
-     "text": "Global tables"
+     "text": "Global tables with a replica in a lower-cost Region"
     },
     {
      "key": "C",
-     "text": "DAX"
+     "text": "DynamoDB Accelerator (DAX) in front of the table"
     },
     {
      "key": "D",
-     "text": "Increase the RCUs"
+     "text": "More read capacity units provisioned on the table"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "For data that's rarely needed at all, TTL plus export to S3 is another option.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.TableClasses.html"
   },
   {
@@ -4749,7 +4749,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "D",
-     "text": "PITR"
+     "text": "Point-in-time recovery"
     }
    ],
    "answer": [
@@ -4767,25 +4767,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Buy RDS Reserved Instances (or Database Savings Plans where available)"
+     "text": "Buy RDS Reserved Instances or a Database Savings Plan"
     },
     {
      "key": "B",
-     "text": "Use Spot Instances for RDS"
+     "text": "Run the database on Spot Instances through Amazon RDS"
     },
     {
      "key": "C",
-     "text": "Keep it On-Demand"
+     "text": "Keep it On-Demand and scale the instance down at night"
     },
     {
      "key": "D",
-     "text": "Stop it every night"
+     "text": "Move it to RDS Custom so that Spot pricing applies"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Spot isn't available for RDS.",
+   "explanation": "Spot isn't available for RDS in any form.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithReservedDBInstances.html"
   },
   {
@@ -4797,25 +4797,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Stop the instance when it isn't in use (it restarts automatically after 7 days if left stopped)"
+     "text": "Stop the instance when it isn't in use"
     },
     {
      "key": "B",
-     "text": "Enable Multi-AZ"
+     "text": "Enable Multi-AZ to spread the cost across AZs"
     },
     {
      "key": "C",
-     "text": "Add read replicas"
+     "text": "Add read replicas and shrink the primary instance"
     },
     {
      "key": "D",
-     "text": "Increase storage"
+     "text": "Increase allocated storage to raise baseline IOPS"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "Alternatively, use Aurora Serverless v2, which can scale down to 0 ACUs.",
+   "explanation": "A stopped instance restarts automatically after 7 days. Alternatively, use Aurora Serverless v2, which can scale down to 0 ACUs.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html"
   },
   {
@@ -4827,19 +4827,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "The AWS Schema Conversion Tool (or DMS Schema Conversion) with AWS DMS, targeting Aurora PostgreSQL"
+     "text": "AWS SCT (or DMS Schema Conversion) with AWS DMS, targeting Aurora PostgreSQL"
     },
     {
      "key": "B",
-     "text": "AWS DataSync"
+     "text": "AWS DataSync to copy the Oracle data files into Amazon RDS for Oracle"
     },
     {
      "key": "C",
-     "text": "AWS Snowball only"
+     "text": "AWS Snowball Edge to ship the Oracle database files to Amazon S3"
     },
     {
      "key": "D",
-     "text": "AWS Application Migration Service"
+     "text": "AWS Application Migration Service to rehost the Oracle servers on EC2"
     }
    ],
    "answer": [
@@ -4857,19 +4857,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Add ElastiCache in front for frequently read data, or add read replicas"
+     "text": "Cache hot data in ElastiCache, or add read replicas"
     },
     {
      "key": "B",
-     "text": "Move to a larger instance"
+     "text": "Move to a larger instance class with more memory"
     },
     {
      "key": "C",
-     "text": "Switch to Provisioned IOPS"
+     "text": "Switch the storage to Provisioned IOPS (io2) volumes"
     },
     {
      "key": "D",
-     "text": "Enable Multi-AZ"
+     "text": "Enable Multi-AZ so that the standby serves the reads"
     }
    ],
    "answer": [
@@ -4895,7 +4895,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "RDS Proxy"
+     "text": "RDS Proxy connection pooling"
     },
     {
      "key": "D",
@@ -4925,7 +4925,7 @@ window.QUESTION_BANK = {
     },
     {
      "key": "C",
-     "text": "Multi-AZ RDS"
+     "text": "RDS for MySQL with gp3 storage"
     },
     {
      "key": "D",
@@ -4947,25 +4947,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Query the data in place with Athena or Redshift Spectrum, or use Redshift Serverless"
+     "text": "Query the data in place in S3 with Amazon Athena"
     },
     {
      "key": "B",
-     "text": "A larger Redshift cluster"
+     "text": "Resize the cluster to larger RA3 nodes so that queries finish sooner"
     },
     {
      "key": "C",
-     "text": "Load the data into RDS"
+     "text": "Load the logs into Amazon RDS for PostgreSQL and query them there"
     },
     {
      "key": "D",
-     "text": "Use DynamoDB scans"
+     "text": "Import the logs into DynamoDB and run a scan for each analysis"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Redshift Spectrum or Redshift Serverless also avoid paying for an always-on cluster.",
    "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html"
   },
   {
@@ -5037,25 +5037,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Use AZ-aware routing so clients prefer resources in the same AZ, while keeping multi-AZ capacity for failover"
+     "text": "Route clients to cache nodes in their own AZ, keeping other AZs for failover"
     },
     {
      "key": "B",
-     "text": "Put everything in a single AZ with no failover"
+     "text": "Move every tier into a single AZ and remove the capacity in the other AZs"
     },
     {
      "key": "C",
-     "text": "Use public IP addresses"
+     "text": "Send the traffic over public IP addresses instead of private addresses"
     },
     {
      "key": "D",
-     "text": "Use a NAT gateway"
+     "text": "Route the traffic between tiers through a NAT gateway in each AZ"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Cross-AZ traffic is charged in each direction, so AZ-aware routing cuts the bill while the other AZs still provide failover.",
    "resource": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/plan-for-data-transfer.html"
   },
   {
@@ -5067,25 +5067,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Put CloudFront in front of S3 (S3-to-CloudFront transfer is free, and CloudFront egress is typically cheaper)"
+     "text": "Put CloudFront in front of the bucket"
     },
     {
      "key": "B",
-     "text": "Enable S3 Transfer Acceleration"
+     "text": "Enable S3 Transfer Acceleration on the bucket"
     },
     {
      "key": "C",
-     "text": "Replicate to every Region"
+     "text": "Replicate the bucket to every Region"
     },
     {
      "key": "D",
-     "text": "Use Requester Pays for public users"
+     "text": "Turn on Requester Pays for public users"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Transfer from S3 to CloudFront is free, and CloudFront's data transfer out is typically cheaper than S3's.",
    "resource": "https://aws.amazon.com/cloudfront/pricing/"
   },
   {
@@ -5097,25 +5097,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "AWS Direct Connect (lower data-transfer-out rates)"
+     "text": "AWS Direct Connect"
     },
     {
      "key": "B",
-     "text": "More VPN tunnels"
+     "text": "More VPN tunnels with ECMP"
     },
     {
      "key": "C",
-     "text": "VPC peering"
+     "text": "A transit gateway in front of the VPN"
     },
     {
      "key": "D",
-     "text": "Global Accelerator"
+     "text": "AWS Global Accelerator"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Direct Connect has lower data-transfer-out rates than the internet and more consistent performance.",
    "resource": "https://aws.amazon.com/directconnect/pricing/pay-as-you-go/"
   },
   {
@@ -5127,25 +5127,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Centralize egress in a shared egress VPC through Transit Gateway (weighing TGW processing charges against NAT hourly savings)"
+     "text": "Centralize egress in a shared egress VPC reached through Transit Gateway"
     },
     {
      "key": "B",
-     "text": "Add more NAT gateways"
+     "text": "Add a second NAT gateway in each VPC to spread the processing load"
     },
     {
      "key": "C",
-     "text": "Use internet gateways in private subnets"
+     "text": "Route the private subnets straight to each VPC's internet gateway"
     },
     {
      "key": "D",
-     "text": "Replace NAT with VPC peering"
+     "text": "Peer every VPC with one VPC and share that VPC's NAT gateways"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "",
+   "explanation": "Weigh the Transit Gateway attachment and processing charges against the NAT gateway hours saved.",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/centralized-egress-to-internet.html"
   },
   {
@@ -5157,25 +5157,25 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "Public IPv4 addresses (including unattached Elastic IPs) and idle NAT gateways (hourly charge)"
+     "text": "Public IPv4 addresses and idle NAT gateways"
     },
     {
      "key": "B",
-     "text": "Security groups"
+     "text": "Security groups with no attached instances"
     },
     {
      "key": "C",
-     "text": "Route tables"
+     "text": "Route tables with no associated subnets"
     },
     {
      "key": "D",
-     "text": "Gateway VPC endpoints"
+     "text": "Gateway VPC endpoints with no traffic"
     }
    ],
    "answer": [
     "A"
    ],
-   "explanation": "AWS charges for all public IPv4 addresses.",
+   "explanation": "AWS charges for all public IPv4 addresses, including unattached Elastic IPs.",
    "resource": "https://aws.amazon.com/vpc/pricing/"
   },
   {
@@ -5187,19 +5187,19 @@ window.QUESTION_BANK = {
    "options": [
     {
      "key": "A",
-     "text": "VPC peering has no hourly charge (only data transfer), while Transit Gateway charges per attachment-hour plus per GB processed; peering can be cheaper for a few high-traffic VPC pairs"
+     "text": "Peering has no hourly charge, only data transfer; TGW charges per attachment-hour and per GB"
     },
     {
      "key": "B",
-     "text": "Transit Gateway is always free"
+     "text": "Transit Gateway has no charges, while peering charges for each connection-hour"
     },
     {
      "key": "C",
-     "text": "VPC peering charges per attachment-hour"
+     "text": "Peering charges per attachment-hour and per GB, the same way as Transit Gateway"
     },
     {
      "key": "D",
-     "text": "Both are free"
+     "text": "Both are free; only data transfer out to the internet is charged for either"
     }
    ],
    "answer": [

@@ -8,13 +8,13 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 **1.** A database on EC2 needs 150,000 IOPS with consistent sub-millisecond latency on a single volume. Which EBS volume type fits?
 - A. io2 Block Express (Provisioned IOPS SSD)
-- B. gp3
-- C. st1
-- D. sc1
+- B. gp3 (General Purpose SSD) at maximum IOPS
+- C. st1 (Throughput Optimized HDD)
+- D. gp2 (General Purpose SSD) at 16 TiB
 
 <details><summary>Answer</summary>
 
-**A.** io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume.
+**A.** io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume, and HDD volumes are built for throughput, not IOPS.
 Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html>
 </details>
 
@@ -30,11 +30,11 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.htm
 Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html>
 </details>
 
-**3.** A big data job reads large files sequentially and needs high throughput at low cost. Which EBS type fits?
+**3.** A big data job frequently reads large files sequentially and needs high throughput at low cost. Which EBS type fits?
 - A. st1 (Throughput Optimized HDD)
-- B. io2
-- C. gp3
-- D. sc1 for a boot volume
+- B. io2 (Provisioned IOPS SSD)
+- C. gp3 (General Purpose SSD)
+- D. sc1 (Cold HDD) as the boot volume
 
 <details><summary>Answer</summary>
 
@@ -44,9 +44,9 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/hdd-vols.html>
 
 **4.** An application needs very high random I/O temporary scratch space. Data can be lost when the instance stops. Which option is BEST?
 - A. EC2 instance store (NVMe)
-- B. EFS
-- C. S3
-- D. io2 EBS
+- B. Amazon EFS in Max I/O mode
+- C. Amazon S3 Express One Zone
+- D. An io2 EBS volume
 
 <details><summary>Answer</summary>
 
@@ -56,9 +56,9 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.h
 
 **5.** An HPC workload needs a parallel file system with hundreds of GB/s of throughput, linked to an S3 data lake. What should be used?
 - A. Amazon FSx for Lustre linked to an S3 data repository
-- B. Amazon EFS Standard
-- C. FSx for Windows File Server
-- D. S3 Glacier
+- B. Amazon EFS with Elastic Throughput and Max I/O mode
+- C. Amazon FSx for Windows File Server with SSD storage
+- D. S3 Glacier Instant Retrieval mounted with Mountpoint
 
 <details><summary>Answer</summary>
 
@@ -68,8 +68,8 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html>
 
 **6.** Windows applications need a shared SMB file system integrated with Active Directory and supporting DFS. What should be used?
 - A. Amazon FSx for Windows File Server
-- B. Amazon EFS
-- C. FSx for Lustre
+- B. Amazon EFS with Elastic Throughput
+- C. Amazon FSx for Lustre
 - D. An S3 bucket mounted through s3fs
 
 <details><summary>Answer</summary>
@@ -80,8 +80,8 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html>
 
 **7.** A company is moving NetApp ONTAP workloads and needs NFS, SMB, and iSCSI multi-protocol access with SnapMirror. What fits?
 - A. Amazon FSx for NetApp ONTAP
-- B. Amazon EFS
-- C. FSx for OpenZFS
+- B. Amazon EFS with cross-Region replication
+- C. Amazon FSx for OpenZFS
 - D. AWS Storage Gateway Tape Gateway
 
 <details><summary>Answer</summary>
@@ -104,14 +104,14 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-accele
 </details>
 
 **9.** How can an application get more than 5,500 GET requests per second from S3?
-- A. Spread objects across multiple prefixes; each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second
-- B. S3 can't go beyond 5,500 GET requests per second per bucket
-- C. Enable versioning
-- D. Use S3 One Zone-IA
+- A. Spread objects across multiple prefixes, since request limits apply per prefix
+- B. Nothing; S3 is limited to 5,500 GET requests per second for each bucket
+- C. Enable versioning so that reads are spread across object versions
+- D. Move the objects to S3 One Zone-IA, which has higher request limits
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes.
 Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html>
 </details>
 
@@ -129,8 +129,8 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucke
 
 **11.** An on-premises application needs low-latency local access to frequently used files while storing all data durably in S3 as objects. What should be used?
 - A. AWS Storage Gateway, S3 File Gateway
-- B. AWS DataSync
-- C. AWS Snowcone
+- B. AWS DataSync with an on-premises agent
+- C. AWS Transfer Family SFTP server
 - D. Volume Gateway stored mode backed by EBS
 
 <details><summary>Answer</summary>
@@ -168,10 +168,10 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strateg
 </details>
 
 **14.** A large Hadoop, Cassandra, or Kafka cluster needs rack-aware placement across groups of instances. Which placement group should be used?
-- A. Partition
-- B. Spread
-- C. Cluster
-- D. None
+- A. Partition placement group
+- B. Spread placement group
+- C. Cluster placement group
+- D. No placement group
 
 <details><summary>Answer</summary>
 
@@ -192,22 +192,22 @@ Resource: <https://aws.amazon.com/ec2/instance-types/>
 </details>
 
 **16.** A Lambda function is CPU-bound and runs slowly. How is more CPU allocated?
-- A. Increase the memory setting, because CPU scales in proportion to memory (up to 10,240 MB and 6 vCPUs)
-- B. Set the vCPU count directly
-- C. Increase the timeout
-- D. Enable provisioned concurrency
+- A. Increase the memory setting, because CPU scales in proportion to memory
+- B. Set the number of vCPUs in the function's configuration
+- C. Increase the function timeout so that it has more time to run
+- D. Enable provisioned concurrency so that more CPU is reserved
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** Memory can be set up to 10,240 MB, which gives up to 6 vCPUs.
 Resource: <https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html>
 </details>
 
 **17.** A latency-sensitive Lambda API suffers from cold starts during business hours. What reduces them?
 - A. Provisioned concurrency (or SnapStart for supported runtimes)
-- B. Reserved concurrency
-- C. A larger timeout
-- D. Dead-letter queues
+- B. Reserved concurrency set to the peak number of requests
+- C. A longer timeout on the function and on the API integration
+- D. A dead-letter queue that catches failed invocations
 
 <details><summary>Answer</summary>
 
@@ -217,9 +217,9 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.
 
 **18.** A job runs for 3 hours per batch item. Why is Lambda NOT suitable?
 - A. The maximum Lambda timeout is 15 minutes
-- B. Lambda can't access S3
-- C. Lambda doesn't support Python
-- D. Lambda has no IAM integration
+- B. Lambda functions can't read from or write to S3
+- C. Lambda doesn't support the Python runtime
+- D. Lambda functions can't use IAM execution roles
 
 <details><summary>Answer</summary>
 
@@ -252,10 +252,10 @@ Resource: <https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html>
 </details>
 
 **21.** An ALB must route `/api/*` to one target group and `/images/*` to another. Which ALB feature does this?
-- A. Path-based routing listener rules
+- A. Path-based routing in listener rules
 - B. Cross-zone load balancing
-- C. Sticky sessions
-- D. Connection draining
+- C. Sticky sessions on each target group
+- D. Connection draining (deregistration delay)
 
 <details><summary>Answer</summary>
 
@@ -276,14 +276,14 @@ Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/network/intro
 </details>
 
 **23.** Traffic must pass transparently through a fleet of third-party virtual firewall appliances. Which load balancer should be used?
-- A. Gateway Load Balancer (GENEVE)
-- B. ALB
-- C. NLB
-- D. CLB
+- A. Gateway Load Balancer
+- B. Application Load Balancer
+- C. Network Load Balancer
+- D. Classic Load Balancer
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** Gateway Load Balancer uses GENEVE encapsulation to pass traffic transparently to the appliances.
 Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html>
 </details>
 
@@ -317,9 +317,9 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.
 
 **26.** A reporting workload is slowing down the primary Aurora writer. What is the BEST way to offload reads?
 - A. Add Aurora Replicas and point reports at the reader endpoint
-- B. Increase the writer instance size
-- C. Enable Multi-AZ on RDS
-- D. Use Backtrack
+- B. Increase the writer instance to a larger instance class
+- C. Run the reports from a Lambda function against the writer
+- D. Use Backtrack to rewind the database after each report
 
 <details><summary>Answer</summary>
 
@@ -364,10 +364,10 @@ Resource: <https://docs.aws.amazon.com/neptune/latest/userguide/intro.html>
 </details>
 
 **30.** Match each workload to a purpose-built database. Which pairing is CORRECT?
-- A. MongoDB-compatible JSON documents → Amazon DocumentDB; Cassandra (CQL) → Amazon Keyspaces; IoT time-series → Amazon Timestream
-- B. Cassandra → Neptune
-- C. Time-series → DocumentDB
-- D. Graph → Keyspaces
+- A. MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Keyspaces; IoT time series → Timestream
+- B. MongoDB-compatible documents → Keyspaces; Cassandra (CQL) → DocumentDB; IoT time series → Timestream
+- C. MongoDB-compatible documents → DocumentDB; Cassandra (CQL) → Neptune; IoT time series → Keyspaces
+- D. MongoDB-compatible documents → Timestream; Cassandra (CQL) → Keyspaces; IoT time series → DocumentDB
 
 <details><summary>Answer</summary>
 
@@ -377,9 +377,9 @@ Resource: <https://aws.amazon.com/products/databases/>
 
 **31.** A DynamoDB table gets throttled on a small number of keys even though total provisioned capacity isn't used up. What is the likely cause and fix?
 - A. A hot partition; choose a partition key with higher cardinality or add write sharding
-- B. Not enough storage
-- C. Global tables are disabled
-- D. TTL is misconfigured
+- B. The table is out of storage; request a storage quota increase for the table
+- C. Global tables are disabled; add a replica Region to spread the writes
+- D. TTL is deleting items too slowly; lower the TTL values on the hot items
 
 <details><summary>Answer</summary>
 
@@ -390,8 +390,8 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-p
 **32.** A company needs an in-memory data store that supports complex data types, sorted sets, persistence, and replication with Multi-AZ failover. Which should it choose?
 - A. ElastiCache for Redis OSS (or Valkey)
 - B. ElastiCache for Memcached
-- C. DAX
-- D. EFS
+- C. DynamoDB Accelerator (DAX)
+- D. Amazon EFS with Elastic Throughput
 
 <details><summary>Answer</summary>
 
@@ -429,9 +429,9 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.ht
 
 **35.** VPC A is peered with VPC B, and VPC B is peered with VPC C. Can VPC A reach VPC C through B?
 - A. No, VPC peering doesn't support transitive routing
-- B. Yes, automatically
-- C. Yes, if the route tables include B's CIDR
-- D. Only over IPv6
+- B. Yes, traffic is routed through VPC B automatically
+- C. Yes, if A's route table sends C's CIDR to the A–B peering
+- D. Only for IPv6 traffic between the VPCs
 
 <details><summary>Answer</summary>
 
@@ -451,35 +451,35 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.htm
 Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html>
 </details>
 
-**37.** A company wants to connect branch offices to one another and to AWS using the AWS global network, with managed site-to-site VPN hub routing. What fits?
-- A. AWS VPN CloudHub (multiple VPN connections to one virtual private gateway) or AWS Cloud WAN
-- B. VPC peering
-- C. PrivateLink
-- D. CloudFront
+**37.** A company has several branch offices, each with its own Site-to-Site VPN connection to the same virtual private gateway. The branches must also be able to reach one another over those VPN connections. What should the company use?
+- A. AWS VPN CloudHub, with a unique BGP ASN for each branch
+- B. VPC peering connections between the VPC and each branch office
+- C. AWS PrivateLink interface endpoints for each branch office
+- D. A Direct Connect transit virtual interface for each branch office
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** CloudHub uses the virtual private gateway as a hub that routes traffic between the VPN connections. Each customer gateway needs its own BGP ASN. For large global networks, AWS Cloud WAN is the managed alternative.
 Resource: <https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html>
 </details>
 
 **38.** When designing a VPC, what is a key consideration for the CIDR block?
-- A. Avoid overlapping with on-premises and other VPC CIDRs, and size subnets for growth (AWS reserves 5 IP addresses per subnet)
-- B. Always use /28
-- C. Overlap doesn't matter with peering
-- D. Subnets can span AZs
+- A. Avoid overlap with on-premises and other VPC CIDRs, and size subnets for growth
+- B. Always use /28 subnets so that each subnet wastes as few addresses as possible
+- C. Overlapping CIDRs are fine, because VPC peering translates addresses
+- D. Create one subnet that spans every AZ so that instances can move freely
 
 <details><summary>Answer</summary>
 
-**A.** Each subnet lives in exactly one AZ.
+**A.** AWS reserves 5 IP addresses in every subnet, and each subnet lives in exactly one AZ.
 Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html>
 </details>
 
 **39.** On-premises servers must resolve private Route 53 hosted-zone names, and VPC resources must resolve on-premises domains. What should be used?
 - A. Route 53 Resolver inbound and outbound endpoints with forwarding rules
-- B. Public hosted zones
-- C. A DHCP option set only
-- D. CloudFront
+- B. Public hosted zones that contain copies of the private records
+- C. A DHCP options set that points the VPC at the on-premises DNS servers
+- D. A CloudFront distribution with a Route 53 alias record
 
 <details><summary>Answer</summary>
 
@@ -488,14 +488,14 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.ht
 </details>
 
 **40.** A company wants to improve network performance between EC2 instances with up to 100+ Gbps and lower latency and jitter. What should it enable?
-- A. Enhanced networking (ENA), plus EFA for HPC
-- B. Elastic IP addresses
-- C. Multiple NAT gateways
-- D. VPC Flow Logs
+- A. Enhanced networking with ENA, plus EFA for HPC
+- B. An Elastic IP address on each instance
+- C. A NAT gateway in each Availability Zone
+- D. VPC Flow Logs with a 1-minute aggregation interval
 
 <details><summary>Answer</summary>
 
-**A.**
+**A.** ENA supports up to 100+ Gbps on supported instance types, and EFA adds OS-bypass networking for MPI and HPC.
 Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html>
 </details>
 
@@ -505,8 +505,8 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networki
 
 **41.** Clickstream data must be ingested in real time, processed by several consumers, and replayed for up to 7 days. What should be used?
 - A. Amazon Kinesis Data Streams
-- B. Amazon SQS standard
-- C. Amazon SNS
+- B. Amazon SQS standard queue
+- C. Amazon SNS standard topic
 - D. Amazon S3 event notifications
 
 <details><summary>Answer</summary>
@@ -528,10 +528,10 @@ Resource: <https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.
 </details>
 
 **43.** Analysts want to run ad hoc SQL queries directly on CSV and Parquet files in S3 without loading them anywhere and pay per query. What should they use?
-- A. Amazon Athena (with the AWS Glue Data Catalog)
-- B. Amazon Redshift provisioned
-- C. Amazon RDS
-- D. Amazon EMR always-on
+- A. Amazon Athena with the AWS Glue Data Catalog
+- B. An Amazon Redshift provisioned cluster
+- C. Amazon RDS for PostgreSQL, after importing the files
+- D. An always-on Amazon EMR cluster running Hive
 
 <details><summary>Answer</summary>
 
