@@ -51,6 +51,8 @@ def parse_node(text):
     if not label.strip() or any(c in text for c in ("[", "]", "\x00", "->", "~>")):
         raise ValueError(f"bad box {text!r}")
     node["n"] = label.strip()
+    if sub.strip().startswith("*"):
+        raise ValueError(f"put * before the box's label, not its sub-label: {text!r}")
     if sub.strip():
         node["s"] = sub.strip()
     return node
@@ -70,6 +72,8 @@ def parse_chain(text, groups, nested=False):
         if i:
             x, label, dashed, dashed_label = parts[i - 4 : i]
             edge = {"e": (label or dashed_label or "").strip()}
+            if edge["e"].startswith("*"):
+                raise ValueError(f"arrow labels can't be highlighted: {edge['e']!r}")
             if x:
                 edge["x"] = 1
             if dashed:
@@ -79,8 +83,8 @@ def parse_chain(text, groups, nested=False):
             if nested:
                 raise ValueError("frames can't be nested")
             title, sep, inner = groups[int(m[1])].partition(": ")
-            if not sep or not title.strip():
-                raise ValueError(f"frame needs 'Title: ...', got {groups[int(m[1])]!r}")
+            if not sep or not title.strip() or title.strip().startswith("*"):
+                raise ValueError(f"frame needs 'Title: ...' (no * highlight), got {groups[int(m[1])]!r}")
             chain.append({"g": title.strip(), "c": parse_chain(inner, groups, nested=True)})
         else:
             boxes = [parse_node(t) for t in piece.split(" & ")]

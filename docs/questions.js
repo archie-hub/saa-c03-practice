@@ -4601,7 +4601,48 @@ window.QUESTION_BANK = {
     "03a7dffff0"
    ],
    "explanation": "SQS buffers messages so workers can process them at their own pace instead of dropping requests during a spike. Scale the worker fleet on `ApproximateNumberOfMessagesVisible` (backlog per instance) rather than on web-tier metrics.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Web tier"
+     },
+     {
+      "e": "send order"
+     },
+     {
+      "h": 1,
+      "n": "SQS queue",
+      "s": "buffers the spike"
+     },
+     {
+      "e": "poll at own pace"
+     },
+     {
+      "n": "Worker Auto Scaling group"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "SQS queue",
+      "s": "buffers the spike"
+     },
+     {
+      "e": "backlog per instance",
+      "d": 1
+     },
+     {
+      "n": "Scaling policy"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Worker Auto Scaling group"
+     }
+    ]
+   ]
   },
   {
    "id": "2-02",
@@ -4634,7 +4675,44 @@ window.QUESTION_BANK = {
     "87a9cb68de"
    ],
    "explanation": "FIFO queues preserve order within a message group and deduplicate messages, so using the customer ID as the group ID keeps each customer's transactions in order without mixing them with other customers'.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html",
+   "diagram": [
+    [
+     {
+      "n": "Transactions",
+      "s": "all customers"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "SQS FIFO queue"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Group: customer A",
+        "s": "in order"
+       },
+       {
+        "n": "Group: customer B",
+        "s": "in order"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Statement generator",
+      "s": "exactly once"
+     }
+    ]
+   ]
   },
   {
    "id": "2-03",
@@ -4667,7 +4745,47 @@ window.QUESTION_BANK = {
     "2ffbb58950"
    ],
    "explanation": "SNS-to-SQS fan-out delivers one copy of the event to each queue, so billing, shipping, and analytics each consume independently and a backlog in one queue has no effect on the others.",
-   "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html"
+   "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html",
+   "diagram": [
+    [
+     {
+      "n": "Order placed"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "SNS topic"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "h": 1,
+        "n": "SQS: billing"
+       },
+       {
+        "h": 1,
+        "n": "SQS: shipping"
+       },
+       {
+        "h": 1,
+        "n": "SQS: analytics",
+        "s": "may lag"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Each consumer at its own pace"
+     }
+    ]
+   ]
   },
   {
    "id": "2-04",
@@ -4700,7 +4818,41 @@ window.QUESTION_BANK = {
     "28bededeb1"
    ],
    "explanation": "After a message fails a set number of receives (`maxReceiveCount`), the redrive policy moves it to a DLQ instead of leaving it to block the head of the queue, so healthy messages keep flowing.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
+   "diagram": [
+    [
+     {
+      "n": "SQS queue"
+     },
+     {
+      "e": "receive fails 5x"
+     },
+     {
+      "h": 1,
+      "n": "Redrive policy",
+      "s": "maxReceiveCount = 5"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Dead-letter queue",
+      "s": "malformed order"
+     }
+    ],
+    [
+     {
+      "n": "SQS queue"
+     },
+     {
+      "e": "valid orders keep flowing"
+     },
+     {
+      "n": "Consumers"
+     }
+    ]
+   ]
   },
   {
    "id": "2-05",
@@ -4733,7 +4885,41 @@ window.QUESTION_BANK = {
     "f6025fc88d"
    ],
    "explanation": "If a message isn't deleted before the visibility timeout expires, SQS makes it visible to other consumers again, causing duplicate processing. Setting the timeout comfortably above the worst-case processing time prevents that.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html",
+   "diagram": [
+    [
+     {
+      "n": "Worker 1"
+     },
+     {
+      "e": "receive"
+     },
+     {
+      "n": "SQS message",
+      "s": "hidden for visibility timeout"
+     },
+     {
+      "e": "timeout > worst-case processing"
+     },
+     {
+      "n": "Worker 1 deletes it"
+     }
+    ],
+    [
+     {
+      "n": "SQS message",
+      "s": "hidden for visibility timeout"
+     },
+     {
+      "e": "timeout expired too early",
+      "x": 1
+     },
+     {
+      "n": "Worker 2",
+      "s": "duplicate transcode"
+     }
+    ]
+   ]
   },
   {
    "id": "2-06",
@@ -4766,7 +4952,41 @@ window.QUESTION_BANK = {
     "2c652b365a"
    ],
    "explanation": "Long polling keeps the connection open for up to 20 seconds waiting for a message to arrive, instead of returning immediately with an empty response, which sharply cuts the number of empty polls and their cost.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html",
+   "diagram": [
+    [
+     {
+      "n": "Consumer"
+     },
+     {
+      "e": "ReceiveMessage, WaitTimeSeconds=20"
+     },
+     {
+      "h": 1,
+      "n": "Long polling",
+      "s": "waits for a message"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Message as soon as one arrives"
+     }
+    ],
+    [
+     {
+      "n": "Short polling"
+     },
+     {
+      "e": "fewer of these",
+      "x": 1
+     },
+     {
+      "n": "Empty responses",
+      "s": "billed API calls"
+     }
+    ]
+   ]
   },
   {
    "id": "2-07",
@@ -4799,7 +5019,48 @@ window.QUESTION_BANK = {
     "f9ce541d23"
    ],
    "explanation": "Standard workflows can run for up to a year and are built for exactly this kind of long-running, auditable process with waits and human approval. Express workflows (wrong here) are for high-volume executions that complete within 5 minutes.",
-   "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"
+   "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Application submitted"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Credit check",
+      "s": "retries"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Human approval"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Wait for documents",
+      "s": "up to months"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Decision"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Step Functions Standard",
+      "s": "runs up to 1 year, full history"
+     }
+    ]
+   ]
   },
   {
    "id": "2-08",
@@ -4832,7 +5093,47 @@ window.QUESTION_BANK = {
     "a8eb3a1fca"
    ],
    "explanation": "EventBridge supports partner event sources like Zendesk alongside native AWS events, and its rules can filter and route based on event content to multiple targets.",
-   "resource": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html"
+   "resource": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Zendesk partner source"
+       },
+       {
+        "n": "AWS events",
+        "s": "e.g. EC2 state change"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "EventBridge event bus"
+     },
+     {
+      "e": "rule: priority = high"
+     },
+     {
+      "n": "On-call Lambda"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "EventBridge event bus"
+     },
+     {
+      "e": "other rules"
+     },
+     {
+      "n": "Other targets"
+     }
+    ]
+   ]
   },
   {
    "id": "2-09",
@@ -4865,7 +5166,29 @@ window.QUESTION_BANK = {
     "dc28ae10da"
    ],
    "explanation": "Amazon MQ is a managed message broker for Apache ActiveMQ and RabbitMQ that supports standard protocols including AMQP and MQTT, letting existing clients connect with little to no code change.",
-   "resource": "https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html"
+   "resource": "https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Existing clients",
+      "s": "AMQP and MQTT"
+     },
+     {
+      "e": "no code changes"
+     },
+     {
+      "h": 1,
+      "n": "Amazon MQ",
+      "s": "managed ActiveMQ broker"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Order-routing consumers"
+     }
+    ]
+   ]
   },
   {
    "id": "2-10",
@@ -4898,7 +5221,55 @@ window.QUESTION_BANK = {
     "754d7b6895"
    ],
    "explanation": "Keeping session state out of the instances and in a shared, external store lets any instance serve any request, so scaling in no longer logs users out.",
-   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html",
+   "diagram": [
+    [
+     {
+      "n": "Users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EC2 1"
+       },
+       {
+        "n": "EC2 2"
+       },
+       {
+        "n": "EC2 3"
+       }
+      ]
+     },
+     {
+      "e": "read / write session"
+     },
+     {
+      "h": 1,
+      "n": "Shared session store",
+      "s": "ElastiCache or DynamoDB"
+     }
+    ],
+    [
+     {
+      "n": "Scale-in removes EC2 3"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Session survives in the shared store"
+     }
+    ]
+   ]
   },
   {
    "id": "2-11",
@@ -4931,7 +5302,44 @@ window.QUESTION_BANK = {
     "aae8d9c0ce"
    ],
    "explanation": "This combination scales automatically from zero to very high request rates with nothing to provision or patch, unlike the other options, which all involve managing servers or fixed capacity.",
-   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html"
+   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Clients",
+      "s": "0 to thousands per second"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "API Gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lambda"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "DynamoDB",
+      "s": "on-demand"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Fully serverless",
+      "s": "scales from zero, nothing to patch"
+     }
+    ]
+   ]
   },
   {
    "id": "2-12",
@@ -4964,7 +5372,55 @@ window.QUESTION_BANK = {
     "525a4f7927"
    ],
    "explanation": "Fargate is a serverless compute engine for containers: ECS or EKS schedules the containers, and there are no EC2 instances for the customer to provision or manage.",
-   "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html"
+   "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html",
+   "diagram": [
+    [
+     {
+      "n": "Container images"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "ECS or EKS",
+      "s": "scheduling"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Fargate",
+      "s": "serverless compute"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Running tasks / pods"
+     }
+    ],
+    [
+     {
+      "n": "Your EC2 cluster"
+     },
+     {
+      "e": "nothing to manage",
+      "x": 1
+     },
+     {
+      "k": [
+       {
+        "n": "Patching"
+       },
+       {
+        "n": "Capacity planning"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-13",
@@ -4997,7 +5453,48 @@ window.QUESTION_BANK = {
     "816abde9a0"
    ],
    "explanation": "Usage plans tied to API keys let you set per-client throttling (rate and burst) limits, so one client's traffic spike can't consume the capacity other clients depend on.",
-   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html"
+   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html",
+   "diagram": [
+    [
+     {
+      "n": "Client A"
+     },
+     {
+      "e": "API key A"
+     },
+     {
+      "h": 1,
+      "n": "Usage plan",
+      "s": "rate + burst limit per key"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "API Gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Backend"
+     }
+    ],
+    [
+     {
+      "n": "Misbehaving client"
+     },
+     {
+      "e": "429 over the limit",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Usage plan",
+      "s": "rate + burst limit per key"
+     }
+    ]
+   ]
   },
   {
    "id": "2-14",
@@ -5030,7 +5527,41 @@ window.QUESTION_BANK = {
     "23cfddae7a"
    ],
    "explanation": "S3 event notifications trigger the Lambda function the moment an object is created, with no polling and no direct dependency between the upload path and the thumbnail generator.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html",
+   "diagram": [
+    [
+     {
+      "n": "Upload"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 bucket"
+     },
+     {
+      "e": "ObjectCreated event"
+     },
+     {
+      "h": 1,
+      "n": "Event notification or EventBridge"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lambda",
+      "s": "thumbnail"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Thumbnails bucket"
+     }
+    ]
+   ]
   },
   {
    "id": "2-15",
@@ -5063,7 +5594,28 @@ window.QUESTION_BANK = {
     "9750104ae4"
    ],
    "explanation": "RDS Proxy pools and shares a smaller number of underlying database connections across many Lambda invocations, and it also speeds up failover. A bigger instance class or more replicas don't solve a connection-exhaustion problem by themselves.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html",
+   "diagram": [
+    [
+     {
+      "n": "Many Lambda invocations"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "RDS Proxy",
+      "s": "connection pool"
+     },
+     {
+      "e": "few shared connections"
+     },
+     {
+      "n": "RDS for MySQL"
+     }
+    ]
+   ]
   },
   {
    "id": "2-16",
@@ -5096,7 +5648,41 @@ window.QUESTION_BANK = {
     "2d024f5411"
    ],
    "explanation": "ElastiCache caches frequently read, rarely changed query results in memory, cutting both database load and response latency for hot reads.",
-   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "1. read"
+     },
+     {
+      "h": 1,
+      "n": "ElastiCache",
+      "s": "hot items in memory"
+     },
+     {
+      "e": "2. on a miss"
+     },
+     {
+      "n": "Database"
+     }
+    ],
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "cache hit, sub-millisecond"
+     },
+     {
+      "h": 1,
+      "n": "ElastiCache",
+      "s": "hot items in memory"
+     }
+    ]
+   ]
   },
   {
    "id": "2-17",
@@ -5134,7 +5720,53 @@ window.QUESTION_BANK = {
     "e31cc33765"
    ],
    "explanation": "Loose coupling means components don't need to know each other's location or scaling state — they exchange work through queues or events, and each can scale on its own. Shared disks, hard-coded IPs, and cascading failures are all signs of tight coupling.",
-   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_prevent_interaction_failure_loosely_coupled_system.html"
+   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_prevent_interaction_failure_loosely_coupled_system.html",
+   "diagram": [
+    [
+     {
+      "n": "Producer service"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Queue or event bus"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Consumer service"
+     }
+    ],
+    [
+     {
+      "n": "Producer service"
+     },
+     {
+      "e": "",
+      "d": 1
+     },
+     {
+      "h": 1,
+      "n": "Scales on its own"
+     }
+    ],
+    [
+     {
+      "n": "Consumer service"
+     },
+     {
+      "e": "",
+      "d": 1
+     },
+     {
+      "h": 1,
+      "n": "Scales on its own"
+     }
+    ]
+   ]
   },
   {
    "id": "2-18",
@@ -5167,7 +5799,38 @@ window.QUESTION_BANK = {
     "7ded5be30c"
    ],
    "explanation": "VPC Lattice provides application-layer networking — service discovery, routing, and IAM authorization — across VPCs and accounts, without peering connections or managing individual load balancers per service.",
-   "resource": "https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice.html"
+   "resource": "https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice.html",
+   "diagram": [
+    [
+     {
+      "g": "VPC, Account A",
+      "c": [
+       {
+        "n": "Service A"
+       }
+      ]
+     },
+     {
+      "e": "HTTP"
+     },
+     {
+      "h": 1,
+      "n": "VPC Lattice service network",
+      "s": "discovery, routing, IAM auth"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "VPC, Account B",
+      "c": [
+       {
+        "n": "Service B"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-19",
@@ -5200,7 +5863,29 @@ window.QUESTION_BANK = {
     "683fbb9626"
    ],
    "explanation": "Target tracking scaling automatically creates and manages the underlying CloudWatch alarms to hold a metric like average CPU at a target value, which is far less configuration than step or simple scaling.",
-   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html"
+   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html",
+   "diagram": [
+    [
+     {
+      "n": "Fleet CPU"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Target tracking policy",
+      "s": "target 50% CPU"
+     },
+     {
+      "e": "creates and manages alarms"
+     },
+     {
+      "n": "Auto Scaling group",
+      "s": "adds / removes instances"
+     }
+    ]
+   ]
   },
   {
    "id": "2-20",
@@ -5233,7 +5918,41 @@ window.QUESTION_BANK = {
     "7e3487be3d"
    ],
    "explanation": "Because the traffic pattern is predictable, scheduled or predictive scaling can add capacity before 8 AM, and a warm pool keeps pre-initialized instances ready so they don't need the full 10-minute boot-and-warm-up cycle when traffic arrives.",
-   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html"
+   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Scheduled or predictive scaling",
+      "s": "before 8 AM"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Auto Scaling group"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "In service at 8 AM"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Warm pool",
+      "s": "pre-initialized instances"
+     },
+     {
+      "e": "skip 10-minute warm-up"
+     },
+     {
+      "n": "Auto Scaling group"
+     }
+    ]
+   ]
   },
   {
    "id": "2-41",
@@ -5266,7 +5985,30 @@ window.QUESTION_BANK = {
     "52a499f869"
    ],
    "explanation": "Amazon MSK runs Apache Kafka for you, handling the brokers and their patching, and existing applications keep using the standard Kafka APIs and client libraries without code changes.",
-   "resource": "https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html"
+   "resource": "https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html",
+   "diagram": [
+    [
+     {
+      "n": "Producers",
+      "s": "standard Kafka clients"
+     },
+     {
+      "e": "no code changes"
+     },
+     {
+      "h": 1,
+      "n": "Amazon MSK",
+      "s": "AWS manages brokers"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Consumers",
+      "s": "standard Kafka clients"
+     }
+    ]
+   ]
   },
   {
    "id": "2-42",
@@ -5299,7 +6041,59 @@ window.QUESTION_BANK = {
     "2e77ec343e"
    ],
    "explanation": "AppSync is a managed GraphQL service that can combine several data sources behind one API, and its subscriptions push updates to connected clients in real time over WebSockets that AppSync manages.",
-   "resource": "https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html"
+   "resource": "https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Mobile"
+       },
+       {
+        "n": "Web clients"
+       }
+      ]
+     },
+     {
+      "e": "GraphQL + subscriptions"
+     },
+     {
+      "h": 1,
+      "n": "AWS AppSync"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "DynamoDB"
+       },
+       {
+        "n": "Lambda services"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Score change"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS AppSync"
+     },
+     {
+      "e": "push over managed WebSockets"
+     },
+     {
+      "n": "Subscribed clients"
+     }
+    ]
+   ]
   },
   {
    "id": "2-43",
@@ -5332,7 +6126,28 @@ window.QUESTION_BANK = {
     "156c0ddbb1"
    ],
    "explanation": "A delay queue hides every new message from consumers for the configured delay, up to 15 minutes, so each confirmation becomes visible only 5 minutes after it's sent.",
-   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-delay-queues.html"
+   "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-delay-queues.html",
+   "diagram": [
+    [
+     {
+      "n": "Checkout"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "SQS delay queue",
+      "s": "DelaySeconds = 300"
+     },
+     {
+      "e": "visible after 5 minutes"
+     },
+     {
+      "n": "Email sender"
+     }
+    ]
+   ]
   },
   {
    "id": "2-44",
@@ -5365,7 +6180,41 @@ window.QUESTION_BANK = {
     "2a1649eaa8"
    ],
    "explanation": "An SNS FIFO topic delivering to SQS FIFO queues keeps strict ordering within each message group (such as the account ID) and deduplicates messages, while giving each system its own queue to consume at its own pace.",
-   "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html"
+   "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html",
+   "diagram": [
+    [
+     {
+      "n": "Trade events"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "SNS FIFO topic",
+      "s": "group = account ID"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "h": 1,
+        "n": "SQS FIFO: settlement"
+       },
+       {
+        "h": 1,
+        "n": "SQS FIFO: risk"
+       },
+       {
+        "h": 1,
+        "n": "SQS FIFO: reporting"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-45",
@@ -5398,7 +6247,51 @@ window.QUESTION_BANK = {
     "938134fa51"
    ],
    "explanation": "Express workflows are built for high-volume, short-lived event processing lasting up to 5 minutes, and they're billed by number of runs and duration. Their at-least-once execution model is fine because the steps are idempotent.",
-   "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html"
+   "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html",
+   "diagram": [
+    [
+     {
+      "n": "Device readings",
+      "s": "50,000 per second"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Step Functions Express workflow",
+      "c": [
+       {
+        "n": "Validate"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Enrich"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Write"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Database"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Express workflow",
+      "s": "at-least-once, up to 5 min, billed per run"
+     }
+    ]
+   ]
   },
   {
    "id": "2-46",
@@ -5431,7 +6324,39 @@ window.QUESTION_BANK = {
     "0fbc03fc67"
    ],
    "explanation": "API Gateway can send each request straight to an SQS queue with no code in the request path, so every submission is accepted immediately. A Lambda function then reads the queue at a controlled rate, protecting the database.",
-   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html"
+   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html",
+   "diagram": [
+    [
+     {
+      "n": "Burst of submissions"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "API Gateway"
+     },
+     {
+      "e": "direct integration, no code"
+     },
+     {
+      "h": 1,
+      "n": "SQS queue"
+     },
+     {
+      "e": "steady rate"
+     },
+     {
+      "n": "Lambda"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Database"
+     }
+    ]
+   ]
   },
   {
    "id": "2-47",
@@ -5464,7 +6389,48 @@ window.QUESTION_BANK = {
     "89100259ae"
    ],
    "explanation": "DynamoDB Streams records every item change, including the old and new values, and can trigger a Lambda function automatically, so downstream actions run without changing the writing application or polling the table.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html",
+   "diagram": [
+    [
+     {
+      "n": "Tier update"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "DynamoDB table"
+     },
+     {
+      "e": "item change"
+     },
+     {
+      "h": 1,
+      "n": "DynamoDB Streams",
+      "s": "old + new image"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lambda"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Email"
+       },
+       {
+        "n": "Analytics store"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-48",
@@ -5497,7 +6463,40 @@ window.QUESTION_BANK = {
     "9c259533fc"
    ],
    "explanation": "Reserved concurrency caps how many executions of one function can run at the same time, so the function never opens more than 20 connections. It also sets aside that capacity without limiting other functions.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html",
+   "diagram": [
+    [
+     {
+      "n": "Upload burst"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lambda",
+      "s": "reserved concurrency = 20"
+     },
+     {
+      "e": "at most 20 connections"
+     },
+     {
+      "n": "On-premises database"
+     }
+    ],
+    [
+     {
+      "n": "Other functions"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Unreserved account concurrency",
+      "s": "still scale"
+     }
+    ]
+   ]
   },
   {
    "id": "2-49",
@@ -5530,7 +6529,38 @@ window.QUESTION_BANK = {
     "468ee0e66f"
    ],
    "explanation": "EventBridge Scheduler can create millions of one-time or recurring schedules, each invoking a target such as a Lambda function at a precise time, without running any servers.",
-   "resource": "https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html"
+   "resource": "https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "EventBridge Scheduler"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Schedule: customer 1 at its date"
+       },
+       {
+        "n": "Schedule: customer 2 at its date"
+       },
+       {
+        "n": "Millions more"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Lambda",
+      "s": "send reminder"
+     }
+    ]
+   ]
   },
   {
    "id": "2-50",
@@ -5563,7 +6593,34 @@ window.QUESTION_BANK = {
     "f39e7b8b9c"
    ],
    "explanation": "Lambda destinations send a record of each asynchronous invocation, including the request, response and error details, to a target such as an SQS queue when it succeeds or, as here, when it finally fails after retries.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html",
+   "diagram": [
+    [
+     {
+      "n": "S3 event"
+     },
+     {
+      "e": "asynchronous invoke"
+     },
+     {
+      "n": "Lambda"
+     },
+     {
+      "e": "fails after retries"
+     },
+     {
+      "h": 1,
+      "n": "On-failure destination"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "SQS queue",
+      "s": "event + error details"
+     }
+    ]
+   ]
   },
   {
    "id": "2-21",
@@ -5596,7 +6653,50 @@ window.QUESTION_BANK = {
     "403b38e0f8"
    ],
    "explanation": "Multi-AZ keeps a synchronous standby in a different AZ and fails over to it automatically, typically within 60–120 seconds, while the database's DNS endpoint stays the same.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "same DNS endpoint"
+     },
+     {
+      "g": "AZ a",
+      "c": [
+       {
+        "n": "Primary DB"
+       }
+      ]
+     },
+     {
+      "e": "synchronous replication"
+     },
+     {
+      "g": "AZ b",
+      "c": [
+       {
+        "h": 1,
+        "n": "Multi-AZ standby"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "AZ a fails"
+     },
+     {
+      "e": "automatic failover, ~1-2 min"
+     },
+     {
+      "h": 1,
+      "n": "Multi-AZ standby",
+      "s": "becomes primary"
+     }
+    ]
+   ]
   },
   {
    "id": "2-22",
@@ -5629,7 +6729,48 @@ window.QUESTION_BANK = {
     "0f05040d29"
    ],
    "explanation": "Read replicas use asynchronous replication and are meant to offload read traffic; Multi-AZ maintains a synchronous standby purely for high availability and automatic failover. (A Multi-AZ DB cluster deployment, with two readable standbys, is the exception that can also serve reads.)",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html",
+   "diagram": [
+    [
+     {
+      "n": "Writes"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Primary"
+     },
+     {
+      "e": "synchronous"
+     },
+     {
+      "h": 1,
+      "n": "Multi-AZ standby",
+      "s": "high availability, no reads"
+     }
+    ],
+    [
+     {
+      "n": "Primary"
+     },
+     {
+      "e": "asynchronous",
+      "d": 1
+     },
+     {
+      "h": 1,
+      "n": "Read replicas",
+      "s": "scale reads"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Reporting queries"
+     }
+    ]
+   ]
   },
   {
    "id": "2-23",
@@ -5662,7 +6803,57 @@ window.QUESTION_BANK = {
     "c30215880e"
    ],
    "explanation": "Spreading instances across at least two AZs in an Auto Scaling group means the loss of one AZ still leaves capacity running in another, which two instances in a single AZ can't provide no matter how many load balancers front them.",
-   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-availability-zone-balanced.html"
+   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-availability-zone-balanced.html",
+   "diagram": [
+    [
+     {
+      "n": "Users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Auto Scaling group across AZs",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "EC2 instances",
+          "s": "AZ a"
+         },
+         {
+          "n": "EC2 instances",
+          "s": "AZ b"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "AZ a fails"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Instances in AZ b keep serving"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ASG replaces capacity"
+     }
+    ]
+   ]
   },
   {
    "id": "2-24",
@@ -5695,7 +6886,43 @@ window.QUESTION_BANK = {
     "7975698efe"
    ],
    "explanation": "Ordered roughly by cost and by RTO/RPO: backup and restore (hours), pilot light (tens of minutes), warm standby (minutes), then multi-site active/active (near zero) — backup and restore is the cheapest option that still meets an hours-level target.",
-   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+   "diagram": [
+    [
+     {
+      "g": "Primary Region",
+      "c": [
+       {
+        "n": "Workload"
+       }
+      ]
+     },
+     {
+      "e": "regular backups"
+     },
+     {
+      "g": "DR Region",
+      "c": [
+       {
+        "h": 1,
+        "n": "Backups only"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Disaster"
+     },
+     {
+      "e": "restore, hours"
+     },
+     {
+      "n": "New environment",
+      "s": "cheapest"
+     }
+    ]
+   ]
   },
   {
    "id": "2-25",
@@ -5728,7 +6955,58 @@ window.QUESTION_BANK = {
     "1086183747"
    ],
    "explanation": "In pilot light, the critical data (like a database) is kept continuously up to date in the DR Region, while the compute layer sits idle until it's needed and is then quickly launched.",
-   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+   "diagram": [
+    [
+     {
+      "g": "Primary Region",
+      "c": [
+       {
+        "n": "App servers"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Database"
+       }
+      ]
+     },
+     {
+      "e": "continuous replication",
+      "d": 1
+     },
+     {
+      "g": "DR Region",
+      "c": [
+       {
+        "k": [
+         {
+          "h": 1,
+          "n": "Replica database",
+          "s": "always on"
+         },
+         {
+          "n": "AMIs",
+          "s": "servers off"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Disaster"
+     },
+     {
+      "e": "launch from AMIs"
+     },
+     {
+      "n": "App servers in DR Region"
+     }
+    ]
+   ]
   },
   {
    "id": "2-26",
@@ -5761,7 +7039,44 @@ window.QUESTION_BANK = {
     "d9b7528ce5"
    ],
    "explanation": "Aurora Global Database typically replicates across Regions in under a second, and a secondary Region's cluster usually takes over as the primary within a few minutes, which snapshot copies or a single-Region Multi-AZ cluster can't match.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html",
+   "diagram": [
+    [
+     {
+      "g": "Primary Region",
+      "c": [
+       {
+        "n": "Aurora writer cluster"
+       }
+      ]
+     },
+     {
+      "e": "storage replication, under 1 second"
+     },
+     {
+      "g": "Secondary Region",
+      "c": [
+       {
+        "h": 1,
+        "n": "Aurora read-only cluster"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Primary Region outage"
+     },
+     {
+      "e": "promote in minutes"
+     },
+     {
+      "h": 1,
+      "n": "Aurora read-only cluster",
+      "s": "becomes primary"
+     }
+    ]
+   ]
   },
   {
    "id": "2-27",
@@ -5794,7 +7109,69 @@ window.QUESTION_BANK = {
     "b139f4e83b"
    ],
    "explanation": "DynamoDB global tables replicate a table across chosen Regions and accept writes in any of them (multi-active), which is exactly what's needed for low-latency, multi-Region writes — a single-Region table, even with DAX, still funnels every write through one Region.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html",
+   "diagram": [
+    [
+     {
+      "n": "Users in Europe"
+     },
+     {
+      "e": "local write"
+     },
+     {
+      "g": "eu-west-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Global table replica"
+       }
+      ]
+     },
+     {
+      "e": "replicates",
+      "d": 1
+     },
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Global table replica"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Users in America"
+     },
+     {
+      "e": "local write"
+     },
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Global table replica"
+       }
+      ]
+     },
+     {
+      "e": "replicates",
+      "d": 1
+     },
+     {
+      "g": "ap-southeast-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Global table replica"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-28",
@@ -5827,7 +7204,49 @@ window.QUESTION_BANK = {
     "2ccd805c76"
    ],
    "explanation": "Failover routing designates a primary and a secondary record; Route 53 monitors the primary's health check and automatically starts answering with the secondary the moment the primary is unhealthy.",
-   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html"
+   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html",
+   "diagram": [
+    [
+     {
+      "n": "Users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Route 53 failover record"
+     },
+     {
+      "e": "primary healthy"
+     },
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "n": "Primary stack"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Route 53 failover record"
+     },
+     {
+      "e": "health check fails"
+     },
+     {
+      "g": "us-west-2",
+      "c": [
+       {
+        "n": "Standby stack"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-29",
@@ -5860,7 +7279,38 @@ window.QUESTION_BANK = {
     "c47ea95f69"
    ],
    "explanation": "Latency-based routing answers with the Region that gives the lowest measured network latency for that resolver, which is a better fit here than geolocation routing (based on the viewer's location, not measured latency).",
-   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html"
+   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html",
+   "diagram": [
+    [
+     {
+      "n": "Viewer DNS query"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Route 53 latency record",
+      "s": "lowest measured latency"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Region A"
+       },
+       {
+        "n": "Region B"
+       },
+       {
+        "n": "Region C"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-30",
@@ -5893,7 +7343,51 @@ window.QUESTION_BANK = {
     "6d1e1906ab"
    ],
    "explanation": "Global Accelerator provides static anycast IP addresses that don't change, and it reroutes traffic to a healthy endpoint group within seconds of a health check failing — and it works for TCP/UDP, unlike CloudFront, which is HTTP(S)-focused.",
-   "resource": "https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html"
+   "resource": "https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html",
+   "diagram": [
+    [
+     {
+      "n": "Players",
+      "s": "allow-listed IPs"
+     },
+     {
+      "e": "TCP / UDP"
+     },
+     {
+      "h": 1,
+      "n": "Global Accelerator",
+      "s": "2 static anycast IPs"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Endpoint group",
+        "s": "Region 1"
+       },
+       {
+        "n": "Endpoint group",
+        "s": "Region 2"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Global Accelerator",
+      "s": "2 static anycast IPs"
+     },
+     {
+      "e": "health check fails, seconds"
+     },
+     {
+      "n": "Healthy Region"
+     }
+    ]
+   ]
   },
   {
    "id": "2-31",
@@ -5926,7 +7420,35 @@ window.QUESTION_BANK = {
     "4ef77a16b1"
    ],
    "explanation": "Regional EFS is a shared, POSIX-compliant file system that can be mounted concurrently from instances in multiple AZs and stores data redundantly across AZs, unlike EFS One Zone, instance store, or EBS Multi-Attach (which is also limited to a single AZ).",
-   "resource": "https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html"
+   "resource": "https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "EC2",
+        "s": "AZ a"
+       },
+       {
+        "n": "EC2",
+        "s": "AZ b"
+       },
+       {
+        "n": "EC2",
+        "s": "AZ c"
+       }
+      ]
+     },
+     {
+      "e": "NFS, concurrent"
+     },
+     {
+      "h": 1,
+      "n": "Amazon EFS Regional",
+      "s": "stored across AZs"
+     }
+    ]
+   ]
   },
   {
    "id": "2-32",
@@ -5959,7 +7481,34 @@ window.QUESTION_BANK = {
     "22d9553e14"
    ],
    "explanation": "EC2 status checks only detect infrastructure-level problems with the instance, not application-level failures. ELB health checks let the load balancer's health check (which can probe an actual application endpoint) drive instance replacement instead.",
-   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html"
+   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html",
+   "diagram": [
+    [
+     {
+      "n": "ALB health check"
+     },
+     {
+      "e": "GET /health returns 500"
+     },
+     {
+      "n": "Instance",
+      "s": "EC2 status checks OK"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "ELB health checks on the ASG"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Instance replaced"
+     }
+    ]
+   ]
   },
   {
    "id": "2-33",
@@ -5992,7 +7541,52 @@ window.QUESTION_BANK = {
     "c1c0fc3c63"
    ],
    "explanation": "Cross-Region Replication requires versioning on both the source and destination buckets, and Replication Time Control adds the 15-minute, 99.99% SLA the requirement calls for.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html",
+   "diagram": [
+    [
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "n": "Source bucket",
+        "s": "versioning on"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Cross-Region Replication",
+      "s": "with RTC"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "us-west-2",
+      "c": [
+       {
+        "n": "Destination bucket",
+        "s": "versioning on"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Replication Time Control"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "99.99% of objects copied within 15 minutes"
+     }
+    ]
+   ]
   },
   {
    "id": "2-34",
@@ -6025,7 +7619,40 @@ window.QUESTION_BANK = {
     "93c9c21f5b"
    ],
    "explanation": "AWS DRS keeps servers continuously replicated for ongoing recovery readiness and supports failback. Application Migration Service uses similar underlying replication technology but is designed for one-time lift-and-shift migrations, not standing DR.",
-   "resource": "https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html"
+   "resource": "https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html",
+   "diagram": [
+    [
+     {
+      "n": "On-premises servers"
+     },
+     {
+      "e": "continuous block-level replication"
+     },
+     {
+      "h": 1,
+      "n": "AWS DRS",
+      "s": "staging area"
+     },
+     {
+      "e": "launch in minutes"
+     },
+     {
+      "n": "Recovery EC2 instances"
+     }
+    ],
+    [
+     {
+      "n": "Recovery EC2 instances"
+     },
+     {
+      "e": "failback when fixed",
+      "d": 1
+     },
+     {
+      "n": "On-premises servers"
+     }
+    ]
+   ]
   },
   {
    "id": "2-35",
@@ -6058,7 +7685,78 @@ window.QUESTION_BANK = {
     "26467b0ec6"
    ],
    "explanation": "A standard (zonal) NAT gateway lives entirely in one AZ, so instances in other AZs that route through it lose outbound connectivity if that AZ is impaired. The standard fix is one NAT gateway per AZ, with each AZ's private subnets routing to the NAT gateway in the same AZ. (A regional NAT gateway is a newer alternative that spans AZs automatically.)",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html",
+   "diagram": [
+    [
+     {
+      "g": "AZ a",
+      "c": [
+       {
+        "n": "Private subnet"
+       },
+       {
+        "e": ""
+       },
+       {
+        "h": 1,
+        "n": "NAT gateway a"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet"
+     }
+    ],
+    [
+     {
+      "g": "AZ b",
+      "c": [
+       {
+        "n": "Private subnet"
+       },
+       {
+        "e": ""
+       },
+       {
+        "h": 1,
+        "n": "NAT gateway b"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet"
+     }
+    ],
+    [
+     {
+      "g": "AZ c",
+      "c": [
+       {
+        "n": "Private subnet"
+       },
+       {
+        "e": ""
+       },
+       {
+        "h": 1,
+        "n": "NAT gateway c"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet"
+     }
+    ]
+   ]
   },
   {
    "id": "2-36",
@@ -6091,7 +7789,46 @@ window.QUESTION_BANK = {
     "05044a7f4a"
    ],
    "explanation": "The most resilient option is a second Direct Connect connection at a separate location, but since that's ruled out, a Site-to-Site VPN as a backup path is the standard lower-cost way to add resiliency to a single DX link.",
-   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html"
+   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html",
+   "diagram": [
+    [
+     {
+      "n": "On-premises"
+     },
+     {
+      "e": "primary path"
+     },
+     {
+      "n": "Direct Connect",
+      "s": "one location"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC"
+     }
+    ],
+    [
+     {
+      "n": "On-premises"
+     },
+     {
+      "e": "backup path over the internet",
+      "d": 1
+     },
+     {
+      "h": 1,
+      "n": "Site-to-Site VPN"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC"
+     }
+    ]
+   ]
   },
   {
    "id": "2-37",
@@ -6124,7 +7861,52 @@ window.QUESTION_BANK = {
     "f61e6ef254"
    ],
    "explanation": "The Aurora cluster storage volume itself maintains six copies across three AZs and self-heals, tolerating the loss of up to two copies for writes and three for reads — this is separate from Aurora Replicas, Backtrack, or Serverless scaling.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Writer"
+       },
+       {
+        "n": "Aurora Replicas"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Aurora cluster volume",
+      "s": "6 copies across 3 AZs, self-healing"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Aurora cluster volume",
+      "s": "6 copies across 3 AZs, self-healing"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "AZ a: 2 copies"
+       },
+       {
+        "n": "AZ b: 2 copies"
+       },
+       {
+        "n": "AZ c: 2 copies"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-38",
@@ -6157,7 +7939,54 @@ window.QUESTION_BANK = {
     "0b021fa4cb"
    ],
    "explanation": "AWS FIS runs controlled chaos-engineering experiments, such as simulating AZ impairment or terminating instances, so teams can observe real behavior under failure conditions rather than just reviewing static findings or traces.",
-   "resource": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "FIS experiment template"
+     },
+     {
+      "e": "inject"
+     },
+     {
+      "k": [
+       {
+        "n": "AZ impairment"
+       },
+       {
+        "n": "Instance terminations"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Production-like workload"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Observe real behavior"
+     }
+    ],
+    [
+     {
+      "n": "Stop condition",
+      "s": "CloudWatch alarm"
+     },
+     {
+      "e": "halts experiment",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "FIS experiment template"
+     }
+    ]
+   ]
   },
   {
    "id": "2-39",
@@ -6190,7 +8019,34 @@ window.QUESTION_BANK = {
     "a694fa75bc"
    ],
    "explanation": "PITR continuously backs up the table and can restore it to any second within the retention window (1–35 days, 35 by default) — precise enough to restore to 2:16 PM, which daily snapshots can't do.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html",
+   "diagram": [
+    [
+     {
+      "n": "Bad script at 2:17 PM"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "DynamoDB table",
+      "s": "overwritten items"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "PITR",
+      "s": "continuous backups, 35 days"
+     },
+     {
+      "e": "restore to 2:16 PM"
+     },
+     {
+      "n": "New restored table"
+     }
+    ]
+   ]
   },
   {
    "id": "2-40",
@@ -6223,7 +8079,62 @@ window.QUESTION_BANK = {
     "6dd234b739"
    ],
    "explanation": "X-Ray traces a request end-to-end across services and builds a service map showing where time is spent and where errors occur, which VPC Flow Logs, Config, and CloudTrail aren't designed to do.",
-   "resource": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html"
+   "resource": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html",
+   "diagram": [
+    [
+     {
+      "n": "Request"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Service A"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Service B"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Service C",
+      "s": "slow"
+     }
+    ],
+    [
+     {
+      "k": [
+       {
+        "n": "Service A"
+       },
+       {
+        "n": "Service B"
+       },
+       {
+        "n": "Service C"
+       }
+      ]
+     },
+     {
+      "e": "trace segments"
+     },
+     {
+      "h": 1,
+      "n": "AWS X-Ray"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Service map",
+      "s": "latency and errors per hop"
+     }
+    ]
+   ]
   },
   {
    "id": "2-51",
@@ -6256,7 +8167,55 @@ window.QUESTION_BANK = {
     "74fc7106c2"
    ],
    "explanation": "ARC routing controls are on/off switches, backed by a highly available data plane spread across five Regions, that shift traffic between Regional replicas through Route 53 health checks. Safety rules help prevent mistakes such as turning off every Region.",
-   "resource": "https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html"
+   "resource": "https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html",
+   "diagram": [
+    [
+     {
+      "n": "Operator"
+     },
+     {
+      "e": "flip switch"
+     },
+     {
+      "h": 1,
+      "n": "ARC routing control",
+      "s": "highly available data plane"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Route 53 health checks"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Region A off"
+       },
+       {
+        "n": "Region B on"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "ARC routing control",
+      "s": "highly available data plane"
+     },
+     {
+      "e": "safety rule",
+      "x": 1
+     },
+     {
+      "n": "All Regions off"
+     }
+    ]
+   ]
   },
   {
    "id": "2-52",
@@ -6289,7 +8248,61 @@ window.QUESTION_BANK = {
     "647de3bee1"
    ],
    "explanation": "Resilience Hub assesses an application's resources against a resiliency policy that sets RTO and RPO targets, estimates whether they're met for disruptions such as AZ or Region failure, and recommends improvements.",
-   "resource": "https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Resiliency policy",
+      "s": "RTO 1 h, RPO 15 min"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Resilience Hub assessment"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EC2"
+       },
+       {
+        "n": "RDS"
+       },
+       {
+        "n": "DynamoDB"
+       },
+       {
+        "n": "S3"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Resilience Hub assessment"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Met or not per disruption"
+       },
+       {
+        "n": "Recommendations"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-53",
@@ -6322,7 +8335,51 @@ window.QUESTION_BANK = {
     "add79010c0"
    ],
    "explanation": "A Multi-Region Access Point gives one global endpoint for buckets in several Regions. It routes requests over the AWS network to the lowest-latency bucket and can fail over to another Region's bucket.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPoints.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPoints.html",
+   "diagram": [
+    [
+     {
+      "n": "Apps worldwide"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Multi-Region Access Point",
+      "s": "one global endpoint"
+     },
+     {
+      "e": "lowest latency"
+     },
+     {
+      "k": [
+       {
+        "n": "Bucket: Region 1"
+       },
+       {
+        "n": "Bucket: Region 2"
+       },
+       {
+        "n": "Bucket: Region 3"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Multi-Region Access Point",
+      "s": "one global endpoint"
+     },
+     {
+      "e": "Region unavailable"
+     },
+     {
+      "n": "Another Region's bucket"
+     }
+    ]
+   ]
   },
   {
    "id": "2-54",
@@ -6355,7 +8412,42 @@ window.QUESTION_BANK = {
     "989f260b38"
    ],
    "explanation": "An origin group has a primary and a secondary origin. When the primary returns specified HTTP error codes or times out, CloudFront automatically retries the request against the secondary origin.",
-   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html"
+   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html",
+   "diagram": [
+    [
+     {
+      "n": "Viewer"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "CloudFront"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Origin group",
+      "c": [
+       {
+        "h": 1,
+        "n": "Primary origin",
+        "s": "us-east-1 bucket"
+       },
+       {
+        "e": "on 5xx or timeout",
+        "d": 1
+       },
+       {
+        "h": 1,
+        "n": "Secondary origin",
+        "s": "us-west-2 bucket"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-55",
@@ -6388,7 +8480,38 @@ window.QUESTION_BANK = {
     "67e871af1e"
    ],
    "explanation": "EFS replication keeps a read-only copy of a file system in another Region (or the same Region) up to date automatically. After the initial copy, it maintains an RPO of 15 minutes for most file systems.",
-   "resource": "https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html"
+   "resource": "https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html",
+   "diagram": [
+    [
+     {
+      "g": "eu-west-1",
+      "c": [
+       {
+        "n": "EFS file system"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "EFS replication",
+      "s": "RPO about 15 min"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "eu-central-1",
+      "c": [
+       {
+        "n": "Read-only replica file system"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-56",
@@ -6421,7 +8544,50 @@ window.QUESTION_BANK = {
     "3bc4c10ced"
    ],
    "explanation": "Warm standby keeps a scaled-down but fully working copy of the production environment running in the recovery Region, so recovery means scaling it up. That gives an RTO measured in minutes.",
-   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+   "diagram": [
+    [
+     {
+      "g": "Primary Region",
+      "c": [
+       {
+        "n": "Full production"
+       }
+      ]
+     },
+     {
+      "e": "continuous replication",
+      "d": 1
+     },
+     {
+      "g": "DR Region",
+      "c": [
+       {
+        "h": 1,
+        "n": "Scaled-down working copy",
+        "s": "serves test traffic"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Disaster"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Scale up DR Region"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Redirect users"
+     }
+    ]
+   ]
   },
   {
    "id": "2-57",
@@ -6454,7 +8620,49 @@ window.QUESTION_BANK = {
     "36f248dd49"
    ],
    "explanation": "Multi-site active/active (active/active) runs the full workload in multiple Regions, all serving traffic, so losing a Region means only redirecting its users. It gives the lowest RTO and RPO, near zero, at the highest cost.",
-   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html"
+   "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
+   "diagram": [
+    [
+     {
+      "n": "Users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Route 53"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "h": 1,
+        "n": "Region A",
+        "s": "full production, live"
+       },
+       {
+        "h": 1,
+        "n": "Region B",
+        "s": "full production, live"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Region A fails"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Users go to Region B",
+      "s": "near-zero RTO and RPO"
+     }
+    ]
+   ]
   },
   {
    "id": "2-58",
@@ -6487,7 +8695,40 @@ window.QUESTION_BANK = {
     "f6db14b7dd"
    ],
    "explanation": "When the writer fails, Aurora automatically promotes one of the Aurora Replicas, based on its priority tier, to be the new writer. The cluster endpoint always points to the current writer, so the application reconnects without configuration changes.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "cluster endpoint"
+     },
+     {
+      "n": "Writer",
+      "s": "fails"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Aurora promotes replica",
+      "s": "by priority tier"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "New writer"
+     },
+     {
+      "e": "cluster endpoint now points here"
+     },
+     {
+      "n": "App reconnects"
+     }
+    ]
+   ]
   },
   {
    "id": "2-59",
@@ -6520,7 +8761,37 @@ window.QUESTION_BANK = {
     "61eaf84c7f"
    ],
    "explanation": "RDS can replicate automated backups (snapshots and transaction logs) to another Region, so the database can be restored to a point in time there, without scripts to copy snapshots.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html",
+   "diagram": [
+    [
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "n": "RDS for PostgreSQL"
+       }
+      ]
+     },
+     {
+      "e": "backups + logs"
+     },
+     {
+      "h": 1,
+      "n": "Cross-Region automated backups"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "us-west-2",
+      "c": [
+       {
+        "n": "Point-in-time restore"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "2-60",
@@ -6553,7 +8824,52 @@ window.QUESTION_BANK = {
     "6866fedc55"
    ],
    "explanation": "Multivalue answer routing returns up to eight healthy records for each query, chosen at random, and leaves out any record whose health check fails. It isn't a substitute for a load balancer, but it adds some availability at low cost.",
-   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-multivalue.html"
+   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-multivalue.html",
+   "diagram": [
+    [
+     {
+      "n": "Client DNS query"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Route 53 multivalue answer",
+      "s": "up to 8 healthy records"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EC2 IP 1"
+       },
+       {
+        "n": "EC2 IP 2"
+       },
+       {
+        "n": "EC2 IP 3"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Unhealthy instance"
+     },
+     {
+      "e": "left out of answers",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Route 53 multivalue answer",
+      "s": "up to 8 healthy records"
+     }
+    ]
+   ]
   },
   {
    "id": "3-01",
@@ -6586,7 +8902,40 @@ window.QUESTION_BANK = {
     "eb6dc2776e"
    ],
    "explanation": "io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume, and HDD volumes are built for throughput, not IOPS.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html",
+   "diagram": [
+    [
+     {
+      "g": "EC2 instance",
+      "c": [
+       {
+        "n": "Order-matching database"
+       }
+      ]
+     },
+     {
+      "e": "150,000 IOPS, sub-ms"
+     },
+     {
+      "h": 1,
+      "n": "io2 Block Express",
+      "s": "up to 256,000 IOPS"
+     }
+    ],
+    [
+     {
+      "n": "gp3",
+      "s": "max 80,000 IOPS"
+     },
+     {
+      "e": "not enough",
+      "x": 1
+     },
+     {
+      "n": "Order-matching database"
+     }
+    ]
+   ]
   },
   {
    "id": "3-02",
@@ -6619,7 +8968,34 @@ window.QUESTION_BANK = {
     "322c776e5a"
    ],
    "explanation": "gp3 has a baseline of 3,000 IOPS and 125 MiB/s, and both can be raised independently of the volume's size, unlike io1, which ties cost to a larger provisioned volume.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Volume size"
+       },
+       {
+        "n": "IOPS",
+        "s": "baseline 3,000"
+       },
+       {
+        "n": "Throughput",
+        "s": "baseline 125 MiB/s"
+       }
+      ]
+     },
+     {
+      "e": "each set separately"
+     },
+     {
+      "h": 1,
+      "n": "gp3 volume",
+      "s": "lower cost than gp2"
+     }
+    ]
+   ]
   },
   {
    "id": "3-03",
@@ -6652,7 +9028,35 @@ window.QUESTION_BANK = {
     "95230d9293"
    ],
    "explanation": "st1 is built for high-throughput, sequential workloads at low cost. (HDD volumes like st1 and sc1 can't be used as boot volumes anyway, which rules out option C on its own.)",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/hdd-vols.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/hdd-vols.html",
+   "diagram": [
+    [
+     {
+      "g": "EC2 instance",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Boot volume",
+          "s": "gp3"
+         },
+         {
+          "n": "Nightly job"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": "large sequential reads"
+     },
+     {
+      "h": 1,
+      "n": "st1",
+      "s": "Throughput Optimized HDD, low cost per GB"
+     }
+    ]
+   ]
   },
   {
    "id": "3-04",
@@ -6685,7 +9089,33 @@ window.QUESTION_BANK = {
     "9127a3f4e4"
    ],
    "explanation": "Instance store is ephemeral, physically attached NVMe storage with very high random I/O performance — a good fit when the data doesn't need to survive a stop or terminate.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html",
+   "diagram": [
+    [
+     {
+      "g": "EC2 host",
+      "c": [
+       {
+        "n": "Genomics pipeline"
+       },
+       {
+        "e": "very high random I/O"
+       },
+       {
+        "h": 1,
+        "n": "Instance store NVMe",
+        "s": "lost on stop"
+       }
+      ]
+     },
+     {
+      "e": "final results"
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ]
+   ]
   },
   {
    "id": "3-05",
@@ -6718,7 +9148,29 @@ window.QUESTION_BANK = {
     "a43eefa0e0"
    ],
    "explanation": "FSx for Lustre is a parallel file system designed for HPC-scale throughput and integrates directly with an S3 bucket as its data repository.",
-   "resource": "https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "HPC cluster"
+     },
+     {
+      "e": "hundreds of GB/s"
+     },
+     {
+      "h": 1,
+      "n": "FSx for Lustre",
+      "s": "parallel file system"
+     },
+     {
+      "e": "lazy load / export"
+     },
+     {
+      "n": "S3 data lake",
+      "s": "multi-petabyte"
+     }
+    ]
+   ]
   },
   {
    "id": "3-06",
@@ -6751,7 +9203,28 @@ window.QUESTION_BANK = {
     "3600829b17"
    ],
    "explanation": "FSx for Windows File Server provides a native SMB file system with AD integration and DFS support. EFS supports NFS only, for Linux clients.",
-   "resource": "https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "Windows clients"
+     },
+     {
+      "e": "SMB"
+     },
+     {
+      "h": 1,
+      "n": "FSx for Windows File Server",
+      "s": "DFS namespaces"
+     },
+     {
+      "e": "domain-joined"
+     },
+     {
+      "n": "Active Directory"
+     }
+    ]
+   ]
   },
   {
    "id": "3-07",
@@ -6784,7 +9257,38 @@ window.QUESTION_BANK = {
     "ff4ebd19e1"
    ],
    "explanation": "FSx for NetApp ONTAP provides multi-protocol (NFS, SMB, iSCSI) access and supports ONTAP features like SnapMirror, which the other options don't replicate.",
-   "resource": "https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html"
+   "resource": "https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "NFS clients"
+       },
+       {
+        "n": "SMB clients"
+       },
+       {
+        "n": "iSCSI hosts"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "FSx for NetApp ONTAP",
+      "s": "same volumes"
+     },
+     {
+      "e": "SnapMirror"
+     },
+     {
+      "n": "Replica ONTAP system"
+     }
+    ]
+   ]
   },
   {
    "id": "3-08",
@@ -6822,7 +9326,49 @@ window.QUESTION_BANK = {
     "20b881cb4f"
    ],
    "explanation": "Multipart upload is recommended for objects over 100 MB (and required over 5 GB) and lets a failed part be retried without restarting the whole file. Transfer Acceleration routes uploads through the nearest CloudFront edge location and over the AWS backbone, which especially helps the far-away studios.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html",
+   "diagram": [
+    [
+     {
+      "n": "Tokyo studio"
+     },
+     {
+      "e": "nearest edge location"
+     },
+     {
+      "h": 1,
+      "n": "Transfer Acceleration",
+      "s": "AWS backbone"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 bucket",
+      "s": "us-east-1"
+     }
+    ],
+    [
+     {
+      "n": "Large file"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Multipart upload",
+      "s": "parts in parallel"
+     },
+     {
+      "e": "retry only the failed part"
+     },
+     {
+      "n": "S3 bucket",
+      "s": "us-east-1"
+     }
+    ]
+   ]
   },
   {
    "id": "3-09",
@@ -6855,7 +9401,40 @@ window.QUESTION_BANK = {
     "0216280b33"
    ],
    "explanation": "Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes, so spreading objects across more prefixes raises the effective ceiling.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "prefix-a/",
+        "s": "5,500 GET/s"
+       },
+       {
+        "n": "prefix-b/",
+        "s": "5,500 GET/s"
+       },
+       {
+        "n": "prefix-c/",
+        "s": "5,500 GET/s"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "More prefixes, higher total rate"
+     }
+    ]
+   ]
   },
   {
    "id": "3-10",
@@ -6888,7 +9467,39 @@ window.QUESTION_BANK = {
     "e23df74724"
    ],
    "explanation": "S3 Express One Zone uses directory buckets co-located with compute in a single AZ, giving single-digit-millisecond access and the highest request rates of the S3 storage classes.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-high-performance.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-high-performance.html",
+   "diagram": [
+    [
+     {
+      "g": "One AZ",
+      "c": [
+       {
+        "n": "ML training on EC2"
+       },
+       {
+        "e": "single-digit ms, highest request rate"
+       },
+       {
+        "h": 1,
+        "n": "S3 Express One Zone",
+        "s": "directory bucket"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Older training data"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 Standard-IA",
+      "s": "stays put"
+     }
+    ]
+   ]
   },
   {
    "id": "3-11",
@@ -6921,7 +9532,33 @@ window.QUESTION_BANK = {
     "05e64c5aea"
    ],
    "explanation": "S3 File Gateway caches frequently used files locally for low-latency access while storing the data durably in S3 as native objects.",
-   "resource": "https://docs.aws.amazon.com/filegateway/latest/files3/what-is-file-s3.html"
+   "resource": "https://docs.aws.amazon.com/filegateway/latest/files3/what-is-file-s3.html",
+   "diagram": [
+    [
+     {
+      "n": "Editing workstations"
+     },
+     {
+      "e": "NFS / SMB"
+     },
+     {
+      "g": "On premises",
+      "c": [
+       {
+        "h": 1,
+        "n": "S3 File Gateway",
+        "s": "local cache"
+       }
+      ]
+     },
+     {
+      "e": "files stored as objects"
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ]
+   ]
   },
   {
    "id": "3-46",
@@ -6954,7 +9591,34 @@ window.QUESTION_BANK = {
     "31046ab6d0"
    ],
    "explanation": "Cached volumes present iSCSI block volumes on premises, store the full data in S3, and keep a local copy of frequently accessed data, so the hospital doesn't need to grow its on-premises storage.",
-   "resource": "https://docs.aws.amazon.com/storagegateway/latest/vgw/WhatIsStorageGateway.html"
+   "resource": "https://docs.aws.amazon.com/storagegateway/latest/vgw/WhatIsStorageGateway.html",
+   "diagram": [
+    [
+     {
+      "n": "Imaging servers"
+     },
+     {
+      "e": "iSCSI"
+     },
+     {
+      "g": "On premises",
+      "c": [
+       {
+        "h": 1,
+        "n": "Volume Gateway, cached",
+        "s": "hot data cached locally"
+       }
+      ]
+     },
+     {
+      "e": "full volumes"
+     },
+     {
+      "n": "AWS storage",
+      "s": "S3-backed"
+     }
+    ]
+   ]
   },
   {
    "id": "3-47",
@@ -6987,7 +9651,27 @@ window.QUESTION_BANK = {
     "6b3c6f9022"
    ],
    "explanation": "FSx for OpenZFS is a managed OpenZFS file system accessed over NFS, with low latency and ZFS features such as snapshots and clones, which makes it a natural fit for moving from an on-premises ZFS appliance.",
-   "resource": "https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html"
+   "resource": "https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html",
+   "diagram": [
+    [
+     {
+      "n": "Build servers"
+     },
+     {
+      "e": "NFS, sub-ms"
+     },
+     {
+      "h": 1,
+      "n": "FSx for OpenZFS"
+     },
+     {
+      "e": "instant snapshots and clones"
+     },
+     {
+      "n": "Test environments"
+     }
+    ]
+   ]
   },
   {
    "id": "3-48",
@@ -7020,7 +9704,43 @@ window.QUESTION_BANK = {
     "7e953509a5"
    ],
    "explanation": "Byte-range fetches use the HTTP `Range` header to download different parts of the same object in parallel over several connections, which gives much higher aggregate throughput than one long request.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance-guidelines.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance-guidelines.html",
+   "diagram": [
+    [
+     {
+      "n": "EC2"
+     },
+     {
+      "e": "Range: bytes 0-10 GB"
+     },
+     {
+      "n": "50 GB object"
+     }
+    ],
+    [
+     {
+      "n": "EC2"
+     },
+     {
+      "e": "Range: bytes 10-20 GB ... in parallel"
+     },
+     {
+      "n": "50 GB object"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Parallel byte-range fetches"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Full file, much faster"
+     }
+    ]
+   ]
   },
   {
    "id": "3-12",
@@ -7053,7 +9773,54 @@ window.QUESTION_BANK = {
     "a23847c946"
    ],
    "explanation": "A cluster placement group packs instances close together in a single AZ for the lowest latency and highest network throughput. Add Elastic Fabric Adapter (EFA) for MPI workloads.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
+   "diagram": [
+    [
+     {
+      "g": "Cluster placement group, one AZ",
+      "c": [
+       {
+        "k": [
+         {
+          "h": 1,
+          "n": "Node"
+         },
+         {
+          "h": 1,
+          "n": "Node"
+         }
+        ]
+       },
+       {
+        "e": "EFA, lowest latency"
+       },
+       {
+        "k": [
+         {
+          "h": 1,
+          "n": "Node"
+         },
+         {
+          "h": 1,
+          "n": "Node"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "MPI job"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Highest packets per second between nodes"
+     }
+    ]
+   ]
   },
   {
    "id": "3-13",
@@ -7086,7 +9853,45 @@ window.QUESTION_BANK = {
     "197a04f231"
    ],
    "explanation": "A spread placement group places each instance on distinct underlying hardware (up to 7 running instances per AZ), which is exactly the isolation this scenario needs.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Spread placement group"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "License server 1",
+        "s": "rack 1"
+       },
+       {
+        "n": "License server 2",
+        "s": "rack 2"
+       },
+       {
+        "n": "License server 3",
+        "s": "rack 3"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "One hardware failure"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Only one server affected"
+     }
+    ]
+   ]
   },
   {
    "id": "3-14",
@@ -7119,7 +9924,45 @@ window.QUESTION_BANK = {
     "9e4733b5fc"
    ],
    "explanation": "Partition placement groups divide instances into logical partitions that don't share underlying hardware, which is the standard fit for rack-aware distributed systems like Cassandra, Hadoop, and Kafka.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Partition placement group"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Partition 1",
+        "s": "Cassandra nodes, rack A"
+       },
+       {
+        "n": "Partition 2",
+        "s": "Cassandra nodes, rack B"
+       },
+       {
+        "n": "Partition 3",
+        "s": "Cassandra nodes, rack C"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Rack failure"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Only one partition affected"
+     }
+    ]
+   ]
   },
   {
    "id": "3-15",
@@ -7152,7 +9995,28 @@ window.QUESTION_BANK = {
     "d2a06208c4"
    ],
    "explanation": "Memory optimized instance families (like R and X) are built for the highest memory-to-vCPU ratio, which fits a workload dominated by RAM usage rather than CPU or local disk throughput.",
-   "resource": "https://aws.amazon.com/ec2/instance-types/"
+   "resource": "https://aws.amazon.com/ec2/instance-types/",
+   "diagram": [
+    [
+     {
+      "n": "Large dataset"
+     },
+     {
+      "e": "loaded into RAM"
+     },
+     {
+      "h": 1,
+      "n": "Memory optimized",
+      "s": "R or X, high GiB per vCPU"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "In-memory analytics"
+     }
+    ]
+   ]
   },
   {
    "id": "3-16",
@@ -7185,7 +10049,29 @@ window.QUESTION_BANK = {
     "da446c6a49"
    ],
    "explanation": "Lambda has no direct vCPU setting — CPU power scales in proportion to the configured memory, up to 10,240 MB, which gives up to 6 vCPUs.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Memory setting",
+      "s": "up to 10,240 MB"
+     },
+     {
+      "e": "CPU scales in proportion"
+     },
+     {
+      "n": "vCPUs",
+      "s": "up to 6"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Faster image resizing"
+     }
+    ]
+   ]
   },
   {
    "id": "3-17",
@@ -7218,7 +10104,45 @@ window.QUESTION_BANK = {
     "976f549c8a"
    ],
    "explanation": "Reserved concurrency only limits or guarantees the number of concurrent executions; it doesn't pre-initialize execution environments. Provisioned concurrency (or SnapStart) keeps environments warm and ready, which is what actually cuts cold starts.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html",
+   "diagram": [
+    [
+     {
+      "n": "Request"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Provisioned concurrency",
+      "s": "pre-initialized environments"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Handler runs at once"
+     }
+    ],
+    [
+     {
+      "n": "Request"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Cold environment"
+     },
+     {
+      "e": "init delay"
+     },
+     {
+      "n": "Handler runs late"
+     }
+    ]
+   ]
   },
   {
    "id": "3-18",
@@ -7251,7 +10175,41 @@ window.QUESTION_BANK = {
     "3d1ae89096"
    ],
    "explanation": "A single Lambda invocation can run for at most 15 minutes, far less than the 3 hours this job needs. AWS Batch, ECS/Fargate tasks, or EC2 instances are better fits for long-running batch jobs.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
+   "diagram": [
+    [
+     {
+      "n": "Video file",
+      "s": "3-hour job"
+     },
+     {
+      "e": "15-minute timeout",
+      "x": 1
+     },
+     {
+      "n": "Lambda"
+     }
+    ],
+    [
+     {
+      "n": "Video file",
+      "s": "3-hour job"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Batch or ECS / Fargate task or EC2"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Encoded output"
+     }
+    ]
+   ]
   },
   {
    "id": "3-19",
@@ -7284,7 +10242,36 @@ window.QUESTION_BANK = {
     "46aa40bfa5"
    ],
    "explanation": "AWS Batch manages job queues, dependencies, and priorities, and automatically provisions the optimal quantity and type of compute resources, including Spot, based on the jobs submitted.",
-   "resource": "https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html"
+   "resource": "https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html",
+   "diagram": [
+    [
+     {
+      "n": "Jobs with dependencies"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Batch job queues",
+      "s": "priorities"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Managed compute environment",
+      "s": "On-Demand + Spot"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Containers run"
+     }
+    ]
+   ]
   },
   {
    "id": "3-20",
@@ -7317,7 +10304,38 @@ window.QUESTION_BANK = {
     "3f4203d707"
    ],
    "explanation": "Elastic Beanstalk provisions and manages the underlying EC2 instances, load balancer, and Auto Scaling group for you from an application code upload, while still giving access to the underlying resources if needed.",
-   "resource": "https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html"
+   "resource": "https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Code upload"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Elastic Beanstalk"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "ALB"
+       },
+       {
+        "n": "Auto Scaling group"
+       },
+       {
+        "n": "EC2 instances",
+        "s": "still accessible"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-21",
@@ -7350,7 +10368,39 @@ window.QUESTION_BANK = {
     "dadecc8698"
    ],
    "explanation": "ALB listener rules can route based on the URL path (and also support host-based, header-based, and query-string routing), which is exactly what's needed to split traffic between the two target groups.",
-   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html"
+   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html",
+   "diagram": [
+    [
+     {
+      "n": "Client"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB listener"
+     },
+     {
+      "e": "path /api/*"
+     },
+     {
+      "h": 1,
+      "n": "Microservice target group"
+     }
+    ],
+    [
+     {
+      "n": "ALB listener"
+     },
+     {
+      "e": "path /images/*"
+     },
+     {
+      "h": 1,
+      "n": "Image target group"
+     }
+    ]
+   ]
   },
   {
    "id": "3-22",
@@ -7383,7 +10433,29 @@ window.QUESTION_BANK = {
     "8ae15c1186"
    ],
    "explanation": "Network Load Balancer operates at Layer 4, handles millions of requests per second, and offers a static IP per AZ, which fits both the throughput and the TCP/UDP requirement.",
-   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html"
+   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html",
+   "diagram": [
+    [
+     {
+      "n": "Clients",
+      "s": "TCP and UDP"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Network Load Balancer",
+      "s": "Layer 4, static IP per AZ, millions req/s"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Matching engine"
+     }
+    ]
+   ]
   },
   {
    "id": "3-23",
@@ -7416,7 +10488,49 @@ window.QUESTION_BANK = {
     "be1618c7ac"
    ],
    "explanation": "Gateway Load Balancer uses GENEVE encapsulation to pass traffic transparently to third-party virtual appliances for inspection, then back out, which the other load balancer types aren't designed for.",
-   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html"
+   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html",
+   "diagram": [
+    [
+     {
+      "n": "Internet"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Gateway Load Balancer",
+      "s": "GENEVE, packets unchanged"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Firewall appliance fleet"
+     },
+     {
+      "e": "inspected traffic"
+     },
+     {
+      "h": 1,
+      "n": "Gateway Load Balancer",
+      "s": "GENEVE, packets unchanged"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Gateway Load Balancer",
+      "s": "GENEVE, packets unchanged"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Application in VPC"
+     }
+    ]
+   ]
   },
   {
    "id": "3-24",
@@ -7449,7 +10563,38 @@ window.QUESTION_BANK = {
     "57d142fb5e"
    ],
    "explanation": "AWS Compute Optimizer analyzes utilization metrics over time and produces right-sizing recommendations for EC2, EBS, Lambda, and other resources, refreshed as usage patterns change.",
-   "resource": "https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compute-optimizer.html"
+   "resource": "https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compute-optimizer.html",
+   "diagram": [
+    [
+     {
+      "n": "Utilization metrics"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Compute Optimizer"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EC2 sizes"
+       },
+       {
+        "n": "EBS volumes"
+       },
+       {
+        "n": "Lambda memory",
+        "s": "right-sizing recommendations"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-50",
@@ -7482,7 +10627,39 @@ window.QUESTION_BANK = {
     "49c7ce1427"
    ],
    "explanation": "Outposts brings AWS infrastructure and services such as EC2, EBS and ECS into your own facility, managed from the same console and APIs, so data can stay on site with very low latency to local systems.",
-   "resource": "https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html"
+   "resource": "https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html",
+   "diagram": [
+    [
+     {
+      "g": "Factory",
+      "c": [
+       {
+        "n": "Machines"
+       },
+       {
+        "e": "single-digit ms"
+       },
+       {
+        "h": 1,
+        "n": "AWS Outposts rack",
+        "s": "EC2, EBS, ECS"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Data stays on site"
+       }
+      ]
+     },
+     {
+      "e": "same console and APIs"
+     },
+     {
+      "n": "AWS Region"
+     }
+    ]
+   ]
   },
   {
    "id": "3-51",
@@ -7515,7 +10692,28 @@ window.QUESTION_BANK = {
     "3ce6692514"
    ],
    "explanation": "Local Zones place AWS compute, storage and other services in large metro areas, close to users, for single-digit-millisecond latency, without the customer hosting any hardware.",
-   "resource": "https://docs.aws.amazon.com/local-zones/latest/ug/what-is-aws-local-zones.html"
+   "resource": "https://docs.aws.amazon.com/local-zones/latest/ug/what-is-aws-local-zones.html",
+   "diagram": [
+    [
+     {
+      "n": "Artists in Los Angeles"
+     },
+     {
+      "e": "single-digit ms"
+     },
+     {
+      "h": 1,
+      "n": "Local Zone",
+      "s": "Los Angeles"
+     },
+     {
+      "e": "parent Region connection"
+     },
+     {
+      "n": "AWS Region"
+     }
+    ]
+   ]
   },
   {
    "id": "3-52",
@@ -7548,7 +10746,34 @@ window.QUESTION_BANK = {
     "be942ba842"
    ],
    "explanation": "Wavelength Zones embed AWS compute and storage inside telecom providers' 5G networks, so traffic from mobile devices reaches the application without leaving the carrier's network.",
-   "resource": "https://docs.aws.amazon.com/wavelength/latest/developerguide/what-is-wavelength.html"
+   "resource": "https://docs.aws.amazon.com/wavelength/latest/developerguide/what-is-wavelength.html",
+   "diagram": [
+    [
+     {
+      "n": "5G phones"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Carrier 5G network",
+      "c": [
+       {
+        "h": 1,
+        "n": "Wavelength Zone",
+        "s": "game servers"
+       }
+      ]
+     },
+     {
+      "e": "no trip over the internet",
+      "x": 1
+     },
+     {
+      "n": "Internet"
+     }
+    ]
+   ]
   },
   {
    "id": "3-53",
@@ -7581,7 +10806,29 @@ window.QUESTION_BANK = {
     "eb639eb3cf"
    ],
    "explanation": "Accelerated computing instances use hardware accelerators such as GPUs, which run the massively parallel calculations in deep-learning training far faster than general-purpose CPUs.",
-   "resource": "https://docs.aws.amazon.com/ec2/latest/instancetypes/ac.html"
+   "resource": "https://docs.aws.amazon.com/ec2/latest/instancetypes/ac.html",
+   "diagram": [
+    [
+     {
+      "n": "Millions of images"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "P instances",
+      "s": "GPUs, parallel matrix math"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Trained model",
+      "s": "days, not weeks"
+     }
+    ]
+   ]
   },
   {
    "id": "3-25",
@@ -7614,7 +10861,28 @@ window.QUESTION_BANK = {
     "d6a3deefb0"
    ],
    "explanation": "DAX is an in-memory cache built specifically in front of DynamoDB, giving microsecond read latency for cached items without any application-side cache-management code.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html",
+   "diagram": [
+    [
+     {
+      "n": "Game client"
+     },
+     {
+      "e": "read"
+     },
+     {
+      "h": 1,
+      "n": "DAX",
+      "s": "microsecond reads"
+     },
+     {
+      "e": "cache miss"
+     },
+     {
+      "n": "DynamoDB leaderboard table"
+     }
+    ]
+   ]
   },
   {
    "id": "3-26",
@@ -7647,7 +10915,52 @@ window.QUESTION_BANK = {
     "3e2343db2b"
    ],
    "explanation": "Aurora Replicas share the same underlying storage as the writer but serve reads independently, and the reader endpoint automatically load-balances across them, taking the reporting load off the writer entirely.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.Endpoints.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.Endpoints.html",
+   "diagram": [
+    [
+     {
+      "n": "Transactions"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Aurora writer"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Shared cluster storage"
+     }
+    ],
+    [
+     {
+      "n": "Month-end reports"
+     },
+     {
+      "e": "reader endpoint"
+     },
+     {
+      "k": [
+       {
+        "h": 1,
+        "n": "Aurora Replica"
+       },
+       {
+        "h": 1,
+        "n": "Aurora Replica"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Shared cluster storage"
+     }
+    ]
+   ]
   },
   {
    "id": "3-27",
@@ -7680,7 +10993,35 @@ window.QUESTION_BANK = {
     "65a5dc0b01"
    ],
    "explanation": "Aurora Serverless v2 scales database capacity up and down automatically in fine-grained increments based on load, which fits unpredictable, spiky per-customer usage far better than a fixed instance size.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Idle tenants"
+       },
+       {
+        "n": "Bursting tenants"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Aurora Serverless v2",
+      "s": "scales in fine-grained ACUs"
+     },
+     {
+      "e": "capacity follows load"
+     },
+     {
+      "n": "Low cost when idle"
+     }
+    ]
+   ]
   },
   {
    "id": "3-28",
@@ -7713,7 +11054,28 @@ window.QUESTION_BANK = {
     "685a8fc5ac"
    ],
    "explanation": "Redshift is a columnar, petabyte-scale data warehouse purpose-built for complex analytical SQL over large historical datasets, unlike a row-oriented OLTP database.",
-   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html"
+   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "OLTP database"
+     },
+     {
+      "e": "load / ETL"
+     },
+     {
+      "h": 1,
+      "n": "Amazon Redshift",
+      "s": "columnar, petabyte scale"
+     },
+     {
+      "e": "complex SQL joins"
+     },
+     {
+      "n": "BI team"
+     }
+    ]
+   ]
   },
   {
    "id": "3-29",
@@ -7746,7 +11108,55 @@ window.QUESTION_BANK = {
     "108595bf14"
    ],
    "explanation": "Neptune is a purpose-built graph database designed for exactly this kind of highly connected, multi-hop relationship query, which relational joins handle poorly at scale.",
-   "resource": "https://docs.aws.amazon.com/neptune/latest/userguide/intro.html"
+   "resource": "https://docs.aws.amazon.com/neptune/latest/userguide/intro.html",
+   "diagram": [
+    [
+     {
+      "n": "Alice"
+     },
+     {
+      "e": "friend"
+     },
+     {
+      "n": "Bob"
+     },
+     {
+      "e": "friend"
+     },
+     {
+      "n": "Carol"
+     },
+     {
+      "e": "follows"
+     },
+     {
+      "k": [
+       {
+        "n": "Page 1"
+       },
+       {
+        "n": "Page 2"
+       },
+       {
+        "n": "Page 3"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Multi-hop query"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Neptune",
+      "s": "graph database"
+     }
+    ]
+   ]
   },
   {
    "id": "3-30",
@@ -7779,7 +11189,45 @@ window.QUESTION_BANK = {
     "8b04f09dbe"
    ],
    "explanation": "Amazon DocumentDB is MongoDB-compatible, Amazon Keyspaces is Cassandra (CQL)-compatible, and Amazon Timestream is purpose-built for time-series data such as IoT telemetry.",
-   "resource": "https://aws.amazon.com/products/databases/"
+   "resource": "https://aws.amazon.com/products/databases/",
+   "diagram": [
+    [
+     {
+      "n": "MongoDB-compatible documents"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon DocumentDB"
+     }
+    ],
+    [
+     {
+      "n": "Cassandra CQL"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Keyspaces"
+     }
+    ],
+    [
+     {
+      "n": "IoT time series"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Timestream"
+     }
+    ]
+   ]
   },
   {
    "id": "3-31",
@@ -7812,7 +11260,50 @@ window.QUESTION_BANK = {
     "158530a194"
    ],
    "explanation": "Throttling on a small number of keys while overall capacity is underused is the classic sign of a hot partition. Choosing a partition key with higher cardinality, or sharding the write key, spreads the load across more partitions.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html",
+   "diagram": [
+    [
+     {
+      "n": "Featured product writes"
+     },
+     {
+      "e": "hot partition",
+      "x": 1
+     },
+     {
+      "n": "Partition 1",
+      "s": "throttled"
+     }
+    ],
+    [
+     {
+      "n": "Writes"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "High-cardinality key or write sharding"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Partition 1"
+       },
+       {
+        "n": "Partition 2"
+       },
+       {
+        "n": "Partition 3"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-32",
@@ -7845,7 +11336,46 @@ window.QUESTION_BANK = {
     "417ed4fb8f"
    ],
    "explanation": "Redis OSS (and Valkey) supports rich data types like sorted sets, persistence, and Multi-AZ replication with automatic failover. Memcached is simple, multi-threaded, and has neither persistence nor built-in replication.",
-   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html",
+   "diagram": [
+    [
+     {
+      "n": "Leaderboard"
+     },
+     {
+      "e": "sorted sets"
+     },
+     {
+      "g": "ElastiCache for Redis OSS / Valkey",
+      "c": [
+       {
+        "h": 1,
+        "n": "Primary",
+        "s": "AZ a, persisted"
+       },
+       {
+        "e": "replication"
+       },
+       {
+        "h": 1,
+        "n": "Replica",
+        "s": "AZ b"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Primary fails"
+     },
+     {
+      "e": "automatic failover"
+     },
+     {
+      "n": "Replica becomes primary"
+     }
+    ]
+   ]
   },
   {
    "id": "3-54",
@@ -7878,7 +11408,29 @@ window.QUESTION_BANK = {
     "ccb0549018"
    ],
    "explanation": "MemoryDB is a durable, in-memory database that is Redis OSS and Valkey compatible. It stores writes in a Multi-AZ transaction log, so it can be the primary database, not just a cache.",
-   "resource": "https://docs.aws.amazon.com/memorydb/latest/devguide/what-is-memorydb.html"
+   "resource": "https://docs.aws.amazon.com/memorydb/latest/devguide/what-is-memorydb.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "microsecond reads, ms writes"
+     },
+     {
+      "h": 1,
+      "n": "Amazon MemoryDB",
+      "s": "primary database"
+     },
+     {
+      "e": "every write"
+     },
+     {
+      "n": "Multi-AZ transaction log",
+      "s": "durable"
+     }
+    ]
+   ]
   },
   {
    "id": "3-55",
@@ -7911,7 +11463,29 @@ window.QUESTION_BANK = {
     "5da0d76e09"
    ],
    "explanation": "OpenSearch Service is built for full-text search, with relevance ranking, fuzzy matching and faceted filters. The catalog can be kept in sync from DynamoDB, which stays the system of record.",
-   "resource": "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "DynamoDB catalog",
+      "s": "system of record"
+     },
+     {
+      "e": "sync"
+     },
+     {
+      "h": 1,
+      "n": "OpenSearch Service",
+      "s": "full-text index"
+     },
+     {
+      "e": "fuzzy match, ranking, facets"
+     },
+     {
+      "n": "Shopper search"
+     }
+    ]
+   ]
   },
   {
    "id": "3-56",
@@ -7944,7 +11518,29 @@ window.QUESTION_BANK = {
     "c563d8391b"
    ],
    "explanation": "A global secondary index lets you query the table by a different partition key and sort key, such as `customerId` and `orderDate`. It's updated asynchronously, so its reads are eventually consistent, which the dashboard accepts.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html",
+   "diagram": [
+    [
+     {
+      "n": "Orders table",
+      "s": "key orderId"
+     },
+     {
+      "e": "async copy"
+     },
+     {
+      "h": 1,
+      "n": "GSI",
+      "s": "customerId + orderDate"
+     },
+     {
+      "e": "Query, eventually consistent"
+     },
+     {
+      "n": "Support dashboard"
+     }
+    ]
+   ]
   },
   {
    "id": "3-57",
@@ -7977,7 +11573,47 @@ window.QUESTION_BANK = {
     "be7612fff7"
    ],
    "explanation": "With write-through, the application updates the cache at the same time as the database, so cached prices are never stale. Because writes are rare, the extra work on each write is small.",
-   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html",
+   "diagram": [
+    [
+     {
+      "n": "Price update"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "App writes both"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "RDS"
+       },
+       {
+        "n": "ElastiCache",
+        "s": "always current"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Reads"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ElastiCache",
+      "s": "always current"
+     }
+    ]
+   ]
   },
   {
    "id": "3-58",
@@ -8010,7 +11646,23 @@ window.QUESTION_BANK = {
     "3c5233713e"
    ],
    "explanation": "Amazon Keyspaces is a serverless, Cassandra-compatible database, so existing applications can use the same CQL drivers and queries while AWS manages the infrastructure and scaling.",
-   "resource": "https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspaces.html"
+   "resource": "https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspaces.html",
+   "diagram": [
+    [
+     {
+      "n": "Existing apps",
+      "s": "CQL drivers"
+     },
+     {
+      "e": "same queries"
+     },
+     {
+      "h": 1,
+      "n": "Amazon Keyspaces",
+      "s": "serverless, Cassandra-compatible"
+     }
+    ]
+   ]
   },
   {
    "id": "3-33",
@@ -8043,7 +11695,28 @@ window.QUESTION_BANK = {
     "8cd9ca4f49"
    ],
    "explanation": "CloudFront caches content at edge locations close to users, cutting both latency and the number of requests that reach the origin. Global Accelerator improves routing to endpoints but doesn't cache content.",
-   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html"
+   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html",
+   "diagram": [
+    [
+     {
+      "n": "Users worldwide"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "CloudFront edge locations",
+      "s": "cache static and dynamic"
+     },
+     {
+      "e": "cache misses only"
+     },
+     {
+      "n": "Origin server"
+     }
+    ]
+   ]
   },
   {
    "id": "3-34",
@@ -8076,7 +11749,38 @@ window.QUESTION_BANK = {
     "56fa0be071"
    ],
    "explanation": "Transit Gateway acts as a central hub that all VPCs and on-premises connections attach to once, replacing the need for a full, non-transitive mesh of peering connections.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "VPC 1"
+       },
+       {
+        "n": "VPC 2"
+       },
+       {
+        "n": "VPC 50"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Transit Gateway",
+      "s": "hub"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "On-premises networks"
+     }
+    ]
+   ]
   },
   {
    "id": "3-35",
@@ -8109,7 +11813,38 @@ window.QUESTION_BANK = {
     "21a2eeb3bd"
    ],
    "explanation": "VPC peering connections are never transitive, no matter how route tables are configured, so A cannot reach C through B over peering alone.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html",
+   "diagram": [
+    [
+     {
+      "n": "VPC A"
+     },
+     {
+      "e": "peering"
+     },
+     {
+      "n": "VPC B"
+     },
+     {
+      "e": "peering"
+     },
+     {
+      "n": "VPC C"
+     }
+    ],
+    [
+     {
+      "n": "VPC A"
+     },
+     {
+      "e": "no transitive routing",
+      "x": 1
+     },
+     {
+      "n": "VPC C"
+     }
+    ]
+   ]
   },
   {
    "id": "3-36",
@@ -8142,7 +11877,28 @@ window.QUESTION_BANK = {
     "ea14490340"
    ],
    "explanation": "Direct Connect provides a dedicated, private network connection with consistent bandwidth (dedicated ports come in 1, 10, 100 and 400 Gbps), unlike a VPN, which runs encrypted over the shared public internet.",
-   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html"
+   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Data center"
+     },
+     {
+      "e": "dedicated 10 Gbps private circuit"
+     },
+     {
+      "h": 1,
+      "n": "Direct Connect location"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS Region",
+      "s": "VPC"
+     }
+    ]
+   ]
   },
   {
    "id": "3-37",
@@ -8175,7 +11931,51 @@ window.QUESTION_BANK = {
     "972b486b94"
    ],
    "explanation": "VPN CloudHub uses the virtual private gateway as a hub that routes traffic between the existing VPN connections, and each branch's customer gateway needs its own BGP ASN. (For much larger global networks, AWS Cloud WAN is the managed alternative.)",
-   "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html"
+   "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Branch 1",
+        "s": "ASN 65001"
+       },
+       {
+        "n": "Branch 2",
+        "s": "ASN 65002"
+       }
+      ]
+     },
+     {
+      "e": "existing VPNs"
+     },
+     {
+      "h": 1,
+      "n": "VPN CloudHub",
+      "s": "virtual private gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Branch 3",
+      "s": "ASN 65003"
+     }
+    ],
+    [
+     {
+      "n": "Branch 1",
+      "s": "ASN 65001"
+     },
+     {
+      "e": "via the hub"
+     },
+     {
+      "n": "Branch 3",
+      "s": "ASN 65003"
+     }
+    ]
+   ]
   },
   {
    "id": "3-38",
@@ -8208,7 +12008,31 @@ window.QUESTION_BANK = {
     "f389e8feab"
    ],
    "explanation": "Overlapping CIDRs break routing for VPC peering and VPN/Direct Connect connections back to on-premises networks, so planning non-overlapping ranges (and subnets sized with room to grow) up front avoids costly re-addressing later.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "On-premises",
+        "s": "192.168.0.0/16"
+       },
+       {
+        "n": "Other VPCs",
+        "s": "10.1.0.0/16, 10.2.0.0/16"
+       }
+      ]
+     },
+     {
+      "e": "no overlap"
+     },
+     {
+      "h": 1,
+      "n": "New VPC",
+      "s": "10.10.0.0/16, room to grow"
+     }
+    ]
+   ]
   },
   {
    "id": "3-39",
@@ -8241,7 +12065,45 @@ window.QUESTION_BANK = {
     "b40f641964"
    ],
    "explanation": "Route 53 Resolver inbound endpoints let on-premises systems query the private hosted zone, and outbound endpoints with forwarding rules let VPC resources query on-premises DNS — together covering both directions privately.",
-   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html"
+   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html",
+   "diagram": [
+    [
+     {
+      "n": "On-premises servers"
+     },
+     {
+      "e": "query private zone"
+     },
+     {
+      "h": 1,
+      "n": "Resolver inbound endpoint"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Private hosted zone"
+     }
+    ],
+    [
+     {
+      "n": "VPC resources"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Resolver outbound endpoint"
+     },
+     {
+      "e": "forwarding rule"
+     },
+     {
+      "n": "On-premises DNS"
+     }
+    ]
+   ]
   },
   {
    "id": "3-40",
@@ -8274,7 +12136,29 @@ window.QUESTION_BANK = {
     "24cf442ccc"
    ],
    "explanation": "Enhanced networking with ENA supports up to 100+ Gbps on supported instance types, and adding Elastic Fabric Adapter (EFA) provides OS-bypass networking that further cuts latency and jitter for MPI/HPC workloads.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html",
+   "diagram": [
+    [
+     {
+      "g": "Cluster placement group",
+      "c": [
+       {
+        "h": 1,
+        "n": "Node",
+        "s": "ENA + EFA"
+       },
+       {
+        "e": "100+ Gbps, OS bypass, low jitter"
+       },
+       {
+        "h": 1,
+        "n": "Node",
+        "s": "ENA + EFA"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-59",
@@ -8307,7 +12191,37 @@ window.QUESTION_BANK = {
     "e435b18912"
    ],
    "explanation": "Cloud WAN builds and manages a global network across Regions and on-premises locations from a single core network policy, including network segments that control which parts of the network can communicate.",
-   "resource": "https://docs.aws.amazon.com/network-manager/latest/cloudwan/what-is-cloudwan.html"
+   "resource": "https://docs.aws.amazon.com/network-manager/latest/cloudwan/what-is-cloudwan.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Core network policy",
+      "s": "segments: prod, dev, branches"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Cloud WAN",
+      "s": "AWS backbone"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "VPCs in 8 Regions"
+       },
+       {
+        "n": "40 branch offices"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-60",
@@ -8340,7 +12254,34 @@ window.QUESTION_BANK = {
     "51336f3d09"
    ],
    "explanation": "Client VPN is a managed, scalable VPN service that lets individual users connect to a VPC, and to networks reachable through it, from OpenVPN-based clients, with authentication options that include Active Directory.",
-   "resource": "https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html"
+   "resource": "https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "Remote laptops",
+      "s": "OpenVPN client"
+     },
+     {
+      "e": "AD authentication"
+     },
+     {
+      "h": 1,
+      "n": "Client VPN endpoint"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC apps"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "On-premises systems"
+     }
+    ]
+   ]
   },
   {
    "id": "3-61",
@@ -8373,7 +12314,45 @@ window.QUESTION_BANK = {
     "74be181db1"
    ],
    "explanation": "A Direct Connect gateway is a global resource: one private or transit virtual interface can reach virtual private gateways or transit gateways, and through them VPCs, in multiple Regions.",
-   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html"
+   "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html",
+   "diagram": [
+    [
+     {
+      "n": "Data center"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Direct Connect",
+      "s": "one connection"
+     },
+     {
+      "e": "private VIF"
+     },
+     {
+      "h": 1,
+      "n": "Direct Connect gateway",
+      "s": "global"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "VGW us-east-1"
+       },
+       {
+        "n": "VGW us-west-2"
+       },
+       {
+        "n": "VGW eu-west-1"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-41",
@@ -8406,7 +12385,55 @@ window.QUESTION_BANK = {
     "7dc73379d1"
    ],
    "explanation": "Kinesis Data Streams retains data for a configurable period (up to 365 days) and lets multiple independent consumers read the same stream, with enhanced fan-out available for isolated per-consumer throughput.",
-   "resource": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html"
+   "resource": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Clickstream"
+       },
+       {
+        "n": "GPS pings"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Kinesis Data Streams",
+      "s": "retained 7 days"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Fraud detection consumer"
+       },
+       {
+        "n": "Analytics consumer"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Bug fixed"
+     },
+     {
+      "e": "replay from an earlier position"
+     },
+     {
+      "h": 1,
+      "n": "Kinesis Data Streams",
+      "s": "retained 7 days"
+     }
+    ]
+   ]
   },
   {
    "id": "3-42",
@@ -8439,7 +12466,50 @@ window.QUESTION_BANK = {
     "dfdad8f323"
    ],
    "explanation": "Data Firehose is a fully managed delivery service that loads streaming data into destinations like S3, Redshift, and OpenSearch, with optional Lambda transformation and format conversion, and nothing to provision.",
-   "resource": "https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html"
+   "resource": "https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html",
+   "diagram": [
+    [
+     {
+      "n": "IoT sensors"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Data Firehose"
+     },
+     {
+      "e": "optional"
+     },
+     {
+      "n": "Lambda",
+      "s": "enrich"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Amazon Data Firehose"
+     },
+     {
+      "e": "convert to Parquet"
+     },
+     {
+      "k": [
+       {
+        "n": "S3"
+       },
+       {
+        "n": "Redshift"
+       },
+       {
+        "n": "OpenSearch"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-43",
@@ -8472,7 +12542,40 @@ window.QUESTION_BANK = {
     "346aee3eaf"
    ],
    "explanation": "Athena runs serverless, pay-per-query SQL directly against files in S3, using the Glue Data Catalog for schema — partitioning and columnar formats reduce the data scanned, and so the cost, without any cluster to manage.",
-   "resource": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html"
+   "resource": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "Analyst"
+     },
+     {
+      "e": "SQL, pay per query"
+     },
+     {
+      "h": 1,
+      "n": "Amazon Athena"
+     },
+     {
+      "e": "schema"
+     },
+     {
+      "n": "Glue Data Catalog"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Amazon Athena"
+     },
+     {
+      "e": "scan files"
+     },
+     {
+      "n": "S3",
+      "s": "CSV and Parquet logs"
+     }
+    ]
+   ]
   },
   {
    "id": "3-44",
@@ -8505,7 +12608,61 @@ window.QUESTION_BANK = {
     "a037f7a678"
    ],
    "explanation": "AWS Glue provides serverless ETL, crawlers for automatic schema discovery, and a central Data Catalog that Athena, Redshift Spectrum, and other services can query against. (Lake Formation adds fine-grained permissions on top of that same catalog.)",
-   "resource": "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html"
+   "resource": "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html",
+   "diagram": [
+    [
+     {
+      "n": "Source systems"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Glue crawlers",
+      "s": "discover schemas"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Glue Data Catalog"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Athena"
+       },
+       {
+        "n": "Redshift Spectrum"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Source systems"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Glue ETL jobs",
+      "s": "serverless"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 data lake"
+     }
+    ]
+   ]
   },
   {
    "id": "3-45",
@@ -8538,7 +12695,41 @@ window.QUESTION_BANK = {
     "c6578b4af8"
    ],
    "explanation": "Moving 500 TB over a 100 Mbps link would take well over a year, ruling out every network-based option here. Snowball Edge devices physically ship the data instead. (Snowball Edge is no longer available to new customers; AWS now points them to DataSync, AWS Data Transfer Terminal, or partner solutions, but the exam still tests this offline-transfer concept.)",
-   "resource": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html"
+   "resource": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html",
+   "diagram": [
+    [
+     {
+      "n": "Data center",
+      "s": "500 TB"
+     },
+     {
+      "e": "100 Mbps link: over a year",
+      "x": 1
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ],
+    [
+     {
+      "n": "Data center",
+      "s": "500 TB"
+     },
+     {
+      "e": "copy locally"
+     },
+     {
+      "h": 1,
+      "n": "Snowball Edge devices"
+     },
+     {
+      "e": "shipped"
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ]
+   ]
   },
   {
    "id": "3-49",
@@ -8571,7 +12762,36 @@ window.QUESTION_BANK = {
     "b69c39b2bd"
    ],
    "explanation": "DataSync moves data online between on-premises storage (such as NFS) and AWS storage services including EFS, with scheduled tasks, encryption in transit and built-in integrity verification.",
-   "resource": "https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html"
+   "resource": "https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html",
+   "diagram": [
+    [
+     {
+      "n": "NFS server",
+      "s": "on premises"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "DataSync agent"
+     },
+     {
+      "e": "Direct Connect, encrypted, verified"
+     },
+     {
+      "h": 1,
+      "n": "DataSync task",
+      "s": "nightly schedule"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Amazon EFS"
+     }
+    ]
+   ]
   },
   {
    "id": "3-62",
@@ -8604,7 +12824,44 @@ window.QUESTION_BANK = {
     "0d705a0db2"
    ],
    "explanation": "Lake Formation manages permissions centrally at the database, table, column and row level on Data Catalog resources, and integrated services such as Athena, Redshift Spectrum and EMR enforce them.",
-   "resource": "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html"
+   "resource": "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html",
+   "diagram": [
+    [
+     {
+      "n": "Analysts by department"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Athena"
+       },
+       {
+        "n": "Redshift Spectrum"
+       },
+       {
+        "n": "EMR"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lake Formation permissions",
+      "s": "column and row level"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Data Catalog + S3"
+     }
+    ]
+   ]
   },
   {
    "id": "3-63",
@@ -8637,7 +12894,49 @@ window.QUESTION_BANK = {
     "62b3dcafd2"
    ],
    "explanation": "Amazon Quick Sight, formerly QuickSight and now part of Amazon Quick, is a serverless BI service for interactive dashboards over sources such as Redshift and Athena, with sharing and embedding for business users.",
-   "resource": "https://docs.aws.amazon.com/quick/latest/userguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/quick/latest/userguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Redshift"
+       },
+       {
+        "n": "Athena"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Quick Sight",
+      "s": "serverless BI"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Dashboards"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "200 business users"
+       },
+       {
+        "n": "Internal portal",
+        "s": "embedded"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-64",
@@ -8670,7 +12969,37 @@ window.QUESTION_BANK = {
     "653aff1a9e"
    ],
    "explanation": "Amazon EMR runs open-source frameworks such as Spark and Hive, so existing jobs run with few changes, and it gives control over cluster configuration and instance types, including Spot Instances.",
-   "resource": "https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html"
+   "resource": "https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html",
+   "diagram": [
+    [
+     {
+      "n": "Existing Spark and Hive jobs"
+     },
+     {
+      "e": "few changes"
+     },
+     {
+      "h": 1,
+      "n": "Amazon EMR cluster",
+      "s": "your configuration"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Core nodes",
+        "s": "On-Demand"
+       },
+       {
+        "n": "Task nodes",
+        "s": "Spot"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "3-65",
@@ -8703,7 +13032,29 @@ window.QUESTION_BANK = {
     "4c739d8c58"
    ],
    "explanation": "Transfer Family provides a fully managed SFTP (and FTPS, FTP or AS2) endpoint that stores files directly in S3 or EFS, so partners keep using their existing SFTP clients and scripts.",
-   "resource": "https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html"
+   "resource": "https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html",
+   "diagram": [
+    [
+     {
+      "n": "Partners",
+      "s": "existing SFTP scripts"
+     },
+     {
+      "e": "SFTP"
+     },
+     {
+      "h": 1,
+      "n": "Transfer Family endpoint",
+      "s": "fully managed"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ]
+   ]
   },
   {
    "id": "4-01",
@@ -8736,7 +13087,32 @@ window.QUESTION_BANK = {
     "8a81444353"
    ],
    "explanation": "Standard retrieval from Deep Archive completes within 12 hours, which meets the requirement at the lowest storage cost for data that's rarely needed after 90 days.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "S3 Standard",
+      "s": "days 0-30"
+     },
+     {
+      "e": "lifecycle: day 30"
+     },
+     {
+      "h": 1,
+      "n": "Standard-IA",
+      "s": "days 30-90"
+     },
+     {
+      "e": "lifecycle: day 90"
+     },
+     {
+      "h": 1,
+      "n": "Glacier Deep Archive",
+      "s": "to year 7, restore within 12 h"
+     }
+    ]
+   ]
   },
   {
    "id": "4-02",
@@ -8769,7 +13145,33 @@ window.QUESTION_BANK = {
     "2dfa23a0e6"
    ],
    "explanation": "S3 Intelligent-Tiering automatically moves objects between access tiers based on observed usage, with no retrieval fees, which is exactly suited to unpredictable, changing access patterns.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html",
+   "diagram": [
+    [
+     {
+      "n": "New upload"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Intelligent-Tiering"
+     },
+     {
+      "e": "not accessed 30 days"
+     },
+     {
+      "n": "Infrequent Access tier"
+     },
+     {
+      "e": "accessed again, no retrieval fee"
+     },
+     {
+      "n": "Frequent Access tier"
+     }
+    ]
+   ]
   },
   {
    "id": "4-03",
@@ -8802,7 +13204,28 @@ window.QUESTION_BANK = {
     "4df7885068"
    ],
    "explanation": "One Zone-IA is the cheapest class with millisecond access, and storing data in a single AZ is an acceptable trade-off here since the backup copy can simply be regenerated if that AZ is lost.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html",
+   "diagram": [
+    [
+     {
+      "n": "Primary data"
+     },
+     {
+      "e": "regenerate if lost"
+     },
+     {
+      "h": 1,
+      "n": "S3 One Zone-IA",
+      "s": "one AZ, cheapest ms access"
+     },
+     {
+      "e": "rare read, milliseconds"
+     },
+     {
+      "n": "Restore job"
+     }
+    ]
+   ]
   },
   {
    "id": "4-04",
@@ -8835,7 +13258,28 @@ window.QUESTION_BANK = {
     "a1f47c4038"
    ],
    "explanation": "Glacier Instant Retrieval is priced for infrequently accessed data (like quarterly access) but still returns objects with millisecond latency, unlike Glacier Flexible Retrieval or Deep Archive, which involve a retrieval wait.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html",
+   "diagram": [
+    [
+     {
+      "n": "Doctor's follow-up visit"
+     },
+     {
+      "e": "about once a quarter"
+     },
+     {
+      "h": 1,
+      "n": "Glacier Instant Retrieval",
+      "s": "low storage cost"
+     },
+     {
+      "e": "milliseconds"
+     },
+     {
+      "n": "Diagnostic image"
+     }
+    ]
+   ]
   },
   {
    "id": "4-05",
@@ -8868,7 +13312,43 @@ window.QUESTION_BANK = {
     "93214cb123"
    ],
    "explanation": "A lifecycle rule that expires noncurrent versions removes old versions after a set number of days while keeping rollback ability for recent changes. Suspending versioning stops new versions but doesn't delete versions that already exist.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Object v5",
+        "s": "current"
+       },
+       {
+        "n": "v4"
+       },
+       {
+        "n": "v3"
+       },
+       {
+        "n": "v2",
+        "s": "noncurrent"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lifecycle rule",
+      "s": "expire noncurrent after N days"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Only recent versions kept"
+     }
+    ]
+   ]
   },
   {
    "id": "4-06",
@@ -8901,7 +13381,45 @@ window.QUESTION_BANK = {
     "3205b5dd30"
    ],
    "explanation": "S3 Storage Lens provides organization-wide visibility into storage usage and activity metrics, along with cost-optimization recommendations, across every account and bucket in scope.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Account 1 buckets"
+       },
+       {
+        "n": "Account 2 buckets"
+       },
+       {
+        "n": "Account 40 buckets"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "S3 Storage Lens",
+      "s": "organization dashboard"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Usage trends"
+       },
+       {
+        "n": "Cost recommendations"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-07",
@@ -8934,7 +13452,29 @@ window.QUESTION_BANK = {
     "7324f157bc"
    ],
    "explanation": "gp3 is roughly 20% cheaper per GB than gp2 while matching or beating its baseline performance, and Elastic Volumes changes the volume type without downtime.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/requesting-ebs-volume-modifications.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/requesting-ebs-volume-modifications.html",
+   "diagram": [
+    [
+     {
+      "n": "gp2 volume"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Elastic Volumes",
+      "s": "change type, no downtime"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "gp3 volume",
+      "s": "about 20% cheaper"
+     }
+    ]
+   ]
   },
   {
    "id": "4-08",
@@ -8967,7 +13507,29 @@ window.QUESTION_BANK = {
     "aa4c266c72"
    ],
    "explanation": "The EBS Snapshots Archive tier is up to 75% cheaper than standard snapshot storage, with a minimum 90-day storage duration and restores that take 24–72 hours — matching this exact access pattern.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.html",
+   "diagram": [
+    [
+     {
+      "n": "EBS snapshot",
+      "s": "standard tier"
+     },
+     {
+      "e": "archive"
+     },
+     {
+      "h": 1,
+      "n": "Snapshots Archive tier",
+      "s": "up to 75% cheaper, 90-day minimum"
+     },
+     {
+      "e": "restore 24-72 h"
+     },
+     {
+      "n": "Standard snapshot"
+     }
+    ]
+   ]
   },
   {
    "id": "4-09",
@@ -9000,7 +13562,44 @@ window.QUESTION_BANK = {
     "7824bc7eb7"
    ],
    "explanation": "EFS lifecycle management automatically moves files that haven't been accessed for a configurable period into the lower-cost IA or Archive storage classes, with no application changes needed.",
-   "resource": "https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html"
+   "resource": "https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html",
+   "diagram": [
+    [
+     {
+      "n": "File not accessed for 30 days"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "EFS lifecycle management"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "EFS IA"
+     },
+     {
+      "e": "longer"
+     },
+     {
+      "n": "EFS Archive"
+     }
+    ],
+    [
+     {
+      "n": "File accessed again"
+     },
+     {
+      "e": "optional: move back"
+     },
+     {
+      "n": "EFS Standard"
+     }
+    ]
+   ]
   },
   {
    "id": "4-10",
@@ -9033,7 +13632,39 @@ window.QUESTION_BANK = {
     "09577190ea"
    ],
    "explanation": "Tape Gateway presents a virtual tape library that existing backup software can keep using unchanged, while the tapes themselves are actually stored in S3 and S3 Glacier.",
-   "resource": "https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html"
+   "resource": "https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html",
+   "diagram": [
+    [
+     {
+      "n": "Backup software",
+      "s": "unchanged"
+     },
+     {
+      "e": "iSCSI virtual tape library"
+     },
+     {
+      "g": "On premises",
+      "c": [
+       {
+        "h": 1,
+        "n": "Tape Gateway"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Virtual tapes in S3"
+     },
+     {
+      "e": "archive"
+     },
+     {
+      "n": "S3 Glacier"
+     }
+    ]
+   ]
   },
   {
    "id": "4-41",
@@ -9066,7 +13697,34 @@ window.QUESTION_BANK = {
     "11b221e319"
    ],
    "explanation": "Bulk retrieval is the lowest-cost way to restore data from S3 Glacier Flexible Retrieval. It typically completes within 5 to 12 hours, which is fine when the data isn't needed urgently.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html",
+   "diagram": [
+    [
+     {
+      "n": "400 TB in Glacier Flexible Retrieval"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Bulk retrieval",
+      "s": "5-12 h, lowest cost"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Temporary restored copies"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Reprocessing"
+     }
+    ]
+   ]
   },
   {
    "id": "4-42",
@@ -9099,7 +13757,29 @@ window.QUESTION_BANK = {
     "6b1810c275"
    ],
    "explanation": "A lifecycle rule with `AbortIncompleteMultipartUpload` automatically removes the parts of uploads that haven't completed within a set number of days, so they stop incurring storage charges.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incomplete-mpu-lifecycle-config.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incomplete-mpu-lifecycle-config.html",
+   "diagram": [
+    [
+     {
+      "n": "Failed multipart uploads",
+      "s": "orphaned parts"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lifecycle rule",
+      "s": "AbortIncompleteMultipartUpload after 7 days"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Parts deleted"
+     }
+    ]
+   ]
   },
   {
    "id": "4-43",
@@ -9132,7 +13812,35 @@ window.QUESTION_BANK = {
     "00ae944aa1"
    ],
    "explanation": "Data Lifecycle Manager creates EBS snapshots on a schedule for tagged volumes and deletes them automatically according to a retention rule, such as keeping 14 days of daily snapshots.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.html",
+   "diagram": [
+    [
+     {
+      "n": "Tagged volumes"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Data Lifecycle Manager policy",
+      "s": "daily"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Snapshots",
+      "s": "14-day retention"
+     },
+     {
+      "e": "older"
+     },
+     {
+      "n": "Deleted automatically"
+     }
+    ]
+   ]
   },
   {
    "id": "4-44",
@@ -9165,7 +13873,39 @@ window.QUESTION_BANK = {
     "562d0900da"
    ],
    "explanation": "Intelligent-Tiering's optional archive tiers must be turned on. Once they are, objects not accessed for at least 90 days move to Archive Access and after 180 days to Deep Archive Access, for much lower storage costs, with retrieval taking minutes to hours.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering-overview.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering-overview.html",
+   "diagram": [
+    [
+     {
+      "n": "Intelligent-Tiering object"
+     },
+     {
+      "e": "90 days no access"
+     },
+     {
+      "h": 1,
+      "n": "Archive Access tier"
+     },
+     {
+      "e": "180 days"
+     },
+     {
+      "h": 1,
+      "n": "Deep Archive Access tier"
+     }
+    ],
+    [
+     {
+      "n": "Rare request"
+     },
+     {
+      "e": "restore: minutes to hours"
+     },
+     {
+      "n": "Object back in Frequent Access"
+     }
+    ]
+   ]
   },
   {
    "id": "4-45",
@@ -9198,7 +13938,27 @@ window.QUESTION_BANK = {
     "ac67d204d5"
    ],
    "explanation": "One Zone file systems store data in a single Availability Zone, which costs less than Regional storage across several AZs. That's a reasonable trade-off for data that can be regenerated, and instances still mount it over NFS.",
-   "resource": "https://docs.aws.amazon.com/efs/latest/ug/features.html"
+   "resource": "https://docs.aws.amazon.com/efs/latest/ug/features.html",
+   "diagram": [
+    [
+     {
+      "g": "One AZ",
+      "c": [
+       {
+        "n": "Test instances"
+       },
+       {
+        "e": "NFS"
+       },
+       {
+        "h": 1,
+        "n": "EFS One Zone file system",
+        "s": "lower cost"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-11",
@@ -9231,7 +13991,34 @@ window.QUESTION_BANK = {
     "3140a1cc26"
    ],
    "explanation": "Spot Instances can cost up to 90% less than On-Demand and come with a 2-minute interruption notice, which a checkpointing, fault-tolerant workload can absorb easily.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html",
+   "diagram": [
+    [
+     {
+      "n": "Batch job"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Spot Instance",
+      "s": "up to 90% off"
+     },
+     {
+      "e": "2-minute interruption notice"
+     },
+     {
+      "n": "Checkpoint saved"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "New Spot Instance resumes"
+     }
+    ]
+   ]
   },
   {
    "id": "4-12",
@@ -9264,7 +14051,32 @@ window.QUESTION_BANK = {
     "caa5b66658"
    ],
    "explanation": "Compute Savings Plans apply automatically across instance families, Regions, and compute services (EC2, Fargate, Lambda), unlike EC2 Instance Savings Plans, which give a higher discount but lock in one instance family in one Region.",
-   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html"
+   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Compute Savings Plan",
+      "s": "$/hour commitment"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EC2 any family, any Region"
+       },
+       {
+        "n": "AWS Fargate"
+       },
+       {
+        "n": "AWS Lambda"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-13",
@@ -9297,7 +14109,29 @@ window.QUESTION_BANK = {
     "47aaee5f9c"
    ],
    "explanation": "On-Demand Capacity Reservations reserve capacity in a specific AZ for as long as needed, with no long-term commitment — you simply pay the On-Demand rate while the reservation is active.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "On-Demand Capacity Reservation",
+      "s": "specific AZ, no term"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Trade show instances",
+      "s": "2 weeks"
+     },
+     {
+      "e": "cancel afterwards"
+     },
+     {
+      "n": "No commitment left"
+     }
+    ]
+   ]
   },
   {
    "id": "4-14",
@@ -9330,7 +14164,28 @@ window.QUESTION_BANK = {
     "bc0a2f83a6"
    ],
    "explanation": "Dedicated Hosts give visibility into, and control over, the specific physical server (including sockets and cores), which is what per-socket or per-core BYOL licensing terms typically require. Dedicated Instances only guarantee single-tenant hardware, without that visibility.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html",
+   "diagram": [
+    [
+     {
+      "n": "BYOL Windows / SQL Server"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Dedicated Host",
+      "s": "visible sockets and cores"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "License compliance"
+     }
+    ]
+   ]
   },
   {
    "id": "4-15",
@@ -9363,7 +14218,47 @@ window.QUESTION_BANK = {
     "0ca15c76d7"
    ],
    "explanation": "Covering the predictable baseline with discounted, committed On-Demand capacity and bursting onto cheaper Spot Instances for short, unpredictable peaks avoids paying peak-sized On-Demand rates around the clock.",
-   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html"
+   "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html",
+   "diagram": [
+    [
+     {
+      "g": "Auto Scaling group, mixed instances policy",
+      "c": [
+       {
+        "k": [
+         {
+          "h": 1,
+          "n": "Baseline",
+          "s": "On-Demand, Savings Plans"
+         },
+         {
+          "h": 1,
+          "n": "Peaks",
+          "s": "Spot Instances"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Traffic peak, a few minutes"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Spot capacity added"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Removed after the peak"
+     }
+    ]
+   ]
   },
   {
    "id": "4-16",
@@ -9396,7 +14291,22 @@ window.QUESTION_BANK = {
     "78cdb603ea"
    ],
    "explanation": "AWS Graviton instances often deliver up to 40% better price-performance than comparable x86 instances for compatible Linux workloads, typically requiring just a rebuild for the Arm architecture.",
-   "resource": "https://aws.amazon.com/ec2/graviton/"
+   "resource": "https://aws.amazon.com/ec2/graviton/",
+   "diagram": [
+    [
+     {
+      "n": "x86 instance"
+     },
+     {
+      "e": "rebuild for Arm"
+     },
+     {
+      "h": 1,
+      "n": "Graviton instance",
+      "s": "up to 40% better price-performance"
+     }
+    ]
+   ]
   },
   {
    "id": "4-17",
@@ -9429,7 +14339,34 @@ window.QUESTION_BANK = {
     "450f4a092f"
    ],
    "explanation": "Stopping instances outside business hours (through Instance Scheduler on AWS, or scheduled Auto Scaling actions for instances in an ASG) avoids paying for the roughly two-thirds of the day they sit unused.",
-   "resource": "https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html"
+   "resource": "https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Instance Scheduler"
+     },
+     {
+      "e": "8:45 AM weekdays: start"
+     },
+     {
+      "n": "Dev / test instances"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Instance Scheduler"
+     },
+     {
+      "e": "6 PM and weekends: stop"
+     },
+     {
+      "n": "Dev / test instances",
+      "s": "no compute charge"
+     }
+    ]
+   ]
   },
   {
    "id": "4-18",
@@ -9462,7 +14399,41 @@ window.QUESTION_BANK = {
     "1352bfa304"
    ],
    "explanation": "At a few thousand requests a day, paying per request and per millisecond of execution with API Gateway and Lambda costs far less than keeping any number of EC2 instances running around the clock.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Few thousand requests a day"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "API Gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Lambda",
+      "s": "pay per request and ms"
+     }
+    ],
+    [
+     {
+      "n": "Two always-on EC2 instances"
+     },
+     {
+      "e": "paying while idle",
+      "x": 1
+     },
+     {
+      "n": "Retired"
+     }
+    ]
+   ]
   },
   {
    "id": "4-19",
@@ -9495,7 +14466,32 @@ window.QUESTION_BANK = {
     "1d31b1a489"
    ],
    "explanation": "Trusted Advisor's cost optimization checks specifically flag things like low-utilization EC2 instances and unassociated Elastic IP addresses, among other waste indicators.",
-   "resource": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html"
+   "resource": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Trusted Advisor",
+      "s": "cost checks"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Low-utilization EC2"
+       },
+       {
+        "n": "Unassociated Elastic IPs"
+       },
+       {
+        "n": "Idle load balancers"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-20",
@@ -9528,7 +14524,34 @@ window.QUESTION_BANK = {
     "3c9afccf35"
    ],
    "explanation": "AWS Budgets can alert based on forecasted spend, not just actual spend so far, which is exactly what's needed to get ahead of a projected overage. (AWS Cost Anomaly Detection is the complementary tool for catching unusual spikes that a fixed threshold might miss.)",
-   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html"
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html",
+   "diagram": [
+    [
+     {
+      "n": "Month-to-date spend"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS forecast"
+     },
+     {
+      "e": "forecast > $10,000"
+     },
+     {
+      "h": 1,
+      "n": "AWS Budgets alert"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Finance",
+      "s": "email or SNS"
+     }
+    ]
+   ]
   },
   {
    "id": "4-21",
@@ -9561,7 +14584,29 @@ window.QUESTION_BANK = {
     "917327cba3"
    ],
    "explanation": "Cost allocation tags, once applied to resources and activated in Billing, let costs be broken out by tag value (such as team or department) in Cost Explorer and billing reports. Separate accounts under consolidated billing achieve the same split cleanly if the teams are split that way instead.",
-   "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html"
+   "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html",
+   "diagram": [
+    [
+     {
+      "n": "Resources",
+      "s": "tag team=alpha, team=beta"
+     },
+     {
+      "e": "activate in Billing"
+     },
+     {
+      "h": 1,
+      "n": "Cost allocation tags"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Cost Explorer",
+      "s": "cost per team"
+     }
+    ]
+   ]
   },
   {
    "id": "4-22",
@@ -9594,7 +14639,45 @@ window.QUESTION_BANK = {
     "8397e514ff"
    ],
    "explanation": "Consolidated billing combines usage across member accounts so the organization can reach volume pricing tiers together, and it shares Reserved Instance and Savings Plans discounts across accounts by default.",
-   "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolidated-billing.html"
+   "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolidated-billing.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "Account 1"
+       },
+       {
+        "n": "Account 2"
+       },
+       {
+        "n": "Account 15"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Consolidated billing",
+      "s": "management account"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Combined volume tiers"
+       },
+       {
+        "n": "Shared RI and Savings Plans discounts"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-46",
@@ -9627,7 +14710,29 @@ window.QUESTION_BANK = {
     "195b0aac15"
    ],
    "explanation": "Cost Anomaly Detection uses machine learning to learn normal spending patterns and alerts on unusual spikes, such as a sudden jump in EC2 spend in one Region, without fixed thresholds.",
-   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html"
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html",
+   "diagram": [
+    [
+     {
+      "n": "Spend history"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Cost Anomaly Detection",
+      "s": "ML baseline"
+     },
+     {
+      "e": "unusual spike"
+     },
+     {
+      "n": "Alert subscription",
+      "s": "email or SNS"
+     }
+    ]
+   ]
   },
   {
    "id": "4-47",
@@ -9660,7 +14765,38 @@ window.QUESTION_BANK = {
     "c2c34c4abc"
    ],
    "explanation": "Cost Explorer lets you view and analyze historical cost and usage, grouping and filtering by service, linked account, tag and other dimensions, and it can also forecast future spending.",
-   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html"
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "Analyst"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Cost Explorer",
+      "s": "12 months"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Group by service"
+       },
+       {
+        "n": "Group by team tag"
+       },
+       {
+        "n": "Filter: one linked account"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-48",
@@ -9693,7 +14829,32 @@ window.QUESTION_BANK = {
     "683c49b71e"
    ],
    "explanation": "EC2 Instance Savings Plans commit to one instance family in one Region, but still apply across sizes, operating systems and tenancy within it, and they offer the largest Savings Plans discount (up to 72% off On-Demand).",
-   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html"
+   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "EC2 Instance Savings Plan",
+      "s": "M family, eu-west-1, 3 years"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "m6i.large"
+       },
+       {
+        "n": "m7i.xlarge"
+       },
+       {
+        "n": "Linux or Windows"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-49",
@@ -9726,7 +14887,37 @@ window.QUESTION_BANK = {
     "64ca1558e5"
    ],
    "explanation": "The `price-capacity-optimized` strategy chooses Spot pools with the most available capacity and then the lowest price among them, balancing cost against interruptions. AWS recommends it for most Spot workloads.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html",
+   "diagram": [
+    [
+     {
+      "n": "EC2 Fleet"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "price-capacity-optimized"
+     },
+     {
+      "e": "deepest capacity, then lowest price"
+     },
+     {
+      "k": [
+       {
+        "n": "Spot pool A"
+       },
+       {
+        "n": "Spot pool B"
+       },
+       {
+        "n": "Spot pool C"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-50",
@@ -9759,7 +14950,34 @@ window.QUESTION_BANK = {
     "cb908f8a80"
    ],
    "explanation": "Fargate Spot runs interruption-tolerant ECS tasks on spare capacity at a discount compared with regular Fargate pricing. Tasks get a two-minute warning before they're stopped, which checkpointing handles.",
-   "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html"
+   "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html",
+   "diagram": [
+    [
+     {
+      "n": "Nightly ECS tasks"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Fargate Spot capacity provider",
+      "s": "discounted"
+     },
+     {
+      "e": "2-minute warning"
+     },
+     {
+      "n": "Task checkpoints"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Restarted task"
+     }
+    ]
+   ]
   },
   {
    "id": "4-51",
@@ -9792,7 +15010,27 @@ window.QUESTION_BANK = {
     "991630083e"
    ],
    "explanation": "Lambda functions on the `arm64` architecture, which runs on AWS Graviton processors, can get significantly better price-performance than on `x86_64`, and interpreted languages without native x86 dependencies usually need no code changes.",
-   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html"
+   "resource": "https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html",
+   "diagram": [
+    [
+     {
+      "n": "Python / Node.js function"
+     },
+     {
+      "e": "change architecture setting"
+     },
+     {
+      "h": 1,
+      "n": "arm64 on Graviton"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Better price-performance"
+     }
+    ]
+   ]
   },
   {
    "id": "4-52",
@@ -9825,7 +15063,35 @@ window.QUESTION_BANK = {
     "fd98651567"
    ],
    "explanation": "Budget actions can run automatically, or after approval, when a threshold is reached. They can apply an IAM policy or SCP and stop specific EC2 or RDS instances.",
-   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html"
+   "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html",
+   "diagram": [
+    [
+     {
+      "n": "Sandbox account spend"
+     },
+     {
+      "e": "100% of $200 budget"
+     },
+     {
+      "h": 1,
+      "n": "Budget action"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Stop EC2 instances"
+       },
+       {
+        "n": "Apply SCP or IAM policy",
+        "s": "block launches"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "4-23",
@@ -9858,7 +15124,28 @@ window.QUESTION_BANK = {
     "58e70a453c"
    ],
    "explanation": "For predictable, steady traffic, provisioned capacity (with auto scaling to absorb small variations, and reserved capacity for further savings) is usually cheaper than on-demand, which is priced for unknown or spiky traffic.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html",
+   "diagram": [
+    [
+     {
+      "n": "Steady traffic"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Provisioned capacity",
+      "s": "auto scaling for small swings"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Lower cost than on-demand mode"
+     }
+    ]
+   ]
   },
   {
    "id": "4-24",
@@ -9891,7 +15178,28 @@ window.QUESTION_BANK = {
     "747da81f2d"
    ],
    "explanation": "The Standard-IA table class lowers per-GB storage price in exchange for a somewhat higher per-request cost, which is the right trade-off for large amounts of rarely read data. (For data that's rarely needed at all, TTL plus export to S3 is another option.)",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.TableClasses.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.TableClasses.html",
+   "diagram": [
+    [
+     {
+      "n": "Rarely read history"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Standard-IA table class",
+      "s": "cheaper storage, pricier requests"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Still queryable"
+     }
+    ]
+   ]
   },
   {
    "id": "4-25",
@@ -9924,7 +15232,30 @@ window.QUESTION_BANK = {
     "0d43aa13c1"
    ],
    "explanation": "TTL deletes expired items in the background at no additional cost and without consuming write capacity, unlike a Lambda job that would call `DeleteItem` and consume write capacity for every deletion. (Deletion isn't instant: DynamoDB typically removes expired items within a few days, so queries should filter out expired items.)",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html",
+   "diagram": [
+    [
+     {
+      "n": "Session item",
+      "s": "expiresAt = now + 24 h"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "TTL",
+      "s": "background deletion, free"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Item removed",
+      "s": "no write capacity used"
+     }
+    ]
+   ]
   },
   {
    "id": "4-26",
@@ -9957,7 +15288,23 @@ window.QUESTION_BANK = {
     "f8d4d69f4b"
    ],
    "explanation": "For a stable, long-term commitment, RDS Reserved Instances or a Database Savings Plan give a substantial discount over On-Demand. Spot pricing isn't available for RDS in any form.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithReservedDBInstances.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithReservedDBInstances.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "RDS Reserved Instance or Database Savings Plan",
+      "s": "3-year term"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Production RDS",
+      "s": "24/7, stable size"
+     }
+    ]
+   ]
   },
   {
    "id": "4-27",
@@ -9990,7 +15337,40 @@ window.QUESTION_BANK = {
     "2a5c18e8e8"
    ],
    "explanation": "Stopping the instance outside business hours avoids paying for compute during the roughly two-thirds of the week it sits idle. (A stopped RDS instance restarts automatically after 7 days; Aurora Serverless v2, which can scale down to 0 ACUs, is another option for this pattern.)",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html",
+   "diagram": [
+    [
+     {
+      "n": "Weekdays 9-5"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "RDS instance",
+      "s": "running"
+     }
+    ],
+    [
+     {
+      "n": "Evenings and weekends"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "RDS instance stopped",
+      "s": "pay storage only"
+     },
+     {
+      "e": "auto-restarts after 7 days"
+     },
+     {
+      "n": "Restart / stop again"
+     }
+    ]
+   ]
   },
   {
    "id": "4-28",
@@ -10023,7 +15403,45 @@ window.QUESTION_BANK = {
     "bde607423f"
    ],
    "explanation": "This is a heterogeneous migration (different source and target engines). The Schema Conversion Tool converts the Oracle schema and code to Aurora PostgreSQL, and DMS migrates and can continuously replicate the data.",
-   "resource": "https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html"
+   "resource": "https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html",
+   "diagram": [
+    [
+     {
+      "n": "Oracle on premises"
+     },
+     {
+      "e": "schema and code"
+     },
+     {
+      "h": 1,
+      "n": "AWS SCT or DMS Schema Conversion"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Aurora PostgreSQL"
+     }
+    ],
+    [
+     {
+      "n": "Oracle on premises"
+     },
+     {
+      "e": "data + ongoing changes"
+     },
+     {
+      "h": 1,
+      "n": "AWS DMS"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Aurora PostgreSQL"
+     }
+    ]
+   ]
   },
   {
    "id": "4-29",
@@ -10056,7 +15474,45 @@ window.QUESTION_BANK = {
     "52f7c3bf44"
    ],
    "explanation": "Offloading hot reads to ElastiCache or spreading them across read replicas addresses the actual read-heavy bottleneck directly, often far more cheaply than repeatedly scaling up the primary instance class.",
-   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html"
+   "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "hot reads"
+     },
+     {
+      "h": 1,
+      "n": "ElastiCache"
+     },
+     {
+      "e": "misses only"
+     },
+     {
+      "n": "RDS primary"
+     }
+    ],
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "other reads"
+     },
+     {
+      "h": 1,
+      "n": "Read replicas"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Smaller primary instance"
+     }
+    ]
+   ]
   },
   {
    "id": "4-30",
@@ -10089,7 +15545,27 @@ window.QUESTION_BANK = {
     "0655f09cac"
    ],
    "explanation": "RDS storage autoscaling increases allocated storage automatically when free space runs low, removing the need to over-provision \"just in case.\" (Aurora's storage grows automatically by design and doesn't need this feature.)",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.Autoscaling.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.Autoscaling.html",
+   "diagram": [
+    [
+     {
+      "n": "Free space runs low"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "RDS storage autoscaling"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Allocated storage grows automatically"
+     }
+    ]
+   ]
   },
   {
    "id": "4-31",
@@ -10122,7 +15598,23 @@ window.QUESTION_BANK = {
     "6866ef34d4"
    ],
    "explanation": "Aurora I/O-Optimized removes per-I/O charges in exchange for a higher instance and storage price, which becomes cheaper overall once I/O costs pass roughly 25% of the Aurora bill.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type",
+   "diagram": [
+    [
+     {
+      "n": "Aurora Standard",
+      "s": "instances + storage + per-I/O charges"
+     },
+     {
+      "e": "I/O over 25% of bill"
+     },
+     {
+      "h": 1,
+      "n": "Aurora I/O-Optimized",
+      "s": "no per-I/O charges"
+     }
+    ]
+   ]
   },
   {
    "id": "4-32",
@@ -10155,7 +15647,40 @@ window.QUESTION_BANK = {
     "871bcca66b"
    ],
    "explanation": "Athena runs pay-per-query SQL directly against the S3 data with nothing to keep running between queries, avoiding the cost of an always-on cluster for infrequent access. (Redshift Spectrum or Redshift Serverless are other ways to avoid paying for idle cluster time.)",
-   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html"
+   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html",
+   "diagram": [
+    [
+     {
+      "n": "Analyst",
+      "s": "a few queries a week"
+     },
+     {
+      "e": "pay per query"
+     },
+     {
+      "h": 1,
+      "n": "Amazon Athena"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 log data"
+     }
+    ],
+    [
+     {
+      "n": "Always-on Redshift cluster"
+     },
+     {
+      "e": "idle most of the time",
+      "x": 1
+     },
+     {
+      "n": "Removed"
+     }
+    ]
+   ]
   },
   {
    "id": "4-53",
@@ -10188,7 +15713,29 @@ window.QUESTION_BANK = {
     "2dc8915c38"
    ],
    "explanation": "Reserved capacity gives discounted pricing for a committed amount of provisioned read and write capacity on Standard table class tables, which suits steady, long-term throughput.",
-   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/reserved-capacity.html"
+   "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/reserved-capacity.html",
+   "diagram": [
+    [
+     {
+      "n": "Steady 20,000 reads + 5,000 writes per second"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Reserved capacity",
+      "s": "1 or 3 years"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Provisioned table",
+      "s": "Standard class"
+     }
+    ]
+   ]
   },
   {
    "id": "4-54",
@@ -10221,7 +15768,47 @@ window.QUESTION_BANK = {
     "8defb062cd"
    ],
    "explanation": "Aurora Serverless v2 can scale down to 0 ACUs and pause automatically after a period of no connections, so idle databases don't incur compute charges, and they resume when a connection arrives.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2-auto-pause.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2-auto-pause.html",
+   "diagram": [
+    [
+     {
+      "n": "No connections"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Aurora Serverless v2",
+      "s": "scales to 0 ACUs, pauses"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "No compute charge"
+     }
+    ],
+    [
+     {
+      "n": "New connection"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Aurora Serverless v2",
+      "s": "scales to 0 ACUs, pauses"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Resumes automatically"
+     }
+    ]
+   ]
   },
   {
    "id": "4-55",
@@ -10254,7 +15841,48 @@ window.QUESTION_BANK = {
     "35b05cfc93"
    ],
    "explanation": "Redshift Serverless provisions and scales data warehouse capacity automatically, and you pay only for the capacity used while queries run, with no charge for idle compute. Existing SQL and BI tools keep working.",
-   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html"
+   "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html",
+   "diagram": [
+    [
+     {
+      "n": "Monthly reports",
+      "s": "existing BI tools"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Redshift Serverless",
+      "s": "pay while queries run"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Data"
+     }
+    ],
+    [
+     {
+      "n": "Rest of the month"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Redshift Serverless",
+      "s": "pay while queries run"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "No compute charge"
+     }
+    ]
+   ]
   },
   {
    "id": "4-56",
@@ -10287,7 +15915,47 @@ window.QUESTION_BANK = {
     "e297dac342"
    ],
    "explanation": "Database Savings Plans reduce costs by up to 35% across services including Aurora, RDS, DynamoDB and ElastiCache, and keep applying when a workload moves between them, for example from RDS to DynamoDB.",
-   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html"
+   "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Database Savings Plan",
+      "s": "one commitment"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Aurora"
+       },
+       {
+        "n": "RDS"
+       },
+       {
+        "n": "DynamoDB"
+       },
+       {
+        "n": "ElastiCache"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Workload moves from RDS"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "DynamoDB",
+      "s": "discount still applies"
+     }
+    ]
+   ]
   },
   {
    "id": "4-57",
@@ -10320,7 +15988,30 @@ window.QUESTION_BANK = {
     "f1099294de"
    ],
    "explanation": "gp3 storage on RDS includes a baseline of 3,000 IOPS in its storage price, which covers this workload, so moving off io1 removes the separate charge for provisioned IOPS.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html",
+   "diagram": [
+    [
+     {
+      "n": "RDS for MySQL",
+      "s": "peaks at 2,000 IOPS"
+     },
+     {
+      "e": "change storage"
+     },
+     {
+      "h": 1,
+      "n": "gp3",
+      "s": "3,000 IOPS included"
+     },
+     {
+      "e": "no longer paid",
+      "x": 1
+     },
+     {
+      "n": "io1 provisioned IOPS charge"
+     }
+    ]
+   ]
   },
   {
    "id": "4-33",
@@ -10353,7 +16044,51 @@ window.QUESTION_BANK = {
     "4a0ba19d60"
    ],
    "explanation": "An S3 gateway VPC endpoint routes traffic to S3 without going through the NAT gateway at all, and it's free to use, eliminating the NAT data-processing charge for that traffic.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html",
+   "diagram": [
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2"
+       }
+      ]
+     },
+     {
+      "e": "route to S3 prefix list"
+     },
+     {
+      "h": 1,
+      "n": "S3 gateway endpoint",
+      "s": "free"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ],
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2"
+       }
+      ]
+     },
+     {
+      "e": "no longer used",
+      "d": 1
+     },
+     {
+      "n": "NAT gateway",
+      "s": "per-GB charge"
+     }
+    ]
+   ]
   },
   {
    "id": "4-34",
@@ -10386,7 +16121,50 @@ window.QUESTION_BANK = {
     "9d9575c211"
    ],
    "explanation": "Inbound data transfer from the internet is generally free. Cross-AZ traffic is charged in each direction, and outbound-to-the-internet and cross-Region transfer both carry data-transfer-out charges. (Traffic within the same AZ over private IP addresses is also free.)",
-   "resource": "https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer"
+   "resource": "https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer",
+   "diagram": [
+    [
+     {
+      "n": "Internet"
+     },
+     {
+      "e": "inbound"
+     },
+     {
+      "h": 1,
+      "n": "Free",
+      "s": "data transfer in"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS"
+     }
+    ],
+    [
+     {
+      "n": "AWS"
+     },
+     {
+      "e": "outbound to internet: charged"
+     },
+     {
+      "n": "Internet"
+     }
+    ],
+    [
+     {
+      "n": "AZ a"
+     },
+     {
+      "e": "cross-AZ: charged each way"
+     },
+     {
+      "n": "AZ b"
+     }
+    ]
+   ]
   },
   {
    "id": "4-35",
@@ -10419,7 +16197,56 @@ window.QUESTION_BANK = {
     "d2d5848b5f"
    ],
    "explanation": "Cross-AZ traffic is billed in each direction, so preferring same-AZ cache nodes for normal traffic cuts that cost, while the cache nodes in other AZs remain available for failover if the local one becomes unhealthy.",
-   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/plan-for-data-transfer.html"
+   "resource": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/plan-for-data-transfer.html",
+   "diagram": [
+    [
+     {
+      "g": "AZ a",
+      "c": [
+       {
+        "n": "App tier"
+       },
+       {
+        "e": "same AZ: free"
+       },
+       {
+        "h": 1,
+        "n": "Cache node a"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "g": "AZ b",
+      "c": [
+       {
+        "n": "App tier"
+       },
+       {
+        "e": "same AZ: free"
+       },
+       {
+        "h": 1,
+        "n": "Cache node b"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "App tier",
+      "s": "AZ a"
+     },
+     {
+      "e": "only on failover",
+      "d": 1
+     },
+     {
+      "n": "Cache node b"
+     }
+    ]
+   ]
   },
   {
    "id": "4-36",
@@ -10452,7 +16279,27 @@ window.QUESTION_BANK = {
     "1675968ef0"
    ],
    "explanation": "Data transfer from S3 to CloudFront is free, and CloudFront's data-transfer-out pricing is typically cheaper than S3's directly, while also serving cached content from edge locations closer to users.",
-   "resource": "https://aws.amazon.com/cloudfront/pricing/"
+   "resource": "https://aws.amazon.com/cloudfront/pricing/",
+   "diagram": [
+    [
+     {
+      "n": "Global users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "CloudFront edge cache"
+     },
+     {
+      "e": "origin fetch: free from S3"
+     },
+     {
+      "n": "S3 bucket"
+     }
+    ]
+   ]
   },
   {
    "id": "4-37",
@@ -10485,7 +16332,46 @@ window.QUESTION_BANK = {
     "01ed0c9022"
    ],
    "explanation": "Direct Connect has lower data-transfer-out rates than transferring the same volume over the internet (as a VPN does), plus more consistent, dedicated bandwidth.",
-   "resource": "https://aws.amazon.com/directconnect/pricing/pay-as-you-go/"
+   "resource": "https://aws.amazon.com/directconnect/pricing/pay-as-you-go/",
+   "diagram": [
+    [
+     {
+      "n": "Data center"
+     },
+     {
+      "e": "dedicated, consistent bandwidth"
+     },
+     {
+      "h": 1,
+      "n": "Direct Connect",
+      "s": "lower transfer-out rate"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS"
+     }
+    ],
+    [
+     {
+      "n": "Data center"
+     },
+     {
+      "e": "over the internet",
+      "d": 1
+     },
+     {
+      "n": "Site-to-Site VPN"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS"
+     }
+    ]
+   ]
   },
   {
    "id": "4-38",
@@ -10518,7 +16404,48 @@ window.QUESTION_BANK = {
     "f887d41175"
    ],
    "explanation": "Centralizing egress through a shared VPC reached over Transit Gateway consolidates NAT gateways down to a much smaller, shared set. (Weigh the Transit Gateway attachment and data-processing charges against the NAT gateway hours actually saved.)",
-   "resource": "https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/centralized-egress-to-internet.html"
+   "resource": "https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/centralized-egress-to-internet.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "VPC 1"
+       },
+       {
+        "n": "VPC 2"
+       },
+       {
+        "n": "VPC 20"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Transit Gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Shared egress VPC",
+      "c": [
+       {
+        "h": 1,
+        "n": "Shared NAT gateways"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet"
+     }
+    ]
+   ]
   },
   {
    "id": "4-39",
@@ -10551,7 +16478,35 @@ window.QUESTION_BANK = {
     "4daa09cd00"
    ],
    "explanation": "AWS charges an hourly rate for all public IPv4 addresses, including unattached Elastic IPs, and NAT gateways are billed hourly whether or not they're processing traffic. The other three are free regardless of use.",
-   "resource": "https://aws.amazon.com/vpc/pricing/"
+   "resource": "https://aws.amazon.com/vpc/pricing/",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Public IPv4 address",
+      "s": "hourly, even unattached"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Charges while idle"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "NAT gateway",
+      "s": "hourly, even with no traffic"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Charges while idle"
+     }
+    ]
+   ]
   },
   {
    "id": "4-40",
@@ -10584,7 +16539,47 @@ window.QUESTION_BANK = {
     "9f740cbff5"
    ],
    "explanation": "VPC peering connections themselves have no hourly charge — only the data transferred over them is billed. Transit Gateway, by contrast, charges per attachment-hour plus per GB processed through it.",
-   "resource": "https://aws.amazon.com/transit-gateway/pricing/"
+   "resource": "https://aws.amazon.com/transit-gateway/pricing/",
+   "diagram": [
+    [
+     {
+      "n": "VPC A"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Peering",
+      "s": "no hourly charge, pay per GB transferred"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC B"
+     }
+    ],
+    [
+     {
+      "n": "VPC A"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Transit Gateway",
+      "s": "per attachment-hour + per GB processed"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC C"
+     }
+    ]
+   ]
   },
   {
    "id": "4-58",
@@ -10617,7 +16612,41 @@ window.QUESTION_BANK = {
     "f8ed746fd2"
    ],
    "explanation": "A price class limits CloudFront to edge locations in lower-cost regions, such as North America and Europe. Readers elsewhere are still served, from those edge locations, with somewhat higher latency.",
-   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesGeneral.html"
+   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesGeneral.html",
+   "diagram": [
+    [
+     {
+      "n": "Readers in North America and Europe"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "CloudFront price class",
+      "s": "lower-cost edge locations only"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Origin"
+     }
+    ],
+    [
+     {
+      "n": "Rare readers elsewhere"
+     },
+     {
+      "e": "slightly higher latency"
+     },
+     {
+      "h": 1,
+      "n": "CloudFront price class",
+      "s": "lower-cost edge locations only"
+     }
+    ]
+   ]
   },
   {
    "id": "4-59",
@@ -10650,7 +16679,47 @@ window.QUESTION_BANK = {
     "350a8306d3"
    ],
    "explanation": "AWS charges for every public IPv4 address, including Elastic IPs, but not for IPv6 addresses. Moving to IPv6 (for example, dual-stack or IPv6-only subnets, with an egress-only internet gateway for outbound traffic) and removing unneeded public IPv4 addresses reduces the charge.",
-   "resource": "https://aws.amazon.com/vpc/pricing/"
+   "resource": "https://aws.amazon.com/vpc/pricing/",
+   "diagram": [
+    [
+     {
+      "n": "Client",
+      "s": "IPv6"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB",
+      "s": "dual-stack"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "IPv6 subnet",
+      "c": [
+       {
+        "n": "EC2",
+        "s": "no public IPv4"
+       }
+      ]
+     },
+     {
+      "e": "outbound"
+     },
+     {
+      "h": 1,
+      "n": "Egress-only internet gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet"
+     }
+    ]
+   ]
   },
   {
    "id": "4-60",
@@ -10683,7 +16752,51 @@ window.QUESTION_BANK = {
     "b4299cb958"
    ],
    "explanation": "A gateway endpoint for DynamoDB adds a route so traffic reaches DynamoDB without passing through the NAT gateway, and gateway endpoints have no charge.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html",
+   "diagram": [
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2"
+       }
+      ]
+     },
+     {
+      "e": "route to DynamoDB prefix list"
+     },
+     {
+      "h": 1,
+      "n": "DynamoDB gateway endpoint",
+      "s": "free"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "DynamoDB"
+     }
+    ],
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2"
+       }
+      ]
+     },
+     {
+      "e": "bypassed",
+      "d": 1
+     },
+     {
+      "n": "NAT gateway",
+      "s": "per-GB charge"
+     }
+    ]
+   ]
   }
  ]
 };
