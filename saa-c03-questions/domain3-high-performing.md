@@ -16,6 +16,11 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 **D.** io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume, and HDD volumes are built for throughput, not IOPS.
 
+```diagram
+[EC2 instance: Order-matching database] -(150,000 IOPS, sub-ms)-> *io2 Block Express | up to 256,000 IOPS
+gp3 | max 80,000 IOPS -x(not enough)-> Order-matching database
+```
+
 Why not the others:
 - **A.** gp2 tops out at 16,000 IOPS per volume, however large the volume.
 - **B.** gp3 tops out at 80,000 IOPS per volume, well short of 150,000.
@@ -33,6 +38,10 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.htm
 <details><summary>Answer</summary>
 
 **B.** gp3 has a baseline of 3,000 IOPS and 125 MiB/s, and both can be raised independently of the volume's size, unlike io1, which ties cost to a larger provisioned volume.
+
+```diagram
+Volume size & IOPS | baseline 3,000 & Throughput | baseline 125 MiB/s -(each set separately)-> *gp3 volume | lower cost than gp2
+```
 
 Why not the others:
 - **A.** io1 ties the IOPS you can provision to the volume's size, and it costs more, which is the problem the team already has.
@@ -52,6 +61,10 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html
 
 **D.** st1 is built for high-throughput, sequential workloads at low cost. (HDD volumes like st1 and sc1 can't be used as boot volumes anyway, which rules out option C on its own.)
 
+```diagram
+[EC2 instance: Boot volume | gp3 & Nightly job] -(large sequential reads)-> *st1 | Throughput Optimized HDD, low cost per GB
+```
+
 Why not the others:
 - **A.** gp3 would work, but SSD storage costs more per GB than st1 for large sequential reads.
 - **B.** io2 is priced for high IOPS and low latency, which a sequential scan doesn't need.
@@ -69,6 +82,10 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/hdd-vols.html>
 <details><summary>Answer</summary>
 
 **A.** Instance store is ephemeral, physically attached NVMe storage with very high random I/O performance — a good fit when the data doesn't need to survive a stop or terminate.
+
+```diagram
+[EC2 host: Genomics pipeline -(very high random I/O)-> *Instance store NVMe | lost on stop] -(final results)-> Amazon S3
+```
 
 Why not the others:
 - **B.** EFS is a network file system, so its latency is higher than local NVMe for heavy random I/O.
@@ -88,6 +105,10 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.h
 
 **D.** FSx for Lustre is a parallel file system designed for HPC-scale throughput and integrates directly with an S3 bucket as its data repository.
 
+```diagram
+HPC cluster -(hundreds of GB/s)-> *FSx for Lustre | parallel file system -(lazy load / export)-> S3 data lake | multi-petabyte
+```
+
 Why not the others:
 - **A.** Glacier Instant Retrieval is an archive storage class. Mountpoint gives file access to S3, not a high-throughput parallel file system.
 - **B.** FSx for Windows File Server provides SMB shares for Windows workloads, not a parallel file system for HPC.
@@ -106,6 +127,10 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html>
 
 **A.** FSx for Windows File Server provides a native SMB file system with AD integration and DFS support. EFS supports NFS only, for Linux clients.
 
+```diagram
+Windows clients -(SMB)-> *FSx for Windows File Server | DFS namespaces -(domain-joined)-> Active Directory
+```
+
 Why not the others:
 - **B.** FSx for Lustre is a Linux file system for HPC. It doesn't provide SMB shares, AD integration or DFS.
 - **C.** EFS supports NFS only, for Linux clients, so it can't serve SMB shares.
@@ -123,6 +148,10 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html>
 <details><summary>Answer</summary>
 
 **A.** FSx for NetApp ONTAP provides multi-protocol (NFS, SMB, iSCSI) access and supports ONTAP features like SnapMirror, which the other options don't replicate.
+
+```diagram
+NFS clients & SMB clients & iSCSI hosts -> *FSx for NetApp ONTAP | same volumes -(SnapMirror)-> Replica ONTAP system
+```
 
 Why not the others:
 - **B.** EFS supports NFS only. It has no SMB or iSCSI access and no SnapMirror.
@@ -143,6 +172,11 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.h
 
 **B, D.** Multipart upload is recommended for objects over 100 MB (and required over 5 GB) and lets a failed part be retried without restarting the whole file. Transfer Acceleration routes uploads through the nearest CloudFront edge location and over the AWS backbone, which especially helps the far-away studios.
 
+```diagram
+Tokyo studio -(nearest edge location)-> *Transfer Acceleration | AWS backbone -> S3 bucket | us-east-1
+Large file -> *Multipart upload | parts in parallel -(retry only the failed part)-> S3 bucket | us-east-1
+```
+
 Why not the others:
 - **A.** Glacier Deep Archive is the cheapest, slowest archive storage class. It doesn't speed up uploads.
 - **C.** Requester Pays makes the downloader pay for transfer costs. It doesn't affect upload speed.
@@ -160,6 +194,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-accele
 <details><summary>Answer</summary>
 
 **C.** Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes, so spreading objects across more prefixes raises the effective ceiling.
+
+```diagram
+App -> prefix-a/ | 5,500 GET/s & prefix-b/ | 5,500 GET/s & prefix-c/ | 5,500 GET/s -> *More prefixes, higher total rate
+```
 
 Why not the others:
 - **A.** One Zone-IA has the same request limits as other classes and adds retrieval fees, so it doesn't help.
@@ -179,6 +217,11 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-perf
 
 **C.** S3 Express One Zone uses directory buckets co-located with compute in a single AZ, giving single-digit-millisecond access and the highest request rates of the S3 storage classes.
 
+```diagram
+[One AZ: ML training on EC2 -(single-digit ms, highest request rate)-> *S3 Express One Zone | directory bucket]
+Older training data -> S3 Standard-IA | stays put
+```
+
 Why not the others:
 - **A.** Glacier Instant Retrieval is for rarely accessed data and charges per retrieval, not for constantly re-read hot data.
 - **B.** Intelligent-Tiering saves cost when access patterns change. It doesn't offer higher performance than S3 Standard.
@@ -196,6 +239,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucke
 <details><summary>Answer</summary>
 
 **D.** S3 File Gateway caches frequently used files locally for low-latency access while storing the data durably in S3 as native objects.
+
+```diagram
+Editing workstations -(NFS / SMB)-> [On premises: *S3 File Gateway | local cache] -(files stored as objects)-> Amazon S3
+```
 
 Why not the others:
 - **A.** Transfer Family provides a managed SFTP/FTP endpoint. It doesn't give workstations a local cache.
@@ -215,6 +262,10 @@ Resource: <https://docs.aws.amazon.com/filegateway/latest/files3/what-is-file-s3
 
 **B.** Cached volumes present iSCSI block volumes on premises, store the full data in S3, and keep a local copy of frequently accessed data, so the hospital doesn't need to grow its on-premises storage.
 
+```diagram
+Imaging servers -(iSCSI)-> [On premises: *Volume Gateway, cached | hot data cached locally] -(full volumes)-> AWS storage | S3-backed
+```
+
 Why not the others:
 - **A.** File Gateway provides NFS or SMB file shares, not the iSCSI block volumes the servers use.
 - **C.** Stored volumes keep the entire dataset on premises and back it up to AWS, so they need just as much local storage.
@@ -233,6 +284,10 @@ Resource: <https://docs.aws.amazon.com/storagegateway/latest/vgw/WhatIsStorageGa
 
 **D.** FSx for OpenZFS is a managed OpenZFS file system accessed over NFS, with low latency and ZFS features such as snapshots and clones, which makes it a natural fit for moving from an on-premises ZFS appliance.
 
+```diagram
+Build servers -(NFS, sub-ms)-> *FSx for OpenZFS -(instant snapshots and clones)-> Test environments
+```
+
 Why not the others:
 - **A.** FSx for NetApp ONTAP would work, but it's built for multi-protocol NFS, SMB and iSCSI access with ONTAP features, which this team doesn't need.
 - **B.** EFS doesn't offer ZFS snapshots and clones, and its latency is higher than FSx for OpenZFS.
@@ -250,6 +305,12 @@ Resource: <https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html>
 <details><summary>Answer</summary>
 
 **A.** Byte-range fetches use the HTTP `Range` header to download different parts of the same object in parallel over several connections, which gives much higher aggregate throughput than one long request.
+
+```diagram
+EC2 -(Range: bytes 0-10 GB)-> 50 GB object
+EC2 -(Range: bytes 10-20 GB ... in parallel)-> 50 GB object
+*Parallel byte-range fetches -> Full file, much faster
+```
 
 Why not the others:
 - **B.** Transfer Acceleration speeds up long-distance transfers over the internet. The instance is already in the same Region as the bucket.
@@ -273,6 +334,11 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-perf
 
 **A.** A cluster placement group packs instances close together in a single AZ for the lowest latency and highest network throughput. Add Elastic Fabric Adapter (EFA) for MPI workloads.
 
+```diagram
+[Cluster placement group, one AZ: *Node & *Node -(EFA, lowest latency)-> *Node & *Node]
+MPI job -> Highest packets per second between nodes
+```
+
 Why not the others:
 - **B.** A partition placement group separates groups of instances across racks for fault isolation, not for the lowest latency.
 - **C.** A spread placement group puts each instance on distinct hardware, which is the opposite of packing them close together.
@@ -290,6 +356,11 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strateg
 <details><summary>Answer</summary>
 
 **A.** A spread placement group places each instance on distinct underlying hardware (up to 7 running instances per AZ), which is exactly the isolation this scenario needs.
+
+```diagram
+*Spread placement group -> License server 1 | rack 1 & License server 2 | rack 2 & License server 3 | rack 3
+One hardware failure -> Only one server affected
+```
 
 Why not the others:
 - **B.** A cluster placement group packs instances close together, so one hardware failure is more likely to hit several of them.
@@ -309,6 +380,11 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strateg
 
 **D.** Partition placement groups divide instances into logical partitions that don't share underlying hardware, which is the standard fit for rack-aware distributed systems like Cassandra, Hadoop, and Kafka.
 
+```diagram
+*Partition placement group -> Partition 1 | Cassandra nodes, rack A & Partition 2 | Cassandra nodes, rack B & Partition 3 | Cassandra nodes, rack C
+Rack failure -> Only one partition affected
+```
+
 Why not the others:
 - **A.** A cluster placement group packs instances close together, so a single rack failure can hit many nodes.
 - **B.** Without a placement group, EC2 gives no rack-level separation the cluster can rely on.
@@ -326,6 +402,10 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strateg
 <details><summary>Answer</summary>
 
 **C.** Memory optimized instance families (like R and X) are built for the highest memory-to-vCPU ratio, which fits a workload dominated by RAM usage rather than CPU or local disk throughput.
+
+```diagram
+Large dataset -(loaded into RAM)-> *Memory optimized | R or X, high GiB per vCPU -> In-memory analytics
+```
 
 Why not the others:
 - **A.** Burstable T instances run on CPU credits and have relatively little memory. They're for light, spiky workloads.
@@ -345,6 +425,10 @@ Resource: <https://aws.amazon.com/ec2/instance-types/>
 
 **B.** Lambda has no direct vCPU setting — CPU power scales in proportion to the configured memory, up to 10,240 MB, which gives up to 6 vCPUs.
 
+```diagram
+*Memory setting | up to 10,240 MB -(CPU scales in proportion)-> vCPUs | up to 6 -> Faster image resizing
+```
+
 Why not the others:
 - **A.** Lambda has no setting for the number of vCPUs. CPU comes from the memory setting.
 - **C.** Provisioned concurrency keeps execution environments initialized. It doesn't give each one more CPU.
@@ -362,6 +446,11 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.htm
 <details><summary>Answer</summary>
 
 **C.** Reserved concurrency only limits or guarantees the number of concurrent executions; it doesn't pre-initialize execution environments. Provisioned concurrency (or SnapStart) keeps environments warm and ready, which is what actually cuts cold starts.
+
+```diagram
+Request -> *Provisioned concurrency | pre-initialized environments -> Handler runs at once
+Request -> Cold environment -(init delay)-> Handler runs late
+```
 
 Why not the others:
 - **A.** Reserved concurrency limits or guarantees concurrent executions, but doesn't pre-initialize environments. It's already set high here.
@@ -381,6 +470,11 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.
 
 **D.** A single Lambda invocation can run for at most 15 minutes, far less than the 3 hours this job needs. AWS Batch, ECS/Fargate tasks, or EC2 instances are better fits for long-running batch jobs.
 
+```diagram
+Video file | 3-hour job -x(15-minute timeout)-> Lambda
+Video file | 3-hour job -> *AWS Batch or ECS / Fargate task or EC2 -> Encoded output
+```
+
 Why not the others:
 - **A.** Lambda functions can read from and write to S3, using their execution role.
 - **B.** Lambda supports many runtimes, plus custom runtimes and container images, so the language isn't the blocker.
@@ -398,6 +492,10 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.ht
 <details><summary>Answer</summary>
 
 **C.** AWS Batch manages job queues, dependencies, and priorities, and automatically provisions the optimal quantity and type of compute resources, including Spot, based on the jobs submitted.
+
+```diagram
+Jobs with dependencies -> *AWS Batch job queues | priorities -> *Managed compute environment | On-Demand + Spot -> Containers run
+```
 
 Why not the others:
 - **A.** EC2 Image Builder builds and maintains AMIs and container images. It doesn't run batch jobs.
@@ -417,6 +515,10 @@ Resource: <https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html
 
 **C.** Elastic Beanstalk provisions and manages the underlying EC2 instances, load balancer, and Auto Scaling group for you from an application code upload, while still giving access to the underlying resources if needed.
 
+```diagram
+Code upload -> *Elastic Beanstalk -> ALB & Auto Scaling group & EC2 instances | still accessible
+```
+
 Why not the others:
 - **A.** Configuring EC2 by hand means setting up load balancing and scaling yourself.
 - **B.** CloudFormation provisions infrastructure from templates you write. It doesn't deploy an app from a code upload on its own.
@@ -434,6 +536,11 @@ Resource: <https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html>
 <details><summary>Answer</summary>
 
 **C.** ALB listener rules can route based on the URL path (and also support host-based, header-based, and query-string routing), which is exactly what's needed to split traffic between the two target groups.
+
+```diagram
+Client -> ALB listener -(path /api/*)-> *Microservice target group
+ALB listener -(path /images/*)-> *Image target group
+```
 
 Why not the others:
 - **A.** Sticky sessions keep a user on the same target. They don't route requests by URL path.
@@ -453,6 +560,10 @@ Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/application/l
 
 **D.** Network Load Balancer operates at Layer 4, handles millions of requests per second, and offers a static IP per AZ, which fits both the throughput and the TCP/UDP requirement.
 
+```diagram
+Clients | TCP and UDP -> *Network Load Balancer | Layer 4, static IP per AZ, millions req/s -> Matching engine
+```
+
 Why not the others:
 - **A.** An ALB works at Layer 7, handles HTTP(S) only (no UDP), and doesn't provide static IPs.
 - **B.** The Classic Load Balancer is a previous-generation service. It doesn't support UDP or static IPs per AZ.
@@ -470,6 +581,11 @@ Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/network/intro
 <details><summary>Answer</summary>
 
 **C.** Gateway Load Balancer uses GENEVE encapsulation to pass traffic transparently to third-party virtual appliances for inspection, then back out, which the other load balancer types aren't designed for.
+
+```diagram
+Internet -> *Gateway Load Balancer | GENEVE, packets unchanged -> Firewall appliance fleet -(inspected traffic)-> *Gateway Load Balancer | GENEVE, packets unchanged
+*Gateway Load Balancer | GENEVE, packets unchanged -> Application in VPC
+```
 
 Why not the others:
 - **A.** An ALB terminates HTTP connections and opens new ones to targets, so it isn't transparent.
@@ -489,6 +605,10 @@ Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/intro
 
 **D.** AWS Compute Optimizer analyzes utilization metrics over time and produces right-sizing recommendations for EC2, EBS, Lambda, and other resources, refreshed as usage patterns change.
 
+```diagram
+Utilization metrics -> *AWS Compute Optimizer -> EC2 sizes & EBS volumes & Lambda memory | right-sizing recommendations
+```
+
 Why not the others:
 - **A.** AWS Config tracks resource configurations and compliance. It doesn't recommend sizes.
 - **B.** Amazon Inspector scans for software vulnerabilities. It doesn't analyze utilization.
@@ -506,6 +626,10 @@ Resource: <https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compu
 <details><summary>Answer</summary>
 
 **D.** Outposts brings AWS infrastructure and services such as EC2, EBS and ECS into your own facility, managed from the same console and APIs, so data can stay on site with very low latency to local systems.
+
+```diagram
+[Factory: Machines -(single-digit ms)-> *AWS Outposts rack | EC2, EBS, ECS -> Data stays on site] -(same console and APIs)-> AWS Region
+```
 
 Why not the others:
 - **A.** Local Zones are AWS facilities in metro areas, so data would still leave the plant.
@@ -525,6 +649,10 @@ Resource: <https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outpost
 
 **B.** Local Zones place AWS compute, storage and other services in large metro areas, close to users, for single-digit-millisecond latency, without the customer hosting any hardware.
 
+```diagram
+Artists in Los Angeles -(single-digit ms)-> *Local Zone | Los Angeles -(parent Region connection)-> AWS Region
+```
+
 Why not the others:
 - **A.** Outposts means installing and hosting AWS hardware on the studio's premises, which it wants to avoid.
 - **C.** CloudFront caches and delivers content. It doesn't run interactive workstations closer to users.
@@ -543,6 +671,10 @@ Resource: <https://docs.aws.amazon.com/local-zones/latest/ug/what-is-aws-local-z
 
 **A.** Wavelength Zones embed AWS compute and storage inside telecom providers' 5G networks, so traffic from mobile devices reaches the application without leaving the carrier's network.
 
+```diagram
+5G phones -> [Carrier 5G network: *Wavelength Zone | game servers] -x(no trip over the internet)-> Internet
+```
+
 Why not the others:
 - **B.** Local Zones are close to users in metro areas, but they aren't inside the carrier's 5G network.
 - **C.** Outposts is AWS hardware installed in the customer's own facilities, not in a carrier's network.
@@ -560,6 +692,10 @@ Resource: <https://docs.aws.amazon.com/wavelength/latest/developerguide/what-is-
 <details><summary>Answer</summary>
 
 **C.** Accelerated computing instances use hardware accelerators such as GPUs, which run the massively parallel calculations in deep-learning training far faster than general-purpose CPUs.
+
+```diagram
+Millions of images -> *P instances | GPUs, parallel matrix math -> Trained model | days, not weeks
+```
 
 Why not the others:
 - **A.** Memory optimized instances offer lots of RAM per vCPU, but no GPUs to speed up training.
@@ -583,6 +719,10 @@ Resource: <https://docs.aws.amazon.com/ec2/latest/instancetypes/ac.html>
 
 **B.** DAX is an in-memory cache built specifically in front of DynamoDB, giving microsecond read latency for cached items without any application-side cache-management code.
 
+```diagram
+Game client -(read)-> *DAX | microsecond reads -(cache miss)-> DynamoDB leaderboard table
+```
+
 Why not the others:
 - **A.** Global tables replicate a table across Regions. They don't give microsecond reads.
 - **C.** ElastiCache would need caching logic written into the app, whereas DAX works with the existing DynamoDB API.
@@ -600,6 +740,11 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.
 <details><summary>Answer</summary>
 
 **C.** Aurora Replicas share the same underlying storage as the writer but serve reads independently, and the reader endpoint automatically load-balances across them, taking the reporting load off the writer entirely.
+
+```diagram
+Transactions -> Aurora writer -> Shared cluster storage
+Month-end reports -(reader endpoint)-> *Aurora Replica & *Aurora Replica -> Shared cluster storage
+```
 
 Why not the others:
 - **A.** The DBA has ruled out resizing, and reports would still compete with transactions on the same instance.
@@ -619,6 +764,10 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.O
 
 **C.** Aurora Serverless v2 scales database capacity up and down automatically in fine-grained increments based on load, which fits unpredictable, spiky per-customer usage far better than a fixed instance size.
 
+```diagram
+Idle tenants & Bursting tenants -> *Aurora Serverless v2 | scales in fine-grained ACUs -(capacity follows load)-> Low cost when idle
+```
+
 Why not the others:
 - **A.** A fixed instance doesn't scale with load, so it's oversized when idle and undersized in bursts.
 - **B.** Redshift is a data warehouse for analytics, not a transactional database for an application.
@@ -636,6 +785,10 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-s
 <details><summary>Answer</summary>
 
 **A.** Redshift is a columnar, petabyte-scale data warehouse purpose-built for complex analytical SQL over large historical datasets, unlike a row-oriented OLTP database.
+
+```diagram
+OLTP database -(load / ETL)-> *Amazon Redshift | columnar, petabyte scale -(complex SQL joins)-> BI team
+```
 
 Why not the others:
 - **B.** Neptune is a graph database for relationship queries, not large-scale SQL analytics.
@@ -655,6 +808,11 @@ Resource: <https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html>
 
 **D.** Neptune is a purpose-built graph database designed for exactly this kind of highly connected, multi-hop relationship query, which relational joins handle poorly at scale.
 
+```diagram
+Alice -(friend)-> Bob -(friend)-> Carol -(follows)-> Page 1 & Page 2 & Page 3
+Multi-hop query -> *Amazon Neptune | graph database
+```
+
 Why not the others:
 - **A.** Keyspaces is a Cassandra-compatible wide-column database. It isn't built for multi-hop relationship queries.
 - **B.** DocumentDB stores JSON documents. It isn't built for traversing relationships.
@@ -672,6 +830,12 @@ Resource: <https://docs.aws.amazon.com/neptune/latest/userguide/intro.html>
 <details><summary>Answer</summary>
 
 **D.** Amazon DocumentDB is MongoDB-compatible, Amazon Keyspaces is Cassandra (CQL)-compatible, and Amazon Timestream is purpose-built for time-series data such as IoT telemetry.
+
+```diagram
+MongoDB-compatible documents -> *Amazon DocumentDB
+Cassandra CQL -> *Amazon Keyspaces
+IoT time series -> *Amazon Timestream
+```
 
 Why not the others:
 - **A.** This swaps DocumentDB and Keyspaces: DocumentDB is MongoDB-compatible, and Keyspaces is Cassandra-compatible.
@@ -691,6 +855,11 @@ Resource: <https://aws.amazon.com/products/databases/>
 
 **B.** Throttling on a small number of keys while overall capacity is underused is the classic sign of a hot partition. Choosing a partition key with higher cardinality, or sharding the write key, spreads the load across more partitions.
 
+```diagram
+Featured product writes -x(hot partition)-> Partition 1 | throttled
+Writes -> *High-cardinality key or write sharding -> Partition 1 & Partition 2 & Partition 3
+```
+
 Why not the others:
 - **A.** TTL deletes don't use the table's write capacity, so they don't cause this throttling.
 - **C.** Global tables replicate data to other Regions. They don't spread a hot key's load within the table.
@@ -708,6 +877,11 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-p
 <details><summary>Answer</summary>
 
 **A.** Redis OSS (and Valkey) supports rich data types like sorted sets, persistence, and Multi-AZ replication with automatic failover. Memcached is simple, multi-threaded, and has neither persistence nor built-in replication.
+
+```diagram
+Leaderboard -(sorted sets)-> [ElastiCache for Redis OSS / Valkey: *Primary | AZ a, persisted -(replication)-> *Replica | AZ b]
+Primary fails -(automatic failover)-> Replica becomes primary
+```
 
 Why not the others:
 - **B.** Memcached has no sorted sets, persistence or built-in replication.
@@ -727,6 +901,10 @@ Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.
 
 **B.** MemoryDB is a durable, in-memory database that is Redis OSS and Valkey compatible. It stores writes in a Multi-AZ transaction log, so it can be the primary database, not just a cache.
 
+```diagram
+App -(microsecond reads, ms writes)-> *Amazon MemoryDB | primary database -(every write)-> Multi-AZ transaction log | durable
+```
+
 Why not the others:
 - **A.** This means running a cache in front of a separate database, which the startup wants to avoid.
 - **C.** DynamoDB isn't Redis-compatible, so developers couldn't use the data structures they know.
@@ -744,6 +922,10 @@ Resource: <https://docs.aws.amazon.com/memorydb/latest/devguide/what-is-memorydb
 <details><summary>Answer</summary>
 
 **D.** OpenSearch Service is built for full-text search, with relevance ranking, fuzzy matching and faceted filters. The catalog can be kept in sync from DynamoDB, which stays the system of record.
+
+```diagram
+DynamoDB catalog | system of record -(sync)-> *OpenSearch Service | full-text index -(fuzzy match, ranking, facets)-> Shopper search
+```
 
 Why not the others:
 - **A.** A global secondary index supports exact key lookups on another attribute, not free-text search with typo tolerance and relevance.
@@ -763,6 +945,10 @@ Resource: <https://docs.aws.amazon.com/opensearch-service/latest/developerguide/
 
 **A.** A global secondary index lets you query the table by a different partition key and sort key, such as `customerId` and `orderDate`. It's updated asynchronously, so its reads are eventually consistent, which the dashboard accepts.
 
+```diagram
+Orders table | key orderId -(async copy)-> *GSI | customerId + orderDate -(Query, eventually consistent)-> Support dashboard
+```
+
 Why not the others:
 - **B.** More capacity makes the scan finish sooner, but it still reads the whole table every time and costs more.
 - **C.** Streams capture changes. Scanning the table from Lambda is still a full scan.
@@ -781,6 +967,11 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.
 
 **C.** With write-through, the application updates the cache at the same time as the database, so cached prices are never stale. Because writes are rare, the extra work on each write is small.
 
+```diagram
+Price update -> *App writes both -> RDS & ElastiCache | always current
+Reads -> ElastiCache | always current
+```
+
 Why not the others:
 - **A.** Lazy loading only refreshes a key when it expires or is missing, so a long TTL means customers can see an old price for a long time.
 - **B.** Without a TTL or updates on write, lazily loaded prices could stay stale indefinitely.
@@ -798,6 +989,10 @@ Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.ht
 <details><summary>Answer</summary>
 
 **D.** Amazon Keyspaces is a serverless, Cassandra-compatible database, so existing applications can use the same CQL drivers and queries while AWS manages the infrastructure and scaling.
+
+```diagram
+Existing apps | CQL drivers -(same queries)-> *Amazon Keyspaces | serverless, Cassandra-compatible
+```
 
 Why not the others:
 - **A.** DocumentDB is MongoDB-compatible, not Cassandra-compatible, so the CQL applications would need rewriting.
@@ -821,6 +1016,10 @@ Resource: <https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspac
 
 **B.** CloudFront caches content at edge locations close to users, cutting both latency and the number of requests that reach the origin. Global Accelerator improves routing to endpoints but doesn't cache content.
 
+```diagram
+Users worldwide -> *CloudFront edge locations | cache static and dynamic -(cache misses only)-> Origin server
+```
+
 Why not the others:
 - **A.** A bigger load balancer doesn't cache anything, so every request still reaches the origin.
 - **C.** Simple routing only answers DNS queries. It doesn't cache content or reduce origin load.
@@ -838,6 +1037,10 @@ Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/In
 <details><summary>Answer</summary>
 
 **A.** Transit Gateway acts as a central hub that all VPCs and on-premises connections attach to once, replacing the need for a full, non-transitive mesh of peering connections.
+
+```diagram
+VPC 1 & VPC 2 & VPC 50 -> *Transit Gateway | hub -> On-premises networks
+```
 
 Why not the others:
 - **B.** A full mesh of peering connections is exactly what the team can no longer manage, and peering isn't transitive.
@@ -857,6 +1060,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.ht
 
 **B.** VPC peering connections are never transitive, no matter how route tables are configured, so A cannot reach C through B over peering alone.
 
+```diagram
+VPC A -(peering)-> VPC B -(peering)-> VPC C
+VPC A -x(no transitive routing)-> VPC C
+```
+
 Why not the others:
 - **A.** VPC peering isn't transitive, so traffic is never routed through VPC B.
 - **C.** Route table entries can't make peering transitive, so VPC B won't forward the traffic.
@@ -874,6 +1082,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.htm
 <details><summary>Answer</summary>
 
 **B.** Direct Connect provides a dedicated, private network connection with consistent bandwidth (dedicated ports come in 1, 10, 100 and 400 Gbps), unlike a VPN, which runs encrypted over the shared public internet.
+
+```diagram
+Data center -(dedicated 10 Gbps private circuit)-> *Direct Connect location -> AWS Region | VPC
+```
 
 Why not the others:
 - **A.** Client VPN connects individual users' devices over the internet, not a data center at 10 Gbps.
@@ -893,6 +1105,11 @@ Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.ht
 
 **A.** VPN CloudHub uses the virtual private gateway as a hub that routes traffic between the existing VPN connections, and each branch's customer gateway needs its own BGP ASN. (For much larger global networks, AWS Cloud WAN is the managed alternative.)
 
+```diagram
+Branch 1 | ASN 65001 & Branch 2 | ASN 65002 -(existing VPNs)-> *VPN CloudHub | virtual private gateway -> Branch 3 | ASN 65003
+Branch 1 | ASN 65001 -(via the hub)-> Branch 3 | ASN 65003
+```
+
 Why not the others:
 - **B.** PrivateLink exposes specific services to other VPCs. It doesn't route traffic between branch offices.
 - **C.** A transit virtual interface needs a Direct Connect circuit for each branch, which the company wants to avoid.
@@ -910,6 +1127,10 @@ Resource: <https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html>
 <details><summary>Answer</summary>
 
 **B.** Overlapping CIDRs break routing for VPC peering and VPN/Direct Connect connections back to on-premises networks, so planning non-overlapping ranges (and subnets sized with room to grow) up front avoids costly re-addressing later.
+
+```diagram
+On-premises | 192.168.0.0/16 & Other VPCs | 10.1.0.0/16, 10.2.0.0/16 -(no overlap)-> *New VPC | 10.10.0.0/16, room to grow
+```
 
 Why not the others:
 - **A.** A subnet always lives in exactly one AZ and can't span several.
@@ -929,6 +1150,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
 
 **B.** Route 53 Resolver inbound endpoints let on-premises systems query the private hosted zone, and outbound endpoints with forwarding rules let VPC resources query on-premises DNS — together covering both directions privately.
 
+```diagram
+On-premises servers -(query private zone)-> *Resolver inbound endpoint -> Private hosted zone
+VPC resources -> *Resolver outbound endpoint -(forwarding rule)-> On-premises DNS
+```
+
 Why not the others:
 - **A.** CloudFront delivers web content. It doesn't resolve DNS between a VPC and an on-premises network.
 - **C.** This only covers one direction: the VPC could resolve on-premises names, but on-premises servers still couldn't query the private hosted zone.
@@ -946,6 +1172,10 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.ht
 <details><summary>Answer</summary>
 
 **A.** Enhanced networking with ENA supports up to 100+ Gbps on supported instance types, and adding Elastic Fabric Adapter (EFA) provides OS-bypass networking that further cuts latency and jitter for MPI/HPC workloads.
+
+```diagram
+[Cluster placement group: *Node | ENA + EFA -(100+ Gbps, OS bypass, low jitter)-> *Node | ENA + EFA]
+```
 
 Why not the others:
 - **B.** An Elastic IP is a static public address. It doesn't affect network performance between instances.
@@ -965,6 +1195,10 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networki
 
 **B.** Cloud WAN builds and manages a global network across Regions and on-premises locations from a single core network policy, including network segments that control which parts of the network can communicate.
 
+```diagram
+*Core network policy | segments: prod, dev, branches -> *AWS Cloud WAN | AWS backbone -> VPCs in 8 Regions & 40 branch offices
+```
+
 Why not the others:
 - **A.** A peering mesh across eight Regions grows unmanageable, isn't transitive, and doesn't connect branch offices.
 - **C.** Hundreds of separate VPN connections are hard to manage and give no central segmentation policy.
@@ -983,6 +1217,10 @@ Resource: <https://docs.aws.amazon.com/network-manager/latest/cloudwan/what-is-c
 
 **C.** Client VPN is a managed, scalable VPN service that lets individual users connect to a VPC, and to networks reachable through it, from OpenVPN-based clients, with authentication options that include Active Directory.
 
+```diagram
+Remote laptops | OpenVPN client -(AD authentication)-> *Client VPN endpoint -> VPC apps -> On-premises systems
+```
+
 Why not the others:
 - **A.** Site-to-Site VPN connects whole networks through customer gateway devices. It isn't set up for individual laptops, and home routers can't support it.
 - **B.** Direct Connect provides dedicated links for data centers, not remote access for individual employees.
@@ -1000,6 +1238,10 @@ Resource: <https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html>
 <details><summary>Answer</summary>
 
 **A.** A Direct Connect gateway is a global resource: one private or transit virtual interface can reach virtual private gateways or transit gateways, and through them VPCs, in multiple Regions.
+
+```diagram
+Data center -> Direct Connect | one connection -(private VIF)-> *Direct Connect gateway | global -> VGW us-east-1 & VGW us-west-2 & VGW eu-west-1
+```
 
 Why not the others:
 - **B.** VPC peering doesn't allow edge-to-edge routing, so on-premises traffic can't pass through one VPC to reach peered VPCs.
@@ -1023,6 +1265,11 @@ Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-con
 
 **A.** Kinesis Data Streams retains data for a configurable period (up to 365 days) and lets multiple independent consumers read the same stream, with enhanced fan-out available for isolated per-consumer throughput.
 
+```diagram
+Clickstream & GPS pings -> *Kinesis Data Streams | retained 7 days -> Fraud detection consumer & Analytics consumer
+Bug fixed -(replay from an earlier position)-> *Kinesis Data Streams | retained 7 days
+```
+
 Why not the others:
 - **B.** S3 event notifications announce object changes. They aren't a replayable stream for real-time data.
 - **C.** In SQS, each message is processed by one consumer and then deleted, so it can't be replayed or read by two consumers independently.
@@ -1040,6 +1287,11 @@ Resource: <https://docs.aws.amazon.com/streams/latest/dev/introduction.html>
 <details><summary>Answer</summary>
 
 **A.** Data Firehose is a fully managed delivery service that loads streaming data into destinations like S3, Redshift, and OpenSearch, with optional Lambda transformation and format conversion, and nothing to provision.
+
+```diagram
+IoT sensors -> *Amazon Data Firehose -(optional)-> Lambda | enrich
+*Amazon Data Firehose -(convert to Parquet)-> S3 & Redshift & OpenSearch
+```
 
 Why not the others:
 - **B.** Glue batch jobs run on a schedule rather than delivering streaming data continuously.
@@ -1059,6 +1311,11 @@ Resource: <https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.
 
 **C.** Athena runs serverless, pay-per-query SQL directly against files in S3, using the Glue Data Catalog for schema — partitioning and columnar formats reduce the data scanned, and so the cost, without any cluster to manage.
 
+```diagram
+Analyst -(SQL, pay per query)-> *Amazon Athena -(schema)-> Glue Data Catalog
+*Amazon Athena -(scan files)-> S3 | CSV and Parquet logs
+```
+
 Why not the others:
 - **A.** RDS means importing the files and running a database all the time, which the team wants to avoid.
 - **B.** A provisioned Redshift cluster costs money even when idle between reports.
@@ -1076,6 +1333,11 @@ Resource: <https://docs.aws.amazon.com/athena/latest/ug/what-is.html>
 <details><summary>Answer</summary>
 
 **C.** AWS Glue provides serverless ETL, crawlers for automatic schema discovery, and a central Data Catalog that Athena, Redshift Spectrum, and other services can query against. (Lake Formation adds fine-grained permissions on top of that same catalog.)
+
+```diagram
+Source systems -> *Glue crawlers | discover schemas -> *Glue Data Catalog -> Athena & Redshift Spectrum
+Source systems -> *Glue ETL jobs | serverless -> S3 data lake
+```
 
 Why not the others:
 - **A.** EMR runs big-data frameworks like Spark. It doesn't provide crawlers or its own central data catalog.
@@ -1095,6 +1357,11 @@ Resource: <https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html>
 
 **A.** Moving 500 TB over a 100 Mbps link would take well over a year, ruling out every network-based option here. Snowball Edge devices physically ship the data instead. (Snowball Edge is no longer available to new customers; AWS now points them to DataSync, AWS Data Transfer Terminal, or partner solutions, but the exam still tests this offline-transfer concept.)
 
+```diagram
+Data center | 500 TB -x(100 Mbps link: over a year)-> Amazon S3
+Data center | 500 TB -(copy locally)-> *Snowball Edge devices -(shipped)-> Amazon S3
+```
+
 Why not the others:
 - **B.** A VPN still runs over the same 100 Mbps link, so it would take well over a year.
 - **C.** Transfer Acceleration can't make the transfer faster than the site's own 100 Mbps link.
@@ -1112,6 +1379,10 @@ Resource: <https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedg
 <details><summary>Answer</summary>
 
 **C.** DataSync moves data online between on-premises storage (such as NFS) and AWS storage services including EFS, with scheduled tasks, encryption in transit and built-in integrity verification.
+
+```diagram
+NFS server | on premises -> *DataSync agent -(Direct Connect, encrypted, verified)-> *DataSync task | nightly schedule -> Amazon EFS
+```
 
 Why not the others:
 - **A.** Shipping devices every week is slow and awkward for nightly syncing, and a 10 Gbps link can already move the data quickly.
@@ -1131,6 +1402,10 @@ Resource: <https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasyn
 
 **C.** Lake Formation manages permissions centrally at the database, table, column and row level on Data Catalog resources, and integrated services such as Athena, Redshift Spectrum and EMR enforce them.
 
+```diagram
+Analysts by department -> Athena & Redshift Spectrum & EMR -> *Lake Formation permissions | column and row level -> Data Catalog + S3
+```
+
 Why not the others:
 - **A.** Access points control access to objects in S3, not to specific columns or rows inside the data.
 - **B.** IAM policies can't restrict access to individual columns or rows in a data lake.
@@ -1148,6 +1423,10 @@ Resource: <https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-for
 <details><summary>Answer</summary>
 
 **A.** Amazon Quick Sight, formerly QuickSight and now part of Amazon Quick, is a serverless BI service for interactive dashboards over sources such as Redshift and Athena, with sharing and embedding for business users.
+
+```diagram
+Redshift & Athena -> *Amazon Quick Sight | serverless BI -> Dashboards -> 200 business users & Internal portal | embedded
+```
 
 Why not the others:
 - **B.** Saved queries still require users to work with SQL, and they aren't interactive dashboards.
@@ -1167,6 +1446,10 @@ Resource: <https://docs.aws.amazon.com/quick/latest/userguide/what-is.html>
 
 **B.** Amazon EMR runs open-source frameworks such as Spark and Hive, so existing jobs run with few changes, and it gives control over cluster configuration and instance types, including Spot Instances.
 
+```diagram
+Existing Spark and Hive jobs -(few changes)-> *Amazon EMR cluster | your configuration -> Core nodes | On-Demand & Task nodes | Spot
+```
+
 Why not the others:
 - **A.** DataBrew is a visual, no-code data preparation tool. It doesn't run existing Spark and Hive jobs.
 - **C.** Athena runs SQL queries. It doesn't run Spark or Hive jobs with custom libraries and tuned clusters.
@@ -1184,6 +1467,10 @@ Resource: <https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-em
 <details><summary>Answer</summary>
 
 **D.** Transfer Family provides a fully managed SFTP (and FTPS, FTP or AS2) endpoint that stores files directly in S3 or EFS, so partners keep using their existing SFTP clients and scripts.
+
+```diagram
+Partners | existing SFTP scripts -(SFTP)-> *Transfer Family endpoint | fully managed -> Amazon S3
+```
 
 Why not the others:
 - **A.** DataSync would mean installing agents at partners' sites, and partners would have to change how they send files.

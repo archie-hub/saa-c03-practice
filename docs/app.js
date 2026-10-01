@@ -540,6 +540,45 @@
     const why = reveal && !isAnswer && opt.why ? `<span class="why">${fmt(opt.why)}</span>` : '';
     return `<${tag} class="${cls}">${input}<span class="key">${LETTERS[idx]}.</span><span class="otext">${fmt(opt.text)}${why}</span>${verdict ? `<span class="verdict">${verdict}</span>` : ''}</${tag}>`;
   }
+  // Diagrams come pre-parsed from scripts/build_questions.py: rows of boxes ({n, s, h}),
+  // side-by-side stacks ({k}), and frames ({g, c}), joined by arrows ({e, x, d}).
+  function diagramNodeHtml(n) {
+    return `<div class="dg-node${n.h ? ' hl' : ''}"><span>${fmt(n.n)}</span>${n.s ? `<small>${fmt(n.s)}</small>` : ''}</div>`;
+  }
+  function diagramChainHtml(chain) {
+    return chain.map((el) => {
+      if ('e' in el) {
+        return `<div class="dg-edge${el.x ? ' x' : ''}${el.d ? ' d' : ''}">${el.e ? `<span class="dg-elabel">${fmt(el.e)}</span>` : ''}<span class="dg-line"></span></div>`;
+      }
+      if (el.g) return `<div class="dg-group"><div class="dg-gtitle">${fmt(el.g)}</div><div class="dg-chain">${diagramChainHtml(el.c)}</div></div>`;
+      if (el.k) return `<div class="dg-stack">${el.k.map(diagramNodeHtml).join('')}</div>`;
+      return diagramNodeHtml(el);
+    }).join('');
+  }
+  function diagramText(chain) {
+    return chain.map((el) => {
+      if ('e' in el) return el.x ? ` blocked${el.e ? ` (${el.e})` : ''} from ` : el.e ? ` to (${el.e}) ` : ' to ';
+      if (el.g) return `[${el.g}: ${diagramText(el.c)}]`;
+      if (el.k) return el.k.map((n) => n.n).join(' and ');
+      return el.s ? `${el.n} (${el.s})` : el.n;
+    }).join('');
+  }
+  function diagramHtml(q) {
+    if (!q.diagram) return '';
+    const label = 'Diagram: ' + q.diagram.map(diagramText).join('; ');
+    return `<figure class="diagram" role="img" aria-label="${esc(label)}">${q.diagram.map((row) => `<div class="dg-row">${diagramChainHtml(row)}</div>`).join('')}</figure>`;
+  }
+  // A row that doesn't fit across the explanation box is drawn top to bottom instead.
+  function fitDiagrams() {
+    app.querySelectorAll('.dg-row').forEach((row) => {
+      row.classList.remove('vertical');
+      row.classList.add('measure');
+      const tooWide = row.offsetWidth > row.parentElement.clientWidth;
+      row.classList.remove('measure');
+      row.classList.toggle('vertical', tooWide);
+    });
+  }
+
   function explanationHtml(run, q) {
     const ok = isCorrect(run, q.id);
     const answered = (run.answers[q.id] || []).length > 0;
@@ -547,6 +586,7 @@
     return `<div class="explain ${ok ? 'good' : 'bad'}">
       <strong>${ok ? '✓ Correct' : answered ? '✗ Incorrect' : '– Not answered'}</strong> · Answer: ${letters}
       ${q.explanation ? `<p style="margin:6px 0 6px">${fmt(q.explanation)}</p>` : ''}
+      ${diagramHtml(q)}
       ${q.resource ? `<div class="small">Learn more: <a href="${esc(q.resource)}" target="_blank" rel="noopener">${esc(q.resource.replace(/^https:\/\//, ''))}</a></div>` : ''}
     </div>`;
   }
@@ -874,5 +914,8 @@
   });
 
   window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+  new MutationObserver(fitDiagrams).observe(app, { childList: true });
+  let fitTimer;
+  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitDiagrams, 100); });
   render();
 })();
