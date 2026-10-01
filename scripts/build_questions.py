@@ -23,6 +23,8 @@ ANSWER_RE = re.compile(r"^\*\*([A-F](?:,\s*[A-F])*)\.\*\*\s*(.*)")
 RESOURCE_RE = re.compile(r"^Resource:\s*<([^>]+)>")
 WHY_HEADER_RE = re.compile(r"^Why not the others:\s*$")
 WHY_RE = re.compile(r"^- \*\*([A-F])\.\*\*\s+(.+)")
+DIAGRAM_OPEN_RE = re.compile(r"^```diagram\s*$")
+EDGE_RE = re.compile(r"\s+(?:-(?:(x)?(?:\(([^()]*)\))?-)?>|(~)(?:\(([^()]*)\)~)?>)\s+")
 SELECT_IN_STEM_RE = re.compile(r"\s*\(Select (\w+)\.\)\s*$")
 WORDS = {"TWO": 2, "THREE": 3}
 
@@ -38,10 +40,77 @@ def option_id(question_id, text):
     return digest[:10]
 
 
+def parse_node(text):
+    """`*Label | sub-label`: a box; a leading * highlights the answer's key piece."""
+    text = text.strip()
+    node = {}
+    if text.startswith("*"):
+        node["h"] = 1
+        text = text[1:].strip()
+    label, _, sub = text.partition(" | ")
+    if not label.strip() or any(c in text for c in ("[", "]", "\x00", "->", "~>")):
+        raise ValueError(f"bad box {text!r}")
+    node["n"] = label.strip()
+    if sub.strip():
+        node["s"] = sub.strip()
+    return node
+
+
+def parse_chain(text, groups, nested=False):
+    """`A -> B -(label)-> C -x-> D ~> E`: boxes joined by arrows, left to right.
+
+    `-x->` is a blocked or denied path, `~>` a dashed (asynchronous or optional) one.
+    `A & B` stacks boxes side by side across the flow; `[Title: A -> B]` frames part
+    of the chain (a VPC, an account, a Region).
+    """
+    parts = EDGE_RE.split(text)
+    chain = []
+    for i in range(0, len(parts), 5):
+        piece = parts[i].strip()
+        if i:
+            x, label, dashed, dashed_label = parts[i - 4 : i]
+            edge = {"e": (label or dashed_label or "").strip()}
+            if x:
+                edge["x"] = 1
+            if dashed:
+                edge["d"] = 1
+            chain.append(edge)
+        if m := re.fullmatch(r"\x00(\d+)\x00", piece):
+            if nested:
+                raise ValueError("frames can't be nested")
+            title, sep, inner = groups[int(m[1])].partition(": ")
+            if not sep or not title.strip():
+                raise ValueError(f"frame needs 'Title: ...', got {groups[int(m[1])]!r}")
+            chain.append({"g": title.strip(), "c": parse_chain(inner, groups, nested=True)})
+        else:
+            boxes = [parse_node(t) for t in piece.split(" & ")]
+            chain.append(boxes[0] if len(boxes) == 1 else {"k": boxes})
+    return chain
+
+
+def parse_diagram(lines):
+    rows = []
+    for line in lines:
+        groups = []
+
+        def stash(m):
+            groups.append(m[1])
+            return f"\x00{len(groups) - 1}\x00"
+
+        flat = re.sub(r"\[([^\[\]]+)\]", stash, line)
+        if "[" in flat or "]" in flat:
+            raise ValueError(f"unbalanced [ ] in {line!r}")
+        rows.append(parse_chain(flat, groups))
+    if not rows:
+        raise ValueError("empty diagram")
+    return rows
+
+
 def parse_file(path):
     domains, questions = [], []
     domain = task = q = None
     in_answer = False
+    diagram = None
 
     def finish():
         if q is None:
@@ -68,6 +137,8 @@ def parse_file(path):
             for o in q["options"]
         ]
         del q["why"]
+        if q["diagram"] is None:
+            del q["diagram"]
         q["explanation"] = " ".join(q["explanation"]).strip()
         questions.append(q)
 
@@ -97,10 +168,26 @@ def parse_file(path):
                 "explanation": [],
                 "resource": None,
                 "why": {},
+                "diagram": None,
             }
             in_answer = False
         elif q is None:
             continue
+        elif diagram is not None:
+            if line == "```":
+                if q["diagram"] is not None:
+                    sys.exit(f"{path.name} {q['id']}: more than one diagram")
+                try:
+                    q["diagram"] = parse_diagram(diagram)
+                except ValueError as e:
+                    sys.exit(f"{path.name} {q['id']}: diagram: {e}")
+                diagram = None
+            elif line.startswith("</details>"):
+                sys.exit(f"{path.name} {q['id']}: diagram block not closed with ```")
+            elif line:
+                diagram.append(line)
+        elif in_answer and DIAGRAM_OPEN_RE.match(line):
+            diagram = []
         elif line.startswith("<details>"):
             in_answer = True
         elif line.startswith("</details>"):

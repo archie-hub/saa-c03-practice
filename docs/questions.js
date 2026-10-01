@@ -119,7 +119,55 @@ window.QUESTION_BANK = {
     "a0bccc4c80"
    ],
    "explanation": "The root user can't be deleted or have its password permanently removed, and it already has full access. Best practice is to enable MFA, avoid creating root access keys, and use other identities for everyday work.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html",
+   "diagram": [
+    [
+     {
+      "n": "Root user"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "MFA",
+      "s": "enabled on root"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Root-only tasks",
+      "s": "rarely"
+     }
+    ],
+    [
+     {
+      "k": [
+       {
+        "n": "Founder"
+       },
+       {
+        "n": "Contractor"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "IAM Identity Center",
+      "s": "or IAM roles"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Daily work"
+     }
+    ]
+   ]
   },
   {
    "id": "1-02",
@@ -152,7 +200,34 @@ window.QUESTION_BANK = {
     "ebce3620ff"
    ],
    "explanation": "Instance profiles deliver temporary, automatically rotated credentials to the instance, removing the need for any long-term access keys at all.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "IAM role",
+      "s": "least privilege"
+     },
+     {
+      "e": "instance profile"
+     },
+     {
+      "g": "EC2 instance",
+      "c": [
+       {
+        "n": "Reporting job"
+       }
+      ]
+     },
+     {
+      "e": "temporary credentials"
+     },
+     {
+      "n": "S3 bucket",
+      "s": "sales exports"
+     }
+    ]
+   ]
   },
   {
    "id": "1-03",
@@ -185,7 +260,41 @@ window.QUESTION_BANK = {
     "60e83f059a"
    ],
    "explanation": "SCPs set the maximum permissions for every principal in the member accounts under an OU, including administrators (but not the management account), so a well-written deny SCP can block both actions everywhere in the OU at once.",
-   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html"
+   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "SCP",
+      "s": "deny-list"
+     },
+     {
+      "e": "attached to"
+     },
+     {
+      "g": "Sandbox OU",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Account admins"
+         },
+         {
+          "n": "Users and roles"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": "StopLogging",
+      "x": 1
+     },
+     {
+      "n": "CloudTrail"
+     }
+    ]
+   ]
   },
   {
    "id": "1-04",
@@ -218,7 +327,31 @@ window.QUESTION_BANK = {
     "6ad9411d7e"
    ],
    "explanation": "An action is allowed only if both the SCP and an IAM policy allow it. SCPs never grant access on their own and don't apply to the management account.",
-   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html"
+   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "SCP",
+        "s": "maximum allowed"
+       },
+       {
+        "n": "IAM policy",
+        "s": "what is granted"
+       }
+      ]
+     },
+     {
+      "e": "both must allow"
+     },
+     {
+      "h": 1,
+      "n": "Effective permissions",
+      "s": "the overlap"
+     }
+    ]
+   ]
   },
   {
    "id": "1-05",
@@ -251,7 +384,57 @@ window.QUESTION_BANK = {
     "fe96fcb818"
    ],
    "explanation": "IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source, without duplicating passwords.",
-   "resource": "https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "n": "Employee"
+     },
+     {
+      "e": "AD credentials"
+     },
+     {
+      "h": 1,
+      "n": "IAM Identity Center",
+      "s": "AD as identity source"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "AWS Organizations",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Account 1"
+         },
+         {
+          "n": "Account 2"
+         },
+         {
+          "n": "Account 15"
+         }
+        ]
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "IAM Identity Center",
+      "s": "AD as identity source"
+     },
+     {
+      "e": "verify password",
+      "d": 1
+     },
+     {
+      "n": "On-premises AD"
+     }
+    ]
+   ]
   },
   {
    "id": "1-06",
@@ -284,7 +467,56 @@ window.QUESTION_BANK = {
     "35c309d4ab"
    ],
    "explanation": "Cross-account role delegation hands out short-lived credentials from AWS STS, is fully logged in CloudTrail, and can simply not be renewed once the migration ends — no keys to revoke.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html",
+   "diagram": [
+    [
+     {
+      "g": "Account A",
+      "c": [
+       {
+        "n": "Developer"
+       }
+      ]
+     },
+     {
+      "e": "sts:AssumeRole"
+     },
+     {
+      "g": "Account B",
+      "c": [
+       {
+        "h": 1,
+        "n": "IAM role",
+        "s": "trusts Account A"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "DynamoDB tables"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "AWS STS"
+     },
+     {
+      "e": "short-lived credentials"
+     },
+     {
+      "n": "Developer"
+     },
+     {
+      "e": "every call"
+     },
+     {
+      "n": "CloudTrail",
+      "s": "audit log"
+     }
+    ]
+   ]
   },
   {
    "id": "1-07",
@@ -317,7 +549,30 @@ window.QUESTION_BANK = {
     "fa3d713f49"
    ],
    "explanation": "A permissions boundary sets the maximum permissions an identity-based policy can grant to an IAM entity. It's often required as a condition on `iam:CreateRole` so self-service role creation can't exceed it.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html",
+   "diagram": [
+    [
+     {
+      "n": "Developer's policy",
+      "s": "may grant anything"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Permissions boundary",
+      "s": "fixed ceiling"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Effective permissions",
+      "s": "overlap of both"
+     }
+    ]
+   ]
   },
   {
    "id": "1-08",
@@ -350,7 +605,37 @@ window.QUESTION_BANK = {
     "d1ec679f9d"
    ],
    "explanation": "In policy evaluation logic, an explicit deny in any applicable policy — including an SCP — always wins over an allow elsewhere.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html",
+   "diagram": [
+    [
+     {
+      "n": "Analyst"
+     },
+     {
+      "e": "s3:DeleteObject"
+     },
+     {
+      "n": "Group policy",
+      "s": "allow s3:*"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "SCP",
+      "s": "explicit deny"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Request denied",
+      "s": "explicit deny wins"
+     }
+    ]
+   ]
   },
   {
    "id": "1-09",
@@ -383,7 +668,35 @@ window.QUESTION_BANK = {
     "111e1fdff2"
    ],
    "explanation": "User pools handle the user directory and tokens. Identity pools exchange those tokens for scoped STS credentials, for example using `${cognito-identity.amazonaws.com:sub}` in the policy, which scales to millions of users far better than per-user IAM identities.",
-   "resource": "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"
+   "resource": "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html",
+   "diagram": [
+    [
+     {
+      "n": "Mobile user"
+     },
+     {
+      "e": "sign up / sign in"
+     },
+     {
+      "h": 1,
+      "n": "Cognito user pool"
+     },
+     {
+      "e": "JWT"
+     },
+     {
+      "h": 1,
+      "n": "Cognito identity pool"
+     },
+     {
+      "e": "scoped STS credentials"
+     },
+     {
+      "n": "S3",
+      "s": "own prefix only"
+     }
+    ]
+   ]
   },
   {
    "id": "1-10",
@@ -416,7 +729,42 @@ window.QUESTION_BANK = {
     "3be2787c63"
    ],
    "explanation": "IAM Access Analyzer uses automated reasoning to find resource policies that grant access to principals outside your defined zone of trust.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "IAM Access Analyzer",
+      "s": "zone of trust: organization"
+     },
+     {
+      "e": "scans"
+     },
+     {
+      "k": [
+       {
+        "n": "S3"
+       },
+       {
+        "n": "KMS"
+       },
+       {
+        "n": "IAM roles"
+       },
+       {
+        "n": "Lambda"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Finding",
+      "s": "external access"
+     }
+    ]
+   ]
   },
   {
    "id": "1-11",
@@ -449,7 +797,43 @@ window.QUESTION_BANK = {
     "1714dce5e4"
    ],
    "explanation": "Control Tower sets up a landing zone on top of Organizations with preventive (SCP) and detective (Config) controls, and automates account vending through Account Factory.",
-   "resource": "https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html"
+   "resource": "https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "AWS Control Tower"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Account Factory",
+      "s": "new account"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Landing zone",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "SCP guardrails"
+         },
+         {
+          "n": "Config detective controls"
+         },
+         {
+          "n": "Central logging"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-12",
@@ -487,7 +871,58 @@ window.QUESTION_BANK = {
     "4a30fd14ab"
    ],
    "explanation": "IAM users and roles can be granted billing permissions directly, so the root user doesn't need to be reserved for billing, and shared credentials or embedded keys work against least privilege and auditability.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
+   "diagram": [
+    [
+     {
+      "n": "New role"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Least privilege",
+      "s": "at the start"
+     },
+     {
+      "e": "IAM last-accessed data"
+     },
+     {
+      "n": "Refined policy"
+     }
+    ],
+    [
+     {
+      "n": "App or user"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Role or federation"
+     },
+     {
+      "e": "temporary credentials"
+     },
+     {
+      "n": "AWS APIs"
+     }
+    ],
+    [
+     {
+      "n": "Long-term access keys"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "n": "AWS APIs"
+     }
+    ]
+   ]
   },
   {
    "id": "1-13",
@@ -520,7 +955,45 @@ window.QUESTION_BANK = {
     "97aefc890d"
    ],
    "explanation": "An organization trail records management events for every member account into one place. Log file validation detects tampering, and Object Lock on the destination bucket prevents deletion or modification.",
-   "resource": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html"
+   "resource": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html",
+   "diagram": [
+    [
+     {
+      "g": "Organization",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Account 1"
+         },
+         {
+          "n": "Account 2"
+         },
+         {
+          "n": "Account 40"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Organization trail",
+      "s": "log file validation"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Central S3 bucket",
+      "s": "Object Lock"
+     }
+    ]
+   ]
   },
   {
    "id": "1-50",
@@ -553,7 +1026,34 @@ window.QUESTION_BANK = {
     "0963accf69"
    ],
    "explanation": "AWS Managed Microsoft AD is an actual Microsoft Active Directory run by AWS. It supports Group Policy, Kerberos and domain join, and can form trusts with an on-premises forest, while AWS handles patching and replication.",
-   "resource": "https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html"
+   "resource": "https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html",
+   "diagram": [
+    [
+     {
+      "g": "AWS",
+      "c": [
+       {
+        "h": 1,
+        "n": "AWS Managed Microsoft AD",
+        "s": "patched by AWS"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "EC2 Windows apps",
+        "s": "domain-joined"
+       }
+      ]
+     },
+     {
+      "e": "forest trust"
+     },
+     {
+      "n": "On-premises AD"
+     }
+    ]
+   ]
   },
   {
    "id": "1-51",
@@ -586,7 +1086,52 @@ window.QUESTION_BANK = {
     "25af2ee571"
    ],
    "explanation": "With VPC sharing, the VPC owner uses AWS RAM to share subnets with other accounts in the organization. Those accounts launch their own resources into the shared subnets, but they can't change the VPC's route tables, gateways or network ACLs.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html",
+   "diagram": [
+    [
+     {
+      "g": "Networking account",
+      "c": [
+       {
+        "n": "Central VPC",
+        "s": "keeps routes, gateways, NACLs"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS RAM",
+      "s": "share subnets"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "App accounts",
+      "c": [
+       {
+        "n": "Shared subnets"
+       },
+       {
+        "e": ""
+       },
+       {
+        "k": [
+         {
+          "n": "EC2"
+         },
+         {
+          "n": "RDS"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-52",
@@ -619,7 +1164,41 @@ window.QUESTION_BANK = {
     "1d5db70967"
    ],
    "explanation": "Service Catalog lets administrators publish approved, CloudFormation-based products in portfolios. A launch constraint makes a product launch with a specified IAM role, so developers don't need broad permissions of their own.",
-   "resource": "https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html"
+   "resource": "https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html",
+   "diagram": [
+    [
+     {
+      "n": "Developer"
+     },
+     {
+      "e": "launch from approved list"
+     },
+     {
+      "h": 1,
+      "n": "Service Catalog portfolio"
+     },
+     {
+      "e": "launch constraint role"
+     },
+     {
+      "n": "CloudFormation stack",
+      "s": "three-tier web"
+     }
+    ],
+    [
+     {
+      "n": "Developer"
+     },
+     {
+      "e": "no broad IAM rights",
+      "x": 1
+     },
+     {
+      "n": "CloudFormation stack",
+      "s": "three-tier web"
+     }
+    ]
+   ]
   },
   {
    "id": "1-57",
@@ -652,7 +1231,41 @@ window.QUESTION_BANK = {
     "f291eaf61d"
    ],
    "explanation": "Attribute-based access control compares tags on the caller with tags on the resource in a single policy (for example, requiring `ec2:ResourceTag/project` to equal `${aws:PrincipalTag/project}`), so new projects need only tags, not new policies.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html",
+   "diagram": [
+    [
+     {
+      "g": "Engineer role, tag project=alpha",
+      "c": [
+       {
+        "h": 1,
+        "n": "ABAC policy",
+        "s": "ResourceTag must equal PrincipalTag"
+       }
+      ]
+     },
+     {
+      "e": "start / stop"
+     },
+     {
+      "n": "EC2",
+      "s": "tag project=alpha"
+     }
+    ],
+    [
+     {
+      "n": "Same engineer role"
+     },
+     {
+      "e": "tags don't match",
+      "x": 1
+     },
+     {
+      "n": "EC2",
+      "s": "tag project=beta"
+     }
+    ]
+   ]
   },
   {
    "id": "1-58",
@@ -685,7 +1298,71 @@ window.QUESTION_BANK = {
     "e2953a0c33"
    ],
    "explanation": "An SCP applies to every principal in the member accounts, including administrators, so denying requests whose `aws:RequestedRegion` isn't allowed enforces the rule everywhere. Global services are exempted with `NotAction`, because their requests go to a single Region such as `us-east-1`.",
-   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html"
+   "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "SCP",
+      "s": "deny unless aws:RequestedRegion allowed"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Member accounts",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Admins"
+         },
+         {
+          "n": "Users"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": "allowed"
+     },
+     {
+      "k": [
+       {
+        "n": "eu-west-1"
+       },
+       {
+        "n": "eu-central-1"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "g": "Member accounts",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Admins"
+         },
+         {
+          "n": "Users"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "n": "Other Regions"
+     }
+    ]
+   ]
   },
   {
    "id": "1-64",
@@ -718,7 +1395,47 @@ window.QUESTION_BANK = {
     "cee4ccb704"
    ],
    "explanation": "A unique external ID in the trust policy's condition means the vendor can assume the role only when acting for this specific customer, which stops other customers from tricking the vendor into using it.",
-   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html"
+   "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html",
+   "diagram": [
+    [
+     {
+      "n": "Vendor"
+     },
+     {
+      "e": "AssumeRole + ExternalId"
+     },
+     {
+      "g": "Customer account",
+      "c": [
+       {
+        "h": 1,
+        "n": "Role trust policy",
+        "s": "requires sts:ExternalId"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Read-only access"
+     }
+    ],
+    [
+     {
+      "n": "Other customer's request via vendor"
+     },
+     {
+      "e": "wrong or no ExternalId",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Role trust policy",
+      "s": "requires sts:ExternalId"
+     }
+    ]
+   ]
   },
   {
    "id": "1-14",
@@ -751,7 +1468,48 @@ window.QUESTION_BANK = {
     "8c9ad7efee"
    ],
    "explanation": "AWS WAF inspects HTTP(S) requests at Layer 7. AWS Managed Rules include SQLi and XSS rule sets that can be attached to the ALB in minutes.",
-   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html"
+   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html",
+   "diagram": [
+    [
+     {
+      "n": "Users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS WAF",
+      "s": "SQLi and XSS managed rules"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Web app"
+     }
+    ],
+    [
+     {
+      "n": "Attackers"
+     },
+     {
+      "e": "SQLi / XSS",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "AWS WAF",
+      "s": "SQLi and XSS managed rules"
+     }
+    ]
+   ]
   },
   {
    "id": "1-15",
@@ -784,7 +1542,50 @@ window.QUESTION_BANK = {
     "b63cd30128"
    ],
    "explanation": "Shield Advanced adds Shield Response Team (SRT) access, enhanced detection, and DDoS cost protection for scaling charges. Shield Standard is free and automatic but offers none of these.",
-   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html"
+   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html",
+   "diagram": [
+    [
+     {
+      "n": "UDP reflection flood"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Shield Advanced"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "EC2 fleet"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Shield Advanced"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Shield Response Team"
+       },
+       {
+        "n": "Attack diagnostics"
+       },
+       {
+        "n": "Cost protection",
+        "s": "scaling charges"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-16",
@@ -817,7 +1618,46 @@ window.QUESTION_BANK = {
     "dd0d272f53"
    ],
    "explanation": "Security groups work at the ENI level, are stateful, and can only allow traffic. NACLs work at the subnet level, are stateless, and evaluate numbered rules — including deny rules — in order.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html",
+   "diagram": [
+    [
+     {
+      "n": "Traffic"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Subnet boundary",
+      "c": [
+       {
+        "h": 1,
+        "n": "Network ACL",
+        "s": "stateless, allow + deny"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Instance ENI",
+      "c": [
+       {
+        "h": 1,
+        "n": "Security group",
+        "s": "stateful, allow only"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "EC2"
+     }
+    ]
+   ]
   },
   {
    "id": "1-17",
@@ -850,7 +1690,34 @@ window.QUESTION_BANK = {
     "360af418bf"
    ],
    "explanation": "Security groups can't deny traffic. A single NACL deny rule on the subnet (or an AWS WAF rule, for HTTP/S traffic) blocks the address for every instance at once.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html",
+   "diagram": [
+    [
+     {
+      "n": "Attacker IP"
+     },
+     {
+      "e": "NACL deny rule",
+      "x": 1
+     },
+     {
+      "g": "Subnet",
+      "c": [
+       {
+        "h": 1,
+        "n": "Network ACL"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "25 instances",
+        "s": "each with own security group"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-18",
@@ -883,7 +1750,56 @@ window.QUESTION_BANK = {
     "9c325bb478"
    ],
    "explanation": "A NAT gateway lets instances in a private subnet initiate outbound IPv4 traffic while blocking unsolicited inbound connections from the internet. (For IPv6, use an egress-only internet gateway instead.)",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html",
+   "diagram": [
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2 fleet"
+       }
+      ]
+     },
+     {
+      "e": "outbound only"
+     },
+     {
+      "g": "Public subnet",
+      "c": [
+       {
+        "h": 1,
+        "n": "NAT gateway"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Internet gateway"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Patch repositories"
+     }
+    ],
+    [
+     {
+      "n": "Internet"
+     },
+     {
+      "e": "unsolicited inbound",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "NAT gateway"
+     }
+    ]
+   ]
   },
   {
    "id": "1-19",
@@ -916,7 +1832,51 @@ window.QUESTION_BANK = {
     "724e94c2d3"
    ],
    "explanation": "Gateway endpoints (for S3 and DynamoDB) are free and are added to route tables, eliminating the NAT data-processing charge for that traffic. Interface endpoints work too, but are billed per hour and per GB.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html",
+   "diagram": [
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "200 EC2 instances"
+       }
+      ]
+     },
+     {
+      "e": "route table entry"
+     },
+     {
+      "h": 1,
+      "n": "S3 gateway endpoint",
+      "s": "free"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Amazon S3"
+     }
+    ],
+    [
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "200 EC2 instances"
+       }
+      ]
+     },
+     {
+      "e": "bypassed",
+      "d": 1
+     },
+     {
+      "n": "NAT gateway",
+      "s": "per-GB charge"
+     }
+    ]
+   ]
   },
   {
    "id": "1-20",
@@ -949,7 +1909,44 @@ window.QUESTION_BANK = {
     "2137d68633"
    ],
    "explanation": "PrivateLink exposes a service in one direction through interface endpoints and works even when the customer CIDRs overlap with each other or with the provider's VPC — something VPC peering and transit gateway attachments can't do.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html",
+   "diagram": [
+    [
+     {
+      "g": "Customer VPC | 10.0.0.0/16",
+      "c": [
+       {
+        "h": 1,
+        "n": "Interface endpoint"
+       }
+      ]
+     },
+     {
+      "e": "PrivateLink"
+     },
+     {
+      "h": 1,
+      "n": "Endpoint service"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Provider VPC",
+      "c": [
+       {
+        "n": "Network Load Balancer"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Pricing API"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-21",
@@ -982,7 +1979,39 @@ window.QUESTION_BANK = {
     "0fd341e3a5"
    ],
    "explanation": "GuardDuty continuously analyzes CloudTrail, VPC Flow Logs, and DNS logs (among other sources) using threat intelligence and machine learning, with nothing for the customer to deploy or manage.",
-   "resource": "https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html"
+   "resource": "https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "VPC Flow Logs"
+       },
+       {
+        "n": "CloudTrail events"
+       },
+       {
+        "n": "DNS query logs"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon GuardDuty",
+      "s": "ML + threat intel"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Findings",
+      "s": "crypto mining, C2, stolen keys"
+     }
+    ]
+   ]
   },
   {
    "id": "1-22",
@@ -1015,7 +2044,37 @@ window.QUESTION_BANK = {
     "33ad88ead2"
    ],
    "explanation": "Amazon Inspector automatically and continually scans EC2 instances, container images in ECR, and Lambda functions for known vulnerabilities (CVEs) and network reachability issues.",
-   "resource": "https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html"
+   "resource": "https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Amazon Inspector"
+     },
+     {
+      "e": "continuous scans"
+     },
+     {
+      "k": [
+       {
+        "n": "EC2 instances"
+       },
+       {
+        "n": "ECR images"
+       },
+       {
+        "n": "Lambda functions"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "CVE and network exposure findings"
+     }
+    ]
+   ]
   },
   {
    "id": "1-23",
@@ -1048,7 +2107,44 @@ window.QUESTION_BANK = {
     "cdd4517194"
    ],
    "explanation": "Security Hub aggregates findings from GuardDuty, Inspector, Macie, and other sources, runs its own automated checks against security standards, and produces an overall score per account. Detective is used for deep investigation, not aggregation or scoring.",
-   "resource": "https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html"
+   "resource": "https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "GuardDuty"
+       },
+       {
+        "n": "Inspector"
+       },
+       {
+        "n": "Macie"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Security Hub"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Security score"
+       },
+       {
+        "n": "Standards checks"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-24",
@@ -1081,7 +2177,47 @@ window.QUESTION_BANK = {
     "85d1506619"
    ],
    "explanation": "Secrets Manager has built-in, Lambda-based rotation for RDS, Aurora, Redshift, and DocumentDB, so the team doesn't have to build the rotation logic itself.",
-   "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html"
+   "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "get secret"
+     },
+     {
+      "h": 1,
+      "n": "Secrets Manager"
+     },
+     {
+      "e": "connect"
+     },
+     {
+      "n": "RDS for MySQL"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Secrets Manager"
+     },
+     {
+      "e": "every 30 days"
+     },
+     {
+      "n": "Rotation Lambda",
+      "s": "AWS-provided"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "RDS for MySQL",
+      "s": "new password"
+     }
+    ]
+   ]
   },
   {
    "id": "1-25",
@@ -1114,7 +2250,56 @@ window.QUESTION_BANK = {
     "6a86a628f2"
    ],
    "explanation": "Referencing security groups by ID (rather than IP ranges) keeps access tightly scoped tier-to-tier even as instances scale in and out, and keeping the app and database tiers out of public subnets removes them from direct internet reachability.",
-   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html"
+   "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+   "diagram": [
+    [
+     {
+      "n": "Internet"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Public subnets",
+      "c": [
+       {
+        "n": "ALB"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Private subnets",
+      "c": [
+       {
+        "n": "App tier"
+       },
+       {
+        "e": "port 3306, SG reference"
+       },
+       {
+        "h": 1,
+        "n": "DB",
+        "s": "SG allows app tier SG only"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Internet"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "n": "DB"
+     }
+    ]
+   ]
   },
   {
    "id": "1-26",
@@ -1147,7 +2332,45 @@ window.QUESTION_BANK = {
     "00d623d46a"
    ],
    "explanation": "A Cognito user pool authorizer validates the JWT on each request without requiring SigV4 signing or IAM credentials in the mobile app.",
-   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html"
+   "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html",
+   "diagram": [
+    [
+     {
+      "n": "Mobile app"
+     },
+     {
+      "e": "JWT from user pool"
+     },
+     {
+      "g": "API Gateway",
+      "c": [
+       {
+        "h": 1,
+        "n": "Cognito user pool authorizer"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Backend"
+     }
+    ],
+    [
+     {
+      "n": "Request without valid token"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Cognito user pool authorizer"
+     }
+    ]
+   ]
   },
   {
    "id": "1-27",
@@ -1180,7 +2403,46 @@ window.QUESTION_BANK = {
     "790360ee20"
    ],
    "explanation": "Session Manager uses the SSM agent and IAM policies instead of SSH keys or open inbound ports, and it can log session activity to S3 or CloudWatch Logs for audit.",
-   "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html"
+   "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html",
+   "diagram": [
+    [
+     {
+      "n": "Admin"
+     },
+     {
+      "e": "IAM-authorized session"
+     },
+     {
+      "h": 1,
+      "n": "Session Manager"
+     },
+     {
+      "e": "SSM agent"
+     },
+     {
+      "g": "Private subnet",
+      "c": [
+       {
+        "n": "EC2",
+        "s": "no port 22 open"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "Session Manager"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Session logs",
+      "s": "S3 or CloudWatch Logs"
+     }
+    ]
+   ]
   },
   {
    "id": "1-28",
@@ -1213,7 +2475,45 @@ window.QUESTION_BANK = {
     "3a9aa3370e"
    ],
    "explanation": "AWS Network Firewall provides stateful inspection and domain-list filtering, and Firewall Manager can push a common policy to every account and VPC in the organization, including new ones as they're created.",
-   "resource": "https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html"
+   "resource": "https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Firewall Manager",
+      "s": "central policy"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Organization",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "VPC 1"
+         },
+         {
+          "n": "VPC 2"
+         },
+         {
+          "n": "New VPCs"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Network Firewall",
+      "s": "stateful + domain filtering"
+     }
+    ]
+   ]
   },
   {
    "id": "1-29",
@@ -1246,7 +2546,45 @@ window.QUESTION_BANK = {
     "c6f0a6c72b"
    ],
    "explanation": "Site-to-Site VPN uses IPsec tunnels over the internet and can typically be set up within minutes to hours, unlike Direct Connect, which takes weeks to provision and isn't encrypted by default.",
-   "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html"
+   "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html",
+   "diagram": [
+    [
+     {
+      "n": "On-premises network"
+     },
+     {
+      "e": "IPsec tunnels over the internet"
+     },
+     {
+      "h": 1,
+      "n": "Site-to-Site VPN"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC"
+     }
+    ],
+    [
+     {
+      "n": "On-premises network"
+     },
+     {
+      "e": "weeks later",
+      "d": 1
+     },
+     {
+      "n": "Direct Connect"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "VPC"
+     }
+    ]
+   ]
   },
   {
    "id": "1-30",
@@ -1279,7 +2617,46 @@ window.QUESTION_BANK = {
     "ad730241a9"
    ],
    "explanation": "OAC uses a bucket policy `Condition` tied to the specific distribution, so only that CloudFront distribution can read the bucket. OAC is the current recommended replacement for the legacy OAI approach.",
-   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html"
+   "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html",
+   "diagram": [
+    [
+     {
+      "n": "Viewer"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "CloudFront",
+      "s": "OAC signs origin requests"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Private",
+      "c": [
+       {
+        "n": "S3 bucket",
+        "s": "policy allows this distribution only"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "n": "Direct request with bucket name"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "n": "S3 bucket"
+     }
+    ]
+   ]
   },
   {
    "id": "1-46",
@@ -1312,7 +2689,35 @@ window.QUESTION_BANK = {
     "bd7f6dd35b"
    ],
    "explanation": "Detective automatically builds a behavior graph from sources such as CloudTrail, VPC Flow Logs and GuardDuty findings, so an analyst can pivot from a finding to the related roles, IP addresses and resources, and compare activity with a baseline, without writing queries.",
-   "resource": "https://docs.aws.amazon.com/detective/latest/userguide/what-is-detective.html"
+   "resource": "https://docs.aws.amazon.com/detective/latest/userguide/what-is-detective.html",
+   "diagram": [
+    [
+     {
+      "n": "GuardDuty finding"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Detective",
+      "s": "behavior graph"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "Related roles, IPs, resources"
+       },
+       {
+        "n": "Baseline comparison"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-49",
@@ -1345,7 +2750,42 @@ window.QUESTION_BANK = {
     "514ea38a88"
    ],
    "explanation": "SecureString parameters are encrypted with KMS and controlled with IAM, and standard-tier parameters have no additional charge. Secrets Manager adds features such as automatic rotation, but charges for each secret.",
-   "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html"
+   "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": "GetParameter, decrypt"
+     },
+     {
+      "h": 1,
+      "n": "Parameter Store",
+      "s": "SecureString, standard tier"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS KMS",
+      "s": "encryption"
+     }
+    ],
+    [
+     {
+      "n": "Engineer"
+     },
+     {
+      "e": "update yearly"
+     },
+     {
+      "h": 1,
+      "n": "Parameter Store",
+      "s": "SecureString, standard tier"
+     }
+    ]
+   ]
   },
   {
    "id": "1-53",
@@ -1378,7 +2818,35 @@ window.QUESTION_BANK = {
     "1752262806"
    ],
    "explanation": "Route 53 Resolver DNS Firewall filters DNS queries that leave your VPCs through the Resolver, and it can block domains on AWS managed lists of known malicious domains.",
-   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-dns-firewall.html"
+   "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-dns-firewall.html",
+   "diagram": [
+    [
+     {
+      "n": "EC2"
+     },
+     {
+      "e": "DNS query"
+     },
+     {
+      "n": "Route 53 Resolver"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "DNS Firewall",
+      "s": "AWS managed domain lists"
+     },
+     {
+      "e": "malicious domain",
+      "x": 1
+     },
+     {
+      "n": "C2 server"
+     }
+    ]
+   ]
   },
   {
    "id": "1-54",
@@ -1411,7 +2879,46 @@ window.QUESTION_BANK = {
     "b2bb2be9a1"
    ],
    "explanation": "Verified Access provides access to corporate applications without a VPN. It evaluates each request against policies that use identity from an identity provider and device posture from a device-management provider.",
-   "resource": "https://docs.aws.amazon.com/verified-access/latest/ug/what-is-verified-access.html"
+   "resource": "https://docs.aws.amazon.com/verified-access/latest/ug/what-is-verified-access.html",
+   "diagram": [
+    [
+     {
+      "n": "Employee, no VPN"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Verified Access"
+     },
+     {
+      "e": "identity + device checks"
+     },
+     {
+      "n": "Internal web apps"
+     }
+    ],
+    [
+     {
+      "k": [
+       {
+        "n": "Corporate IdP"
+       },
+       {
+        "n": "Device management"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Verified Access"
+     }
+    ]
+   ]
   },
   {
    "id": "1-55",
@@ -1444,7 +2951,45 @@ window.QUESTION_BANK = {
     "a682f32eed"
    ],
    "explanation": "A presigned URL grants time-limited permission for one specific operation, such as uploading to one key, using the backend's own credentials, so the bucket stays private.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html",
+   "diagram": [
+    [
+     {
+      "n": "Browser"
+     },
+     {
+      "e": "request upload"
+     },
+     {
+      "n": "Backend"
+     },
+     {
+      "e": "signs with its own credentials"
+     },
+     {
+      "h": 1,
+      "n": "Presigned URL",
+      "s": "one key, expires in 10 min"
+     }
+    ],
+    [
+     {
+      "n": "Browser"
+     },
+     {
+      "e": "PUT with presigned URL"
+     },
+     {
+      "g": "Private bucket",
+      "c": [
+       {
+        "n": "S3",
+        "s": "that one key only"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-59",
@@ -1477,7 +3022,47 @@ window.QUESTION_BANK = {
     "41eb07b090"
    ],
    "explanation": "A bucket policy can deny any request that doesn't arrive through a specific VPC endpoint by checking `aws:SourceVpce`, which blocks requests from the internet even when the caller's credentials are valid.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies-vpc-endpoint.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies-vpc-endpoint.html",
+   "diagram": [
+    [
+     {
+      "g": "Analytics VPC",
+      "c": [
+       {
+        "n": "EC2"
+       }
+      ]
+     },
+     {
+      "e": "gateway endpoint vpce-1"
+     },
+     {
+      "h": 1,
+      "n": "Bucket policy",
+      "s": "deny unless aws:SourceVpce matches"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 bucket"
+     }
+    ],
+    [
+     {
+      "n": "Laptop on the internet"
+     },
+     {
+      "e": "valid credentials, wrong path",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Bucket policy",
+      "s": "deny unless aws:SourceVpce matches"
+     }
+    ]
+   ]
   },
   {
    "id": "1-61",
@@ -1510,7 +3095,48 @@ window.QUESTION_BANK = {
     "4cf179ffa0"
    ],
    "explanation": "IMDSv2 requires a session token, obtained with a PUT request, before metadata can be read. That blocks most SSRF attacks, which can only make simple GET requests to the metadata endpoint.",
-   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html"
+   "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html",
+   "diagram": [
+    [
+     {
+      "n": "Attacker"
+     },
+     {
+      "e": "SSRF: simple GET"
+     },
+     {
+      "n": "Web app"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "IMDSv2",
+      "s": "token required"
+     }
+    ],
+    [
+     {
+      "n": "SDK on instance"
+     },
+     {
+      "e": "PUT for session token, then GET"
+     },
+     {
+      "h": 1,
+      "n": "IMDSv2",
+      "s": "token required"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Role credentials"
+     }
+    ]
+   ]
   },
   {
    "id": "1-63",
@@ -1543,7 +3169,33 @@ window.QUESTION_BANK = {
     "fe565d7aea"
    ],
    "explanation": "An interface endpoint (powered by AWS PrivateLink) places private network interfaces for Secrets Manager inside the VPC, so the functions reach the service over private IP addresses without any internet access.",
-   "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/vpc-endpoint-overview.html"
+   "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/vpc-endpoint-overview.html",
+   "diagram": [
+    [
+     {
+      "g": "Private subnet, no NAT",
+      "c": [
+       {
+        "n": "Lambda"
+       }
+      ]
+     },
+     {
+      "e": "private IP"
+     },
+     {
+      "h": 1,
+      "n": "Interface endpoint",
+      "s": "Secrets Manager"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "AWS Secrets Manager"
+     }
+    ]
+   ]
   },
   {
    "id": "1-65",
@@ -1576,7 +3228,59 @@ window.QUESTION_BANK = {
     "b0f1d39dc6"
    ],
    "explanation": "A WAF rate-based rule counts requests from each IP address (or another key) over a time window, and blocks or challenges clients that exceed the limit, while normal buyers are unaffected.",
-   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html"
+   "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html",
+   "diagram": [
+    [
+     {
+      "n": "Clients"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "CloudFront"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "AWS WAF web ACL",
+      "c": [
+       {
+        "h": 1,
+        "n": "Rate-based rule",
+        "s": "per IP per window"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Managed SQLi rules"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Ticketing site"
+     }
+    ],
+    [
+     {
+      "n": "Abusive IPs"
+     },
+     {
+      "e": "over the limit",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Rate-based rule",
+      "s": "per IP per window"
+     }
+    ]
+   ]
   },
   {
    "id": "1-31",
@@ -1609,7 +3313,48 @@ window.QUESTION_BANK = {
     "c03964e609"
    ],
    "explanation": "SSE-KMS logs key usage in CloudTrail, and a customer managed key gives full control over who can use it through the key's own policy — independent of the bucket policy.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3"
+     },
+     {
+      "e": "encrypt / decrypt calls"
+     },
+     {
+      "h": 1,
+      "n": "KMS customer managed key",
+      "s": "key policy controls users"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "CloudTrail",
+      "s": "logs each use"
+     }
+    ],
+    [
+     {
+      "n": "Engineer"
+     },
+     {
+      "e": "removed from key policy",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "KMS customer managed key"
+     }
+    ]
+   ]
   },
   {
    "id": "1-32",
@@ -1642,7 +3387,39 @@ window.QUESTION_BANK = {
     "ce9d2185ac"
    ],
    "explanation": "A bucket-level key cuts the number of calls to KMS by up to 99% by reusing a time-limited data key for many objects, directly reducing both throttling and cost.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html",
+   "diagram": [
+    [
+     {
+      "n": "S3"
+     },
+     {
+      "e": "once per time window"
+     },
+     {
+      "h": 1,
+      "n": "S3 Bucket Key"
+     },
+     {
+      "e": "encrypts many objects"
+     },
+     {
+      "n": "Object data keys"
+     }
+    ],
+    [
+     {
+      "n": "S3"
+     },
+     {
+      "e": "far fewer calls",
+      "d": 1
+     },
+     {
+      "n": "AWS KMS"
+     }
+    ]
+   ]
   },
   {
    "id": "1-33",
@@ -1675,7 +3452,29 @@ window.QUESTION_BANK = {
     "7527cdbdf6"
    ],
    "explanation": "In Compliance mode, no user — including the root user or an account with full administrative permissions — can shorten the retention period or delete the object before it expires. Governance mode can be bypassed by users with a special permission.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
+   "diagram": [
+    [
+     {
+      "n": "Anyone, even root"
+     },
+     {
+      "e": "delete or overwrite",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Object Lock Compliance mode",
+      "s": "7-year retention"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Trade logs"
+     }
+    ]
+   ]
   },
   {
    "id": "1-34",
@@ -1708,7 +3507,33 @@ window.QUESTION_BANK = {
     "0d3343edab"
    ],
    "explanation": "Encryption at rest can only be set when an RDS instance is created, so an existing unencrypted instance must be snapshotted, the snapshot copied with encryption turned on, and a new instance restored from that encrypted copy.",
-   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html"
+   "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html",
+   "diagram": [
+    [
+     {
+      "n": "Unencrypted RDS"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Snapshot"
+     },
+     {
+      "e": "copy with KMS key"
+     },
+     {
+      "h": 1,
+      "n": "Encrypted snapshot"
+     },
+     {
+      "e": "restore"
+     },
+     {
+      "n": "Encrypted RDS instance"
+     }
+    ]
+   ]
   },
   {
    "id": "1-35",
@@ -1741,7 +3566,29 @@ window.QUESTION_BANK = {
     "d7ab2afc46"
    ],
    "explanation": "Amazon Macie uses machine learning and pattern matching to discover, classify, and report on sensitive data such as PII stored in S3.",
-   "resource": "https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html"
+   "resource": "https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html",
+   "diagram": [
+    [
+     {
+      "n": "S3 data lake"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Amazon Macie",
+      "s": "ML + pattern matching"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "PII findings",
+      "s": "names, IDs, card numbers"
+     }
+    ]
+   ]
   },
   {
    "id": "1-36",
@@ -1774,7 +3621,37 @@ window.QUESTION_BANK = {
     "7e1d818996"
    ],
    "explanation": "ACM public certificates are free and renew automatically as long as they remain in use and DNS validation stays in place. Note that the certificate used by CloudFront must be requested in `us-east-1`.",
-   "resource": "https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html"
+   "resource": "https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "ACM public certificate",
+      "s": "free, auto-renews"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "CloudFront",
+      "s": "cert in us-east-1"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "ACM public certificate",
+      "s": "free, auto-renews"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "ALB",
+      "s": "cert in its Region"
+     }
+    ]
+   ]
   },
   {
    "id": "1-37",
@@ -1807,7 +3684,33 @@ window.QUESTION_BANK = {
     "04ab659922"
    ],
    "explanation": "CloudHSM provisions single-tenant, FIPS 140-2 Level 3 validated hardware security modules that the customer controls directly, unlike the shared infrastructure behind AWS KMS's AWS managed keys.",
-   "resource": "https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html"
+   "resource": "https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html",
+   "diagram": [
+    [
+     {
+      "n": "App"
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "Your VPC",
+      "c": [
+       {
+        "h": 1,
+        "n": "CloudHSM cluster",
+        "s": "single-tenant, FIPS 140-2 Level 3"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Keys under your exclusive control"
+     }
+    ]
+   ]
   },
   {
    "id": "1-38",
@@ -1840,7 +3743,42 @@ window.QUESTION_BANK = {
     "007ee2beca"
    ],
    "explanation": "Encrypting data at rest doesn't protect data in transit. A bucket policy that denies requests when `aws:SecureTransport` is `false` forces every request to use HTTPS.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html",
+   "diagram": [
+    [
+     {
+      "n": "Client"
+     },
+     {
+      "e": "HTTPS"
+     },
+     {
+      "h": 1,
+      "n": "Bucket policy",
+      "s": "deny if aws:SecureTransport false"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "S3 bucket"
+     }
+    ],
+    [
+     {
+      "n": "Client"
+     },
+     {
+      "e": "plain HTTP",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Bucket policy",
+      "s": "deny if aws:SecureTransport false"
+     }
+    ]
+   ]
   },
   {
    "id": "1-39",
@@ -1873,7 +3811,31 @@ window.QUESTION_BANK = {
     "d4a2ce0cba"
    ],
    "explanation": "S3 Block Public Access, turned on at the account level, overrides any bucket policy or ACL that would otherwise make a bucket or object public — for existing and future buckets alike.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html",
+   "diagram": [
+    [
+     {
+      "n": "Bucket policy or ACL",
+      "s": "making it public"
+     },
+     {
+      "e": "",
+      "x": 1
+     },
+     {
+      "h": 1,
+      "n": "Block Public Access",
+      "s": "account level"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "All buckets",
+      "s": "existing and new"
+     }
+    ]
+   ]
   },
   {
    "id": "1-40",
@@ -1906,7 +3868,39 @@ window.QUESTION_BANK = {
     "9f1f8d8aa8"
    ],
    "explanation": "Sharing the snapshot alone isn't enough for a customer managed key: the target account also needs to be granted use of that key in its key policy before it can decrypt and restore from the snapshot. (Snapshots encrypted with the AWS managed key `aws/ebs` can't be shared across accounts at all.)",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html",
+   "diagram": [
+    [
+     {
+      "g": "Your account",
+      "c": [
+       {
+        "k": [
+         {
+          "n": "Encrypted snapshot"
+         },
+         {
+          "h": 1,
+          "n": "KMS key policy",
+          "s": "allow partner account"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "e": "share snapshot + key"
+     },
+     {
+      "g": "Partner account",
+      "c": [
+       {
+        "n": "Restored EBS volume"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-41",
@@ -1939,7 +3933,48 @@ window.QUESTION_BANK = {
     "473bd70ceb"
    ],
    "explanation": "AWS Backup centralizes policy-driven backup across EBS, RDS, DynamoDB, EFS, and other services, supports cross-Region copy, and Vault Lock can make a vault's policy immutable — even to the account's own administrators.",
-   "resource": "https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html"
+   "resource": "https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "Backup plan"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "EBS"
+       },
+       {
+        "n": "RDS"
+       },
+       {
+        "n": "DynamoDB"
+       },
+       {
+        "n": "EFS"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "Backup vault",
+      "s": "Vault Lock"
+     },
+     {
+      "e": "cross-Region copy"
+     },
+     {
+      "n": "Vault in second Region"
+     }
+    ]
+   ]
   },
   {
    "id": "1-42",
@@ -1972,7 +4007,38 @@ window.QUESTION_BANK = {
     "ddf90c77ed"
    ],
    "explanation": "Automatic rotation for a customer managed symmetric key defaults to every 365 days, and the period can be customized (AWS supports a range between 90 and 2,560 days). Old key material is retained so previously encrypted data can still be decrypted.",
-   "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html"
+   "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html",
+   "diagram": [
+    [
+     {
+      "n": "Key material v1"
+     },
+     {
+      "e": "365 days, default"
+     },
+     {
+      "n": "Key material v2"
+     },
+     {
+      "e": "customizable 90-2,560 days"
+     },
+     {
+      "n": "Key material v3"
+     }
+    ],
+    [
+     {
+      "n": "Old ciphertext"
+     },
+     {
+      "e": "old material kept"
+     },
+     {
+      "h": 1,
+      "n": "Still decryptable"
+     }
+    ]
+   ]
   },
   {
    "id": "1-43",
@@ -2005,7 +4071,48 @@ window.QUESTION_BANK = {
     "fb007c5580"
    ],
    "explanation": "AWS Config continuously records configuration changes and evaluates resources against rules like required encryption, flagging drift and keeping a configuration history — which is different from CloudTrail's record of API calls.",
-   "resource": "https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html"
+   "resource": "https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html",
+   "diagram": [
+    [
+     {
+      "n": "Resources",
+      "s": "e.g. EBS volumes"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Config"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Rules",
+      "s": "encryption required"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Compliant or noncompliant"
+     }
+    ],
+    [
+     {
+      "h": 1,
+      "n": "AWS Config"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Configuration history",
+      "s": "per resource"
+     }
+    ]
+   ]
   },
   {
    "id": "1-44",
@@ -2038,7 +4145,41 @@ window.QUESTION_BANK = {
     "af90fd8d45"
    ],
    "explanation": "AWS Artifact provides on-demand access to AWS's compliance reports and agreements, including SOC and PCI reports, for exactly this kind of customer due-diligence request.",
-   "resource": "https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html"
+   "resource": "https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html",
+   "diagram": [
+    [
+     {
+      "n": "Cloud team"
+     },
+     {
+      "e": ""
+     },
+     {
+      "h": 1,
+      "n": "AWS Artifact",
+      "s": "on demand"
+     },
+     {
+      "e": ""
+     },
+     {
+      "k": [
+       {
+        "n": "SOC 2"
+       },
+       {
+        "n": "PCI DSS reports"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Prospective customer"
+     }
+    ]
+   ]
   },
   {
    "id": "1-45",
@@ -2076,7 +4217,42 @@ window.QUESTION_BANK = {
     "c785b0d2f9"
    ],
    "explanation": "The HTTPS listener terminates TLS using the ACM certificate, and the redirect rule on the HTTP listener sends clients that connect over plain HTTP to HTTPS instead of serving them unencrypted. The other options protect data at rest, which this checklist item already covers.",
-   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html"
+   "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html",
+   "diagram": [
+    [
+     {
+      "n": "Browser"
+     },
+     {
+      "e": "http://"
+     },
+     {
+      "h": 1,
+      "n": "HTTP listener",
+      "s": "redirect rule"
+     },
+     {
+      "e": "redirect"
+     },
+     {
+      "n": "Browser"
+     },
+     {
+      "e": "https://"
+     },
+     {
+      "h": 1,
+      "n": "HTTPS listener",
+      "s": "ACM certificate"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "EC2 targets"
+     }
+    ]
+   ]
   },
   {
    "id": "1-47",
@@ -2109,7 +4285,39 @@ window.QUESTION_BANK = {
     "9a49594616"
    ],
    "explanation": "Audit Manager continuously collects evidence from sources such as AWS Config, CloudTrail and Security Hub, maps it to the controls in a framework such as PCI DSS, and generates assessment reports to share with auditors.",
-   "resource": "https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html"
+   "resource": "https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html",
+   "diagram": [
+    [
+     {
+      "k": [
+       {
+        "n": "AWS Config"
+       },
+       {
+        "n": "CloudTrail"
+       },
+       {
+        "n": "Security Hub"
+       }
+      ]
+     },
+     {
+      "e": "evidence"
+     },
+     {
+      "h": 1,
+      "n": "Audit Manager",
+      "s": "PCI DSS framework"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Assessment report",
+      "s": "for auditor"
+     }
+    ]
+   ]
   },
   {
    "id": "1-48",
@@ -2142,7 +4350,45 @@ window.QUESTION_BANK = {
     "0c505b8e75"
    ],
    "explanation": "AWS Private CA is a managed private certificate authority. It issues and revokes certificates for use inside an organization, such as mutual TLS between services, without the company running CA software itself.",
-   "resource": "https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html"
+   "resource": "https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "AWS Private CA"
+     },
+     {
+      "e": "issue / revoke"
+     },
+     {
+      "k": [
+       {
+        "n": "Service A cert"
+       },
+       {
+        "n": "Service B cert"
+       }
+      ]
+     },
+     {
+      "e": ""
+     },
+     {
+      "g": "EKS",
+      "c": [
+       {
+        "n": "Service A"
+       },
+       {
+        "e": "mutual TLS"
+       },
+       {
+        "n": "Service B"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-56",
@@ -2175,7 +4421,45 @@ window.QUESTION_BANK = {
     "b8fb28010f"
    ],
    "explanation": "Multi-Region keys are sets of KMS keys in different Regions that share the same key ID and key material, so data encrypted in one Region can be decrypted in another without re-encrypting it or calling across Regions.",
-   "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html"
+   "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html",
+   "diagram": [
+    [
+     {
+      "g": "us-east-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Primary multi-Region key"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Encrypted data"
+       }
+      ]
+     },
+     {
+      "e": "same key material",
+      "d": 1
+     },
+     {
+      "g": "eu-west-1",
+      "c": [
+       {
+        "h": 1,
+        "n": "Replica key"
+       },
+       {
+        "e": ""
+       },
+       {
+        "n": "Decrypt locally"
+       }
+      ]
+     }
+    ]
+   ]
   },
   {
    "id": "1-60",
@@ -2208,7 +4492,29 @@ window.QUESTION_BANK = {
     "992a7ea348"
    ],
    "explanation": "With Object Ownership set to Bucket owner enforced, ACLs are turned off and the bucket owner automatically owns every object in the bucket, whichever account uploads it.",
-   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html"
+   "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html",
+   "diagram": [
+    [
+     {
+      "n": "Partner accounts"
+     },
+     {
+      "e": "upload"
+     },
+     {
+      "h": 1,
+      "n": "Object Ownership",
+      "s": "Bucket owner enforced, ACLs off"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Logging bucket",
+      "s": "owner owns every object"
+     }
+    ]
+   ]
   },
   {
    "id": "1-62",
@@ -2241,7 +4547,28 @@ window.QUESTION_BANK = {
     "e68c44db42"
    ],
    "explanation": "EBS encryption by default is a per-Region account setting. Once it's on, every new EBS volume, and every snapshot copied from an unencrypted snapshot, is encrypted automatically with the default or a chosen KMS key.",
-   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/encryption-by-default.html"
+   "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/encryption-by-default.html",
+   "diagram": [
+    [
+     {
+      "h": 1,
+      "n": "EBS encryption by default",
+      "s": "per Region"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Any new volume"
+     },
+     {
+      "e": ""
+     },
+     {
+      "n": "Encrypted with KMS key"
+     }
+    ]
+   ]
   },
   {
    "id": "2-01",

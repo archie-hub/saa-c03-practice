@@ -16,6 +16,11 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 **D.** The root user can't be deleted or have its password permanently removed, and it already has full access. Best practice is to enable MFA, avoid creating root access keys, and use other identities for everyday work.
 
+```diagram
+Root user -> *MFA | enabled on root -> Root-only tasks | rarely
+Founder & Contractor -> *IAM Identity Center | or IAM roles -> Daily work
+```
+
 Why not the others:
 - **A.** Permissions boundaries apply only to IAM users and roles. They can't be attached to the root user, so they can't limit what it does.
 - **B.** AWS recommends not creating root access keys at all. Keeping them in Secrets Manager still leaves long-term, all-powerful keys that could leak.
@@ -33,6 +38,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-pract
 <details><summary>Answer</summary>
 
 **C.** Instance profiles deliver temporary, automatically rotated credentials to the instance, removing the need for any long-term access keys at all.
+
+```diagram
+*IAM role | least privilege -(instance profile)-> [EC2 instance: Reporting job] -(temporary credentials)-> S3 bucket | sales exports
+```
 
 Why not the others:
 - **A.** This makes objects readable by anyone sending requests from that address, relying on network location instead of identity. It's public access, which S3 Block Public Access exists to prevent.
@@ -52,6 +61,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-
 
 **B.** SCPs set the maximum permissions for every principal in the member accounts under an OU, including administrators (but not the management account), so a well-written deny SCP can block both actions everywhere in the OU at once.
 
+```diagram
+*SCP | deny-list -(attached to)-> [Sandbox OU: Account admins & Users and roles] -x(StopLogging)-> CloudTrail
+```
+
 Why not the others:
 - **A.** Config remediation reacts after the fact: CloudTrail stays off until Config notices and turns it back on. It also can't stop an account from leaving the organization.
 - **C.** Administrators in each account can edit or detach permissions boundaries, and boundaries must be attached to every user and role one at a time, so they can't enforce this OU-wide.
@@ -69,6 +82,10 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **A.** An action is allowed only if both the SCP and an IAM policy allow it. SCPs never grant access on their own and don't apply to the management account.
+
+```diagram
+SCP | maximum allowed & IAM policy | what is granted -(both must allow)-> *Effective permissions | the overlap
+```
 
 Why not the others:
 - **B.** SCPs never grant permissions. An identity-based or resource-based policy must still allow the action for it to succeed.
@@ -88,6 +105,11 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 
 **D.** IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source, without duplicating passwords.
 
+```diagram
+Employee -(AD credentials)-> *IAM Identity Center | AD as identity source -> [AWS Organizations: Account 1 & Account 2 & Account 15]
+*IAM Identity Center | AD as identity source ~(verify password)~> On-premises AD
+```
+
 Why not the others:
 - **A.** Cognito user pools are for customer-facing app sign-in. They don't provide workforce single sign-on to the AWS console across accounts.
 - **B.** Storing copies of AD passwords is exactly what the company wants to avoid, and it doesn't provide a sign-in portal.
@@ -105,6 +127,11 @@ Resource: <https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.htm
 <details><summary>Answer</summary>
 
 **B.** Cross-account role delegation hands out short-lived credentials from AWS STS, is fully logged in CloudTrail, and can simply not be renewed once the migration ends — no keys to revoke.
+
+```diagram
+[Account A: Developer] -(sts:AssumeRole)-> [Account B: *IAM role | trusts Account A -> DynamoDB tables]
+AWS STS -(short-lived credentials)-> Developer -(every call)-> CloudTrail | audit log
+```
 
 Why not the others:
 - **A.** Shared long-term access keys aren't tied to the developer, don't expire on their own, and have to be revoked by hand when the migration ends.
@@ -124,6 +151,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-accou
 
 **A.** A permissions boundary sets the maximum permissions an identity-based policy can grant to an IAM entity. It's often required as a condition on `iam:CreateRole` so self-service role creation can't exceed it.
 
+```diagram
+Developer's policy | may grant anything -> *Permissions boundary | fixed ceiling -> Effective permissions | overlap of both
+```
+
 Why not the others:
 - **B.** Firewall Manager centrally manages WAF, Shield, security group and Network Firewall policies. It doesn't limit IAM permissions.
 - **C.** Resource-based policies control who can access a particular resource. They can't cap what a role is allowed to do across all services.
@@ -141,6 +172,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boun
 <details><summary>Answer</summary>
 
 **A.** In policy evaluation logic, an explicit deny in any applicable policy — including an SCP — always wins over an allow elsewhere.
+
+```diagram
+Analyst -(s3:DeleteObject)-> Group policy | allow s3:* -> SCP | explicit deny -x-> *Request denied | explicit deny wins
+```
 
 Why not the others:
 - **B.** SCPs apply to every AWS service's actions, including S3.
@@ -160,6 +195,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_e
 
 **B.** User pools handle the user directory and tokens. Identity pools exchange those tokens for scoped STS credentials, for example using `${cognito-identity.amazonaws.com:sub}` in the policy, which scales to millions of users far better than per-user IAM identities.
 
+```diagram
+Mobile user -(sign up / sign in)-> *Cognito user pool -(JWT)-> *Cognito identity pool -(scoped STS credentials)-> S3 | own prefix only
+```
+
 Why not the others:
 - **A.** IAM users are meant for a limited number of people and workloads, not millions of app customers, and each account has a quota on how many it can have.
 - **C.** IAM Identity Center is for employees (workforce) signing in to AWS accounts and business apps, not for public customer sign-up in a mobile app.
@@ -178,6 +217,10 @@ Resource: <https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-ama
 
 **B.** IAM Access Analyzer uses automated reasoning to find resource policies that grant access to principals outside your defined zone of trust.
 
+```diagram
+*IAM Access Analyzer | zone of trust: organization -(scans)-> S3 & KMS & IAM roles & Lambda -> Finding | external access
+```
+
 Why not the others:
 - **A.** Amazon Inspector scans workloads for software vulnerabilities and network exposure. It doesn't analyze resource policies for external access.
 - **C.** AWS Artifact is where you download AWS's own compliance reports and agreements.
@@ -195,6 +238,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analy
 <details><summary>Answer</summary>
 
 **A.** Control Tower sets up a landing zone on top of Organizations with preventive (SCP) and detective (Config) controls, and automates account vending through Account Factory.
+
+```diagram
+*AWS Control Tower -> Account Factory | new account -> [Landing zone: SCP guardrails & Config detective controls & Central logging]
+```
 
 Why not the others:
 - **B.** Systems Manager manages and operates instances and resources. It doesn't create accounts or set up a landing zone with guardrails.
@@ -215,6 +262,12 @@ Resource: <https://docs.aws.amazon.com/controltower/latest/userguide/what-is-con
 
 **B, E.** IAM users and roles can be granted billing permissions directly, so the root user doesn't need to be reserved for billing, and shared credentials or embedded keys work against least privilege and auditability.
 
+```diagram
+New role -> *Least privilege | at the start -(IAM last-accessed data)-> Refined policy
+App or user -> *Role or federation -(temporary credentials)-> AWS APIs
+Long-term access keys -x-> AWS APIs
+```
+
 Why not the others:
 - **A.** A shared IAM user means no one can tell which person did what, which breaks accountability and auditing.
 - **C.** Long-term keys baked into an AMI end up on every copy of the image, can leak easily, and are hard to rotate.
@@ -232,6 +285,10 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html>
 <details><summary>Answer</summary>
 
 **A.** An organization trail records management events for every member account into one place. Log file validation detects tampering, and Object Lock on the destination bucket prevents deletion or modification.
+
+```diagram
+[Organization: Account 1 & Account 2 & Account 40] -> *Organization trail | log file validation -> *Central S3 bucket | Object Lock
+```
 
 Why not the others:
 - **B.** VPC Flow Logs record network traffic metadata, not API calls.
@@ -251,6 +308,10 @@ Resource: <https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-t
 
 **C.** AWS Managed Microsoft AD is an actual Microsoft Active Directory run by AWS. It supports Group Policy, Kerberos and domain join, and can form trusts with an on-premises forest, while AWS handles patching and replication.
 
+```diagram
+[AWS: *AWS Managed Microsoft AD | patched by AWS -> EC2 Windows apps | domain-joined] -(forest trust)-> On-premises AD
+```
+
 Why not the others:
 - **A.** Simple AD is a basic, Samba-based directory. It doesn't support trust relationships with other domains.
 - **B.** AD Connector only forwards requests to the on-premises directory. It isn't a directory in AWS, so every sign-in depends on reaching the on-premises domain controllers.
@@ -268,6 +329,10 @@ Resource: <https://docs.aws.amazon.com/directoryservice/latest/admin-guide/direc
 <details><summary>Answer</summary>
 
 **B.** With VPC sharing, the VPC owner uses AWS RAM to share subnets with other accounts in the organization. Those accounts launch their own resources into the shared subnets, but they can't change the VPC's route tables, gateways or network ACLs.
+
+```diagram
+[Networking account: Central VPC | keeps routes, gateways, NACLs] -> *AWS RAM | share subnets -> [App accounts: Shared subnets -> EC2 & RDS]
+```
 
 Why not the others:
 - **A.** Peering connects separate VPCs, so each team would still own and run its own VPC and network.
@@ -287,6 +352,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html>
 
 **D.** Service Catalog lets administrators publish approved, CloudFormation-based products in portfolios. A launch constraint makes a product launch with a specified IAM role, so developers don't need broad permissions of their own.
 
+```diagram
+Developer -(launch from approved list)-> *Service Catalog portfolio -(launch constraint role)-> CloudFormation stack | three-tier web
+Developer -x(no broad IAM rights)-> CloudFormation stack | three-tier web
+```
+
 Why not the others:
 - **A.** Account Factory creates new AWS accounts. It doesn't give developers a catalog of approved infrastructure to launch.
 - **B.** A permissions boundary caps what developers can do, but they'd still need broad permissions to build the stacks themselves, with no approved list.
@@ -304,6 +374,11 @@ Resource: <https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduc
 <details><summary>Answer</summary>
 
 **A.** Attribute-based access control compares tags on the caller with tags on the resource in a single policy (for example, requiring `ec2:ResourceTag/project` to equal `${aws:PrincipalTag/project}`), so new projects need only tags, not new policies.
+
+```diagram
+[Engineer role, tag project=alpha: *ABAC policy | ResourceTag must equal PrincipalTag] -(start / stop)-> EC2 | tag project=alpha
+Same engineer role -x(tags don't match)-> EC2 | tag project=beta
+```
 
 Why not the others:
 - **B.** Per-project groups that list instances are exactly the per-team policy upkeep the company wants to avoid, and the lists go stale as instances change.
@@ -323,6 +398,11 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribu
 
 **C.** An SCP applies to every principal in the member accounts, including administrators, so denying requests whose `aws:RequestedRegion` isn't allowed enforces the rule everywhere. Global services are exempted with `NotAction`, because their requests go to a single Region such as `us-east-1`.
 
+```diagram
+*SCP | deny unless aws:RequestedRegion allowed -> [Member accounts: Admins & Users] -(allowed)-> eu-west-1 & eu-central-1
+[Member accounts: Admins & Users] -x-> Other Regions
+```
+
 Why not the others:
 - **A.** Administrators in each account could edit or remove the policy, and it would need maintaining in every account.
 - **B.** Config rules only detect resources after they've been created in the wrong Region.
@@ -340,6 +420,11 @@ Resource: <https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manag
 <details><summary>Answer</summary>
 
 **D.** A unique external ID in the trust policy's condition means the vendor can assume the role only when acting for this specific customer, which stops other customers from tricking the vendor into using it.
+
+```diagram
+Vendor -(AssumeRole + ExternalId)-> [Customer account: *Role trust policy | requires sts:ExternalId] -> Read-only access
+Other customer's request via vendor -x(wrong or no ExternalId)-> *Role trust policy | requires sts:ExternalId
+```
 
 Why not the others:
 - **A.** The vendor's systems assume the role automatically and can't supply MFA, and MFA doesn't show which customer the vendor is acting for.
@@ -363,6 +448,11 @@ Resource: <https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html
 
 **A.** AWS WAF inspects HTTP(S) requests at Layer 7. AWS Managed Rules include SQLi and XSS rule sets that can be attached to the ALB in minutes.
 
+```diagram
+Users -> *AWS WAF | SQLi and XSS managed rules -> ALB -> Web app
+Attackers -x(SQLi / XSS)-> *AWS WAF | SQLi and XSS managed rules
+```
+
 Why not the others:
 - **B.** Shield Standard protects against common network and transport-layer DDoS attacks. It doesn't inspect requests for SQL injection or XSS.
 - **C.** GuardDuty detects threats from logs and reports findings. It doesn't block malicious HTTP requests.
@@ -380,6 +470,11 @@ Resource: <https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.htm
 <details><summary>Answer</summary>
 
 **B.** Shield Advanced adds Shield Response Team (SRT) access, enhanced detection, and DDoS cost protection for scaling charges. Shield Standard is free and automatic but offers none of these.
+
+```diagram
+UDP reflection flood -> *Shield Advanced -> EC2 fleet
+*Shield Advanced -> Shield Response Team & Attack diagnostics & Cost protection | scaling charges
+```
 
 Why not the others:
 - **A.** AWS WAF filters HTTP(S) requests at Layer 7. It doesn't absorb UDP reflection floods, and it doesn't include SRT access or DDoS cost protection.
@@ -399,6 +494,10 @@ Resource: <https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.
 
 **A.** Security groups work at the ENI level, are stateful, and can only allow traffic. NACLs work at the subnet level, are stateless, and evaluate numbered rules — including deny rules — in order.
 
+```diagram
+Traffic -> [Subnet boundary: *Network ACL | stateless, allow + deny] -> [Instance ENI: *Security group | stateful, allow only] -> EC2
+```
+
 Why not the others:
 - **B.** This is reversed: security groups apply to network interfaces (instances), and network ACLs apply to subnets.
 - **C.** This is reversed: security groups are stateful and allow-only, while network ACLs are stateless and support deny rules.
@@ -416,6 +515,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-secur
 <details><summary>Answer</summary>
 
 **C.** Security groups can't deny traffic. A single NACL deny rule on the subnet (or an AWS WAF rule, for HTTP/S traffic) blocks the address for every instance at once.
+
+```diagram
+Attacker IP -x(NACL deny rule)-> [Subnet: *Network ACL -> 25 instances | each with own security group]
+```
 
 Why not the others:
 - **A.** Detaching the internet gateway cuts off all internet traffic for the whole VPC, not just the one attacker.
@@ -435,6 +538,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.htm
 
 **D.** A NAT gateway lets instances in a private subnet initiate outbound IPv4 traffic while blocking unsolicited inbound connections from the internet. (For IPv6, use an egress-only internet gateway instead.)
 
+```diagram
+[Private subnet: EC2 fleet] -(outbound only)-> [Public subnet: *NAT gateway] -> Internet gateway -> Patch repositories
+Internet -x(unsolicited inbound)-> *NAT gateway
+```
+
 Why not the others:
 - **A.** An Elastic IP only works through an internet gateway route, which would make the instances reachable from the internet, the opposite of the requirement.
 - **B.** A virtual private gateway connects the VPC to an on-premises network over VPN, not to the internet.
@@ -452,6 +560,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
 <details><summary>Answer</summary>
 
 **D.** Gateway endpoints (for S3 and DynamoDB) are free and are added to route tables, eliminating the NAT data-processing charge for that traffic. Interface endpoints work too, but are billed per hour and per GB.
+
+```diagram
+[Private subnet: 200 EC2 instances] -(route table entry)-> *S3 gateway endpoint | free -> Amazon S3
+[Private subnet: 200 EC2 instances] ~(bypassed)~> NAT gateway | per-GB charge
+```
 
 Why not the others:
 - **A.** Direct Connect links an on-premises network to AWS. It doesn't change how EC2 instances in a VPC reach S3, and it adds significant cost.
@@ -471,6 +584,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.
 
 **A.** PrivateLink exposes a service in one direction through interface endpoints and works even when the customer CIDRs overlap with each other or with the provider's VPC — something VPC peering and transit gateway attachments can't do.
 
+```diagram
+[Customer VPC | 10.0.0.0/16: *Interface endpoint] -(PrivateLink)-> *Endpoint service -> [Provider VPC: Network Load Balancer -> Pricing API]
+```
+
 Why not the others:
 - **B.** Transit gateways can't route between VPCs with overlapping CIDRs, and they give customers network-level routing into the provider's VPC.
 - **C.** An internet-facing load balancer isn't private, and maintaining IP allowlists for 300 customers is fragile.
@@ -488,6 +605,10 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-
 <details><summary>Answer</summary>
 
 **B.** GuardDuty continuously analyzes CloudTrail, VPC Flow Logs, and DNS logs (among other sources) using threat intelligence and machine learning, with nothing for the customer to deploy or manage.
+
+```diagram
+VPC Flow Logs & CloudTrail events & DNS query logs -> *Amazon GuardDuty | ML + threat intel -> Findings | crypto mining, C2, stolen keys
+```
 
 Why not the others:
 - **A.** Amazon Macie discovers sensitive data such as PII in S3. It doesn't analyze logs for threats.
@@ -507,6 +628,10 @@ Resource: <https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.htm
 
 **A.** Amazon Inspector automatically and continually scans EC2 instances, container images in ECR, and Lambda functions for known vulnerabilities (CVEs) and network reachability issues.
 
+```diagram
+*Amazon Inspector -(continuous scans)-> EC2 instances & ECR images & Lambda functions -> CVE and network exposure findings
+```
+
 Why not the others:
 - **B.** Amazon Detective helps investigate the root cause of security findings. It doesn't scan for vulnerabilities.
 - **C.** Security Hub aggregates findings from other services, including Inspector, but doesn't scan workloads for CVEs itself.
@@ -524,6 +649,10 @@ Resource: <https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.h
 <details><summary>Answer</summary>
 
 **D.** Security Hub aggregates findings from GuardDuty, Inspector, Macie, and other sources, runs its own automated checks against security standards, and produces an overall score per account. Detective is used for deep investigation, not aggregation or scoring.
+
+```diagram
+GuardDuty & Inspector & Macie -> *AWS Security Hub -> Security score & Standards checks
+```
 
 Why not the others:
 - **A.** Trusted Advisor runs best-practice checks, but it doesn't aggregate GuardDuty, Inspector and Macie findings or score accounts against security standards.
@@ -543,6 +672,11 @@ Resource: <https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-secu
 
 **C.** Secrets Manager has built-in, Lambda-based rotation for RDS, Aurora, Redshift, and DocumentDB, so the team doesn't have to build the rotation logic itself.
 
+```diagram
+App -(get secret)-> *Secrets Manager -(connect)-> RDS for MySQL
+*Secrets Manager -(every 30 days)-> Rotation Lambda | AWS-provided -> RDS for MySQL | new password
+```
+
 Why not the others:
 - **A.** Parameter Store has no built-in automatic rotation for database passwords.
 - **B.** KMS key rotation changes the key material used for encryption. It doesn't rotate a database password.
@@ -560,6 +694,11 @@ Resource: <https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-
 <details><summary>Answer</summary>
 
 **A.** Referencing security groups by ID (rather than IP ranges) keeps access tightly scoped tier-to-tier even as instances scale in and out, and keeping the app and database tiers out of public subnets removes them from direct internet reachability.
+
+```diagram
+Internet -> [Public subnets: ALB] -> [Private subnets: App tier -(port 3306, SG reference)-> *DB | SG allows app tier SG only]
+Internet -x-> DB
+```
 
 Why not the others:
 - **B.** With every tier in private subnets there's no internet-facing entry point, and one shared security group lets every tier reach the database.
@@ -579,6 +718,11 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.
 
 **B.** A Cognito user pool authorizer validates the JWT on each request without requiring SigV4 signing or IAM credentials in the mobile app.
 
+```diagram
+Mobile app -(JWT from user pool)-> [API Gateway: *Cognito user pool authorizer] -> Backend
+Request without valid token -x-> *Cognito user pool authorizer
+```
+
 Why not the others:
 - **A.** Per-client IAM users don't scale for app users, and they require SigV4 signing in the app, which the team wants to avoid.
 - **C.** API Gateway is a managed public endpoint, so network ACLs don't apply to it, and an IP address doesn't identify a signed-in user.
@@ -596,6 +740,11 @@ Resource: <https://docs.aws.amazon.com/apigateway/latest/developerguide/apigatew
 <details><summary>Answer</summary>
 
 **A.** Session Manager uses the SSM agent and IAM policies instead of SSH keys or open inbound ports, and it can log session activity to S3 or CloudWatch Logs for audit.
+
+```diagram
+Admin -(IAM-authorized session)-> *Session Manager -(SSM agent)-> [Private subnet: EC2 | no port 22 open]
+*Session Manager -> Session logs | S3 or CloudWatch Logs
+```
 
 Why not the others:
 - **B.** An Elastic IP makes the instances reachable from the internet and still relies on SSH keys and an open port 22.
@@ -615,6 +764,10 @@ Resource: <https://docs.aws.amazon.com/systems-manager/latest/userguide/session-
 
 **D.** AWS Network Firewall provides stateful inspection and domain-list filtering, and Firewall Manager can push a common policy to every account and VPC in the organization, including new ones as they're created.
 
+```diagram
+*Firewall Manager | central policy -> [Organization: VPC 1 & VPC 2 & New VPCs] -> *Network Firewall | stateful + domain filtering
+```
+
 Why not the others:
 - **A.** Private hosted zones answer DNS queries for your own domains. They don't inspect or filter traffic.
 - **B.** Security groups filter by IP address and port only. They can't inspect traffic statefully by content or filter by domain name.
@@ -632,6 +785,11 @@ Resource: <https://docs.aws.amazon.com/network-firewall/latest/developerguide/wh
 <details><summary>Answer</summary>
 
 **C.** Site-to-Site VPN uses IPsec tunnels over the internet and can typically be set up within minutes to hours, unlike Direct Connect, which takes weeks to provision and isn't encrypted by default.
+
+```diagram
+On-premises network -(IPsec tunnels over the internet)-> *Site-to-Site VPN -> VPC
+On-premises network ~(weeks later)~> Direct Connect -> VPC
+```
 
 Why not the others:
 - **A.** VPC peering connects two VPCs. It can't connect an on-premises data center.
@@ -651,6 +809,11 @@ Resource: <https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html>
 
 **C.** OAC uses a bucket policy `Condition` tied to the specific distribution, so only that CloudFront distribution can read the bucket. OAC is the current recommended replacement for the legacy OAI approach.
 
+```diagram
+Viewer -> *CloudFront | OAC signs origin requests -> [Private: S3 bucket | policy allows this distribution only]
+Direct request with bucket name -x-> S3 bucket
+```
+
 Why not the others:
 - **A.** Transfer Acceleration speeds up transfers to and from S3. It doesn't restrict who can read the bucket.
 - **B.** CloudFront's IP ranges are shared by every CloudFront customer, so any distribution could read the bucket, and the bucket would be public.
@@ -668,6 +831,10 @@ Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/pr
 <details><summary>Answer</summary>
 
 **B.** Detective automatically builds a behavior graph from sources such as CloudTrail, VPC Flow Logs and GuardDuty findings, so an analyst can pivot from a finding to the related roles, IP addresses and resources, and compare activity with a baseline, without writing queries.
+
+```diagram
+GuardDuty finding -> *Amazon Detective | behavior graph -> Related roles, IPs, resources & Baseline comparison
+```
 
 Why not the others:
 - **A.** Inspector finds software vulnerabilities and network exposure. It doesn't show what a role or instance actually did.
@@ -687,6 +854,11 @@ Resource: <https://docs.aws.amazon.com/detective/latest/userguide/what-is-detect
 
 **A.** SecureString parameters are encrypted with KMS and controlled with IAM, and standard-tier parameters have no additional charge. Secrets Manager adds features such as automatic rotation, but charges for each secret.
 
+```diagram
+App -(GetParameter, decrypt)-> *Parameter Store | SecureString, standard tier -> AWS KMS | encryption
+Engineer -(update yearly)-> *Parameter Store | SecureString, standard tier
+```
+
 Why not the others:
 - **B.** Secrets Manager charges for each secret, and automatic rotation can't help here, because the vendor issues new tokens by hand.
 - **C.** Plain-text environment variables aren't encrypted with KMS, and anyone who can read the task definition can see them.
@@ -704,6 +876,10 @@ Resource: <https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-
 <details><summary>Answer</summary>
 
 **A.** Route 53 Resolver DNS Firewall filters DNS queries that leave your VPCs through the Resolver, and it can block domains on AWS managed lists of known malicious domains.
+
+```diagram
+EC2 -(DNS query)-> Route 53 Resolver -> *DNS Firewall | AWS managed domain lists -x(malicious domain)-> C2 server
+```
 
 Why not the others:
 - **B.** Security groups allow traffic by IP address and port only. They can't have deny rules or match domain names.
@@ -723,6 +899,11 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-dn
 
 **C.** Verified Access provides access to corporate applications without a VPN. It evaluates each request against policies that use identity from an identity provider and device posture from a device-management provider.
 
+```diagram
+Employee, no VPN -> *AWS Verified Access -(identity + device checks)-> Internal web apps
+Corporate IdP & Device management -> *AWS Verified Access
+```
+
 Why not the others:
 - **A.** Client VPN is still a VPN, and it grants network access instead of checking each request against identity and device posture.
 - **B.** IP allowlists don't identify users or check device security, and employees working from anywhere have changing IP addresses.
@@ -740,6 +921,11 @@ Resource: <https://docs.aws.amazon.com/verified-access/latest/ug/what-is-verifie
 <details><summary>Answer</summary>
 
 **B.** A presigned URL grants time-limited permission for one specific operation, such as uploading to one key, using the backend's own credentials, so the bucket stays private.
+
+```diagram
+Browser -(request upload)-> Backend -(signs with its own credentials)-> *Presigned URL | one key, expires in 10 min
+Browser -(PUT with presigned URL)-> [Private bucket: S3 | that one key only]
+```
 
 Why not the others:
 - **A.** Long-term access keys let anyone who obtains them use them indefinitely, far beyond one upload.
@@ -759,6 +945,11 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned
 
 **B.** A bucket policy can deny any request that doesn't arrive through a specific VPC endpoint by checking `aws:SourceVpce`, which blocks requests from the internet even when the caller's credentials are valid.
 
+```diagram
+[Analytics VPC: EC2] -(gateway endpoint vpce-1)-> *Bucket policy | deny unless aws:SourceVpce matches -> S3 bucket
+Laptop on the internet -x(valid credentials, wrong path)-> *Bucket policy | deny unless aws:SourceVpce matches
+```
+
 Why not the others:
 - **A.** Block Public Access stops public access, but authenticated users with valid credentials could still reach the bucket from anywhere.
 - **C.** Gateway endpoints don't use security groups. They're targets in route tables.
@@ -776,6 +967,11 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-
 <details><summary>Answer</summary>
 
 **A.** IMDSv2 requires a session token, obtained with a PUT request, before metadata can be read. That blocks most SSRF attacks, which can only make simple GET requests to the metadata endpoint.
+
+```diagram
+Attacker -(SSRF: simple GET)-> Web app -x-> *IMDSv2 | token required
+SDK on instance -(PUT for session token, then GET)-> *IMDSv2 | token required -> Role credentials
+```
 
 Why not the others:
 - **B.** Embedded access keys are long-term credentials, which are even more damaging if stolen.
@@ -795,6 +991,10 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-insta
 
 **B.** An interface endpoint (powered by AWS PrivateLink) places private network interfaces for Secrets Manager inside the VPC, so the functions reach the service over private IP addresses without any internet access.
 
+```diagram
+[Private subnet, no NAT: Lambda] -(private IP)-> *Interface endpoint | Secrets Manager -> AWS Secrets Manager
+```
+
 Why not the others:
 - **A.** Gateway endpoints exist only for S3 and DynamoDB.
 - **C.** AWS services can't be reached by peering with a service VPC. Private access to them goes through VPC endpoints.
@@ -812,6 +1012,11 @@ Resource: <https://docs.aws.amazon.com/secretsmanager/latest/userguide/vpc-endpo
 <details><summary>Answer</summary>
 
 **C.** A WAF rate-based rule counts requests from each IP address (or another key) over a time window, and blocks or challenges clients that exceed the limit, while normal buyers are unaffected.
+
+```diagram
+Clients -> CloudFront -> [AWS WAF web ACL: *Rate-based rule | per IP per window -> Managed SQLi rules] -> Ticketing site
+Abusive IPs -x(over the limit)-> *Rate-based rule | per IP per window
+```
 
 Why not the others:
 - **A.** Shield Standard protects against network and transport-layer DDoS attacks, which it already does. It doesn't limit HTTP request rates.
@@ -835,6 +1040,11 @@ Resource: <https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statem
 
 **C.** SSE-KMS logs key usage in CloudTrail, and a customer managed key gives full control over who can use it through the key's own policy — independent of the bucket policy.
 
+```diagram
+App -> S3 -(encrypt / decrypt calls)-> *KMS customer managed key | key policy controls users -> CloudTrail | logs each use
+Engineer -x(removed from key policy)-> *KMS customer managed key
+```
+
 Why not the others:
 - **A.** With SSE-S3, S3 manages the keys, so there's no key policy to revoke one engineer's use of the key and no per-request KMS audit trail.
 - **B.** With client-side encryption, AWS never sees the key, so key usage can't be audited in CloudTrail, and it isn't server-side encryption.
@@ -852,6 +1062,11 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncrypt
 <details><summary>Answer</summary>
 
 **D.** A bucket-level key cuts the number of calls to KMS by up to 99% by reusing a time-limited data key for many objects, directly reducing both throttling and cost.
+
+```diagram
+S3 -(once per time window)-> *S3 Bucket Key -(encrypts many objects)-> Object data keys
+S3 ~(far fewer calls)~> AWS KMS
+```
 
 Why not the others:
 - **A.** Versioning keeps previous versions of objects. It has no effect on how often S3 calls KMS.
@@ -871,6 +1086,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html
 
 **D.** In Compliance mode, no user — including the root user or an account with full administrative permissions — can shorten the retention period or delete the object before it expires. Governance mode can be bypassed by users with a special permission.
 
+```diagram
+Anyone, even root -x(delete or overwrite)-> *Object Lock Compliance mode | 7-year retention -> Trade logs
+```
+
 Why not the others:
 - **A.** MFA Delete only requires MFA to delete object versions. The root user with the MFA device can still delete them, and objects can still be overwritten with new versions.
 - **B.** A bucket policy can be changed or removed by the root user or an administrator, so it can't guarantee nobody deletes objects.
@@ -888,6 +1107,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.htm
 <details><summary>Answer</summary>
 
 **D.** Encryption at rest can only be set when an RDS instance is created, so an existing unencrypted instance must be snapshotted, the snapshot copied with encryption turned on, and a new instance restored from that encrypted copy.
+
+```diagram
+Unencrypted RDS -> Snapshot -(copy with KMS key)-> *Encrypted snapshot -(restore)-> Encrypted RDS instance
+```
 
 Why not the others:
 - **A.** Encryption at rest can't be turned on for an existing unencrypted RDS instance.
@@ -907,6 +1130,10 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encry
 
 **C.** Amazon Macie uses machine learning and pattern matching to discover, classify, and report on sensitive data such as PII stored in S3.
 
+```diagram
+S3 data lake -> *Amazon Macie | ML + pattern matching -> PII findings | names, IDs, card numbers
+```
+
 Why not the others:
 - **A.** GuardDuty detects threats from activity logs. It doesn't classify the contents of S3 objects.
 - **B.** DataBrew can flag PII in a dataset you profile, but it's a data-preparation tool. It doesn't automatically discover sensitive data across all of your S3 buckets.
@@ -924,6 +1151,11 @@ Resource: <https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html>
 <details><summary>Answer</summary>
 
 **B.** ACM public certificates are free and renew automatically as long as they remain in use and DNS validation stays in place. Note that the certificate used by CloudFront must be requested in `us-east-1`.
+
+```diagram
+*ACM public certificate | free, auto-renews -> CloudFront | cert in us-east-1
+*ACM public certificate | free, auto-renews -> ALB | cert in its Region
+```
 
 Why not the others:
 - **A.** Browsers don't trust self-signed certificates, and certificates uploaded to IAM don't renew themselves.
@@ -943,6 +1175,10 @@ Resource: <https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html>
 
 **A.** CloudHSM provisions single-tenant, FIPS 140-2 Level 3 validated hardware security modules that the customer controls directly, unlike the shared infrastructure behind AWS KMS's AWS managed keys.
 
+```diagram
+App -> [Your VPC: *CloudHSM cluster | single-tenant, FIPS 140-2 Level 3] -> Keys under your exclusive control
+```
+
 Why not the others:
 - **B.** SSE-S3 is S3's own server-side encryption, with keys managed entirely by S3. It doesn't give you dedicated HSMs.
 - **C.** AWS managed keys live in KMS's shared, multi-tenant service, and AWS controls them, not the customer.
@@ -960,6 +1196,11 @@ Resource: <https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.ht
 <details><summary>Answer</summary>
 
 **B.** Encrypting data at rest doesn't protect data in transit. A bucket policy that denies requests when `aws:SecureTransport` is `false` forces every request to use HTTPS.
+
+```diagram
+Client -(HTTPS)-> *Bucket policy | deny if aws:SecureTransport false -> S3 bucket
+Client -x(plain HTTP)-> *Bucket policy | deny if aws:SecureTransport false
+```
 
 Why not the others:
 - **A.** Default encryption protects data at rest. It doesn't stop clients from using plain HTTP.
@@ -979,6 +1220,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-p
 
 **C.** S3 Block Public Access, turned on at the account level, overrides any bucket policy or ACL that would otherwise make a bucket or object public — for existing and future buckets alike.
 
+```diagram
+Bucket policy or ACL | making it public -x-> *Block Public Access | account level -> All buckets | existing and new
+```
+
 Why not the others:
 - **A.** Versioning with MFA Delete protects against deletion. It doesn't stop a bucket from being made public.
 - **B.** Access logs and alerts only tell you after a bucket has already been made public.
@@ -996,6 +1241,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-
 <details><summary>Answer</summary>
 
 **D.** Sharing the snapshot alone isn't enough for a customer managed key: the target account also needs to be granted use of that key in its key policy before it can decrypt and restore from the snapshot. (Snapshots encrypted with the AWS managed key `aws/ebs` can't be shared across accounts at all.)
+
+```diagram
+[Your account: Encrypted snapshot & *KMS key policy | allow partner account] -(share snapshot + key)-> [Partner account: Restored EBS volume]
+```
 
 Why not the others:
 - **A.** Encrypted snapshots can't be shared publicly. Only unencrypted snapshots can.
@@ -1015,6 +1264,10 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapsh
 
 **D.** AWS Backup centralizes policy-driven backup across EBS, RDS, DynamoDB, EFS, and other services, supports cross-Region copy, and Vault Lock can make a vault's policy immutable — even to the account's own administrators.
 
+```diagram
+*Backup plan -> EBS & RDS & DynamoDB & EFS -> *Backup vault | Vault Lock -(cross-Region copy)-> Vault in second Region
+```
+
 Why not the others:
 - **A.** Cross-Region Replication copies S3 objects only. Exporting each service's data yourself isn't a backup service, and there's no vault lock.
 - **B.** DataSync moves file and object data. It doesn't back up RDS or DynamoDB, or enforce retention.
@@ -1032,6 +1285,11 @@ Resource: <https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.h
 <details><summary>Answer</summary>
 
 **A.** Automatic rotation for a customer managed symmetric key defaults to every 365 days, and the period can be customized (AWS supports a range between 90 and 2,560 days). Old key material is retained so previously encrypted data can still be decrypted.
+
+```diagram
+Key material v1 -(365 days, default)-> Key material v2 -(customizable 90-2,560 days)-> Key material v3
+Old ciphertext -(old material kept)-> *Still decryptable
+```
 
 Why not the others:
 - **B.** Secrets Manager's rotation schedule has nothing to do with KMS. KMS rotates customer managed keys every 365 days by default.
@@ -1051,6 +1309,11 @@ Resource: <https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.htm
 
 **D.** AWS Config continuously records configuration changes and evaluates resources against rules like required encryption, flagging drift and keeping a configuration history — which is different from CloudTrail's record of API calls.
 
+```diagram
+Resources | e.g. EBS volumes -> *AWS Config -> Rules | encryption required -> Compliant or noncompliant
+*AWS Config -> Configuration history | per resource
+```
+
 Why not the others:
 - **A.** CloudTrail records API calls. It doesn't evaluate resources against rules or keep configuration history.
 - **B.** Amazon Inspector scans for software vulnerabilities and network exposure. It doesn't check resource configurations against custom rules.
@@ -1068,6 +1331,10 @@ Resource: <https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig
 <details><summary>Answer</summary>
 
 **C.** AWS Artifact provides on-demand access to AWS's compliance reports and agreements, including SOC and PCI reports, for exactly this kind of customer due-diligence request.
+
+```diagram
+Cloud team -> *AWS Artifact | on demand -> SOC 2 & PCI DSS reports -> Prospective customer
+```
 
 Why not the others:
 - **A.** AWS Config evaluates your own resources' configurations. It doesn't provide AWS's compliance reports.
@@ -1088,6 +1355,10 @@ Resource: <https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.h
 
 **C, E.** The HTTPS listener terminates TLS using the ACM certificate, and the redirect rule on the HTTP listener sends clients that connect over plain HTTP to HTTPS instead of serving them unencrypted. The other options protect data at rest, which this checklist item already covers.
 
+```diagram
+Browser -(http://)-> *HTTP listener | redirect rule -(redirect)-> Browser -(https://)-> *HTTPS listener | ACM certificate -> EC2 targets
+```
+
 Why not the others:
 - **A.** SSE-S3 protects data at rest in S3. It's already on and doesn't affect browser-to-ALB traffic.
 - **B.** KMS key rotation is key hygiene for data at rest. It doesn't encrypt traffic in transit.
@@ -1105,6 +1376,10 @@ Resource: <https://docs.aws.amazon.com/elasticloadbalancing/latest/application/c
 <details><summary>Answer</summary>
 
 **C.** Audit Manager continuously collects evidence from sources such as AWS Config, CloudTrail and Security Hub, maps it to the controls in a framework such as PCI DSS, and generates assessment reports to share with auditors.
+
+```diagram
+AWS Config & CloudTrail & Security Hub -(evidence)-> *Audit Manager | PCI DSS framework -> Assessment report | for auditor
+```
 
 Why not the others:
 - **A.** Artifact provides AWS's own compliance reports for the infrastructure AWS runs. It says nothing about the company's own controls.
@@ -1124,6 +1399,10 @@ Resource: <https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.ht
 
 **D.** AWS Private CA is a managed private certificate authority. It issues and revokes certificates for use inside an organization, such as mutual TLS between services, without the company running CA software itself.
 
+```diagram
+*AWS Private CA -(issue / revoke)-> Service A cert & Service B cert -> [EKS: Service A -(mutual TLS)-> Service B]
+```
+
 Why not the others:
 - **A.** Public certificates are for publicly trusted domain names. Internal service identities don't need public trust, and a private CA gives the company control over issuing and revoking them.
 - **B.** KMS asymmetric keys are raw keys for signing and encryption. They aren't certificates, and they have no issuance or revocation.
@@ -1141,6 +1420,10 @@ Resource: <https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.htm
 <details><summary>Answer</summary>
 
 **D.** Multi-Region keys are sets of KMS keys in different Regions that share the same key ID and key material, so data encrypted in one Region can be decrypted in another without re-encrypting it or calling across Regions.
+
+```diagram
+[us-east-1: *Primary multi-Region key -> Encrypted data] ~(same key material)~> [eu-west-1: *Replica key -> Decrypt locally]
+```
 
 Why not the others:
 - **A.** Calling a key in another Region adds cross-Region latency and a dependency on `us-east-1`, which defeats the purpose of disaster recovery.
@@ -1160,6 +1443,10 @@ Resource: <https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-ke
 
 **D.** With Object Ownership set to Bucket owner enforced, ACLs are turned off and the bucket owner automatically owns every object in the bucket, whichever account uploads it.
 
+```diagram
+Partner accounts -(upload)-> *Object Ownership | Bucket owner enforced, ACLs off -> Logging bucket | owner owns every object
+```
+
 Why not the others:
 - **A.** Requiring that ACL still relies on ACLs, and uploads that leave it out are rejected, which is what the team wants to move away from.
 - **B.** Versioning keeps previous versions of objects. It doesn't change who owns them.
@@ -1177,6 +1464,10 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ow
 <details><summary>Answer</summary>
 
 **C.** EBS encryption by default is a per-Region account setting. Once it's on, every new EBS volume, and every snapshot copied from an unencrypted snapshot, is encrypted automatically with the default or a chosen KMS key.
+
+```diagram
+*EBS encryption by default | per Region -> Any new volume -> Encrypted with KMS key
+```
 
 Why not the others:
 - **A.** A Config rule only flags unencrypted volumes after they've been created.
