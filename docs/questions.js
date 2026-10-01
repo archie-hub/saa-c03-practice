@@ -87,6 +87,545 @@ window.QUESTION_BANK = {
    ]
   }
  ],
+ "icons": {
+  "accelerator": {
+   "c": "network",
+   "a": "GA"
+  },
+  "accessanalyzer": {
+   "c": "security",
+   "a": "AA"
+  },
+  "acm": {
+   "c": "security",
+   "a": "ACM"
+  },
+  "alb": {
+   "c": "network",
+   "a": "ALB"
+  },
+  "apigw": {
+   "c": "network",
+   "a": "API"
+  },
+  "appsync": {
+   "c": "integration",
+   "a": "AS"
+  },
+  "arc": {
+   "c": "management",
+   "a": "ARC"
+  },
+  "artifact": {
+   "c": "security",
+   "a": "Art"
+  },
+  "asg": {
+   "c": "compute",
+   "a": "ASG"
+  },
+  "athena": {
+   "c": "analytics",
+   "a": "Ath"
+  },
+  "auditmanager": {
+   "c": "security",
+   "a": "Aud"
+  },
+  "aurora": {
+   "c": "database",
+   "a": "Aur"
+  },
+  "backup": {
+   "c": "storage",
+   "a": "Bkp"
+  },
+  "batch": {
+   "c": "compute",
+   "a": "Bat"
+  },
+  "beanstalk": {
+   "c": "compute",
+   "a": "EB"
+  },
+  "billing": {
+   "c": "cost",
+   "a": "Bill"
+  },
+  "budgets": {
+   "c": "cost",
+   "a": "Bdgt"
+  },
+  "cgw": {
+   "c": "network",
+   "a": "CGW"
+  },
+  "client": {
+   "c": "general",
+   "a": "PC",
+   "dark": 1
+  },
+  "clientvpn": {
+   "c": "network",
+   "a": "CVPN"
+  },
+  "cloudfront": {
+   "c": "network",
+   "a": "CF"
+  },
+  "cloudhsm": {
+   "c": "security",
+   "a": "HSM"
+  },
+  "cloudtrail": {
+   "c": "management",
+   "a": "Trail"
+  },
+  "cloudwan": {
+   "c": "network",
+   "a": "WAN"
+  },
+  "cloudwatch": {
+   "c": "management",
+   "a": "CW"
+  },
+  "cognito": {
+   "c": "security",
+   "a": "Cog"
+  },
+  "computeoptimizer": {
+   "c": "management",
+   "a": "CO"
+  },
+  "config": {
+   "c": "management",
+   "a": "Cfg"
+  },
+  "controltower": {
+   "c": "management",
+   "a": "CT"
+  },
+  "costexplorer": {
+   "c": "cost",
+   "a": "CE"
+  },
+  "datacenter": {
+   "c": "general",
+   "a": "DC",
+   "dark": 1
+  },
+  "datasync": {
+   "c": "migration",
+   "a": "DS"
+  },
+  "dax": {
+   "c": "database",
+   "a": "DAX"
+  },
+  "detective": {
+   "c": "security",
+   "a": "Det"
+  },
+  "directory": {
+   "c": "security",
+   "a": "AD"
+  },
+  "dms": {
+   "c": "migration",
+   "a": "DMS"
+  },
+  "dnsfirewall": {
+   "c": "security",
+   "a": "DNSF"
+  },
+  "documentdb": {
+   "c": "database",
+   "a": "Doc"
+  },
+  "drs": {
+   "c": "storage",
+   "a": "DRS"
+  },
+  "dx": {
+   "c": "network",
+   "a": "DX"
+  },
+  "dxgw": {
+   "c": "network",
+   "a": "DXGW"
+  },
+  "dynamodb": {
+   "c": "database",
+   "a": "DDB"
+  },
+  "ebs": {
+   "c": "storage",
+   "a": "EBS"
+  },
+  "ec2": {
+   "c": "compute",
+   "a": "EC2"
+  },
+  "ecr": {
+   "c": "container",
+   "a": "ECR"
+  },
+  "ecs": {
+   "c": "container",
+   "a": "ECS"
+  },
+  "efs": {
+   "c": "storage",
+   "a": "EFS"
+  },
+  "eigw": {
+   "c": "network",
+   "a": "EIGW"
+  },
+  "eks": {
+   "c": "container",
+   "a": "EKS"
+  },
+  "elasticache": {
+   "c": "database",
+   "a": "EC"
+  },
+  "emr": {
+   "c": "analytics",
+   "a": "EMR"
+  },
+  "endpoint": {
+   "c": "network",
+   "a": "VPCE"
+  },
+  "eni": {
+   "c": "network",
+   "a": "ENI"
+  },
+  "eventbridge": {
+   "c": "integration",
+   "a": "EvB"
+  },
+  "fargate": {
+   "c": "container",
+   "a": "Fgt"
+  },
+  "firehose": {
+   "c": "analytics",
+   "a": "Fire"
+  },
+  "firewall": {
+   "c": "general",
+   "a": "FW",
+   "dark": 1
+  },
+  "firewallmanager": {
+   "c": "security",
+   "a": "FM"
+  },
+  "fis": {
+   "c": "management",
+   "a": "FIS"
+  },
+  "flowlogs": {
+   "c": "network",
+   "a": "Flow"
+  },
+  "fsx": {
+   "c": "storage",
+   "a": "FSx"
+  },
+  "glacier": {
+   "c": "storage",
+   "a": "Glac"
+  },
+  "glue": {
+   "c": "analytics",
+   "a": "Glue"
+  },
+  "guardduty": {
+   "c": "security",
+   "a": "GD"
+  },
+  "gwendpoint": {
+   "c": "network",
+   "a": "GWE"
+  },
+  "gwlb": {
+   "c": "network",
+   "a": "GWLB"
+  },
+  "identitycenter": {
+   "c": "security",
+   "a": "SSO"
+  },
+  "igw": {
+   "c": "network",
+   "a": "IGW"
+  },
+  "inspector": {
+   "c": "security",
+   "a": "Insp"
+  },
+  "instancestore": {
+   "c": "storage",
+   "a": "NVMe",
+   "dark": 1
+  },
+  "internet": {
+   "c": "general",
+   "a": "Web",
+   "dark": 1
+  },
+  "keyspaces": {
+   "c": "database",
+   "a": "Ksp"
+  },
+  "kinesis": {
+   "c": "analytics",
+   "a": "KDS"
+  },
+  "kms": {
+   "c": "security",
+   "a": "KMS"
+  },
+  "lakeformation": {
+   "c": "analytics",
+   "a": "LF"
+  },
+  "lambda": {
+   "c": "compute",
+   "a": "λ"
+  },
+  "lattice": {
+   "c": "network",
+   "a": "Lat"
+  },
+  "localzone": {
+   "c": "compute",
+   "a": "LZ"
+  },
+  "macie": {
+   "c": "security",
+   "a": "Mac"
+  },
+  "memorydb": {
+   "c": "database",
+   "a": "MDB"
+  },
+  "mobile": {
+   "c": "general",
+   "a": "Phone",
+   "dark": 1
+  },
+  "mq": {
+   "c": "integration",
+   "a": "MQ"
+  },
+  "msk": {
+   "c": "analytics",
+   "a": "MSK"
+  },
+  "nacl": {
+   "c": "network",
+   "a": "NACL"
+  },
+  "nat": {
+   "c": "network",
+   "a": "NAT"
+  },
+  "neptune": {
+   "c": "database",
+   "a": "Nep"
+  },
+  "networkfirewall": {
+   "c": "security",
+   "a": "NFW"
+  },
+  "nlb": {
+   "c": "network",
+   "a": "NLB"
+  },
+  "opensearch": {
+   "c": "analytics",
+   "a": "OS"
+  },
+  "organizations": {
+   "c": "management",
+   "a": "Org"
+  },
+  "outposts": {
+   "c": "compute",
+   "a": "Out"
+  },
+  "peering": {
+   "c": "network",
+   "a": "PCX"
+  },
+  "policy": {
+   "c": "security",
+   "a": "Pol"
+  },
+  "privateca": {
+   "c": "security",
+   "a": "PCA"
+  },
+  "privatelink": {
+   "c": "network",
+   "a": "PL"
+  },
+  "quicksight": {
+   "c": "analytics",
+   "a": "QS"
+  },
+  "ram": {
+   "c": "security",
+   "a": "RAM"
+  },
+  "rds": {
+   "c": "database",
+   "a": "RDS"
+  },
+  "rdsproxy": {
+   "c": "database",
+   "a": "Prx"
+  },
+  "redshift": {
+   "c": "analytics",
+   "a": "RS"
+  },
+  "resiliencehub": {
+   "c": "management",
+   "a": "RH"
+  },
+  "resolver": {
+   "c": "network",
+   "a": "Rslv"
+  },
+  "role": {
+   "c": "security",
+   "a": "Role"
+  },
+  "route53": {
+   "c": "network",
+   "a": "R53"
+  },
+  "s3": {
+   "c": "storage",
+   "a": "S3"
+  },
+  "savingsplans": {
+   "c": "cost",
+   "a": "SP"
+  },
+  "scheduler": {
+   "c": "integration",
+   "a": "Sch"
+  },
+  "scp": {
+   "c": "management",
+   "a": "SCP"
+  },
+  "secrets": {
+   "c": "security",
+   "a": "SM"
+  },
+  "securityhub": {
+   "c": "security",
+   "a": "SH"
+  },
+  "server": {
+   "c": "general",
+   "a": "Srv",
+   "dark": 1
+  },
+  "servicecatalog": {
+   "c": "management",
+   "a": "SC"
+  },
+  "shield": {
+   "c": "security",
+   "a": "Shld"
+  },
+  "snowball": {
+   "c": "storage",
+   "a": "Snow"
+  },
+  "sns": {
+   "c": "integration",
+   "a": "SNS"
+  },
+  "sqs": {
+   "c": "integration",
+   "a": "SQS"
+  },
+  "ssm": {
+   "c": "management",
+   "a": "SSM"
+  },
+  "stepfunctions": {
+   "c": "integration",
+   "a": "SFN"
+  },
+  "storagegateway": {
+   "c": "storage",
+   "a": "SGW"
+  },
+  "sts": {
+   "c": "security",
+   "a": "STS"
+  },
+  "tgw": {
+   "c": "network",
+   "a": "TGW"
+  },
+  "timestream": {
+   "c": "database",
+   "a": "TS"
+  },
+  "transfer": {
+   "c": "migration",
+   "a": "SFTP"
+  },
+  "trustedadvisor": {
+   "c": "management",
+   "a": "TA"
+  },
+  "user": {
+   "c": "general",
+   "a": "User",
+   "dark": 1
+  },
+  "users": {
+   "c": "general",
+   "a": "Users",
+   "dark": 1
+  },
+  "verifiedaccess": {
+   "c": "security",
+   "a": "VA"
+  },
+  "vgw": {
+   "c": "network",
+   "a": "VGW"
+  },
+  "vpn": {
+   "c": "network",
+   "a": "VPN"
+  },
+  "waf": {
+   "c": "security",
+   "a": "WAF"
+  },
+  "wavelength": {
+   "c": "compute",
+   "a": "WL"
+  },
+  "xray": {
+   "c": "management",
+   "a": "XRay"
+  }
+ },
  "questions": [
   {
    "id": "1-01",
@@ -120,54 +659,74 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The root user can't be deleted or have its password permanently removed, and it already has full access. Best practice is to enable MFA, avoid creating root access keys, and use other identities for everyday work.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Root user"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "MFA",
-      "s": "enabled on root"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Root-only tasks",
-      "s": "rarely"
-     }
-    ],
-    [
-     {
-      "k": [
+      "k": "group",
+      "c": [
        {
+        "id": "founder",
+        "i": "user",
         "n": "Founder"
        },
        {
+        "id": "contractor",
+        "i": "user",
         "n": "Contractor"
        }
-      ]
+      ],
+      "d": "col",
+      "n": "People"
      },
      {
-      "e": ""
+      "k": "account",
+      "c": [
+       {
+        "id": "root",
+        "i": "user",
+        "h": 1,
+        "n": "Root user",
+        "s": "MFA on, no access keys"
+       },
+       {
+        "id": "idc",
+        "i": "identitycenter",
+        "n": "IAM Identity Center",
+        "s": "or IAM roles"
+       },
+       {
+        "id": "work",
+        "i": "ec2",
+        "n": "Daily work"
+       }
+      ],
+      "d": "col",
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "founder",
+      "b": "root",
+      "e": "root-only tasks"
      },
      {
-      "h": 1,
-      "n": "IAM Identity Center",
-      "s": "or IAM roles"
+      "a": "founder",
+      "b": "idc",
+      "e": "sign in"
      },
      {
-      "e": ""
+      "a": "contractor",
+      "b": "idc",
+      "e": "sign in"
      },
      {
-      "n": "Daily work"
+      "a": "idc",
+      "b": "work",
+      "e": "temporary credentials"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-02",
@@ -201,33 +760,89 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Instance profiles deliver temporary, automatically rotated credentials to the instance, removing the need for any long-term access keys at all.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "IAM role",
-      "s": "least privilege"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "k": "region",
+        "c": [
+         {
+          "k": "row",
+          "c": [
+           {
+            "k": "vpc",
+            "c": [
+             {
+              "k": "private",
+              "c": [
+               {
+                "id": "ec2",
+                "i": "ec2",
+                "n": "Reporting job",
+                "s": "EC2 instance"
+               }
+              ],
+              "n": "Private subnet"
+             }
+            ],
+            "n": "VPC"
+           },
+           {
+            "id": "s3",
+            "i": "s3",
+            "n": "S3 bucket",
+            "s": "sales exports"
+           }
+          ]
+         },
+         {
+          "k": "row",
+          "c": [
+           {
+            "id": "role",
+            "i": "role",
+            "h": 1,
+            "n": "IAM role",
+            "s": "least privilege"
+           },
+           {
+            "id": "sts",
+            "i": "sts",
+            "n": "AWS STS"
+           }
+          ]
+         }
+        ],
+        "d": "col",
+        "n": "us-west-2"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
+      "a": "role",
+      "b": "ec2",
+      "no": 1,
       "e": "instance profile"
      },
      {
-      "g": "EC2 instance",
-      "c": [
-       {
-        "n": "Reporting job"
-       }
-      ]
+      "a": "sts",
+      "b": "ec2",
+      "no": 2,
+      "e": "rotated temporary credentials"
      },
      {
-      "e": "temporary credentials"
-     },
-     {
-      "n": "S3 bucket",
-      "s": "sales exports"
+      "a": "ec2",
+      "b": "s3",
+      "no": 3,
+      "e": "s3:GetObject"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-03",
@@ -261,40 +876,81 @@ window.QUESTION_BANK = {
    ],
    "explanation": "SCPs set the maximum permissions for every principal in the member accounts under an OU, including administrators (but not the management account), so a well-written deny SCP can block both actions everywhere in the OU at once.",
    "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "SCP",
-      "s": "deny-list"
-     },
-     {
-      "e": "attached to"
-     },
-     {
-      "g": "Sandbox OU",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "mgmt",
+        "i": "organizations",
+        "n": "Management account"
+       },
+       {
+        "k": "account",
+        "c": [
          {
-          "n": "Account admins"
+          "id": "scp",
+          "i": "scp",
+          "h": 1,
+          "n": "SCP",
+          "s": "deny StopLogging, LeaveOrganization"
          },
          {
-          "n": "Users and roles"
+          "id": "admin",
+          "i": "user",
+          "n": "Account admin"
+         },
+         {
+          "k": "col",
+          "c": [
+           {
+            "id": "trail",
+            "i": "cloudtrail",
+            "n": "CloudTrail"
+           },
+           {
+            "id": "org",
+            "i": "organizations",
+            "n": "Leave organization"
+           }
+          ]
          }
-        ]
+        ],
+        "n": "Sandbox OU",
+        "s": "12 accounts"
        }
-      ]
+      ],
+      "n": "AWS Organizations"
+     }
+    ],
+    "f": [
+     {
+      "a": "mgmt",
+      "b": "scp",
+      "no": 1,
+      "e": "attach to OU"
      },
      {
+      "a": "scp",
+      "b": "admin",
+      "no": 2,
+      "e": "applies to admins too"
+     },
+     {
+      "a": "admin",
+      "b": "trail",
       "e": "StopLogging",
-      "x": 1
+      "t": "x"
      },
      {
-      "n": "CloudTrail"
+      "a": "admin",
+      "b": "org",
+      "e": "Leave",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-04",
@@ -328,30 +984,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An action is allowed only if both the SCP and an IAM policy allow it. SCPs never grant access on their own and don't apply to the management account.",
    "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "account",
+      "c": [
        {
+        "id": "user",
+        "i": "user",
+        "n": "IAM user"
+       },
+       {
+        "id": "scp",
+        "i": "scp",
         "n": "SCP",
         "s": "maximum allowed"
        },
        {
+        "id": "iam",
+        "i": "policy",
         "n": "IAM policy",
-        "s": "what is granted"
+        "s": "grants"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Resource"
        }
-      ]
+      ],
+      "n": "Member account"
+     }
+    ],
+    "f": [
+     {
+      "a": "user",
+      "b": "scp",
+      "no": 1,
+      "e": "request"
      },
      {
-      "e": "both must allow"
+      "a": "scp",
+      "b": "iam",
+      "no": 2,
+      "e": "must also allow"
      },
      {
-      "h": 1,
-      "n": "Effective permissions",
-      "s": "the overlap"
+      "a": "iam",
+      "b": "s3",
+      "no": 3,
+      "e": "allowed only if both allow"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-05",
@@ -385,56 +1069,92 @@ window.QUESTION_BANK = {
    ],
    "explanation": "IAM Identity Center (connected to AD through AWS Directory Service or an external IdP) gives workforce users single sign-on across accounts in AWS Organizations and can use AD as the identity source, without duplicating passwords.",
    "resource": "https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Employee"
-     },
-     {
-      "e": "AD credentials"
-     },
-     {
-      "h": 1,
-      "n": "IAM Identity Center",
-      "s": "AD as identity source"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "AWS Organizations",
+      "k": "onprem",
       "c": [
        {
-        "k": [
+        "id": "emp",
+        "i": "users",
+        "n": "Employees"
+       },
+       {
+        "id": "ad",
+        "i": "directory",
+        "n": "Active Directory"
+       }
+      ],
+      "d": "col",
+      "n": "Corporate network"
+     },
+     {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "idc",
+        "i": "identitycenter",
+        "h": 1,
+        "n": "IAM Identity Center",
+        "s": "AD as identity source"
+       },
+       {
+        "k": "col",
+        "c": [
          {
+          "k": "account",
+          "c": [
+           {
+            "id": "a1",
+            "i": "ec2",
+            "n": "Workloads"
+           }
+          ],
           "n": "Account 1"
          },
          {
-          "n": "Account 2"
-         },
-         {
+          "k": "account",
+          "c": [
+           {
+            "id": "a15",
+            "i": "ec2",
+            "n": "Workloads"
+           }
+          ],
           "n": "Account 15"
          }
         ]
        }
-      ]
+      ],
+      "n": "AWS Organizations"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "IAM Identity Center",
-      "s": "AD as identity source"
+      "a": "emp",
+      "b": "idc",
+      "no": 1,
+      "e": "AD sign-in"
      },
      {
+      "a": "idc",
+      "b": "ad",
       "e": "verify password",
-      "d": 1
+      "t": "d"
      },
      {
-      "n": "On-premises AD"
+      "a": "idc",
+      "b": "a1",
+      "no": 2,
+      "e": "single sign-on"
+     },
+     {
+      "a": "idc",
+      "b": "a15",
+      "no": 2
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-06",
@@ -468,55 +1188,55 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cross-account role delegation hands out short-lived credentials from AWS STS, is fully logged in CloudTrail, and can simply not be renewed once the migration ends — no keys to revoke.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Account A",
+      "k": "account",
       "c": [
        {
+        "id": "dev",
+        "i": "user",
         "n": "Developer"
        }
-      ]
+      ],
+      "n": "Account A",
+      "s": "Engineering"
      },
      {
+      "k": "account",
+      "c": [
+       {
+        "id": "role",
+        "i": "role",
+        "h": 1,
+        "n": "IAM role",
+        "s": "trusts Account A, calls logged in CloudTrail"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "DynamoDB tables"
+       }
+      ],
+      "n": "Account B",
+      "s": "Data"
+     }
+    ],
+    "f": [
+     {
+      "a": "dev",
+      "b": "role",
+      "no": 1,
       "e": "sts:AssumeRole"
      },
      {
-      "g": "Account B",
-      "c": [
-       {
-        "h": 1,
-        "n": "IAM role",
-        "s": "trusts Account A"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "DynamoDB tables"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "n": "AWS STS"
-     },
-     {
+      "a": "role",
+      "b": "ddb",
+      "no": 2,
       "e": "short-lived credentials"
-     },
-     {
-      "n": "Developer"
-     },
-     {
-      "e": "every call"
-     },
-     {
-      "n": "CloudTrail",
-      "s": "audit log"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-07",
@@ -550,29 +1270,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A permissions boundary sets the maximum permissions an identity-based policy can grant to an IAM entity. It's often required as a condition on `iam:CreateRole` so self-service role creation can't exceed it.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Developer's policy",
-      "s": "may grant anything"
+      "k": "account",
+      "c": [
+       {
+        "id": "dev",
+        "i": "user",
+        "n": "Developer"
+       },
+       {
+        "id": "sc",
+        "i": "servicecatalog",
+        "n": "Service Catalog product"
+       },
+       {
+        "id": "role",
+        "i": "role",
+        "n": "New Lambda role"
+       },
+       {
+        "id": "pb",
+        "i": "policy",
+        "h": 1,
+        "n": "Permissions boundary",
+        "s": "pre-approved maximum"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Lambda function"
+       }
+      ],
+      "n": "Developer account"
+     }
+    ],
+    "f": [
+     {
+      "a": "dev",
+      "b": "sc",
+      "no": 1,
+      "e": "create role"
      },
      {
-      "e": ""
+      "a": "sc",
+      "b": "role",
+      "no": 2,
+      "e": "boundary required"
      },
      {
-      "h": 1,
-      "n": "Permissions boundary",
-      "s": "fixed ceiling"
+      "a": "role",
+      "b": "pb",
+      "no": 3,
+      "e": "capped by"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Effective permissions",
-      "s": "overlap of both"
+      "a": "pb",
+      "b": "fn",
+      "no": 4,
+      "e": "effective permissions"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-08",
@@ -606,36 +1366,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "In policy evaluation logic, an explicit deny in any applicable policy — including an SCP — always wins over an allow elsewhere.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Analyst"
+      "k": "account",
+      "c": [
+       {
+        "id": "analyst",
+        "i": "user",
+        "n": "Finance analyst"
+       },
+       {
+        "id": "grp",
+        "i": "policy",
+        "n": "Group policy",
+        "s": "allow s3:*"
+       },
+       {
+        "id": "scp",
+        "i": "scp",
+        "h": 1,
+        "n": "SCP",
+        "s": "explicit deny s3:DeleteObject"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "finance-reports bucket"
+       }
+      ],
+      "n": "Member account",
+      "s": "under OU with SCP"
+     }
+    ],
+    "f": [
+     {
+      "a": "analyst",
+      "b": "grp",
+      "no": 1,
+      "e": "DeleteObject"
      },
      {
-      "e": "s3:DeleteObject"
+      "a": "grp",
+      "b": "scp",
+      "no": 2,
+      "e": "allowed so far"
      },
      {
-      "n": "Group policy",
-      "s": "allow s3:*"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "SCP",
-      "s": "explicit deny"
-     },
-     {
-      "e": "",
-      "x": 1
-     },
-     {
-      "h": 1,
-      "n": "Request denied",
-      "s": "explicit deny wins"
+      "a": "scp",
+      "b": "s3",
+      "e": "explicit deny wins",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-09",
@@ -669,34 +1453,82 @@ window.QUESTION_BANK = {
    ],
    "explanation": "User pools handle the user directory and tokens. Identity pools exchange those tokens for scoped STS credentials, for example using `${cognito-identity.amazonaws.com:sub}` in the policy, which scales to millions of users far better than per-user IAM identities.",
    "resource": "https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Mobile user"
+      "id": "app",
+      "i": "mobile",
+      "n": "Mobile app"
      },
      {
-      "e": "sign up / sign in"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "pool",
+          "i": "cognito",
+          "h": 1,
+          "n": "Cognito user pool",
+          "s": "sign-up and sign-in"
+         },
+         {
+          "id": "ids",
+          "i": "cognito",
+          "h": 1,
+          "n": "Cognito identity pool",
+          "s": "tokens to credentials"
+         }
+        ]
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "sts",
+          "i": "sts",
+          "n": "AWS STS"
+         },
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "Shared S3 bucket",
+          "s": "one prefix per user"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "pool",
+      "no": 1,
+      "e": "sign in, get JWT"
      },
      {
-      "h": 1,
-      "n": "Cognito user pool"
+      "a": "app",
+      "b": "ids",
+      "no": 2,
+      "e": "exchange JWT"
      },
      {
-      "e": "JWT"
+      "a": "ids",
+      "b": "sts",
+      "no": 3,
+      "e": "scoped role"
      },
      {
-      "h": 1,
-      "n": "Cognito identity pool"
-     },
-     {
-      "e": "scoped STS credentials"
-     },
-     {
-      "n": "S3",
-      "s": "own prefix only"
+      "a": "app",
+      "b": "s3",
+      "no": 4,
+      "e": "upload to own prefix"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-10",
@@ -730,41 +1562,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "IAM Access Analyzer uses automated reasoning to find resource policies that grant access to principals outside your defined zone of trust.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "IAM Access Analyzer",
-      "s": "zone of trust: organization"
-     },
-     {
-      "e": "scans"
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "S3"
+        "id": "aa",
+        "i": "accessanalyzer",
+        "h": 1,
+        "n": "IAM Access Analyzer"
        },
        {
-        "n": "KMS"
-       },
-       {
-        "n": "IAM roles"
-       },
-       {
-        "n": "Lambda"
+        "k": "col",
+        "c": [
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "S3 bucket"
+         },
+         {
+          "id": "kms",
+          "i": "kms",
+          "n": "KMS key",
+          "s": "shared externally"
+         },
+         {
+          "id": "role",
+          "i": "role",
+          "n": "IAM role"
+         },
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda function"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Organization",
+      "s": "zone of trust"
      },
      {
-      "e": ""
+      "id": "ext",
+      "i": "user",
+      "n": "External account"
+     }
+    ],
+    "f": [
+     {
+      "a": "aa",
+      "b": "s3"
      },
      {
-      "n": "Finding",
-      "s": "external access"
+      "a": "aa",
+      "b": "kms"
+     },
+     {
+      "a": "aa",
+      "b": "role"
+     },
+     {
+      "a": "aa",
+      "b": "fn"
+     },
+     {
+      "a": "kms",
+      "b": "ext",
+      "e": "finding",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-11",
@@ -798,42 +1667,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Control Tower sets up a landing zone on top of Organizations with preventive (SCP) and detective (Config) controls, and automates account vending through Account Factory.",
    "resource": "https://docs.aws.amazon.com/controltower/latest/userguide/what-is-control-tower.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "AWS Control Tower"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Account Factory",
-      "s": "new account"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Landing zone",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "ct",
+        "i": "controltower",
+        "h": 1,
+        "n": "AWS Control Tower",
+        "s": "landing zone"
+       },
+       {
+        "id": "af",
+        "i": "servicecatalog",
+        "n": "Account Factory"
+       },
+       {
+        "k": "account",
+        "c": [
          {
-          "n": "SCP guardrails"
+          "id": "scp",
+          "i": "scp",
+          "n": "Preventive controls",
+          "s": "SCPs"
          },
          {
-          "n": "Config detective controls"
-         },
-         {
-          "n": "Central logging"
+          "id": "cfg",
+          "i": "config",
+          "n": "Detective controls",
+          "s": "AWS Config"
          }
-        ]
+        ],
+        "d": "col",
+        "n": "New product account"
+       },
+       {
+        "k": "account",
+        "c": [
+         {
+          "id": "logs",
+          "i": "s3",
+          "n": "Central logs"
+         }
+        ],
+        "n": "Log archive account"
        }
-      ]
+      ],
+      "n": "AWS Organizations"
+     }
+    ],
+    "f": [
+     {
+      "a": "ct",
+      "b": "af",
+      "no": 1,
+      "e": "vend account"
+     },
+     {
+      "a": "af",
+      "b": "scp",
+      "no": 2,
+      "e": "baseline applied"
+     },
+     {
+      "a": "scp",
+      "b": "logs",
+      "no": 3,
+      "e": "CloudTrail and Config logs"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-12",
@@ -872,57 +1777,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "IAM users and roles can be granted billing permissions directly, so the root user doesn't need to be reserved for billing, and shared credentials or embedded keys work against least privilege and auditability.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "New role"
+      "k": "account",
+      "c": [
+       {
+        "id": "role",
+        "i": "role",
+        "h": 1,
+        "n": "IAM role",
+        "s": "least privilege, refined with last-accessed data"
+       },
+       {
+        "id": "sts",
+        "i": "sts",
+        "n": "AWS STS"
+       },
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "App on EC2"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Resource"
+       }
+      ],
+      "n": "AWS account"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Least privilege",
-      "s": "at the start"
-     },
-     {
-      "e": "IAM last-accessed data"
-     },
-     {
-      "n": "Refined policy"
+      "id": "keys",
+      "i": "user",
+      "n": "Long-term access keys"
      }
     ],
-    [
+    "f": [
      {
-      "n": "App or user"
+      "a": "role",
+      "b": "sts",
+      "no": 1,
+      "e": "assume"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Role or federation"
-     },
-     {
+      "a": "sts",
+      "b": "app",
+      "no": 2,
       "e": "temporary credentials"
      },
      {
-      "n": "AWS APIs"
-     }
-    ],
-    [
-     {
-      "n": "Long-term access keys"
+      "a": "app",
+      "b": "s3",
+      "no": 3
      },
      {
-      "e": "",
-      "x": 1
-     },
-     {
-      "n": "AWS APIs"
+      "a": "keys",
+      "b": "s3",
+      "e": "avoid",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-13",
@@ -956,44 +1872,72 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An organization trail records management events for every member account into one place. Log file validation detects tampering, and Object Lock on the destination bucket prevents deletion or modification.",
    "resource": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Organization",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "k": "account",
+        "c": [
          {
-          "n": "Account 1"
+          "id": "a1",
+          "i": "cloudtrail",
+          "n": "Account 1 API calls"
          },
          {
-          "n": "Account 2"
-         },
-         {
-          "n": "Account 40"
+          "id": "a40",
+          "i": "cloudtrail",
+          "n": "Account 40 API calls"
          }
-        ]
+        ],
+        "d": "col",
+        "n": "Member accounts",
+        "s": "40"
+       },
+       {
+        "id": "trail",
+        "i": "cloudtrail",
+        "h": 1,
+        "n": "Organization trail",
+        "s": "log file validation"
+       },
+       {
+        "k": "account",
+        "c": [
+         {
+          "id": "s3",
+          "i": "s3",
+          "h": 1,
+          "n": "Central S3 bucket",
+          "s": "Object Lock"
+         }
+        ],
+        "n": "Log archive account"
        }
-      ]
+      ],
+      "n": "AWS Organizations"
+     }
+    ],
+    "f": [
+     {
+      "a": "a1",
+      "b": "trail",
+      "no": 1
      },
      {
-      "e": ""
+      "a": "a40",
+      "b": "trail",
+      "no": 1
      },
      {
-      "h": 1,
-      "n": "Organization trail",
-      "s": "log file validation"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Central S3 bucket",
-      "s": "Object Lock"
+      "a": "trail",
+      "b": "s3",
+      "no": 2,
+      "e": "signed digest files"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-50",
@@ -1027,33 +1971,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Managed Microsoft AD is an actual Microsoft Active Directory run by AWS. It supports Group Policy, Kerberos and domain join, and can form trusts with an on-premises forest, while AWS handles patching and replication.",
    "resource": "https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "AWS",
+      "k": "onprem",
       "c": [
        {
-        "h": 1,
-        "n": "AWS Managed Microsoft AD",
-        "s": "patched by AWS"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "EC2 Windows apps",
-        "s": "domain-joined"
+        "id": "ad",
+        "i": "directory",
+        "n": "On-premises AD forest"
        }
-      ]
+      ],
+      "n": "On-premises"
      },
      {
-      "e": "forest trust"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "mad",
+          "i": "directory",
+          "h": 1,
+          "n": "AWS Managed Microsoft AD",
+          "s": "patched by AWS"
+         },
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "Windows apps",
+          "s": "domain-joined"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "ec2",
+      "b": "mad",
+      "no": 1,
+      "e": "Kerberos, Group Policy"
      },
      {
-      "n": "On-premises AD"
+      "a": "mad",
+      "b": "ad",
+      "e": "forest trust",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-51",
@@ -1087,51 +2058,72 @@ window.QUESTION_BANK = {
    ],
    "explanation": "With VPC sharing, the VPC owner uses AWS RAM to share subnets with other accounts in the organization. Those accounts launch their own resources into the shared subnets, but they can't change the VPC's route tables, gateways or network ACLs.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Networking account",
+      "k": "account",
       "c": [
        {
-        "n": "Central VPC",
-        "s": "keeps routes, gateways, NACLs"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS RAM",
-      "s": "share subnets"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "App accounts",
-      "c": [
-       {
-        "n": "Shared subnets"
-       },
-       {
-        "e": ""
-       },
-       {
-        "k": [
+        "k": "vpc",
+        "c": [
          {
-          "n": "EC2"
-         },
-         {
-          "n": "RDS"
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "App team EC2"
+           },
+           {
+            "id": "db",
+            "i": "rds",
+            "n": "App team RDS"
+           }
+          ],
+          "d": "col",
+          "n": "Shared subnet"
          }
-        ]
+        ],
+        "n": "Central VPC",
+        "s": "owner keeps routes, gateways, NACLs"
+       },
+       {
+        "id": "ram",
+        "i": "ram",
+        "h": 1,
+        "n": "AWS RAM",
+        "s": "subnet share"
        }
-      ]
+      ],
+      "n": "Networking account"
+     },
+     {
+      "k": "account",
+      "c": [
+       {
+        "id": "team",
+        "i": "users",
+        "n": "App team"
+       }
+      ],
+      "n": "App team account"
+     }
+    ],
+    "f": [
+     {
+      "a": "ram",
+      "b": "team",
+      "no": 1,
+      "e": "share subnets"
+     },
+     {
+      "a": "team",
+      "b": "ec2",
+      "no": 2,
+      "e": "launch into subnet"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-52",
@@ -1165,40 +2157,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Service Catalog lets administrators publish approved, CloudFormation-based products in portfolios. A launch constraint makes a product launch with a specified IAM role, so developers don't need broad permissions of their own.",
    "resource": "https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "dev",
+      "i": "user",
       "n": "Developer"
      },
      {
-      "e": "launch from approved list"
-     },
-     {
-      "h": 1,
-      "n": "Service Catalog portfolio"
-     },
-     {
-      "e": "launch constraint role"
-     },
-     {
-      "n": "CloudFormation stack",
-      "s": "three-tier web"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sc",
+        "i": "servicecatalog",
+        "h": 1,
+        "n": "Service Catalog",
+        "s": "approved portfolio"
+       },
+       {
+        "id": "role",
+        "i": "role",
+        "n": "Launch constraint role"
+       },
+       {
+        "id": "stack",
+        "i": "ec2",
+        "n": "Three-tier stack",
+        "s": "CloudFormation"
+       }
+      ],
+      "n": "AWS account"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Developer"
+      "a": "dev",
+      "b": "sc",
+      "no": 1,
+      "e": "choose product"
      },
      {
+      "a": "sc",
+      "b": "role",
+      "no": 2,
+      "e": "launches as"
+     },
+     {
+      "a": "role",
+      "b": "stack",
+      "no": 3
+     },
+     {
+      "a": "dev",
+      "b": "stack",
       "e": "no broad IAM rights",
-      "x": 1
-     },
-     {
-      "n": "CloudFormation stack",
-      "s": "three-tier web"
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-57",
@@ -1232,40 +2248,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Attribute-based access control compares tags on the caller with tags on the resource in a single policy (for example, requiring `ec2:ResourceTag/project` to equal `${aws:PrincipalTag/project}`), so new projects need only tags, not new policies.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Engineer role, tag project=alpha",
+      "k": "account",
       "c": [
        {
+        "id": "role",
+        "i": "role",
+        "n": "Engineer role",
+        "s": "tag project=alpha"
+       },
+       {
+        "id": "pol",
+        "i": "policy",
         "h": 1,
         "n": "ABAC policy",
-        "s": "ResourceTag must equal PrincipalTag"
+        "s": "ResourceTag equals PrincipalTag"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "n": "EC2",
+          "s": "project=alpha"
+         },
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "EC2",
+          "s": "project=beta"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "role",
+      "b": "pol"
      },
      {
+      "a": "pol",
+      "b": "a",
       "e": "start / stop"
      },
      {
-      "n": "EC2",
-      "s": "tag project=alpha"
-     }
-    ],
-    [
-     {
-      "n": "Same engineer role"
-     },
-     {
+      "a": "pol",
+      "b": "b",
       "e": "tags don't match",
-      "x": 1
-     },
-     {
-      "n": "EC2",
-      "s": "tag project=beta"
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-58",
@@ -1299,70 +2338,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An SCP applies to every principal in the member accounts, including administrators, so denying requests whose `aws:RequestedRegion` isn't allowed enforces the rule everywhere. Global services are exempted with `NotAction`, because their requests go to a single Region such as `us-east-1`.",
    "resource": "https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_examples.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "SCP",
-      "s": "deny unless aws:RequestedRegion allowed"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Member accounts",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "scp",
+        "i": "scp",
+        "h": 1,
+        "n": "SCP",
+        "s": "deny if aws:RequestedRegion not allowed"
+       },
+       {
+        "k": "account",
+        "c": [
          {
-          "n": "Admins"
+          "id": "admin",
+          "i": "user",
+          "n": "Admins and users"
+         }
+        ],
+        "n": "Member account"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "r1",
+            "i": "ec2",
+            "n": "Allowed"
+           }
+          ],
+          "n": "eu-west-1"
          },
          {
-          "n": "Users"
+          "k": "region",
+          "c": [
+           {
+            "id": "r2",
+            "i": "ec2",
+            "n": "Denied",
+            "s": "except IAM, CloudFront"
+           }
+          ],
+          "n": "us-east-1"
          }
         ]
        }
-      ]
+      ],
+      "n": "AWS Organizations"
+     }
+    ],
+    "f": [
+     {
+      "a": "scp",
+      "b": "admin",
+      "e": "applies to everyone"
      },
      {
+      "a": "admin",
+      "b": "r1",
       "e": "allowed"
      },
      {
-      "k": [
-       {
-        "n": "eu-west-1"
-       },
-       {
-        "n": "eu-central-1"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "g": "Member accounts",
-      "c": [
-       {
-        "k": [
-         {
-          "n": "Admins"
-         },
-         {
-          "n": "Users"
-         }
-        ]
-       }
-      ]
-     },
-     {
-      "e": "",
-      "x": 1
-     },
-     {
-      "n": "Other Regions"
+      "a": "admin",
+      "b": "r2",
+      "e": "denied",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-64",
@@ -1396,46 +2445,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A unique external ID in the trust policy's condition means the vendor can assume the role only when acting for this specific customer, which stops other customers from tricking the vendor into using it.",
    "resource": "https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Vendor"
-     },
-     {
-      "e": "AssumeRole + ExternalId"
-     },
-     {
-      "g": "Customer account",
+      "k": "col",
       "c": [
        {
-        "h": 1,
-        "n": "Role trust policy",
-        "s": "requires sts:ExternalId"
+        "k": "account",
+        "c": [
+         {
+          "id": "vendor",
+          "i": "users",
+          "n": "Monitoring vendor"
+         }
+        ],
+        "n": "Vendor account"
+       },
+       {
+        "id": "other",
+        "i": "user",
+        "n": "Other customer"
        }
       ]
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Read-only access"
+      "k": "account",
+      "c": [
+       {
+        "id": "role",
+        "i": "role",
+        "h": 1,
+        "n": "Read-only role",
+        "s": "trust requires sts:ExternalId"
+       },
+       {
+        "id": "res",
+        "i": "cloudwatch",
+        "n": "Customer resources"
+       }
+      ],
+      "n": "Customer account"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Other customer's request via vendor"
+      "a": "vendor",
+      "b": "role",
+      "no": 1,
+      "e": "AssumeRole with this customer's ID"
      },
      {
-      "e": "wrong or no ExternalId",
-      "x": 1
+      "a": "role",
+      "b": "res",
+      "no": 2,
+      "e": "read"
      },
      {
-      "h": 1,
-      "n": "Role trust policy",
-      "s": "requires sts:ExternalId"
+      "a": "other",
+      "b": "role",
+      "e": "wrong external ID",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-14",
@@ -1469,47 +2541,91 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS WAF inspects HTTP(S) requests at Layer 7. AWS Managed Rules include SQLi and XSS rule sets that can be attached to the ALB in minutes.",
    "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Users"
+      "k": "col",
+      "c": [
+       {
+        "id": "users",
+        "i": "users",
+        "n": "Users"
+       },
+       {
+        "id": "bad",
+        "i": "user",
+        "n": "Attacker"
+       }
+      ]
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS WAF",
-      "s": "SQLi and XSS managed rules"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "ALB"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Web app"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "waf",
+        "i": "waf",
+        "h": 1,
+        "n": "AWS WAF",
+        "s": "SQLi and XSS managed rules"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "public",
+          "c": [
+           {
+            "id": "alb",
+            "i": "alb",
+            "n": "ALB"
+           }
+          ],
+          "n": "Public subnets"
+         },
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "web",
+            "i": "ec2",
+            "n": "Web app"
+           }
+          ],
+          "n": "Private subnets"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Attackers"
+      "a": "users",
+      "b": "waf",
+      "no": 1,
+      "e": "HTTPS"
      },
      {
+      "a": "bad",
+      "b": "waf",
       "e": "SQLi / XSS",
-      "x": 1
+      "t": "x"
      },
      {
-      "h": 1,
-      "n": "AWS WAF",
-      "s": "SQLi and XSS managed rules"
+      "a": "waf",
+      "b": "alb",
+      "no": 2,
+      "e": "allowed"
+     },
+     {
+      "a": "alb",
+      "b": "web",
+      "no": 3
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-15",
@@ -1543,49 +2659,84 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Shield Advanced adds Shield Response Team (SRT) access, enhanced detection, and DDoS cost protection for scaling charges. Shield Standard is free and automatic but offers none of these.",
    "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "UDP reflection flood"
+      "id": "bot",
+      "i": "internet",
+      "n": "UDP flood"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Shield Advanced"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "EC2 fleet"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "shield",
+          "i": "shield",
+          "h": 1,
+          "n": "Shield Advanced"
+         },
+         {
+          "id": "srt",
+          "i": "users",
+          "n": "Shield Response Team",
+          "s": "plus cost protection"
+         }
+        ]
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "public",
+          "c": [
+           {
+            "id": "nlb",
+            "i": "nlb",
+            "n": "Load balancer"
+           }
+          ],
+          "n": "Public subnet"
+         },
+         {
+          "id": "asg",
+          "i": "asg",
+          "n": "EC2 Auto Scaling group"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Shield Advanced"
+      "a": "bot",
+      "b": "shield",
+      "e": "flood absorbed",
+      "t": "x"
      },
      {
-      "e": ""
+      "a": "shield",
+      "b": "nlb",
+      "no": 1,
+      "e": "clean traffic"
      },
      {
-      "k": [
-       {
-        "n": "Shield Response Team"
-       },
-       {
-        "n": "Attack diagnostics"
-       },
-       {
-        "n": "Cost protection",
-        "s": "scaling charges"
-       }
-      ]
+      "a": "nlb",
+      "b": "asg",
+      "no": 2
+     },
+     {
+      "a": "srt",
+      "b": "shield",
+      "e": "24x7 help"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-16",
@@ -1619,45 +2770,65 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Security groups work at the ENI level, are stateful, and can only allow traffic. NACLs work at the subnet level, are stateless, and evaluate numbered rules — including deny rules — in order.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Traffic"
+      "id": "attacker",
+      "i": "user",
+      "n": "Malicious IP"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "Subnet boundary",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Network ACL",
-        "s": "stateless, allow + deny"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "public",
+          "c": [
+           {
+            "id": "nacl",
+            "i": "nacl",
+            "h": 1,
+            "n": "Network ACL",
+            "s": "stateless, allow and deny rules"
+           },
+           {
+            "k": "sg",
+            "c": [
+             {
+              "id": "ec2",
+              "i": "ec2",
+              "n": "EC2 instance"
+             }
+            ],
+            "n": "Security group",
+            "s": "stateful, allow rules only"
+           }
+          ],
+          "n": "Subnet"
+         }
+        ],
+        "n": "VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "attacker",
+      "b": "nacl",
+      "e": "deny rule",
+      "t": "x"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "Instance ENI",
-      "c": [
-       {
-        "h": 1,
-        "n": "Security group",
-        "s": "stateful, allow only"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "EC2"
+      "a": "nacl",
+      "b": "ec2",
+      "e": "allowed traffic"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-17",
@@ -1691,33 +2862,79 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Security groups can't deny traffic. A single NACL deny rule on the subnet (or an AWS WAF rule, for HTTP/S traffic) blocks the address for every instance at once.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Attacker IP"
+      "id": "attacker",
+      "i": "user",
+      "n": "Credential-stuffing IP"
      },
      {
-      "e": "NACL deny rule",
-      "x": 1
-     },
-     {
-      "g": "Subnet",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Network ACL"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "25 instances",
-        "s": "each with own security group"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "nacl",
+            "i": "nacl",
+            "h": 1,
+            "n": "Network ACL",
+            "s": "deny rule for the IP"
+           },
+           {
+            "k": "sg",
+            "c": [
+             {
+              "id": "i1",
+              "i": "ec2",
+              "n": "Instance 1"
+             }
+            ],
+            "n": "SG 1"
+           },
+           {
+            "k": "sg",
+            "c": [
+             {
+              "id": "i25",
+              "i": "ec2",
+              "n": "Instance 25"
+             }
+            ],
+            "n": "SG 25"
+           }
+          ],
+          "n": "Subnet",
+          "s": "25 instances"
+         }
+        ],
+        "n": "VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "attacker",
+      "b": "nacl",
+      "e": "blocked once for the subnet",
+      "t": "x"
+     },
+     {
+      "a": "nacl",
+      "b": "i1"
+     },
+     {
+      "a": "nacl",
+      "b": "i25"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-18",
@@ -1751,55 +2968,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A NAT gateway lets instances in a private subnet initiate outbound IPv4 traffic while blocking unsolicited inbound connections from the internet. (For IPv6, use an egress-only internet gateway instead.)",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Private subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2 fleet"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "50 instances",
+            "s": "Patch Manager"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "k": "public",
+          "c": [
+           {
+            "id": "nat",
+            "i": "nat",
+            "h": 1,
+            "n": "NAT gateway"
+           }
+          ],
+          "n": "Public subnet"
+         },
+         {
+          "id": "igw",
+          "i": "igw",
+          "n": "Internet gateway"
+         }
+        ],
+        "n": "VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": "outbound only"
-     },
-     {
-      "g": "Public subnet",
-      "c": [
-       {
-        "h": 1,
-        "n": "NAT gateway"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Internet gateway"
-     },
-     {
-      "e": ""
-     },
-     {
+      "id": "repo",
+      "i": "internet",
       "n": "Patch repositories"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Internet"
+      "a": "ec2",
+      "b": "nat",
+      "no": 1,
+      "e": "outbound only"
      },
      {
-      "e": "unsolicited inbound",
-      "x": 1
+      "a": "nat",
+      "b": "igw",
+      "no": 2
      },
      {
-      "h": 1,
-      "n": "NAT gateway"
+      "a": "igw",
+      "b": "repo",
+      "no": 3
+     },
+     {
+      "a": "repo",
+      "b": "ec2",
+      "e": "no inbound",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-19",
@@ -1833,50 +3075,82 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Gateway endpoints (for S3 and DynamoDB) are free and are added to route tables, eliminating the NAT data-processing charge for that traffic. Interface endpoints work too, but are billed per hour and per GB.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Private subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "200 EC2 instances"
+        "k": "region",
+        "c": [
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "k": "private",
+            "c": [
+             {
+              "id": "ec2",
+              "i": "ec2",
+              "n": "200 instances"
+             }
+            ],
+            "n": "Private subnets"
+           },
+           {
+            "id": "ep",
+            "i": "gwendpoint",
+            "h": 1,
+            "n": "S3 gateway endpoint",
+            "s": "route table entry, free"
+           },
+           {
+            "k": "public",
+            "c": [
+             {
+              "id": "nat",
+              "i": "nat",
+              "n": "NAT gateway",
+              "s": "per-GB charge"
+             }
+            ],
+            "n": "Public subnet"
+           }
+          ],
+          "n": "VPC"
+         },
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "Amazon S3"
+         }
+        ],
+        "n": "Region"
        }
-      ]
-     },
-     {
-      "e": "route table entry"
-     },
-     {
-      "h": 1,
-      "n": "S3 gateway endpoint",
-      "s": "free"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Amazon S3"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "g": "Private subnet",
-      "c": [
-       {
-        "n": "200 EC2 instances"
-       }
-      ]
+      "a": "ec2",
+      "b": "ep",
+      "no": 1,
+      "e": "S3 traffic"
      },
      {
-      "e": "bypassed",
-      "d": 1
+      "a": "ep",
+      "b": "s3",
+      "no": 2
      },
      {
-      "n": "NAT gateway",
-      "s": "per-GB charge"
+      "a": "ec2",
+      "b": "nat",
+      "e": "no longer used for S3",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-20",
@@ -1910,43 +3184,85 @@ window.QUESTION_BANK = {
    ],
    "explanation": "PrivateLink exposes a service in one direction through interface endpoints and works even when the customer CIDRs overlap with each other or with the provider's VPC — something VPC peering and transit gateway attachments can't do.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/privatelink-share-your-services.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Customer VPC | 10.0.0.0/16",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Interface endpoint"
-       }
-      ]
-     },
-     {
-      "e": "PrivateLink"
-     },
-     {
-      "h": 1,
-      "n": "Endpoint service"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Provider VPC",
-      "c": [
-       {
-        "n": "Network Load Balancer"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "cli",
+            "i": "ec2",
+            "n": "Customer app"
+           },
+           {
+            "id": "ep",
+            "i": "endpoint",
+            "h": 1,
+            "n": "Interface endpoint"
+           }
+          ],
+          "n": "Subnet"
+         }
+        ],
+        "n": "Customer VPC",
+        "s": "10.0.0.0/16"
        },
        {
-        "e": ""
-       },
-       {
-        "n": "Pricing API"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "svc",
+          "i": "privatelink",
+          "h": 1,
+          "n": "Endpoint service"
+         },
+         {
+          "id": "nlb",
+          "i": "nlb",
+          "n": "Network Load Balancer"
+         },
+         {
+          "id": "api",
+          "i": "ec2",
+          "n": "Pricing API"
+         }
+        ],
+        "n": "Provider VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "cli",
+      "b": "ep",
+      "no": 1
+     },
+     {
+      "a": "ep",
+      "b": "svc",
+      "no": 2,
+      "e": "PrivateLink, one direction"
+     },
+     {
+      "a": "svc",
+      "b": "nlb",
+      "no": 3
+     },
+     {
+      "a": "nlb",
+      "b": "api",
+      "no": 4
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-21",
@@ -1980,38 +3296,67 @@ window.QUESTION_BANK = {
    ],
    "explanation": "GuardDuty continuously analyzes CloudTrail, VPC Flow Logs, and DNS logs (among other sources) using threat intelligence and machine learning, with nothing for the customer to deploy or manage.",
    "resource": "https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "VPC Flow Logs"
+        "k": "col",
+        "c": [
+         {
+          "id": "flow",
+          "i": "flowlogs",
+          "n": "VPC Flow Logs"
+         },
+         {
+          "id": "trail",
+          "i": "cloudtrail",
+          "n": "CloudTrail events"
+         },
+         {
+          "id": "dns",
+          "i": "resolver",
+          "n": "DNS query logs"
+         }
+        ]
        },
        {
-        "n": "CloudTrail events"
+        "id": "gd",
+        "i": "guardduty",
+        "h": 1,
+        "n": "Amazon GuardDuty",
+        "s": "ML and threat intelligence"
        },
        {
-        "n": "DNS query logs"
+        "id": "find",
+        "i": "securityhub",
+        "n": "Findings",
+        "s": "crypto mining, C2, stolen keys"
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "flow",
+      "b": "gd"
      },
      {
-      "e": ""
+      "a": "trail",
+      "b": "gd"
      },
      {
-      "h": 1,
-      "n": "Amazon GuardDuty",
-      "s": "ML + threat intel"
+      "a": "dns",
+      "b": "gd"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Findings",
-      "s": "crypto mining, C2, stolen keys"
+      "a": "gd",
+      "b": "find"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-22",
@@ -2045,36 +3390,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon Inspector automatically and continually scans EC2 instances, container images in ECR, and Lambda functions for known vulnerabilities (CVEs) and network reachability issues.",
    "resource": "https://docs.aws.amazon.com/inspector/latest/user/what-is-inspector.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Amazon Inspector"
-     },
-     {
-      "e": "continuous scans"
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2 instances"
+        "id": "insp",
+        "i": "inspector",
+        "h": 1,
+        "n": "Amazon Inspector",
+        "s": "continuous scanning"
        },
        {
-        "n": "ECR images"
-       },
-       {
-        "n": "Lambda functions"
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2 instances"
+         },
+         {
+          "id": "ecr",
+          "i": "ecr",
+          "n": "ECR images"
+         },
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda functions"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "insp",
+      "b": "ec2",
+      "e": "CVEs, reachability"
      },
      {
-      "e": ""
+      "a": "insp",
+      "b": "ecr",
+      "e": "CVEs"
      },
      {
-      "n": "CVE and network exposure findings"
+      "a": "insp",
+      "b": "fn",
+      "e": "CVEs"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-23",
@@ -2108,43 +3477,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Security Hub aggregates findings from GuardDuty, Inspector, Macie, and other sources, runs its own automated checks against security standards, and produces an overall score per account. Detective is used for deep investigation, not aggregation or scoring.",
    "resource": "https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "GuardDuty"
+        "k": "col",
+        "c": [
+         {
+          "id": "gd",
+          "i": "guardduty",
+          "n": "GuardDuty"
+         },
+         {
+          "id": "insp",
+          "i": "inspector",
+          "n": "Inspector"
+         },
+         {
+          "id": "mac",
+          "i": "macie",
+          "n": "Macie"
+         }
+        ]
        },
        {
-        "n": "Inspector"
+        "id": "hub",
+        "i": "securityhub",
+        "h": 1,
+        "n": "AWS Security Hub",
+        "s": "standards checks, security score"
        },
        {
-        "n": "Macie"
+        "id": "det",
+        "i": "detective",
+        "n": "Detective"
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "gd",
+      "b": "hub"
      },
      {
-      "e": ""
+      "a": "insp",
+      "b": "hub"
      },
      {
-      "h": 1,
-      "n": "AWS Security Hub"
+      "a": "mac",
+      "b": "hub"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "Security score"
-       },
-       {
-        "n": "Standards checks"
-       }
-      ]
+      "a": "hub",
+      "b": "det",
+      "e": "investigate",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-24",
@@ -2178,46 +3572,76 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Secrets Manager has built-in, Lambda-based rotation for RDS, Aurora, Redshift, and DocumentDB, so the team doesn't have to build the rotation logic itself.",
    "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "app",
+            "i": "ec2",
+            "n": "Application"
+           },
+           {
+            "id": "db",
+            "i": "rds",
+            "n": "RDS for MySQL"
+           }
+          ],
+          "n": "Private subnets"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "sm",
+        "i": "secrets",
+        "h": 1,
+        "n": "Secrets Manager"
+       },
+       {
+        "id": "rot",
+        "i": "lambda",
+        "n": "Rotation function",
+        "s": "managed by AWS"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "sm",
+      "no": 1,
+      "e": "get password"
      },
      {
-      "e": "get secret"
-     },
-     {
-      "h": 1,
-      "n": "Secrets Manager"
-     },
-     {
+      "a": "app",
+      "b": "db",
+      "no": 2,
       "e": "connect"
      },
      {
-      "n": "RDS for MySQL"
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "Secrets Manager"
-     },
-     {
+      "a": "sm",
+      "b": "rot",
+      "no": 3,
       "e": "every 30 days"
      },
      {
-      "n": "Rotation Lambda",
-      "s": "AWS-provided"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "RDS for MySQL",
-      "s": "new password"
+      "a": "rot",
+      "b": "db",
+      "no": 4,
+      "e": "set new password"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-25",
@@ -2251,55 +3675,195 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Referencing security groups by ID (rather than IP ranges) keeps access tightly scoped tier-to-tier even as instances scale in and out, and keeping the app and database tiers out of public subnets removes them from direct internet reachability.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Internet"
+      "id": "users",
+      "i": "users",
+      "n": "Internet users"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "Public subnets",
+      "k": "cloud",
       "c": [
        {
-        "n": "ALB"
+        "k": "region",
+        "c": [
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "igw",
+            "i": "igw",
+            "n": "Internet gateway"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "k": "public",
+              "c": [
+               {
+                "id": "alb",
+                "i": "alb",
+                "n": "ALB",
+                "s": "node in AZ A"
+               }
+              ],
+              "n": "Public subnet A"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "k": "sg",
+                "c": [
+                 {
+                  "id": "app1",
+                  "i": "ec2",
+                  "n": "App instance"
+                 }
+                ],
+                "d": "col",
+                "n": "App tier SG"
+               }
+              ],
+              "n": "Private app subnet A"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "k": "sg",
+                "c": [
+                 {
+                  "id": "db",
+                  "i": "rds",
+                  "h": 1,
+                  "n": "RDS primary"
+                 }
+                ],
+                "d": "col",
+                "n": "DB SG",
+                "s": "inbound 3306 from App tier SG only"
+               }
+              ],
+              "n": "Private DB subnet A"
+             }
+            ],
+            "n": "Availability Zone A"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "k": "public",
+              "c": [
+               {
+                "id": "alb2",
+                "i": "alb",
+                "n": "ALB",
+                "s": "node in AZ B"
+               }
+              ],
+              "n": "Public subnet B"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "k": "sg",
+                "c": [
+                 {
+                  "id": "app2",
+                  "i": "ec2",
+                  "n": "App instance"
+                 }
+                ],
+                "d": "col",
+                "n": "App tier SG"
+               }
+              ],
+              "n": "Private app subnet B"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "k": "sg",
+                "c": [
+                 {
+                  "id": "db2",
+                  "i": "rds",
+                  "n": "RDS standby"
+                 }
+                ],
+                "d": "col",
+                "n": "DB SG"
+               }
+              ],
+              "n": "Private DB subnet B"
+             }
+            ],
+            "n": "Availability Zone B"
+           }
+          ],
+          "n": "VPC",
+          "s": "10.0.0.0/16"
+         }
+        ],
+        "n": "Region"
        }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Private subnets",
-      "c": [
-       {
-        "n": "App tier"
-       },
-       {
-        "e": "port 3306, SG reference"
-       },
-       {
-        "h": 1,
-        "n": "DB",
-        "s": "SG allows app tier SG only"
-       }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Internet"
+      "a": "users",
+      "b": "igw",
+      "no": 1,
+      "e": "HTTPS"
      },
      {
-      "e": "",
-      "x": 1
+      "a": "igw",
+      "b": "alb",
+      "no": 2
      },
      {
-      "n": "DB"
+      "a": "igw",
+      "b": "alb2",
+      "no": 2
+     },
+     {
+      "a": "alb",
+      "b": "app1",
+      "no": 3
+     },
+     {
+      "a": "alb2",
+      "b": "app2",
+      "no": 3
+     },
+     {
+      "a": "app1",
+      "b": "db",
+      "no": 4,
+      "e": "TCP 3306"
+     },
+     {
+      "a": "app2",
+      "b": "db",
+      "no": 4,
+      "e": "TCP 3306"
+     },
+     {
+      "a": "users",
+      "b": "db",
+      "e": "no route from internet",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-26",
@@ -2333,44 +3897,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A Cognito user pool authorizer validates the JWT on each request without requiring SigV4 signing or IAM credentials in the mobile app.",
    "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "app",
+      "i": "mobile",
       "n": "Mobile app"
      },
      {
-      "e": "JWT from user pool"
-     },
-     {
-      "g": "API Gateway",
+      "k": "cloud",
       "c": [
        {
+        "id": "pool",
+        "i": "cognito",
+        "n": "Cognito user pool"
+       },
+       {
+        "id": "apigw",
+        "i": "apigw",
+        "n": "API Gateway"
+       },
+       {
+        "id": "auth",
+        "i": "cognito",
         "h": 1,
-        "n": "Cognito user pool authorizer"
+        "n": "User pool authorizer"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Backend"
        }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Backend"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Request without valid token"
+      "a": "app",
+      "b": "pool",
+      "no": 1,
+      "e": "sign in"
      },
      {
-      "e": "",
-      "x": 1
+      "a": "app",
+      "b": "apigw",
+      "no": 2,
+      "e": "JWT in header"
      },
      {
-      "h": 1,
-      "n": "Cognito user pool authorizer"
+      "a": "apigw",
+      "b": "auth",
+      "no": 3,
+      "e": "validate token"
+     },
+     {
+      "a": "apigw",
+      "b": "fn",
+      "no": 4,
+      "e": "valid token only"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-27",
@@ -2404,45 +3992,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Session Manager uses the SSM agent and IAM policies instead of SSH keys or open inbound ports, and it can log session activity to S3 or CloudWatch Logs for audit.",
    "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Admin"
+      "id": "admin",
+      "i": "user",
+      "n": "Administrator"
      },
      {
-      "e": "IAM-authorized session"
-     },
-     {
-      "h": 1,
-      "n": "Session Manager"
-     },
-     {
-      "e": "SSM agent"
-     },
-     {
-      "g": "Private subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2",
-        "s": "no port 22 open"
+        "id": "ssm",
+        "i": "ssm",
+        "h": 1,
+        "n": "Session Manager",
+        "s": "IAM-authorized"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "k": "sg",
+            "c": [
+             {
+              "id": "ec2",
+              "i": "ec2",
+              "n": "EC2 instance",
+              "s": "SSM Agent"
+             }
+            ],
+            "n": "SG",
+            "s": "no inbound rules"
+           }
+          ],
+          "n": "Private subnet"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "logs",
+        "i": "s3",
+        "n": "Session logs",
+        "s": "S3 or CloudWatch"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Session Manager"
+      "a": "admin",
+      "b": "ssm",
+      "no": 1,
+      "e": "start session"
      },
      {
-      "e": ""
+      "a": "ec2",
+      "b": "ssm",
+      "no": 2,
+      "e": "agent connects outbound"
      },
      {
-      "n": "Session logs",
-      "s": "S3 or CloudWatch Logs"
+      "a": "ssm",
+      "b": "logs",
+      "e": "every session recorded"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-28",
@@ -2476,44 +4097,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Network Firewall provides stateful inspection and domain-list filtering, and Firewall Manager can push a common policy to every account and VPC in the organization, including new ones as they're created.",
    "resource": "https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Firewall Manager",
-      "s": "central policy"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Organization",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "fm",
+        "i": "firewallmanager",
+        "h": 1,
+        "n": "Firewall Manager",
+        "s": "central policy"
+       },
+       {
+        "k": "col",
+        "c": [
          {
-          "n": "VPC 1"
+          "k": "account",
+          "c": [
+           {
+            "id": "vpc1",
+            "i": "networkfirewall",
+            "n": "Network Firewall",
+            "s": "VPC 1"
+           }
+          ],
+          "n": "Account 1"
          },
          {
-          "n": "VPC 2"
+          "k": "account",
+          "c": [
+           {
+            "id": "vpc8",
+            "i": "networkfirewall",
+            "n": "Network Firewall",
+            "s": "VPC 30"
+           }
+          ],
+          "n": "Account 8"
          },
          {
-          "n": "New VPCs"
+          "k": "account",
+          "c": [
+           {
+            "id": "vpcn",
+            "i": "networkfirewall",
+            "n": "Network Firewall",
+            "s": "new VPC"
+           }
+          ],
+          "n": "New account"
          }
         ]
        }
-      ]
+      ],
+      "n": "AWS Organization"
+     }
+    ],
+    "f": [
+     {
+      "a": "fm",
+      "b": "vpc1",
+      "e": "same rules"
      },
      {
-      "e": ""
+      "a": "fm",
+      "b": "vpc8"
      },
      {
-      "h": 1,
-      "n": "Network Firewall",
-      "s": "stateful + domain filtering"
+      "a": "fm",
+      "b": "vpcn",
+      "e": "applied automatically"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-29",
@@ -2547,44 +4204,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Site-to-Site VPN uses IPsec tunnels over the internet and can typically be set up within minutes to hours, unlike Direct Connect, which takes weeks to provision and isn't encrypted by default.",
    "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "On-premises network"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "cgw",
+        "i": "cgw",
+        "n": "Customer gateway"
+       }
+      ],
+      "n": "Data center"
      },
      {
-      "e": "IPsec tunnels over the internet"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "vpn",
+        "i": "vpn",
+        "h": 1,
+        "n": "Site-to-Site VPN",
+        "s": "IPsec tunnels"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "vgw",
+          "i": "vgw",
+          "n": "Virtual private gateway"
+         },
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Project servers"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "h": 1,
-      "n": "Site-to-Site VPN"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "VPC"
+      "id": "dx",
+      "i": "dx",
+      "n": "Direct Connect",
+      "s": "weeks away"
      }
     ],
-    [
+    "f": [
      {
-      "n": "On-premises network"
+      "a": "cgw",
+      "b": "vpn",
+      "no": 1,
+      "e": "encrypted over internet"
      },
      {
-      "e": "weeks later",
-      "d": 1
+      "a": "vpn",
+      "b": "vgw",
+      "no": 2
      },
      {
-      "n": "Direct Connect"
+      "a": "vgw",
+      "b": "app",
+      "no": 3
      },
      {
-      "e": ""
-     },
-     {
-      "n": "VPC"
+      "a": "cgw",
+      "b": "dx",
+      "e": "later",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-30",
@@ -2618,45 +4311,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "OAC uses a bucket policy `Condition` tied to the specific distribution, so only that CloudFront distribution can read the bucket. OAC is the current recommended replacement for the legacy OAI approach.",
    "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Viewer"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "CloudFront",
-      "s": "OAC signs origin requests"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Private",
+      "k": "col",
       "c": [
        {
-        "n": "S3 bucket",
-        "s": "policy allows this distribution only"
+        "id": "viewer",
+        "i": "users",
+        "n": "Viewers"
+       },
+       {
+        "id": "other",
+        "i": "user",
+        "n": "Anyone else"
        }
       ]
+     },
+     {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cf",
+        "i": "cloudfront",
+        "h": 1,
+        "n": "CloudFront",
+        "s": "origin access control"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Private S3 bucket",
+        "s": "policy allows this distribution"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Direct request with bucket name"
+      "a": "viewer",
+      "b": "cf",
+      "no": 1
      },
      {
-      "e": "",
-      "x": 1
+      "a": "cf",
+      "b": "s3",
+      "no": 2,
+      "e": "signed request"
      },
      {
-      "n": "S3 bucket"
+      "a": "other",
+      "b": "s3",
+      "e": "direct access",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-46",
@@ -2690,34 +4401,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Detective automatically builds a behavior graph from sources such as CloudTrail, VPC Flow Logs and GuardDuty findings, so an analyst can pivot from a finding to the related roles, IP addresses and resources, and compare activity with a baseline, without writing queries.",
    "resource": "https://docs.aws.amazon.com/detective/latest/userguide/what-is-detective.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "GuardDuty finding"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon Detective",
-      "s": "behavior graph"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Related roles, IPs, resources"
+        "k": "col",
+        "c": [
+         {
+          "id": "gd",
+          "i": "guardduty",
+          "n": "GuardDuty finding"
+         },
+         {
+          "id": "trail",
+          "i": "cloudtrail",
+          "n": "CloudTrail"
+         },
+         {
+          "id": "flow",
+          "i": "flowlogs",
+          "n": "VPC Flow Logs"
+         }
+        ]
        },
        {
-        "n": "Baseline comparison"
+        "id": "det",
+        "i": "detective",
+        "h": 1,
+        "n": "Amazon Detective",
+        "s": "behavior graph"
+       },
+       {
+        "id": "role",
+        "i": "role",
+        "n": "Role activity",
+        "s": "related IPs, resources, baseline"
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "gd",
+      "b": "det",
+      "e": "investigate"
+     },
+     {
+      "a": "trail",
+      "b": "det"
+     },
+     {
+      "a": "flow",
+      "b": "det"
+     },
+     {
+      "a": "det",
+      "b": "role",
+      "e": "pivot"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-49",
@@ -2751,41 +4497,62 @@ window.QUESTION_BANK = {
    ],
    "explanation": "SecureString parameters are encrypted with KMS and controlled with IAM, and standard-tier parameters have no additional charge. Secrets Manager adds features such as automatic rotation, but charges for each secret.",
    "resource": "https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "k": "col",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "Application"
+       },
+       {
+        "id": "eng",
+        "i": "user",
+        "n": "Engineer"
+       }
+      ]
      },
      {
-      "e": "GetParameter, decrypt"
-     },
-     {
-      "h": 1,
-      "n": "Parameter Store",
-      "s": "SecureString, standard tier"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "AWS KMS",
-      "s": "encryption"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ps",
+        "i": "ssm",
+        "h": 1,
+        "n": "Parameter Store",
+        "s": "SecureString, standard tier"
+       },
+       {
+        "id": "kms",
+        "i": "kms",
+        "n": "AWS KMS"
+       }
+      ],
+      "n": "AWS account"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Engineer"
+      "a": "app",
+      "b": "ps",
+      "no": 1,
+      "e": "GetParameter with decryption"
      },
      {
+      "a": "ps",
+      "b": "kms",
+      "no": 2,
+      "e": "decrypt"
+     },
+     {
+      "a": "eng",
+      "b": "ps",
       "e": "update yearly"
-     },
-     {
-      "h": 1,
-      "n": "Parameter Store",
-      "s": "SecureString, standard tier"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-53",
@@ -2819,34 +4586,70 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Route 53 Resolver DNS Firewall filters DNS queries that leave your VPCs through the Resolver, and it can block domains on AWS managed lists of known malicious domains.",
    "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-dns-firewall.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "EC2"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "EC2 instance"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "id": "res",
+          "i": "resolver",
+          "n": "Route 53 Resolver"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "fw",
+        "i": "dnsfirewall",
+        "h": 1,
+        "n": "DNS Firewall",
+        "s": "AWS managed domain lists"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
+      "id": "c2",
+      "i": "internet",
+      "n": "C2 domain"
+     }
+    ],
+    "f": [
+     {
+      "a": "ec2",
+      "b": "res",
+      "no": 1,
       "e": "DNS query"
      },
      {
-      "n": "Route 53 Resolver"
+      "a": "res",
+      "b": "fw",
+      "no": 2,
+      "e": "check"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "DNS Firewall",
-      "s": "AWS managed domain lists"
-     },
-     {
-      "e": "malicious domain",
-      "x": 1
-     },
-     {
-      "n": "C2 server"
+      "a": "fw",
+      "b": "c2",
+      "e": "blocked",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-54",
@@ -2880,45 +4683,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Verified Access provides access to corporate applications without a VPN. It evaluates each request against policies that use identity from an identity provider and device posture from a device-management provider.",
    "resource": "https://docs.aws.amazon.com/verified-access/latest/ug/what-is-verified-access.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Employee, no VPN"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Verified Access"
-     },
-     {
-      "e": "identity + device checks"
-     },
-     {
-      "n": "Internal web apps"
-     }
-    ],
-    [
-     {
-      "k": [
+      "k": "col",
+      "c": [
        {
+        "id": "emp",
+        "i": "user",
+        "n": "Employee",
+        "s": "no VPN"
+       },
+       {
+        "id": "idp",
+        "i": "users",
         "n": "Corporate IdP"
        },
        {
+        "id": "dev",
+        "i": "client",
         "n": "Device management"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "va",
+        "i": "verifiedaccess",
+        "h": 1,
+        "n": "AWS Verified Access"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "app",
+          "i": "alb",
+          "n": "Internal web apps"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "emp",
+      "b": "va",
+      "no": 1,
+      "e": "HTTPS request"
      },
      {
-      "h": 1,
-      "n": "AWS Verified Access"
+      "a": "idp",
+      "b": "va",
+      "e": "identity",
+      "t": "d"
+     },
+     {
+      "a": "dev",
+      "b": "va",
+      "e": "device posture",
+      "t": "d"
+     },
+     {
+      "a": "va",
+      "b": "app",
+      "no": 2,
+      "e": "allowed by policy"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-55",
@@ -2952,44 +4790,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A presigned URL grants time-limited permission for one specific operation, such as uploading to one key, using the backend's own credentials, so the bucket stays private.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "browser",
+      "i": "client",
       "n": "Browser"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "be",
+        "i": "lambda",
+        "n": "Backend",
+        "s": "signs with its credentials"
+       },
+       {
+        "id": "url",
+        "i": "policy",
+        "h": 1,
+        "n": "Presigned URL",
+        "s": "one key, expires in 10 min"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Private S3 bucket"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "browser",
+      "b": "be",
+      "no": 1,
       "e": "request upload"
      },
      {
-      "n": "Backend"
+      "a": "be",
+      "b": "url",
+      "no": 2,
+      "e": "sign"
      },
      {
-      "e": "signs with its own credentials"
-     },
-     {
-      "h": 1,
-      "n": "Presigned URL",
-      "s": "one key, expires in 10 min"
-     }
-    ],
-    [
-     {
-      "n": "Browser"
-     },
-     {
-      "e": "PUT with presigned URL"
-     },
-     {
-      "g": "Private bucket",
-      "c": [
-       {
-        "n": "S3",
-        "s": "that one key only"
-       }
-      ]
+      "a": "url",
+      "b": "s3",
+      "no": 3,
+      "e": "browser PUTs with URL"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-59",
@@ -3023,46 +4876,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A bucket policy can deny any request that doesn't arrive through a specific VPC endpoint by checking `aws:SourceVpce`, which blocks requests from the internet even when the caller's credentials are valid.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies-vpc-endpoint.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Analytics VPC",
+      "id": "laptop",
+      "i": "client",
+      "n": "Laptop on internet"
+     },
+     {
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "Analytics"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "id": "ep",
+          "i": "gwendpoint",
+          "n": "Gateway endpoint",
+          "s": "vpce-1a2b"
+         }
+        ],
+        "n": "Analytics VPC"
+       },
+       {
+        "id": "pol",
+        "i": "policy",
+        "h": 1,
+        "n": "Bucket policy",
+        "s": "deny unless aws:SourceVpce = vpce-1a2b"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Sensitive bucket"
        }
-      ]
-     },
-     {
-      "e": "gateway endpoint vpce-1"
-     },
-     {
-      "h": 1,
-      "n": "Bucket policy",
-      "s": "deny unless aws:SourceVpce matches"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "S3 bucket"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Laptop on the internet"
+      "a": "ec2",
+      "b": "ep",
+      "no": 1
      },
      {
-      "e": "valid credentials, wrong path",
-      "x": 1
+      "a": "ep",
+      "b": "pol",
+      "no": 2
      },
      {
-      "h": 1,
-      "n": "Bucket policy",
-      "s": "deny unless aws:SourceVpce matches"
+      "a": "pol",
+      "b": "s3",
+      "no": 3,
+      "e": "allowed"
+     },
+     {
+      "a": "laptop",
+      "b": "pol",
+      "e": "wrong path",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-61",
@@ -3096,47 +4983,75 @@ window.QUESTION_BANK = {
    ],
    "explanation": "IMDSv2 requires a session token, obtained with a PUT request, before metadata can be read. That blocks most SSRF attacks, which can only make simple GET requests to the metadata endpoint.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "attacker",
+      "i": "user",
       "n": "Attacker"
      },
      {
-      "e": "SSRF: simple GET"
-     },
-     {
-      "n": "Web app"
-     },
-     {
-      "e": "",
-      "x": 1
-     },
-     {
-      "h": 1,
-      "n": "IMDSv2",
-      "s": "token required"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "public",
+          "c": [
+           {
+            "k": "col",
+            "c": [
+             {
+              "id": "web",
+              "i": "ec2",
+              "n": "Web app",
+              "s": "SSRF bug"
+             },
+             {
+              "id": "sdk",
+              "i": "ec2",
+              "n": "AWS SDK",
+              "s": "on the instance"
+             }
+            ]
+           },
+           {
+            "id": "imds",
+            "i": "ec2",
+            "h": 1,
+            "n": "IMDSv2",
+            "s": "session token required"
+           }
+          ],
+          "n": "Public subnet"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "SDK on instance"
+      "a": "attacker",
+      "b": "web",
+      "e": "crafted URL"
      },
      {
-      "e": "PUT for session token, then GET"
+      "a": "web",
+      "b": "imds",
+      "e": "plain GET",
+      "t": "x"
      },
      {
-      "h": 1,
-      "n": "IMDSv2",
-      "s": "token required"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Role credentials"
+      "a": "sdk",
+      "b": "imds",
+      "e": "PUT for token, then GET"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-63",
@@ -3170,32 +5085,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An interface endpoint (powered by AWS PrivateLink) places private network interfaces for Secrets Manager inside the VPC, so the functions reach the service over private IP addresses without any internet access.",
    "resource": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/vpc-endpoint-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Private subnet, no NAT",
+      "k": "cloud",
       "c": [
        {
-        "n": "Lambda"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "fn",
+            "i": "lambda",
+            "n": "Lambda function"
+           },
+           {
+            "id": "ep",
+            "i": "endpoint",
+            "h": 1,
+            "n": "Interface endpoint",
+            "s": "Secrets Manager"
+           }
+          ],
+          "n": "Private subnet",
+          "s": "no NAT"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "sm",
+        "i": "secrets",
+        "n": "Secrets Manager"
        }
-      ]
-     },
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
+      "a": "fn",
+      "b": "ep",
+      "no": 1,
       "e": "private IP"
      },
      {
-      "h": 1,
-      "n": "Interface endpoint",
-      "s": "Secrets Manager"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "AWS Secrets Manager"
+      "a": "ep",
+      "b": "sm",
+      "no": 2,
+      "e": "PrivateLink"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-65",
@@ -3229,58 +5172,70 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A WAF rate-based rule counts requests from each IP address (or another key) over a time window, and blocks or challenges clients that exceed the limit, while normal buyers are unaffected.",
    "resource": "https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-rate-based.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Clients"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "CloudFront"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "AWS WAF web ACL",
+      "k": "col",
       "c": [
        {
-        "h": 1,
-        "n": "Rate-based rule",
-        "s": "per IP per window"
+        "id": "users",
+        "i": "users",
+        "n": "Buyers"
        },
        {
-        "e": ""
-       },
-       {
-        "n": "Managed SQLi rules"
+        "id": "bots",
+        "i": "internet",
+        "n": "Abusive IPs"
        }
       ]
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Ticketing site"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cf",
+        "i": "cloudfront",
+        "n": "CloudFront"
+       },
+       {
+        "id": "waf",
+        "i": "waf",
+        "h": 1,
+        "n": "AWS WAF",
+        "s": "rate-based rule"
+       },
+       {
+        "id": "site",
+        "i": "alb",
+        "n": "Ticketing site"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Abusive IPs"
+      "a": "users",
+      "b": "cf",
+      "no": 1
      },
      {
-      "e": "over the limit",
-      "x": 1
+      "a": "bots",
+      "b": "cf"
      },
      {
-      "h": 1,
-      "n": "Rate-based rule",
-      "s": "per IP per window"
+      "a": "cf",
+      "b": "waf",
+      "no": 2
+     },
+     {
+      "a": "waf",
+      "b": "site",
+      "no": 3,
+      "e": "under the limit"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-31",
@@ -3314,47 +5269,71 @@ window.QUESTION_BANK = {
    ],
    "explanation": "SSE-KMS logs key usage in CloudTrail, and a customer managed key gives full control over who can use it through the key's own policy — independent of the bucket policy.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "Intake app"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 bucket",
+        "s": "SSE-KMS"
+       },
+       {
+        "id": "kms",
+        "i": "kms",
+        "h": 1,
+        "n": "Customer managed key",
+        "s": "key policy"
+       },
+       {
+        "id": "trail",
+        "i": "cloudtrail",
+        "n": "CloudTrail"
+       }
+      ],
+      "n": "AWS account"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "S3"
-     },
-     {
-      "e": "encrypt / decrypt calls"
-     },
-     {
-      "h": 1,
-      "n": "KMS customer managed key",
-      "s": "key policy controls users"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "CloudTrail",
-      "s": "logs each use"
+      "id": "eng",
+      "i": "user",
+      "n": "Engineer",
+      "s": "removed from key policy"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Engineer"
+      "a": "app",
+      "b": "s3",
+      "no": 1,
+      "e": "PutObject"
      },
      {
-      "e": "removed from key policy",
-      "x": 1
+      "a": "s3",
+      "b": "kms",
+      "no": 2,
+      "e": "GenerateDataKey"
      },
      {
-      "h": 1,
-      "n": "KMS customer managed key"
+      "a": "kms",
+      "b": "trail",
+      "no": 3,
+      "e": "every use logged"
+     },
+     {
+      "a": "eng",
+      "b": "kms",
+      "e": "Decrypt denied",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-32",
@@ -3388,38 +5367,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A bucket-level key cuts the number of calls to KMS by up to 99% by reusing a time-limited data key for many objects, directly reducing both throttling and cost.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "S3"
-     },
-     {
-      "e": "once per time window"
-     },
-     {
-      "h": 1,
-      "n": "S3 Bucket Key"
-     },
-     {
-      "e": "encrypts many objects"
-     },
-     {
-      "n": "Object data keys"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "App",
+        "s": "8,000 GET/s"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 bucket",
+        "s": "SSE-KMS"
+       },
+       {
+        "id": "bk",
+        "i": "kms",
+        "h": 1,
+        "n": "S3 Bucket Key",
+        "s": "short-lived bucket-level key"
+       },
+       {
+        "id": "kms",
+        "i": "kms",
+        "n": "AWS KMS"
+       }
+      ],
+      "n": "AWS account"
      }
     ],
-    [
+    "f": [
      {
-      "n": "S3"
+      "a": "app",
+      "b": "s3",
+      "no": 1,
+      "e": "GET"
      },
      {
-      "e": "far fewer calls",
-      "d": 1
+      "a": "s3",
+      "b": "bk",
+      "no": 2,
+      "e": "decrypt data keys"
      },
      {
-      "n": "AWS KMS"
+      "a": "bk",
+      "b": "kms",
+      "e": "occasional call only",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-33",
@@ -3453,28 +5454,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "In Compliance mode, no user — including the root user or an account with full administrative permissions — can shorten the retention period or delete the object before it expires. Governance mode can be bypassed by users with a special permission.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "root",
+      "i": "user",
       "n": "Anyone, even root"
      },
      {
+      "k": "account",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "h": 1,
+        "n": "S3 bucket",
+        "s": "Object Lock Compliance mode, 7 years"
+       },
+       {
+        "id": "log",
+        "i": "s3",
+        "n": "Trade logs"
+       }
+      ],
+      "d": "col",
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "log",
+      "b": "s3",
+      "e": "write once"
+     },
+     {
+      "a": "root",
+      "b": "s3",
       "e": "delete or overwrite",
-      "x": 1
-     },
-     {
-      "h": 1,
-      "n": "Object Lock Compliance mode",
-      "s": "7-year retention"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Trade logs"
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-34",
@@ -3508,32 +5528,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Encryption at rest can only be set when an RDS instance is created, so an existing unencrypted instance must be snapshotted, the snapshot copied with encryption turned on, and a new instance restored from that encrypted copy.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Unencrypted RDS"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "old",
+        "i": "rds",
+        "n": "Unencrypted RDS"
+       },
+       {
+        "id": "snap",
+        "i": "rds",
+        "n": "Snapshot"
+       },
+       {
+        "id": "enc",
+        "i": "kms",
+        "h": 1,
+        "n": "Encrypted copy",
+        "s": "KMS key"
+       },
+       {
+        "id": "new",
+        "i": "rds",
+        "n": "Encrypted RDS"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "old",
+      "b": "snap",
+      "no": 1,
+      "e": "take snapshot"
      },
      {
-      "e": ""
+      "a": "snap",
+      "b": "enc",
+      "no": 2,
+      "e": "copy with encryption"
      },
      {
-      "n": "Snapshot"
-     },
-     {
-      "e": "copy with KMS key"
-     },
-     {
-      "h": 1,
-      "n": "Encrypted snapshot"
-     },
-     {
+      "a": "enc",
+      "b": "new",
+      "no": 3,
       "e": "restore"
-     },
-     {
-      "n": "Encrypted RDS instance"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-35",
@@ -3567,28 +5613,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon Macie uses machine learning and pattern matching to discover, classify, and report on sensitive data such as PII stored in S3.",
    "resource": "https://docs.aws.amazon.com/macie/latest/user/what-is-macie.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "S3 data lake"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "lake",
+        "i": "s3",
+        "n": "S3 data lake"
+       },
+       {
+        "id": "mac",
+        "i": "macie",
+        "h": 1,
+        "n": "Amazon Macie",
+        "s": "ML and pattern matching"
+       },
+       {
+        "id": "hub",
+        "i": "securityhub",
+        "n": "Findings"
+       }
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "mac",
+      "b": "lake",
+      "no": 1,
+      "e": "discover and classify"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon Macie",
-      "s": "ML + pattern matching"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "PII findings",
-      "s": "names, IDs, card numbers"
+      "a": "mac",
+      "b": "hub",
+      "no": 2,
+      "e": "PII found"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-36",
@@ -3622,36 +5687,87 @@ window.QUESTION_BANK = {
    ],
    "explanation": "ACM public certificates are free and renew automatically as long as they remain in use and DNS validation stays in place. Note that the certificate used by CloudFront must be requested in `us-east-1`.",
    "resource": "https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "ACM public certificate",
-      "s": "free, auto-renews"
+      "id": "users",
+      "i": "users",
+      "n": "Users"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "CloudFront",
-      "s": "cert in us-east-1"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "cf",
+          "i": "cloudfront",
+          "n": "CloudFront"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "acm1",
+            "i": "acm",
+            "h": 1,
+            "n": "ACM certificate",
+            "s": "for CloudFront"
+           }
+          ],
+          "n": "us-east-1"
+         }
+        ]
+       },
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "alb",
+          "i": "alb",
+          "n": "ALB"
+         },
+         {
+          "id": "acm2",
+          "i": "acm",
+          "h": 1,
+          "n": "ACM certificate",
+          "s": "for the ALB"
+         }
+        ],
+        "d": "col",
+        "n": "App Region"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "ACM public certificate",
-      "s": "free, auto-renews"
+      "a": "users",
+      "b": "cf",
+      "no": 1,
+      "e": "HTTPS"
      },
      {
-      "e": ""
+      "a": "cf",
+      "b": "alb",
+      "no": 2,
+      "e": "HTTPS"
      },
      {
-      "n": "ALB",
-      "s": "cert in its Region"
+      "a": "acm1",
+      "b": "cf",
+      "e": "auto-renews"
+     },
+     {
+      "a": "acm2",
+      "b": "alb",
+      "e": "auto-renews"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-37",
@@ -3685,32 +5801,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "CloudHSM provisions single-tenant, FIPS 140-2 Level 3 validated hardware security modules that the customer controls directly, unlike the shared infrastructure behind AWS KMS's AWS managed keys.",
    "resource": "https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Your VPC",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "CloudHSM cluster",
-        "s": "single-tenant, FIPS 140-2 Level 3"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "app",
+            "i": "ec2",
+            "n": "Payments app"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "id": "hsm",
+          "i": "cloudhsm",
+          "h": 1,
+          "n": "CloudHSM cluster",
+          "s": "single-tenant, FIPS 140-2 Level 3"
+         }
+        ],
+        "n": "Your VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": ""
+      "id": "admin",
+      "i": "user",
+      "n": "Your crypto officers"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "hsm",
+      "no": 1,
+      "e": "crypto operations"
      },
      {
-      "n": "Keys under your exclusive control"
+      "a": "admin",
+      "b": "hsm",
+      "e": "exclusive control"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-38",
@@ -3744,41 +5886,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Encrypting data at rest doesn't protect data in transit. A bucket policy that denies requests when `aws:SecureTransport` is `false` forces every request to use HTTPS.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "client",
+      "i": "user",
       "n": "Client"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "pol",
+        "i": "policy",
+        "h": 1,
+        "n": "Bucket policy",
+        "s": "deny if aws:SecureTransport is false"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 bucket"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "client",
+      "b": "pol",
+      "no": 1,
       "e": "HTTPS"
      },
      {
-      "h": 1,
-      "n": "Bucket policy",
-      "s": "deny if aws:SecureTransport false"
+      "a": "pol",
+      "b": "s3",
+      "no": 2
      },
      {
-      "e": ""
-     },
-     {
-      "n": "S3 bucket"
-     }
-    ],
-    [
-     {
-      "n": "Client"
-     },
-     {
-      "e": "plain HTTP",
-      "x": 1
-     },
-     {
-      "h": 1,
-      "n": "Bucket policy",
-      "s": "deny if aws:SecureTransport false"
+      "a": "client",
+      "b": "s3",
+      "e": "plain HTTP denied",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-39",
@@ -3812,30 +5965,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 Block Public Access, turned on at the account level, overrides any bucket policy or ACL that would otherwise make a bucket or object public — for existing and future buckets alike.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Bucket policy or ACL",
-      "s": "making it public"
+      "id": "user",
+      "i": "user",
+      "n": "Any user"
      },
      {
-      "e": "",
-      "x": 1
+      "k": "cloud",
+      "c": [
+       {
+        "id": "bpa",
+        "i": "s3",
+        "h": 1,
+        "n": "Block Public Access",
+        "s": "account level"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "b1",
+          "i": "s3",
+          "n": "Existing buckets"
+         },
+         {
+          "id": "b2",
+          "i": "s3",
+          "n": "New buckets"
+         }
+        ]
+       }
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "user",
+      "b": "bpa",
+      "e": "public policy or ACL",
+      "t": "x"
      },
      {
-      "h": 1,
-      "n": "Block Public Access",
-      "s": "account level"
+      "a": "bpa",
+      "b": "b1",
+      "e": "overrides"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "All buckets",
-      "s": "existing and new"
+      "a": "bpa",
+      "b": "b2",
+      "e": "overrides"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-40",
@@ -3869,38 +6053,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Sharing the snapshot alone isn't enough for a customer managed key: the target account also needs to be granted use of that key in its key policy before it can decrypt and restore from the snapshot. (Snapshots encrypted with the AWS managed key `aws/ebs` can't be shared across accounts at all.)",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Your account",
+      "k": "account",
       "c": [
        {
-        "k": [
-         {
-          "n": "Encrypted snapshot"
-         },
-         {
-          "h": 1,
-          "n": "KMS key policy",
-          "s": "allow partner account"
-         }
-        ]
+        "id": "snap",
+        "i": "ebs",
+        "n": "Encrypted snapshot"
+       },
+       {
+        "id": "kms",
+        "i": "kms",
+        "h": 1,
+        "n": "Customer managed key",
+        "s": "key policy allows partner"
        }
-      ]
+      ],
+      "n": "Your account"
      },
      {
-      "e": "share snapshot + key"
-     },
-     {
-      "g": "Partner account",
+      "k": "account",
       "c": [
        {
-        "n": "Restored EBS volume"
+        "id": "vol",
+        "i": "ebs",
+        "n": "Restored volume"
        }
-      ]
+      ],
+      "n": "Partner account"
+     }
+    ],
+    "f": [
+     {
+      "a": "snap",
+      "b": "vol",
+      "no": 1,
+      "e": "share snapshot"
+     },
+     {
+      "a": "kms",
+      "b": "vol",
+      "no": 2,
+      "e": "partner can use key"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-41",
@@ -3934,47 +6133,99 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Backup centralizes policy-driven backup across EBS, RDS, DynamoDB, EFS, and other services, supports cross-Region copy, and Vault Lock can make a vault's policy immutable — even to the account's own administrators.",
    "resource": "https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Backup plan"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EBS"
+        "id": "plan",
+        "i": "backup",
+        "h": 1,
+        "n": "AWS Backup plan"
        },
        {
-        "n": "RDS"
+        "k": "col",
+        "c": [
+         {
+          "id": "ebs",
+          "i": "ebs",
+          "n": "EBS"
+         },
+         {
+          "id": "rds",
+          "i": "rds",
+          "n": "RDS"
+         },
+         {
+          "id": "ddb",
+          "i": "dynamodb",
+          "n": "DynamoDB"
+         },
+         {
+          "id": "efs",
+          "i": "efs",
+          "n": "EFS"
+         }
+        ]
        },
        {
-        "n": "DynamoDB"
+        "k": "region",
+        "c": [
+         {
+          "id": "vault",
+          "i": "backup",
+          "n": "Backup vault",
+          "s": "Vault Lock"
+         }
+        ],
+        "n": "Primary Region"
        },
        {
-        "n": "EFS"
+        "k": "region",
+        "c": [
+         {
+          "id": "vault2",
+          "i": "backup",
+          "n": "Copy vault"
+         }
+        ],
+        "n": "Second Region"
        }
-      ]
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "plan",
+      "b": "ebs",
+      "e": "scheduled"
      },
      {
-      "e": ""
+      "a": "plan",
+      "b": "rds"
      },
      {
-      "h": 1,
-      "n": "Backup vault",
-      "s": "Vault Lock"
+      "a": "plan",
+      "b": "ddb"
      },
      {
+      "a": "plan",
+      "b": "efs"
+     },
+     {
+      "a": "rds",
+      "b": "vault",
+      "e": "recovery points"
+     },
+     {
+      "a": "vault",
+      "b": "vault2",
       "e": "cross-Region copy"
-     },
-     {
-      "n": "Vault in second Region"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-42",
@@ -4008,37 +6259,55 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Automatic rotation for a customer managed symmetric key defaults to every 365 days, and the period can be customized (AWS supports a range between 90 and 2,560 days). Old key material is retained so previously encrypted data can still be decrypted.",
    "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Key material v1"
-     },
-     {
-      "e": "365 days, default"
-     },
-     {
-      "n": "Key material v2"
-     },
-     {
-      "e": "customizable 90-2,560 days"
-     },
-     {
-      "n": "Key material v3"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "old",
+        "i": "s3",
+        "n": "Old ciphertext"
+       },
+       {
+        "id": "m1",
+        "i": "kms",
+        "n": "Key material 1"
+       },
+       {
+        "id": "m2",
+        "i": "kms",
+        "n": "Key material 2"
+       },
+       {
+        "id": "key",
+        "i": "kms",
+        "h": 1,
+        "n": "Customer managed key",
+        "s": "automatic rotation on"
+       }
+      ],
+      "n": "AWS KMS"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Old ciphertext"
+      "a": "old",
+      "b": "m1",
+      "e": "still decrypts"
      },
      {
-      "e": "old material kept"
+      "a": "m1",
+      "b": "m2",
+      "e": "default 365 days, 90 to 2,560 allowed"
      },
      {
-      "h": 1,
-      "n": "Still decryptable"
+      "a": "key",
+      "b": "m2",
+      "e": "encrypts with newest"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-43",
@@ -4072,47 +6341,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Config continuously records configuration changes and evaluates resources against rules like required encryption, flagging drift and keeping a configuration history — which is different from CloudTrail's record of API calls.",
    "resource": "https://docs.aws.amazon.com/config/latest/developerguide/WhatIsConfig.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Resources",
-      "s": "e.g. EBS volumes"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Config"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Rules",
-      "s": "encryption required"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Compliant or noncompliant"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ebs",
+        "i": "ebs",
+        "n": "EBS volumes"
+       },
+       {
+        "id": "cfg",
+        "i": "config",
+        "h": 1,
+        "n": "AWS Config",
+        "s": "rules and history"
+       },
+       {
+        "id": "rule",
+        "i": "config",
+        "n": "Rule: encrypted volumes"
+       },
+       {
+        "id": "hub",
+        "i": "securityhub",
+        "n": "Noncompliant"
+       }
+      ],
+      "n": "AWS account"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "AWS Config"
+      "a": "cfg",
+      "b": "ebs",
+      "no": 1,
+      "e": "record configuration"
      },
      {
-      "e": ""
+      "a": "cfg",
+      "b": "rule",
+      "no": 2,
+      "e": "evaluate"
      },
      {
-      "n": "Configuration history",
-      "s": "per resource"
+      "a": "rule",
+      "b": "hub",
+      "no": 3,
+      "e": "flag drift"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-44",
@@ -4146,40 +6426,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Artifact provides on-demand access to AWS's compliance reports and agreements, including SOC and PCI reports, for exactly this kind of customer due-diligence request.",
    "resource": "https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "team",
+      "i": "user",
       "n": "Cloud team"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Artifact",
-      "s": "on demand"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "SOC 2"
-       },
-       {
-        "n": "PCI DSS reports"
+        "id": "art",
+        "i": "artifact",
+        "h": 1,
+        "n": "AWS Artifact",
+        "s": "SOC and PCI reports"
        }
-      ]
+      ],
+      "n": "AWS"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "cust",
+      "i": "users",
       "n": "Prospective customer"
      }
+    ],
+    "f": [
+     {
+      "a": "team",
+      "b": "art",
+      "no": 1,
+      "e": "download"
+     },
+     {
+      "a": "art",
+      "b": "cust",
+      "no": 2,
+      "e": "shared by the team"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "1-45",
@@ -4218,41 +6505,76 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The HTTPS listener terminates TLS using the ACM certificate, and the redirect rule on the HTTP listener sends clients that connect over plain HTTP to HTTPS instead of serving them unencrypted. The other options protect data at rest, which this checklist item already covers.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "browser",
+      "i": "client",
       "n": "Browser"
      },
      {
-      "e": "http://"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "k": "public",
+          "c": [
+           {
+            "id": "alb",
+            "i": "alb",
+            "h": 1,
+            "n": "ALB",
+            "s": "HTTP listener redirects, HTTPS listener serves"
+           },
+           {
+            "id": "acm",
+            "i": "acm",
+            "n": "ACM certificate"
+           }
+          ],
+          "d": "col",
+          "n": "Public subnets"
+         },
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "Target group"
+           }
+          ],
+          "n": "Private subnets"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "browser",
+      "b": "alb",
+      "no": 1,
+      "e": "http:// gets 301 to https://"
      },
      {
-      "h": 1,
-      "n": "HTTP listener",
-      "s": "redirect rule"
+      "a": "alb",
+      "b": "ec2",
+      "no": 2,
+      "e": "decrypted request"
      },
      {
-      "e": "redirect"
-     },
-     {
-      "n": "Browser"
-     },
-     {
-      "e": "https://"
-     },
-     {
-      "h": 1,
-      "n": "HTTPS listener",
-      "s": "ACM certificate"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "EC2 targets"
+      "a": "acm",
+      "b": "alb",
+      "e": "TLS for HTTPS listener"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-47",
@@ -4286,38 +6608,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Audit Manager continuously collects evidence from sources such as AWS Config, CloudTrail and Security Hub, maps it to the controls in a framework such as PCI DSS, and generates assessment reports to share with auditors.",
    "resource": "https://docs.aws.amazon.com/audit-manager/latest/userguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "AWS Config"
+        "k": "col",
+        "c": [
+         {
+          "id": "cfg",
+          "i": "config",
+          "n": "AWS Config"
+         },
+         {
+          "id": "trail",
+          "i": "cloudtrail",
+          "n": "CloudTrail"
+         },
+         {
+          "id": "hub",
+          "i": "securityhub",
+          "n": "Security Hub"
+         }
+        ]
        },
        {
-        "n": "CloudTrail"
-       },
-       {
-        "n": "Security Hub"
+        "id": "am",
+        "i": "auditmanager",
+        "h": 1,
+        "n": "Audit Manager",
+        "s": "PCI DSS framework"
        }
-      ]
+      ],
+      "n": "AWS account"
      },
      {
+      "id": "auditor",
+      "i": "user",
+      "n": "Auditor"
+     }
+    ],
+    "f": [
+     {
+      "a": "cfg",
+      "b": "am",
       "e": "evidence"
      },
      {
-      "h": 1,
-      "n": "Audit Manager",
-      "s": "PCI DSS framework"
+      "a": "trail",
+      "b": "am"
      },
      {
-      "e": ""
+      "a": "hub",
+      "b": "am"
      },
      {
-      "n": "Assessment report",
-      "s": "for auditor"
+      "a": "am",
+      "b": "auditor",
+      "e": "assessment report"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-48",
@@ -4351,44 +6703,56 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Private CA is a managed private certificate authority. It issues and revokes certificates for use inside an organization, such as mutual TLS between services, without the company running CA software itself.",
    "resource": "https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "AWS Private CA"
-     },
-     {
-      "e": "issue / revoke"
-     },
-     {
-      "k": [
-       {
-        "n": "Service A cert"
-       },
-       {
-        "n": "Service B cert"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "EKS",
+      "k": "cloud",
       "c": [
        {
-        "n": "Service A"
+        "id": "pca",
+        "i": "privateca",
+        "h": 1,
+        "n": "AWS Private CA"
        },
        {
-        "e": "mutual TLS"
-       },
-       {
-        "n": "Service B"
+        "k": "group",
+        "c": [
+         {
+          "id": "a",
+          "i": "eks",
+          "n": "Service A"
+         },
+         {
+          "id": "b",
+          "i": "eks",
+          "n": "Service B"
+         }
+        ],
+        "n": "EKS cluster"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "pca",
+      "b": "a",
+      "e": "issue certificates"
+     },
+     {
+      "a": "pca",
+      "b": "b",
+      "e": "issue certificates"
+     },
+     {
+      "a": "a",
+      "b": "b",
+      "e": "mutual TLS",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-56",
@@ -4422,44 +6786,74 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Multi-Region keys are sets of KMS keys in different Regions that share the same key ID and key material, so data encrypted in one Region can be decrypted in another without re-encrypting it or calling across Regions.",
    "resource": "https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "us-east-1",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Primary multi-Region key"
+        "k": "region",
+        "c": [
+         {
+          "id": "k1",
+          "i": "kms",
+          "h": 1,
+          "n": "Multi-Region primary key"
+         },
+         {
+          "id": "d1",
+          "i": "dynamodb",
+          "n": "Encrypted data"
+         }
+        ],
+        "n": "us-east-1"
        },
        {
-        "e": ""
-       },
-       {
-        "n": "Encrypted data"
+        "k": "region",
+        "c": [
+         {
+          "id": "k2",
+          "i": "kms",
+          "h": 1,
+          "n": "Replica key",
+          "s": "same key material"
+         },
+         {
+          "id": "d2",
+          "i": "dynamodb",
+          "n": "Replicated data"
+         }
+        ],
+        "n": "eu-west-1"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "k1",
+      "b": "d1",
+      "e": "encrypt"
      },
      {
-      "e": "same key material",
-      "d": 1
+      "a": "d1",
+      "b": "d2",
+      "e": "replication"
      },
      {
-      "g": "eu-west-1",
-      "c": [
-       {
-        "h": 1,
-        "n": "Replica key"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "Decrypt locally"
-       }
-      ]
+      "a": "k1",
+      "b": "k2",
+      "e": "replicate key",
+      "t": "d"
+     },
+     {
+      "a": "k2",
+      "b": "d2",
+      "e": "decrypt locally"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-60",
@@ -4493,28 +6887,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "With Object Ownership set to Bucket owner enforced, ACLs are turned off and the bucket owner automatically owns every object in the bucket, whichever account uploads it.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "account",
+      "c": [
+       {
+        "id": "p",
+        "i": "users",
+        "n": "Uploaders"
+       }
+      ],
       "n": "Partner accounts"
      },
      {
+      "k": "account",
+      "c": [
+       {
+        "id": "own",
+        "i": "s3",
+        "h": 1,
+        "n": "Object Ownership",
+        "s": "Bucket owner enforced, ACLs off"
+       },
+       {
+        "id": "b",
+        "i": "s3",
+        "n": "Central logging bucket"
+       }
+      ],
+      "n": "Logging account"
+     }
+    ],
+    "f": [
+     {
+      "a": "p",
+      "b": "own",
+      "no": 1,
       "e": "upload"
      },
      {
-      "h": 1,
-      "n": "Object Ownership",
-      "s": "Bucket owner enforced, ACLs off"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Logging bucket",
-      "s": "owner owns every object"
+      "a": "own",
+      "b": "b",
+      "no": 2,
+      "e": "owned by bucket owner"
      }
     ]
-   ]
+   }
   },
   {
    "id": "1-62",
@@ -4548,27 +6967,50 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EBS encryption by default is a per-Region account setting. Once it's on, every new EBS volume, and every snapshot copied from an unencrypted snapshot, is encrypted automatically with the default or a chosen KMS key.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/encryption-by-default.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "EBS encryption by default",
-      "s": "per Region"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "set",
+          "i": "ebs",
+          "h": 1,
+          "n": "EBS encryption by default"
+         },
+         {
+          "id": "vol",
+          "i": "ebs",
+          "n": "New volumes"
+         },
+         {
+          "id": "kms",
+          "i": "kms",
+          "n": "KMS key"
+         }
+        ],
+        "n": "Each Region"
+       }
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "set",
+      "b": "vol",
+      "e": "always encrypted"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Any new volume"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Encrypted with KMS key"
+      "a": "kms",
+      "b": "vol",
+      "e": "default or chosen key"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-01",
@@ -4602,47 +7044,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "SQS buffers messages so workers can process them at their own pace instead of dropping requests during a spike. Scale the worker fleet on `ApproximateNumberOfMessagesVisible` (backlog per instance) rather than on web-tier metrics.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Web tier"
+      "id": "users",
+      "i": "users",
+      "n": "Black Friday shoppers"
      },
      {
-      "e": "send order"
-     },
-     {
-      "h": 1,
-      "n": "SQS queue",
-      "s": "buffers the spike"
-     },
-     {
-      "e": "poll at own pace"
-     },
-     {
-      "n": "Worker Auto Scaling group"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "web",
+        "i": "ec2",
+        "n": "Web tier"
+       },
+       {
+        "id": "sqs",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS queue",
+        "s": "buffers the spike"
+       },
+       {
+        "id": "asg",
+        "i": "asg",
+        "n": "Worker Auto Scaling group",
+        "s": "scales on backlog per instance"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "SQS queue",
-      "s": "buffers the spike"
+      "a": "users",
+      "b": "web",
+      "no": 1,
+      "e": "orders"
      },
      {
-      "e": "backlog per instance",
-      "d": 1
+      "a": "web",
+      "b": "sqs",
+      "no": 2,
+      "e": "send message"
      },
      {
-      "n": "Scaling policy"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Worker Auto Scaling group"
+      "a": "asg",
+      "b": "sqs",
+      "no": 3,
+      "e": "poll at own pace"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-02",
@@ -4676,43 +7130,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "FIFO queues preserve order within a message group and deduplicate messages, so using the customer ID as the group ID keeps each customer's transactions in order without mixing them with other customers'.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fifo-queues.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Transactions",
-      "s": "all customers"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "SQS FIFO queue"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "col",
+      "c": [
        {
-        "n": "Group: customer A",
-        "s": "in order"
+        "id": "a",
+        "i": "users",
+        "n": "Customer A transactions"
        },
        {
-        "n": "Group: customer B",
-        "s": "in order"
+        "id": "b",
+        "i": "users",
+        "n": "Customer B transactions"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fifo",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS FIFO queue",
+        "s": "message group ID = customer ID"
+       },
+       {
+        "id": "gen",
+        "i": "lambda",
+        "n": "Statement generator",
+        "s": "exactly once, in order per customer"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "fifo",
+      "e": "group A"
      },
      {
-      "n": "Statement generator",
-      "s": "exactly once"
+      "a": "b",
+      "b": "fifo",
+      "e": "group B"
+     },
+     {
+      "a": "fifo",
+      "b": "gen"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-03",
@@ -4746,46 +7217,99 @@ window.QUESTION_BANK = {
    ],
    "explanation": "SNS-to-SQS fan-out delivers one copy of the event to each queue, so billing, shipping, and analytics each consume independently and a backlog in one queue has no effect on the others.",
    "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Order placed"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "SNS topic"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "h": 1,
-        "n": "SQS: billing"
+        "id": "pub",
+        "i": "ec2",
+        "n": "Order service"
        },
        {
+        "id": "sns",
+        "i": "sns",
         "h": 1,
-        "n": "SQS: shipping"
+        "n": "SNS topic",
+        "s": "order placed"
        },
        {
-        "h": 1,
-        "n": "SQS: analytics",
-        "s": "may lag"
+        "k": "col",
+        "c": [
+         {
+          "id": "q1",
+          "i": "sqs",
+          "n": "SQS: billing"
+         },
+         {
+          "id": "q2",
+          "i": "sqs",
+          "n": "SQS: shipping"
+         },
+         {
+          "id": "q3",
+          "i": "sqs",
+          "n": "SQS: analytics",
+          "s": "may lag for hours"
+         }
+        ]
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "c1",
+          "i": "lambda",
+          "n": "Billing"
+         },
+         {
+          "id": "c2",
+          "i": "ec2",
+          "n": "Shipping"
+         },
+         {
+          "id": "c3",
+          "i": "emr",
+          "n": "Analytics"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "pub",
+      "b": "sns"
      },
      {
-      "e": ""
+      "a": "sns",
+      "b": "q1"
      },
      {
-      "n": "Each consumer at its own pace"
+      "a": "sns",
+      "b": "q2"
+     },
+     {
+      "a": "sns",
+      "b": "q3"
+     },
+     {
+      "a": "q1",
+      "b": "c1"
+     },
+     {
+      "a": "q2",
+      "b": "c2"
+     },
+     {
+      "a": "q3",
+      "b": "c3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-04",
@@ -4819,40 +7343,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "After a message fails a set number of receives (`maxReceiveCount`), the redrive policy moves it to a DLQ instead of leaving it to block the head of the queue, so healthy messages keep flowing.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "SQS queue"
-     },
-     {
-      "e": "receive fails 5x"
-     },
-     {
-      "h": 1,
-      "n": "Redrive policy",
-      "s": "maxReceiveCount = 5"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Dead-letter queue",
-      "s": "malformed order"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "q",
+        "i": "sqs",
+        "n": "Orders queue",
+        "s": "redrive policy, maxReceiveCount 5"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "c",
+          "i": "ec2",
+          "n": "Consumers",
+          "s": "valid orders keep flowing"
+         },
+         {
+          "id": "dlq",
+          "i": "sqs",
+          "h": 1,
+          "n": "Dead-letter queue",
+          "s": "malformed order parked"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "SQS queue"
+      "a": "q",
+      "b": "c",
+      "e": "receive"
      },
      {
-      "e": "valid orders keep flowing"
-     },
-     {
-      "n": "Consumers"
+      "a": "q",
+      "b": "dlq",
+      "e": "after 5 failed receives"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-05",
@@ -4886,40 +7422,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "If a message isn't deleted before the visibility timeout expires, SQS makes it visible to other consumers again, causing duplicate processing. Setting the timeout comfortably above the worst-case processing time prevents that.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Worker 1"
-     },
-     {
-      "e": "receive"
-     },
-     {
-      "n": "SQS message",
-      "s": "hidden for visibility timeout"
-     },
-     {
-      "e": "timeout > worst-case processing"
-     },
-     {
-      "n": "Worker 1 deletes it"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "q",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS queue",
+        "s": "visibility timeout above worst-case time"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "w1",
+          "i": "ec2",
+          "n": "Worker 1",
+          "s": "deletes message when done"
+         },
+         {
+          "id": "w2",
+          "i": "ec2",
+          "n": "Worker 2"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "SQS message",
-      "s": "hidden for visibility timeout"
+      "a": "q",
+      "b": "w1",
+      "e": "receive, message hidden"
      },
      {
-      "e": "timeout expired too early",
-      "x": 1
-     },
-     {
-      "n": "Worker 2",
-      "s": "duplicate transcode"
+      "a": "q",
+      "b": "w2",
+      "e": "still hidden, no duplicate",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-06",
@@ -4953,40 +7501,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Long polling keeps the connection open for up to 20 seconds waiting for a message to arrive, instead of returning immediately with an empty response, which sharply cuts the number of empty polls and their cost.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-short-and-long-polling.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Consumer"
-     },
-     {
-      "e": "ReceiveMessage, WaitTimeSeconds=20"
-     },
-     {
-      "h": 1,
-      "n": "Long polling",
-      "s": "waits for a message"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Message as soon as one arrives"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "c",
+        "i": "ec2",
+        "n": "Consumers"
+       },
+       {
+        "id": "q",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS queue",
+        "s": "long polling, WaitTimeSeconds 20"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Short polling"
-     },
-     {
-      "e": "fewer of these",
-      "x": 1
-     },
-     {
-      "n": "Empty responses",
-      "s": "billed API calls"
+      "a": "c",
+      "b": "q",
+      "e": "ReceiveMessage waits up to 20 s"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-07",
@@ -5020,47 +7563,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Standard workflows can run for up to a year and are built for exactly this kind of long-running, auditable process with waits and human approval. Express workflows (wrong here) are for high-volume executions that complete within 5 minutes.",
    "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Application submitted"
+      "id": "app",
+      "i": "user",
+      "n": "Applicant"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Credit check",
-      "s": "retries"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Human approval"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Wait for documents",
-      "s": "up to months"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Decision"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sfn",
+        "i": "stepfunctions",
+        "h": 1,
+        "n": "Step Functions Standard",
+        "s": "runs up to 1 year"
+       },
+       {
+        "id": "check",
+        "i": "lambda",
+        "n": "Credit check",
+        "s": "retries"
+       },
+       {
+        "id": "appr",
+        "i": "users",
+        "n": "Human approval"
+       },
+       {
+        "id": "wait",
+        "i": "scheduler",
+        "n": "Wait for documents",
+        "s": "up to months"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Step Functions Standard",
-      "s": "runs up to 1 year, full history"
+      "a": "app",
+      "b": "sfn",
+      "no": 1,
+      "e": "start"
+     },
+     {
+      "a": "sfn",
+      "b": "check",
+      "no": 2
+     },
+     {
+      "a": "check",
+      "b": "appr",
+      "no": 3,
+      "e": "task token"
+     },
+     {
+      "a": "appr",
+      "b": "wait",
+      "no": 4
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-08",
@@ -5094,46 +7659,73 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EventBridge supports partner event sources like Zendesk alongside native AWS events, and its rules can filter and route based on event content to multiple targets.",
    "resource": "https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
-        "n": "Zendesk partner source"
+        "id": "zd",
+        "i": "internet",
+        "n": "Zendesk",
+        "s": "partner event source"
        },
        {
-        "n": "AWS events",
-        "s": "e.g. EC2 state change"
+        "id": "ec2",
+        "i": "ec2",
+        "n": "EC2 state changes"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "eb",
+        "i": "eventbridge",
+        "h": 1,
+        "n": "EventBridge event bus"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "oncall",
+          "i": "lambda",
+          "n": "On-call Lambda"
+         },
+         {
+          "id": "other",
+          "i": "sqs",
+          "n": "Other targets"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "zd",
+      "b": "eb"
      },
      {
-      "h": 1,
-      "n": "EventBridge event bus"
+      "a": "ec2",
+      "b": "eb"
      },
      {
+      "a": "eb",
+      "b": "oncall",
       "e": "rule: priority = high"
      },
      {
-      "n": "On-call Lambda"
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "EventBridge event bus"
-     },
-     {
+      "a": "eb",
+      "b": "other",
       "e": "other rules"
-     },
-     {
-      "n": "Other targets"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-09",
@@ -5167,28 +7759,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon MQ is a managed message broker for Apache ActiveMQ and RabbitMQ that supports standard protocols including AMQP and MQTT, letting existing clients connect with little to no code change.",
    "resource": "https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "onprem",
+      "c": [
+       {
+        "id": "cl",
+        "i": "server",
+        "n": "AMQP and MQTT clients"
+       }
+      ],
       "n": "Existing clients",
-      "s": "AMQP and MQTT"
+      "s": "no code changes"
      },
      {
-      "e": "no code changes"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "mq",
+        "i": "mq",
+        "h": 1,
+        "n": "Amazon MQ",
+        "s": "managed ActiveMQ broker"
+       },
+       {
+        "id": "cons",
+        "i": "ec2",
+        "n": "Order routing"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "cl",
+      "b": "mq",
+      "no": 1,
+      "e": "AMQP / MQTT"
      },
      {
-      "h": 1,
-      "n": "Amazon MQ",
-      "s": "managed ActiveMQ broker"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Order-routing consumers"
+      "a": "mq",
+      "b": "cons",
+      "no": 2
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-10",
@@ -5222,54 +7839,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Keeping session state out of the instances and in a shared, external store lets any instance serve any request, so scaling in no longer logs users out.",
    "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-use-cases.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Users"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "ALB"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2 1"
-       },
-       {
-        "n": "EC2 2"
-       },
-       {
-        "n": "EC2 3"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "alb",
+          "i": "alb",
+          "n": "ALB"
+         },
+         {
+          "id": "asg",
+          "i": "asg",
+          "n": "Auto Scaling group",
+          "s": "any instance can serve"
+         },
+         {
+          "id": "cache",
+          "i": "elasticache",
+          "h": 1,
+          "n": "ElastiCache or DynamoDB",
+          "s": "shared session store"
+         }
+        ],
+        "n": "VPC"
        }
-      ]
-     },
-     {
-      "e": "read / write session"
-     },
-     {
-      "h": 1,
-      "n": "Shared session store",
-      "s": "ElastiCache or DynamoDB"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Scale-in removes EC2 3"
+      "a": "users",
+      "b": "alb",
+      "no": 1
      },
      {
-      "e": ""
+      "a": "alb",
+      "b": "asg",
+      "no": 2
      },
      {
-      "n": "Session survives in the shared store"
+      "a": "asg",
+      "b": "cache",
+      "no": 3,
+      "e": "read / write sessions"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-11",
@@ -5303,43 +7929,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "This combination scales automatically from zero to very high request rates with nothing to provision or patch, unlike the other options, which all involve managing servers or fixed capacity.",
    "resource": "https://docs.aws.amazon.com/wellarchitected/latest/serverless-applications-lens/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "clients",
+      "i": "users",
       "n": "Clients",
-      "s": "0 to thousands per second"
+      "s": "zero to thousands per second"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "API Gateway"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lambda"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "DynamoDB",
-      "s": "on-demand"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "api",
+        "i": "apigw",
+        "h": 1,
+        "n": "API Gateway"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "h": 1,
+        "n": "Lambda"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "DynamoDB",
+        "s": "on-demand"
+       }
+      ],
+      "n": "AWS Cloud",
+      "s": "nothing to patch"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Fully serverless",
-      "s": "scales from zero, nothing to patch"
+      "a": "clients",
+      "b": "api",
+      "no": 1
+     },
+     {
+      "a": "api",
+      "b": "fn",
+      "no": 2
+     },
+     {
+      "a": "fn",
+      "b": "ddb",
+      "no": 3
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-12",
@@ -5373,54 +8015,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Fargate is a serverless compute engine for containers: ECS or EKS schedules the containers, and there are no EC2 instances for the customer to provision or manage.",
    "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "img",
+      "i": "ecr",
       "n": "Container images"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "ECS or EKS",
-      "s": "scheduling"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Fargate",
-      "s": "serverless compute"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Running tasks / pods"
-     }
-    ],
-    [
-     {
-      "n": "Your EC2 cluster"
-     },
-     {
-      "e": "nothing to manage",
-      "x": 1
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Patching"
+        "id": "ecs",
+        "i": "ecs",
+        "n": "ECS or EKS",
+        "s": "scheduling"
        },
        {
-        "n": "Capacity planning"
+        "id": "fg",
+        "i": "fargate",
+        "h": 1,
+        "n": "AWS Fargate",
+        "s": "no instances to manage"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "img",
+      "b": "ecs",
+      "no": 1
+     },
+     {
+      "a": "ecs",
+      "b": "fg",
+      "no": 2,
+      "e": "run tasks / pods"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-13",
@@ -5454,47 +8089,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Usage plans tied to API keys let you set per-client throttling (rate and burst) limits, so one client's traffic spike can't consume the capacity other clients depend on.",
    "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Client A"
+      "k": "col",
+      "c": [
+       {
+        "id": "a",
+        "i": "user",
+        "n": "Client A",
+        "s": "API key A"
+       },
+       {
+        "id": "bad",
+        "i": "user",
+        "n": "Noisy client",
+        "s": "API key B"
+       }
+      ]
      },
      {
-      "e": "API key A"
-     },
-     {
-      "h": 1,
-      "n": "Usage plan",
-      "s": "rate + burst limit per key"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "API Gateway"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Backend"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "plan",
+        "i": "apigw",
+        "h": 1,
+        "n": "Usage plan",
+        "s": "rate and burst limit per key"
+       },
+       {
+        "id": "be",
+        "i": "lambda",
+        "n": "Backend"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Misbehaving client"
+      "a": "a",
+      "b": "plan"
      },
      {
-      "e": "429 over the limit",
-      "x": 1
+      "a": "bad",
+      "b": "plan",
+      "e": "429 over its limit",
+      "t": "x"
      },
      {
-      "h": 1,
-      "n": "Usage plan",
-      "s": "rate + burst limit per key"
+      "a": "plan",
+      "b": "be"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-14",
@@ -5528,40 +8177,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 event notifications trigger the Lambda function the moment an object is created, with no polling and no direct dependency between the upload path and the thumbnail generator.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotifications.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Upload"
+      "id": "up",
+      "i": "users",
+      "n": "Uploads"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Images bucket"
+       },
+       {
+        "id": "ev",
+        "i": "eventbridge",
+        "h": 1,
+        "n": "Event notification",
+        "s": "ObjectCreated"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "h": 1,
+        "n": "Thumbnail Lambda"
+       },
+       {
+        "id": "out",
+        "i": "s3",
+        "n": "Thumbnails"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "up",
+      "b": "s3",
+      "no": 1
      },
      {
-      "n": "S3 bucket"
+      "a": "s3",
+      "b": "ev",
+      "no": 2
      },
      {
-      "e": "ObjectCreated event"
+      "a": "ev",
+      "b": "fn",
+      "no": 3
      },
      {
-      "h": 1,
-      "n": "Event notification or EventBridge"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lambda",
-      "s": "thumbnail"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Thumbnails bucket"
+      "a": "fn",
+      "b": "out",
+      "no": 4
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-15",
@@ -5595,27 +8270,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "RDS Proxy pools and shares a smaller number of underlying database connections across many Lambda invocations, and it also speeds up failover. A bigger instance class or more replicas don't solve a connection-exhaustion problem by themselves.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Many Lambda invocations"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Burst of Lambda invocations"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "proxy",
+          "i": "rdsproxy",
+          "h": 1,
+          "n": "RDS Proxy",
+          "s": "connection pool"
+         },
+         {
+          "id": "db",
+          "i": "rds",
+          "n": "RDS for MySQL"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "fn",
+      "b": "proxy",
+      "no": 1,
+      "e": "many connections"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "RDS Proxy",
-      "s": "connection pool"
-     },
-     {
+      "a": "proxy",
+      "b": "db",
+      "no": 2,
       "e": "few shared connections"
-     },
-     {
-      "n": "RDS for MySQL"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-16",
@@ -5649,40 +8350,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "ElastiCache caches frequently read, rarely changed query results in memory, cutting both database load and response latency for hot reads.",
    "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
-     },
-     {
-      "e": "1. read"
-     },
-     {
-      "h": 1,
-      "n": "ElastiCache",
-      "s": "hot items in memory"
-     },
-     {
-      "e": "2. on a miss"
-     },
-     {
-      "n": "Database"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Catalog app"
+         },
+         {
+          "id": "cache",
+          "i": "elasticache",
+          "h": 1,
+          "n": "ElastiCache",
+          "s": "hot items in memory"
+         },
+         {
+          "id": "db",
+          "i": "rds",
+          "n": "Database"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "App"
+      "a": "app",
+      "b": "cache",
+      "no": 1,
+      "e": "read, mostly hits"
      },
      {
-      "e": "cache hit, sub-millisecond"
-     },
-     {
-      "h": 1,
-      "n": "ElastiCache",
-      "s": "hot items in memory"
+      "a": "cache",
+      "b": "db",
+      "no": 2,
+      "e": "on a miss"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-17",
@@ -5721,52 +8435,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Loose coupling means components don't need to know each other's location or scaling state — they exchange work through queues or events, and each can scale on its own. Shared disks, hard-coded IPs, and cascading failures are all signs of tight coupling.",
    "resource": "https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_prevent_interaction_failure_loosely_coupled_system.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Producer service"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Queue or event bus"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Consumer service"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "asg1",
+        "i": "asg",
+        "n": "Producers",
+        "s": "scale on their own"
+       },
+       {
+        "id": "q",
+        "i": "sqs",
+        "h": 1,
+        "n": "Queue or event bus"
+       },
+       {
+        "id": "asg2",
+        "i": "asg",
+        "n": "Consumers",
+        "s": "scale on their own"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Producer service"
+      "a": "asg1",
+      "b": "q",
+      "e": "no hard-coded IPs"
      },
      {
-      "e": "",
-      "d": 1
-     },
-     {
-      "h": 1,
-      "n": "Scales on its own"
-     }
-    ],
-    [
-     {
-      "n": "Consumer service"
-     },
-     {
-      "e": "",
-      "d": 1
-     },
-     {
-      "h": 1,
-      "n": "Scales on its own"
+      "a": "q",
+      "b": "asg2"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-18",
@@ -5800,37 +8507,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "VPC Lattice provides application-layer networking — service discovery, routing, and IAM authorization — across VPCs and accounts, without peering connections or managing individual load balancers per service.",
    "resource": "https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "VPC, Account A",
+      "k": "account",
       "c": [
        {
-        "n": "Service A"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "a",
+          "i": "ecs",
+          "n": "Service A"
+         }
+        ],
+        "n": "VPC A"
        }
-      ]
+      ],
+      "n": "Account A"
      },
      {
-      "e": "HTTP"
-     },
-     {
+      "id": "lat",
+      "i": "lattice",
       "h": 1,
       "n": "VPC Lattice service network",
       "s": "discovery, routing, IAM auth"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "VPC, Account B",
+      "k": "account",
       "c": [
        {
-        "n": "Service B"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "b",
+          "i": "ecs",
+          "n": "Service B"
+         }
+        ],
+        "n": "VPC B"
        }
-      ]
+      ],
+      "n": "Account B"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "lat",
+      "no": 1,
+      "e": "HTTP"
+     },
+     {
+      "a": "lat",
+      "b": "b",
+      "no": 2
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-19",
@@ -5864,28 +8598,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Target tracking scaling automatically creates and manages the underlying CloudWatch alarms to hold a metric like average CPU at a target value, which is far less configuration than step or simple scaling.",
    "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-target-tracking.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Fleet CPU"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cw",
+        "i": "cloudwatch",
+        "n": "Average CPU"
+       },
+       {
+        "id": "tt",
+        "i": "asg",
+        "h": 1,
+        "n": "Target tracking policy",
+        "s": "target 50%"
+       },
+       {
+        "id": "asg",
+        "i": "ec2",
+        "n": "Auto Scaling group"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "cw",
+      "b": "tt",
+      "e": "alarms managed for you"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Target tracking policy",
-      "s": "target 50% CPU"
-     },
-     {
-      "e": "creates and manages alarms"
-     },
-     {
-      "n": "Auto Scaling group",
-      "s": "adds / removes instances"
+      "a": "tt",
+      "b": "asg",
+      "e": "add / remove instances"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-20",
@@ -5919,40 +8670,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Because the traffic pattern is predictable, scheduled or predictive scaling can add capacity before 8 AM, and a warm pool keeps pre-initialized instances ready so they don't need the full 10-minute boot-and-warm-up cycle when traffic arrives.",
    "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-predictive-scaling.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Scheduled or predictive scaling",
-      "s": "before 8 AM"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Auto Scaling group"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "In service at 8 AM"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "sched",
+          "i": "scheduler",
+          "h": 1,
+          "n": "Scheduled or predictive scaling",
+          "s": "before 8 AM"
+         },
+         {
+          "id": "warm",
+          "i": "ec2",
+          "h": 1,
+          "n": "Warm pool",
+          "s": "pre-initialized instances"
+         }
+        ]
+       },
+       {
+        "id": "asg",
+        "i": "asg",
+        "n": "Auto Scaling group"
+       },
+       {
+        "id": "alb",
+        "i": "alb",
+        "n": "In service at 8 AM"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Warm pool",
-      "s": "pre-initialized instances"
+      "a": "sched",
+      "b": "asg",
+      "e": "raise capacity"
      },
      {
-      "e": "skip 10-minute warm-up"
+      "a": "warm",
+      "b": "asg",
+      "e": "skip 10-min warm-up"
      },
      {
-      "n": "Auto Scaling group"
+      "a": "asg",
+      "b": "alb"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-41",
@@ -5986,29 +8758,43 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon MSK runs Apache Kafka for you, handling the brokers and their patching, and existing applications keep using the standard Kafka APIs and client libraries without code changes.",
    "resource": "https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Producers",
-      "s": "standard Kafka clients"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "p",
+        "i": "server",
+        "n": "Kafka clients",
+        "s": "no code changes"
+       }
+      ],
+      "n": "Existing producers and consumers"
      },
      {
-      "e": "no code changes"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "msk",
+        "i": "msk",
+        "h": 1,
+        "n": "Amazon MSK",
+        "s": "AWS runs the brokers"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "h": 1,
-      "n": "Amazon MSK",
-      "s": "AWS manages brokers"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Consumers",
-      "s": "standard Kafka clients"
+      "a": "p",
+      "b": "msk",
+      "e": "standard Kafka APIs",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-42",
@@ -6042,58 +8828,74 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AppSync is a managed GraphQL service that can combine several data sources behind one API, and its subscriptions push updates to connected clients in real time over WebSockets that AppSync manages.",
    "resource": "https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
-        "n": "Mobile"
+        "id": "m",
+        "i": "mobile",
+        "n": "Mobile app"
        },
        {
-        "n": "Web clients"
+        "id": "w",
+        "i": "client",
+        "n": "Web app"
        }
       ]
      },
      {
-      "e": "GraphQL + subscriptions"
-     },
-     {
-      "h": 1,
-      "n": "AWS AppSync"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "DynamoDB"
+        "id": "as",
+        "i": "appsync",
+        "h": 1,
+        "n": "AWS AppSync",
+        "s": "GraphQL, managed WebSockets"
        },
        {
-        "n": "Lambda services"
+        "k": "col",
+        "c": [
+         {
+          "id": "ddb",
+          "i": "dynamodb",
+          "n": "DynamoDB"
+         },
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda services"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Score change"
+      "a": "m",
+      "b": "as",
+      "e": "subscriptions push updates",
+      "t": "both"
      },
      {
-      "e": ""
+      "a": "w",
+      "b": "as",
+      "t": "both"
      },
      {
-      "h": 1,
-      "n": "AWS AppSync"
+      "a": "as",
+      "b": "ddb"
      },
      {
-      "e": "push over managed WebSockets"
-     },
-     {
-      "n": "Subscribed clients"
+      "a": "as",
+      "b": "fn"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-43",
@@ -6127,27 +8929,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A delay queue hides every new message from consumers for the configured delay, up to 15 minutes, so each confirmation becomes visible only 5 minutes after it's sent.",
    "resource": "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-delay-queues.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Checkout"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "shop",
+        "i": "ec2",
+        "n": "Checkout"
+       },
+       {
+        "id": "q",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS delay queue",
+        "s": "DelaySeconds 300"
+       },
+       {
+        "id": "mail",
+        "i": "lambda",
+        "n": "Email sender"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "shop",
+      "b": "q",
+      "no": 1,
+      "e": "confirmation"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "SQS delay queue",
-      "s": "DelaySeconds = 300"
-     },
-     {
-      "e": "visible after 5 minutes"
-     },
-     {
-      "n": "Email sender"
+      "a": "q",
+      "b": "mail",
+      "no": 2,
+      "e": "visible after 5 min"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-44",
@@ -6181,40 +9003,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An SNS FIFO topic delivering to SQS FIFO queues keeps strict ordering within each message group (such as the account ID) and deduplicates messages, while giving each system its own queue to consume at its own pace.",
    "resource": "https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Trade events"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "SNS FIFO topic",
-      "s": "group = account ID"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "h": 1,
-        "n": "SQS FIFO: settlement"
+        "id": "pub",
+        "i": "ec2",
+        "n": "Trade events"
        },
        {
+        "id": "sns",
+        "i": "sns",
         "h": 1,
-        "n": "SQS FIFO: risk"
+        "n": "SNS FIFO topic",
+        "s": "group = account ID"
        },
        {
-        "h": 1,
-        "n": "SQS FIFO: reporting"
+        "k": "col",
+        "c": [
+         {
+          "id": "q1",
+          "i": "sqs",
+          "n": "SQS FIFO: settlement"
+         },
+         {
+          "id": "q2",
+          "i": "sqs",
+          "n": "SQS FIFO: risk"
+         },
+         {
+          "id": "q3",
+          "i": "sqs",
+          "n": "SQS FIFO: reporting"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "pub",
+      "b": "sns"
+     },
+     {
+      "a": "sns",
+      "b": "q1"
+     },
+     {
+      "a": "sns",
+      "b": "q2"
+     },
+     {
+      "a": "sns",
+      "b": "q3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-45",
@@ -6248,50 +9096,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Express workflows are built for high-volume, short-lived event processing lasting up to 5 minutes, and they're billed by number of runs and duration. Their at-least-once execution model is fine because the steps are idempotent.",
    "resource": "https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "dev",
+      "i": "client",
       "n": "Device readings",
       "s": "50,000 per second"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "Step Functions Express workflow",
+      "k": "cloud",
       "c": [
        {
-        "n": "Validate"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "Enrich"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "Write"
+        "k": "group",
+        "c": [
+         {
+          "id": "v",
+          "i": "lambda",
+          "n": "Validate"
+         },
+         {
+          "id": "e",
+          "i": "lambda",
+          "n": "Enrich"
+         },
+         {
+          "id": "w",
+          "i": "dynamodb",
+          "n": "Write"
+         }
+        ],
+        "h": 1,
+        "n": "Step Functions Express workflow",
+        "s": "at-least-once, under 5 min"
        }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Database"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Express workflow",
-      "s": "at-least-once, up to 5 min, billed per run"
+      "a": "dev",
+      "b": "v"
+     },
+     {
+      "a": "v",
+      "b": "e"
+     },
+     {
+      "a": "e",
+      "b": "w"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-46",
@@ -6325,38 +9182,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "API Gateway can send each request straight to an SQS queue with no code in the request path, so every submission is accepted immediately. A Lambda function then reads the queue at a controlled rate, protecting the database.",
    "resource": "https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Burst of submissions"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "api",
+        "i": "apigw",
+        "n": "API Gateway",
+        "s": "direct integration"
+       },
+       {
+        "id": "q",
+        "i": "sqs",
+        "h": 1,
+        "n": "SQS queue"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Lambda",
+        "s": "steady rate"
+       },
+       {
+        "id": "db",
+        "i": "rds",
+        "n": "Database"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "users",
+      "b": "api",
+      "no": 1
      },
      {
-      "n": "API Gateway"
+      "a": "api",
+      "b": "q",
+      "no": 2,
+      "e": "no code in path"
      },
      {
-      "e": "direct integration, no code"
+      "a": "fn",
+      "b": "q",
+      "no": 3,
+      "e": "poll"
      },
      {
-      "h": 1,
-      "n": "SQS queue"
-     },
-     {
-      "e": "steady rate"
-     },
-     {
-      "n": "Lambda"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Database"
+      "a": "fn",
+      "b": "db",
+      "no": 4
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-47",
@@ -6390,47 +9277,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "DynamoDB Streams records every item change, including the old and new values, and can trigger a Lambda function automatically, so downstream actions run without changing the writing application or polling the table.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.Lambda.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Tier update"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "DynamoDB table"
-     },
-     {
-      "e": "item change"
-     },
-     {
-      "h": 1,
-      "n": "DynamoDB Streams",
-      "s": "old + new image"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lambda"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Email"
+        "id": "app",
+        "i": "ec2",
+        "n": "Existing app",
+        "s": "unchanged"
        },
        {
-        "n": "Analytics store"
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "Customers table"
+       },
+       {
+        "id": "st",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "DynamoDB Streams",
+        "s": "old and new image"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "h": 1,
+        "n": "Lambda"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "mail",
+          "i": "sns",
+          "n": "Email"
+         },
+         {
+          "id": "an",
+          "i": "redshift",
+          "n": "Analytics store"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "ddb",
+      "e": "update tier"
+     },
+     {
+      "a": "ddb",
+      "b": "st"
+     },
+     {
+      "a": "st",
+      "b": "fn"
+     },
+     {
+      "a": "fn",
+      "b": "mail"
+     },
+     {
+      "a": "fn",
+      "b": "an"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-48",
@@ -6464,39 +9382,51 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Reserved concurrency caps how many executions of one function can run at the same time, so the function never opens more than 20 connections. It also sets aside that capacity without limiting other functions.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "up",
+      "i": "users",
       "n": "Upload burst"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fn",
+        "i": "lambda",
+        "h": 1,
+        "n": "File processor",
+        "s": "reserved concurrency 20"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "h": 1,
-      "n": "Lambda",
-      "s": "reserved concurrency = 20"
-     },
-     {
-      "e": "at most 20 connections"
-     },
-     {
-      "n": "On-premises database"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "db",
+        "i": "server",
+        "n": "Legacy database",
+        "s": "max 20 connections"
+       }
+      ],
+      "n": "On premises"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Other functions"
+      "a": "up",
+      "b": "fn"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Unreserved account concurrency",
-      "s": "still scale"
+      "a": "fn",
+      "b": "db",
+      "e": "at most 20 at once"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-49",
@@ -6530,37 +9460,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EventBridge Scheduler can create millions of one-time or recurring schedules, each invoking a target such as a Lambda function at a precise time, without running any servers.",
    "resource": "https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-scheduler.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "EventBridge Scheduler"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Schedule: customer 1 at its date"
+        "id": "sch",
+        "i": "scheduler",
+        "h": 1,
+        "n": "EventBridge Scheduler",
+        "s": "one schedule per reminder"
        },
        {
-        "n": "Schedule: customer 2 at its date"
+        "k": "col",
+        "c": [
+         {
+          "id": "s1",
+          "i": "scheduler",
+          "n": "Customer 1",
+          "s": "own date"
+         },
+         {
+          "id": "s2",
+          "i": "scheduler",
+          "n": "Customer 2",
+          "s": "own date"
+         }
+        ]
        },
        {
-        "n": "Millions more"
+        "id": "fn",
+        "i": "lambda",
+        "n": "Send reminder"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "sch",
+      "b": "s1"
      },
      {
-      "e": ""
+      "a": "sch",
+      "b": "s2"
      },
      {
-      "n": "Lambda",
-      "s": "send reminder"
+      "a": "s1",
+      "b": "fn"
+     },
+     {
+      "a": "s2",
+      "b": "fn"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-50",
@@ -6594,33 +9550,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Lambda destinations send a record of each asynchronous invocation, including the request, response and error details, to a target such as an SQS queue when it succeeds or, as here, when it finally fails after retries.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "S3 event"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 bucket"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Image processor"
+       },
+       {
+        "id": "dest",
+        "i": "sqs",
+        "h": 1,
+        "n": "On-failure destination",
+        "s": "SQS queue"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
+      "a": "s3",
+      "b": "fn",
+      "no": 1,
       "e": "asynchronous invoke"
      },
      {
-      "n": "Lambda"
-     },
-     {
-      "e": "fails after retries"
-     },
-     {
-      "h": 1,
-      "n": "On-failure destination"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "SQS queue",
-      "s": "event + error details"
+      "a": "fn",
+      "b": "dest",
+      "no": 2,
+      "e": "event and error after retries"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-21",
@@ -6654,49 +9624,65 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Multi-AZ keeps a synchronous standby in a different AZ and fails over to it automatically, typically within 60–120 seconds, while the database's DNS endpoint stays the same.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "id": "app",
+      "i": "ec2",
+      "n": "Payment app",
+      "s": "one DNS endpoint"
      },
      {
-      "e": "same DNS endpoint"
-     },
-     {
-      "g": "AZ a",
+      "k": "cloud",
       "c": [
        {
-        "n": "Primary DB"
+        "k": "region",
+        "c": [
+         {
+          "k": "az",
+          "c": [
+           {
+            "id": "db",
+            "i": "rds",
+            "h": 1,
+            "n": "Primary"
+           }
+          ],
+          "n": "AZ A"
+         },
+         {
+          "k": "az",
+          "c": [
+           {
+            "id": "sb",
+            "i": "rds",
+            "h": 1,
+            "n": "Multi-AZ standby",
+            "s": "takes over automatically"
+           }
+          ],
+          "n": "AZ B"
+         }
+        ],
+        "n": "Region"
        }
-      ]
-     },
-     {
-      "e": "synchronous replication"
-     },
-     {
-      "g": "AZ b",
-      "c": [
-       {
-        "h": 1,
-        "n": "Multi-AZ standby"
-       }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "AZ a fails"
+      "a": "app",
+      "b": "db",
+      "e": "writes"
      },
      {
-      "e": "automatic failover, ~1-2 min"
-     },
-     {
-      "h": 1,
-      "n": "Multi-AZ standby",
-      "s": "becomes primary"
+      "a": "db",
+      "b": "sb",
+      "e": "synchronous replication"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-22",
@@ -6730,47 +9716,93 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Read replicas use asynchronous replication and are meant to offload read traffic; Multi-AZ maintains a synchronous standby purely for high availability and automatic failover. (A Multi-AZ DB cluster deployment, with two readable standbys, is the exception that can also serve reads.)",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Writes"
+      "id": "app",
+      "i": "ec2",
+      "n": "App"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "k": "region",
+        "c": [
+         {
+          "k": "az",
+          "c": [
+           {
+            "id": "db",
+            "i": "rds",
+            "n": "Primary"
+           }
+          ],
+          "n": "AZ A"
+         },
+         {
+          "k": "col",
+          "c": [
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "sb",
+              "i": "rds",
+              "h": 1,
+              "n": "Multi-AZ standby",
+              "s": "HA only"
+             }
+            ],
+            "n": "AZ B"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "rr",
+              "i": "rds",
+              "h": 1,
+              "n": "Read replica",
+              "s": "scales reads"
+             }
+            ],
+            "n": "AZ C"
+           }
+          ]
+         }
+        ],
+        "n": "Region"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "db",
+      "no": 1,
+      "e": "writes"
      },
      {
-      "n": "Primary"
-     },
-     {
+      "a": "db",
+      "b": "sb",
       "e": "synchronous"
      },
      {
-      "h": 1,
-      "n": "Multi-AZ standby",
-      "s": "high availability, no reads"
-     }
-    ],
-    [
-     {
-      "n": "Primary"
-     },
-     {
+      "a": "db",
+      "b": "rr",
       "e": "asynchronous",
-      "d": 1
+      "t": "d"
      },
      {
-      "h": 1,
-      "n": "Read replicas",
-      "s": "scale reads"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Reporting queries"
+      "a": "app",
+      "b": "rr",
+      "e": "reads"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-23",
@@ -6804,56 +9836,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Spreading instances across at least two AZs in an Auto Scaling group means the loss of one AZ still leaves capacity running in another, which two instances in a single AZ can't provide no matter how many load balancers front them.",
    "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-availability-zone-balanced.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Users"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "ALB"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Auto Scaling group across AZs",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "k": "vpc",
+        "c": [
          {
-          "n": "EC2 instances",
-          "s": "AZ a"
+          "id": "alb",
+          "i": "alb",
+          "n": "ALB"
          },
          {
-          "n": "EC2 instances",
-          "s": "AZ b"
+          "k": "group",
+          "c": [
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "i1",
+              "i": "ec2",
+              "h": 1,
+              "n": "Instances"
+             }
+            ],
+            "n": "AZ A"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "i2",
+              "i": "ec2",
+              "h": 1,
+              "n": "Instances"
+             }
+            ],
+            "n": "AZ B"
+           }
+          ],
+          "d": "col",
+          "n": "Auto Scaling group"
          }
-        ]
+        ],
+        "n": "VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "AZ a fails"
+      "a": "users",
+      "b": "alb",
+      "no": 1
      },
      {
-      "e": ""
+      "a": "alb",
+      "b": "i1",
+      "no": 2
      },
      {
-      "n": "Instances in AZ b keep serving"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "ASG replaces capacity"
+      "a": "alb",
+      "b": "i2",
+      "no": 2
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-24",
@@ -6887,42 +9943,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Ordered roughly by cost and by RTO/RPO: backup and restore (hours), pilot light (tens of minutes), warm standby (minutes), then multi-site active/active (near zero) — backup and restore is the cheapest option that still meets an hours-level target.",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Primary Region",
+      "k": "cloud",
       "c": [
        {
-        "n": "Workload"
-       }
-      ]
-     },
-     {
-      "e": "regular backups"
-     },
-     {
-      "g": "DR Region",
-      "c": [
+        "k": "region",
+        "c": [
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Workload"
+         }
+        ],
+        "n": "Primary Region"
+       },
        {
-        "h": 1,
-        "n": "Backups only"
+        "k": "region",
+        "c": [
+         {
+          "id": "bk",
+          "i": "backup",
+          "h": 1,
+          "n": "Backups only",
+          "s": "restore in hours"
+         }
+        ],
+        "n": "DR Region"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Disaster"
-     },
-     {
-      "e": "restore, hours"
-     },
-     {
-      "n": "New environment",
-      "s": "cheapest"
+      "a": "app",
+      "b": "bk",
+      "e": "regular backups"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-25",
@@ -6956,57 +10017,67 @@ window.QUESTION_BANK = {
    ],
    "explanation": "In pilot light, the critical data (like a database) is kept continuously up to date in the DR Region, while the compute layer sits idle until it's needed and is then quickly launched.",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Primary Region",
+      "k": "cloud",
       "c": [
        {
-        "n": "App servers"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "Database"
-       }
-      ]
-     },
-     {
-      "e": "continuous replication",
-      "d": 1
-     },
-     {
-      "g": "DR Region",
-      "c": [
-       {
-        "k": [
+        "k": "region",
+        "c": [
          {
-          "h": 1,
-          "n": "Replica database",
-          "s": "always on"
+          "id": "app",
+          "i": "ec2",
+          "n": "App servers"
          },
          {
+          "id": "db",
+          "i": "rds",
+          "n": "Database"
+         }
+        ],
+        "d": "col",
+        "n": "Primary Region"
+       },
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "ami",
+          "i": "ec2",
           "n": "AMIs",
           "s": "servers off"
+         },
+         {
+          "id": "rep",
+          "i": "rds",
+          "h": 1,
+          "n": "Replica database",
+          "s": "always running"
          }
-        ]
+        ],
+        "d": "col",
+        "n": "DR Region"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Disaster"
+      "a": "db",
+      "b": "rep",
+      "e": "continuous replication",
+      "t": "d"
      },
      {
-      "e": "launch from AMIs"
-     },
-     {
-      "n": "App servers in DR Region"
+      "a": "ami",
+      "b": "rep",
+      "e": "launched in a disaster",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-26",
@@ -7040,43 +10111,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Aurora Global Database typically replicates across Regions in under a second, and a secondary Region's cluster usually takes over as the primary within a few minutes, which snapshot copies or a single-Region Multi-AZ cluster can't match.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Primary Region",
+      "k": "cloud",
       "c": [
        {
-        "n": "Aurora writer cluster"
-       }
-      ]
-     },
-     {
-      "e": "storage replication, under 1 second"
-     },
-     {
-      "g": "Secondary Region",
-      "c": [
+        "k": "region",
+        "c": [
+         {
+          "id": "w",
+          "i": "aurora",
+          "n": "Aurora writer cluster"
+         }
+        ],
+        "n": "Primary Region"
+       },
        {
-        "h": 1,
-        "n": "Aurora read-only cluster"
+        "k": "region",
+        "c": [
+         {
+          "id": "r",
+          "i": "aurora",
+          "h": 1,
+          "n": "Aurora secondary cluster",
+          "s": "promoted in minutes"
+         }
+        ],
+        "n": "Secondary Region"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Primary Region outage"
-     },
-     {
-      "e": "promote in minutes"
-     },
-     {
-      "h": 1,
-      "n": "Aurora read-only cluster",
-      "s": "becomes primary"
+      "a": "w",
+      "b": "r",
+      "e": "storage replication, under 1 s"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-27",
@@ -7110,68 +10185,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "DynamoDB global tables replicate a table across chosen Regions and accept writes in any of them (multi-active), which is exactly what's needed for low-latency, multi-Region writes — a single-Region table, even with DAX, still funnels every write through one Region.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Users in Europe"
-     },
-     {
-      "e": "local write"
-     },
-     {
-      "g": "eu-west-1",
+      "k": "col",
       "c": [
        {
-        "h": 1,
-        "n": "Global table replica"
+        "id": "eu",
+        "i": "users",
+        "n": "Users in Europe"
+       },
+       {
+        "id": "us",
+        "i": "users",
+        "n": "Users in America"
        }
       ]
      },
      {
-      "e": "replicates",
-      "d": 1
-     },
-     {
-      "g": "us-east-1",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Global table replica"
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "t1",
+            "i": "dynamodb",
+            "h": 1,
+            "n": "Global table replica"
+           }
+          ],
+          "n": "eu-west-1"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "t2",
+            "i": "dynamodb",
+            "h": 1,
+            "n": "Global table replica"
+           }
+          ],
+          "n": "us-east-1"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Users in America"
-     },
-     {
+      "a": "eu",
+      "b": "t1",
       "e": "local write"
      },
      {
-      "g": "us-east-1",
-      "c": [
-       {
-        "h": 1,
-        "n": "Global table replica"
-       }
-      ]
+      "a": "us",
+      "b": "t2",
+      "e": "local write"
      },
      {
-      "e": "replicates",
-      "d": 1
-     },
-     {
-      "g": "ap-southeast-1",
-      "c": [
-       {
-        "h": 1,
-        "n": "Global table replica"
-       }
-      ]
+      "a": "t1",
+      "b": "t2",
+      "e": "multi-active replication",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-28",
@@ -7205,48 +10290,73 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Failover routing designates a primary and a secondary record; Route 53 monitors the primary's health check and automatically starts answering with the secondary the moment the primary is unhealthy.",
    "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Users"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "r53",
+      "i": "route53",
       "h": 1,
-      "n": "Route 53 failover record"
+      "n": "Route 53 failover record",
+      "s": "health check on primary"
      },
      {
-      "e": "primary healthy"
-     },
-     {
-      "g": "us-east-1",
+      "k": "cloud",
       "c": [
        {
-        "n": "Primary stack"
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "p",
+            "i": "alb",
+            "n": "Primary stack"
+           }
+          ],
+          "n": "us-east-1"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "s",
+            "i": "alb",
+            "n": "Standby stack"
+           }
+          ],
+          "n": "us-west-2"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Route 53 failover record"
+      "a": "users",
+      "b": "r53",
+      "no": 1
      },
      {
-      "e": "health check fails"
+      "a": "r53",
+      "b": "p",
+      "e": "healthy"
      },
      {
-      "g": "us-west-2",
-      "c": [
-       {
-        "n": "Standby stack"
-       }
-      ]
+      "a": "r53",
+      "b": "s",
+      "e": "primary unhealthy",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-29",
@@ -7280,37 +10390,88 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Latency-based routing answers with the Region that gives the lowest measured network latency for that resolver, which is a better fit here than geolocation routing (based on the viewer's location, not measured latency).",
    "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Viewer DNS query"
+      "id": "viewer",
+      "i": "users",
+      "n": "Viewer"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "r53",
+      "i": "route53",
       "h": 1,
-      "n": "Route 53 latency record",
-      "s": "lowest measured latency"
+      "n": "Route 53 latency record"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Region A"
-       },
-       {
-        "n": "Region B"
-       },
-       {
-        "n": "Region C"
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "a",
+            "i": "cloudfront",
+            "n": "Stack A"
+           }
+          ],
+          "n": "Region A"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b",
+            "i": "cloudfront",
+            "n": "Stack B",
+            "s": "lowest latency"
+           }
+          ],
+          "n": "Region B"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "c",
+            "i": "cloudfront",
+            "n": "Stack C"
+           }
+          ],
+          "n": "Region C"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "viewer",
+      "b": "r53",
+      "e": "DNS query"
+     },
+     {
+      "a": "r53",
+      "b": "b",
+      "e": "answer"
+     },
+     {
+      "a": "r53",
+      "b": "a",
+      "t": "d"
+     },
+     {
+      "a": "r53",
+      "b": "c",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-30",
@@ -7344,50 +10505,76 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Global Accelerator provides static anycast IP addresses that don't change, and it reroutes traffic to a healthy endpoint group within seconds of a health check failing — and it works for TCP/UDP, unlike CloudFront, which is HTTP(S)-focused.",
    "resource": "https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-global-accelerator.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "players",
+      "i": "users",
       "n": "Players",
-      "s": "allow-listed IPs"
+      "s": "firewalls allow-list 2 IPs"
      },
      {
+      "id": "ga",
+      "i": "accelerator",
+      "h": 1,
+      "n": "Global Accelerator",
+      "s": "static anycast IPs"
+     },
+     {
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "e1",
+            "i": "nlb",
+            "n": "Endpoint group"
+           }
+          ],
+          "n": "Region 1"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "e2",
+            "i": "nlb",
+            "n": "Endpoint group"
+           }
+          ],
+          "n": "Region 2"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "players",
+      "b": "ga",
+      "no": 1,
       "e": "TCP / UDP"
      },
      {
-      "h": 1,
-      "n": "Global Accelerator",
-      "s": "2 static anycast IPs"
+      "a": "ga",
+      "b": "e1",
+      "no": 2,
+      "e": "healthy"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "Endpoint group",
-        "s": "Region 1"
-       },
-       {
-        "n": "Endpoint group",
-        "s": "Region 2"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "Global Accelerator",
-      "s": "2 static anycast IPs"
-     },
-     {
-      "e": "health check fails, seconds"
-     },
-     {
-      "n": "Healthy Region"
+      "a": "ga",
+      "b": "e2",
+      "e": "failover in seconds",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-31",
@@ -7421,34 +10608,84 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Regional EFS is a shared, POSIX-compliant file system that can be mounted concurrently from instances in multiple AZs and stores data redundantly across AZs, unlike EFS One Zone, instance store, or EBS Multi-Attach (which is also limited to a single AZ).",
    "resource": "https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2",
-        "s": "AZ a"
-       },
-       {
-        "n": "EC2",
-        "s": "AZ b"
-       },
-       {
-        "n": "EC2",
-        "s": "AZ c"
+        "k": "region",
+        "c": [
+         {
+          "k": "col",
+          "c": [
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "a",
+              "i": "ec2",
+              "n": "Render nodes"
+             }
+            ],
+            "n": "AZ A"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "b",
+              "i": "ec2",
+              "n": "Render nodes"
+             }
+            ],
+            "n": "AZ B"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "id": "c",
+              "i": "ec2",
+              "n": "Render nodes"
+             }
+            ],
+            "n": "AZ C"
+           }
+          ]
+         },
+         {
+          "id": "efs",
+          "i": "efs",
+          "h": 1,
+          "n": "Amazon EFS",
+          "s": "Regional, data across AZs"
+         }
+        ],
+        "n": "Region"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "efs",
+      "e": "NFS"
      },
      {
-      "e": "NFS, concurrent"
+      "a": "b",
+      "b": "efs",
+      "e": "NFS"
      },
      {
-      "h": 1,
-      "n": "Amazon EFS Regional",
-      "s": "stored across AZs"
+      "a": "c",
+      "b": "efs",
+      "e": "NFS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-32",
@@ -7482,33 +10719,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EC2 status checks only detect infrastructure-level problems with the instance, not application-level failures. ELB health checks let the load balancer's health check (which can probe an actual application endpoint) drive instance replacement instead.",
    "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "ALB health check"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "alb",
+          "i": "alb",
+          "n": "ALB",
+          "s": "health check /health"
+         },
+         {
+          "k": "asg",
+          "c": [
+           {
+            "id": "bad",
+            "i": "ec2",
+            "n": "Instance returning 500s"
+           },
+           {
+            "id": "new",
+            "i": "ec2",
+            "n": "Replacement"
+           }
+          ],
+          "n": "Auto Scaling group",
+          "s": "ELB health checks on"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "alb",
+      "b": "bad",
+      "e": "unhealthy",
+      "t": "x"
      },
      {
-      "e": "GET /health returns 500"
-     },
-     {
-      "n": "Instance",
-      "s": "EC2 status checks OK"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "ELB health checks on the ASG"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Instance replaced"
+      "a": "bad",
+      "b": "new",
+      "e": "replaced"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-33",
@@ -7542,51 +10804,57 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cross-Region Replication requires versioning on both the source and destination buckets, and Replication Time Control adds the 15-minute, 99.99% SLA the requirement calls for.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "us-east-1",
+      "k": "cloud",
       "c": [
        {
-        "n": "Source bucket",
-        "s": "versioning on"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Cross-Region Replication",
-      "s": "with RTC"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "us-west-2",
-      "c": [
+        "k": "region",
+        "c": [
+         {
+          "id": "src",
+          "i": "s3",
+          "n": "Source bucket",
+          "s": "versioning on"
+         }
+        ],
+        "n": "us-east-1"
+       },
        {
-        "n": "Destination bucket",
-        "s": "versioning on"
+        "id": "crr",
+        "i": "s3",
+        "h": 1,
+        "n": "Cross-Region Replication",
+        "s": "with RTC: 99.99% in 15 min"
+       },
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "dst",
+          "i": "s3",
+          "n": "Destination bucket",
+          "s": "versioning on"
+         }
+        ],
+        "n": "us-west-2"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Replication Time Control"
+      "a": "src",
+      "b": "crr"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "99.99% of objects copied within 15 minutes"
+      "a": "crr",
+      "b": "dst"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-34",
@@ -7620,39 +10888,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS DRS keeps servers continuously replicated for ongoing recovery readiness and supports failback. Application Migration Service uses similar underlying replication technology but is designed for one-time lift-and-shift migrations, not standing DR.",
    "resource": "https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "On-premises servers"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "srv",
+        "i": "server",
+        "n": "Servers",
+        "s": "replication agent"
+       }
+      ],
+      "n": "Data center"
      },
      {
-      "e": "continuous block-level replication"
-     },
-     {
-      "h": 1,
-      "n": "AWS DRS",
-      "s": "staging area"
-     },
-     {
-      "e": "launch in minutes"
-     },
-     {
-      "n": "Recovery EC2 instances"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "drs",
+        "i": "drs",
+        "h": 1,
+        "n": "Elastic Disaster Recovery",
+        "s": "staging area"
+       },
+       {
+        "id": "rec",
+        "i": "ec2",
+        "n": "Recovery instances",
+        "s": "launched in minutes"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Recovery EC2 instances"
+      "a": "srv",
+      "b": "drs",
+      "no": 1,
+      "e": "continuous block replication"
      },
      {
-      "e": "failback when fixed",
-      "d": 1
+      "a": "drs",
+      "b": "rec",
+      "no": 2,
+      "e": "recover"
      },
      {
-      "n": "On-premises servers"
+      "a": "rec",
+      "b": "srv",
+      "e": "failback",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-35",
@@ -7686,77 +10976,113 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A standard (zonal) NAT gateway lives entirely in one AZ, so instances in other AZs that route through it lose outbound connectivity if that AZ is impaired. The standard fix is one NAT gateway per AZ, with each AZ's private subnets routing to the NAT gateway in the same AZ. (A regional NAT gateway is a newer alternative that spans AZs automatically.)",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "AZ a",
+      "k": "cloud",
       "c": [
        {
-        "n": "Private subnet"
-       },
-       {
-        "e": ""
-       },
-       {
-        "h": 1,
-        "n": "NAT gateway a"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "igw",
+          "i": "igw",
+          "n": "Internet gateway"
+         },
+         {
+          "k": "row",
+          "c": [
+           {
+            "k": "az",
+            "c": [
+             {
+              "k": "public",
+              "c": [
+               {
+                "id": "n1",
+                "i": "nat",
+                "h": 1,
+                "n": "NAT gateway A"
+               }
+              ],
+              "n": "Public subnet A"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "id": "p1",
+                "i": "ec2",
+                "n": "Instances"
+               }
+              ],
+              "n": "Private subnet A"
+             }
+            ],
+            "d": "col",
+            "n": "AZ A"
+           },
+           {
+            "k": "az",
+            "c": [
+             {
+              "k": "public",
+              "c": [
+               {
+                "id": "n2",
+                "i": "nat",
+                "h": 1,
+                "n": "NAT gateway B"
+               }
+              ],
+              "n": "Public subnet B"
+             },
+             {
+              "k": "private",
+              "c": [
+               {
+                "id": "p2",
+                "i": "ec2",
+                "n": "Instances"
+               }
+              ],
+              "n": "Private subnet B"
+             }
+            ],
+            "d": "col",
+            "n": "AZ B"
+           }
+          ]
+         }
+        ],
+        "d": "col",
+        "n": "VPC"
        }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Internet"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "g": "AZ b",
-      "c": [
-       {
-        "n": "Private subnet"
-       },
-       {
-        "e": ""
-       },
-       {
-        "h": 1,
-        "n": "NAT gateway b"
-       }
-      ]
+      "a": "p1",
+      "b": "n1",
+      "e": "same-AZ route"
      },
      {
-      "e": ""
+      "a": "p2",
+      "b": "n2",
+      "e": "same-AZ route"
      },
      {
-      "n": "Internet"
-     }
-    ],
-    [
-     {
-      "g": "AZ c",
-      "c": [
-       {
-        "n": "Private subnet"
-       },
-       {
-        "e": ""
-       },
-       {
-        "h": 1,
-        "n": "NAT gateway c"
-       }
-      ]
+      "a": "n1",
+      "b": "igw"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Internet"
+      "a": "n2",
+      "b": "igw"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-36",
@@ -7790,45 +11116,70 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The most resilient option is a second Direct Connect connection at a separate location, but since that's ruled out, a Site-to-Site VPN as a backup path is the standard lower-cost way to add resiliency to a single DX link.",
    "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency_toolkit.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "On-premises"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "cgw",
+        "i": "cgw",
+        "n": "Customer gateway"
+       }
+      ],
+      "n": "Data center"
      },
      {
-      "e": "primary path"
-     },
-     {
-      "n": "Direct Connect",
-      "s": "one location"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "VPC"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "dx",
+          "i": "dx",
+          "n": "Direct Connect",
+          "s": "primary"
+         },
+         {
+          "id": "vpn",
+          "i": "vpn",
+          "h": 1,
+          "n": "Site-to-Site VPN",
+          "s": "backup"
+         }
+        ]
+       },
+       {
+        "id": "vgw",
+        "i": "vgw",
+        "n": "Virtual private gateway"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "On-premises"
+      "a": "cgw",
+      "b": "dx"
      },
      {
-      "e": "backup path over the internet",
-      "d": 1
+      "a": "cgw",
+      "b": "vpn",
+      "e": "over internet",
+      "t": "d"
      },
      {
-      "h": 1,
-      "n": "Site-to-Site VPN"
+      "a": "dx",
+      "b": "vgw"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "VPC"
+      "a": "vpn",
+      "b": "vgw"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-37",
@@ -7862,51 +11213,54 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The Aurora cluster storage volume itself maintains six copies across three AZs and self-heals, tolerating the loss of up to two copies for writes and three for reads — this is separate from Aurora Replicas, Backtrack, or Serverless scaling.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Writer"
-       },
-       {
-        "n": "Aurora Replicas"
+        "k": "region",
+        "c": [
+         {
+          "k": "col",
+          "c": [
+           {
+            "id": "w",
+            "i": "aurora",
+            "n": "Writer"
+           },
+           {
+            "id": "r",
+            "i": "aurora",
+            "n": "Aurora Replicas"
+           }
+          ]
+         },
+         {
+          "id": "vol",
+          "i": "aurora",
+          "h": 1,
+          "n": "Cluster volume",
+          "s": "6 copies across 3 AZs, self-healing"
+         }
+        ],
+        "n": "Region"
        }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Aurora cluster volume",
-      "s": "6 copies across 3 AZs, self-healing"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Aurora cluster volume",
-      "s": "6 copies across 3 AZs, self-healing"
+      "a": "w",
+      "b": "vol"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "AZ a: 2 copies"
-       },
-       {
-        "n": "AZ b: 2 copies"
-       },
-       {
-        "n": "AZ c: 2 copies"
-       }
-      ]
+      "a": "r",
+      "b": "vol"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-38",
@@ -7940,53 +11294,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS FIS runs controlled chaos-engineering experiments, such as simulating AZ impairment or terminating instances, so teams can observe real behavior under failure conditions rather than just reviewing static findings or traces.",
    "resource": "https://docs.aws.amazon.com/fis/latest/userguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "FIS experiment template"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fis",
+        "i": "fis",
+        "h": 1,
+        "n": "Fault Injection Service",
+        "s": "experiment template"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "az",
+          "i": "ec2",
+          "n": "Simulated AZ impairment"
+         },
+         {
+          "id": "term",
+          "i": "asg",
+          "n": "Instance terminations"
+         }
+        ]
+       },
+       {
+        "id": "cw",
+        "i": "cloudwatch",
+        "n": "Stop condition alarm"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
+      "a": "fis",
+      "b": "az",
       "e": "inject"
      },
      {
-      "k": [
-       {
-        "n": "AZ impairment"
-       },
-       {
-        "n": "Instance terminations"
-       }
-      ]
+      "a": "fis",
+      "b": "term",
+      "e": "inject"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Production-like workload"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Observe real behavior"
-     }
-    ],
-    [
-     {
-      "n": "Stop condition",
-      "s": "CloudWatch alarm"
-     },
-     {
-      "e": "halts experiment",
-      "x": 1
-     },
-     {
-      "h": 1,
-      "n": "FIS experiment template"
+      "a": "cw",
+      "b": "fis",
+      "e": "halt if needed",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-39",
@@ -8020,33 +11382,56 @@ window.QUESTION_BANK = {
    ],
    "explanation": "PITR continuously backs up the table and can restore it to any second within the retention window (1–35 days, 35 by default) — precise enough to restore to 2:16 PM, which daily snapshots can't do.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "script",
+      "i": "user",
       "n": "Bad script at 2:17 PM"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "DynamoDB table",
-      "s": "overwritten items"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "DynamoDB table"
+       },
+       {
+        "id": "pitr",
+        "i": "backup",
+        "h": 1,
+        "n": "Point-in-time recovery",
+        "s": "any second, 35 days"
+       },
+       {
+        "id": "new",
+        "i": "dynamodb",
+        "n": "Restored table",
+        "s": "as of 2:16 PM"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "PITR",
-      "s": "continuous backups, 35 days"
+      "a": "script",
+      "b": "ddb",
+      "e": "overwrites"
      },
      {
-      "e": "restore to 2:16 PM"
+      "a": "ddb",
+      "b": "pitr",
+      "e": "continuous backups"
      },
      {
-      "n": "New restored table"
+      "a": "pitr",
+      "b": "new",
+      "e": "restore"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-40",
@@ -8080,61 +11465,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "X-Ray traces a request end-to-end across services and builds a service map showing where time is spent and where errors occur, which VPC Flow Logs, Config, and CloudTrail aren't designed to do.",
    "resource": "https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "user",
+      "i": "user",
       "n": "Request"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Service A"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Service B"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Service C",
-      "s": "slow"
-     }
-    ],
-    [
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
+        "id": "a",
+        "i": "ecs",
         "n": "Service A"
        },
        {
+        "id": "b",
+        "i": "ecs",
         "n": "Service B"
        },
        {
-        "n": "Service C"
+        "id": "c",
+        "i": "ecs",
+        "n": "Service C",
+        "s": "slow"
+       },
+       {
+        "id": "xr",
+        "i": "xray",
+        "h": 1,
+        "n": "AWS X-Ray",
+        "s": "service map"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "user",
+      "b": "a"
      },
      {
-      "e": "trace segments"
+      "a": "a",
+      "b": "b"
      },
      {
-      "h": 1,
-      "n": "AWS X-Ray"
+      "a": "b",
+      "b": "c"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Service map",
-      "s": "latency and errors per hop"
+      "a": "c",
+      "b": "xr",
+      "e": "trace segments",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-51",
@@ -8168,54 +11556,77 @@ window.QUESTION_BANK = {
    ],
    "explanation": "ARC routing controls are on/off switches, backed by a highly available data plane spread across five Regions, that shift traffic between Regional replicas through Route 53 health checks. Safety rules help prevent mistakes such as turning off every Region.",
    "resource": "https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "op",
+      "i": "user",
       "n": "Operator"
      },
      {
+      "id": "arc",
+      "i": "arc",
+      "h": 1,
+      "n": "ARC routing control",
+      "s": "highly available data plane"
+     },
+     {
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "a",
+            "i": "alb",
+            "n": "Stack A",
+            "s": "off"
+           }
+          ],
+          "n": "Region A",
+          "s": "impaired"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b",
+            "i": "alb",
+            "n": "Stack B",
+            "s": "on"
+           }
+          ],
+          "n": "Region B"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "op",
+      "b": "arc",
+      "no": 1,
       "e": "flip switch"
      },
      {
-      "h": 1,
-      "n": "ARC routing control",
-      "s": "highly available data plane"
+      "a": "arc",
+      "b": "a",
+      "e": "traffic off",
+      "t": "d"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Route 53 health checks"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "Region A off"
-       },
-       {
-        "n": "Region B on"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "ARC routing control",
-      "s": "highly available data plane"
-     },
-     {
-      "e": "safety rule",
-      "x": 1
-     },
-     {
-      "n": "All Regions off"
+      "a": "arc",
+      "b": "b",
+      "e": "traffic on"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-52",
@@ -8249,60 +11660,83 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Resilience Hub assesses an application's resources against a resiliency policy that sets RTO and RPO targets, estimates whether they're met for disruptions such as AZ or Region failure, and recommends improvements.",
    "resource": "https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Resiliency policy",
-      "s": "RTO 1 h, RPO 15 min"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Resilience Hub assessment"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2"
+        "k": "col",
+        "c": [
+         {
+          "id": "pol",
+          "i": "resiliencehub",
+          "n": "Resiliency policy",
+          "s": "RTO 1 h, RPO 15 min"
+         },
+         {
+          "id": "rh",
+          "i": "resiliencehub",
+          "h": 1,
+          "n": "Resilience Hub assessment",
+          "s": "gaps and recommendations"
+         }
+        ]
        },
        {
-        "n": "RDS"
-       },
-       {
-        "n": "DynamoDB"
-       },
-       {
-        "n": "S3"
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2"
+         },
+         {
+          "id": "rds",
+          "i": "rds",
+          "n": "RDS"
+         },
+         {
+          "id": "ddb",
+          "i": "dynamodb",
+          "n": "DynamoDB"
+         },
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "S3"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Resilience Hub assessment"
+      "a": "pol",
+      "b": "rh",
+      "e": "targets"
      },
      {
-      "e": ""
+      "a": "rh",
+      "b": "ec2",
+      "e": "assess"
      },
      {
-      "k": [
-       {
-        "n": "Met or not per disruption"
-       },
-       {
-        "n": "Recommendations"
-       }
-      ]
+      "a": "rh",
+      "b": "rds"
+     },
+     {
+      "a": "rh",
+      "b": "ddb"
+     },
+     {
+      "a": "rh",
+      "b": "s3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-53",
@@ -8336,50 +11770,89 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A Multi-Region Access Point gives one global endpoint for buckets in several Regions. It routes requests over the AWS network to the lowest-latency bucket and can fail over to another Region's bucket.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPoints.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "apps",
+      "i": "users",
       "n": "Apps worldwide"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "mrap",
+      "i": "s3",
       "h": 1,
       "n": "Multi-Region Access Point",
       "s": "one global endpoint"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b1",
+            "i": "s3",
+            "n": "Bucket",
+            "s": "closest"
+           }
+          ],
+          "n": "Region 1"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b2",
+            "i": "s3",
+            "n": "Bucket"
+           }
+          ],
+          "n": "Region 2"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b3",
+            "i": "s3",
+            "n": "Bucket"
+           }
+          ],
+          "n": "Region 3"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "apps",
+      "b": "mrap"
+     },
+     {
+      "a": "mrap",
+      "b": "b1",
       "e": "lowest latency"
      },
      {
-      "k": [
-       {
-        "n": "Bucket: Region 1"
-       },
-       {
-        "n": "Bucket: Region 2"
-       },
-       {
-        "n": "Bucket: Region 3"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "Multi-Region Access Point",
-      "s": "one global endpoint"
+      "a": "mrap",
+      "b": "b2",
+      "e": "failover",
+      "t": "d"
      },
      {
-      "e": "Region unavailable"
-     },
-     {
-      "n": "Another Region's bucket"
+      "a": "mrap",
+      "b": "b3",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-54",
@@ -8413,41 +11886,62 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An origin group has a primary and a secondary origin. When the primary returns specified HTTP error codes or times out, CloudFront automatically retries the request against the secondary origin.",
    "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Viewer"
+      "id": "viewer",
+      "i": "users",
+      "n": "Viewers"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "CloudFront"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Origin group",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Primary origin",
-        "s": "us-east-1 bucket"
+        "id": "cf",
+        "i": "cloudfront",
+        "n": "CloudFront"
        },
        {
-        "e": "on 5xx or timeout",
-        "d": 1
-       },
-       {
+        "k": "group",
+        "c": [
+         {
+          "id": "p",
+          "i": "s3",
+          "n": "Primary",
+          "s": "us-east-1 bucket"
+         },
+         {
+          "id": "s",
+          "i": "s3",
+          "n": "Secondary",
+          "s": "us-west-2 bucket"
+         }
+        ],
+        "d": "col",
         "h": 1,
-        "n": "Secondary origin",
-        "s": "us-west-2 bucket"
+        "n": "Origin group"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "viewer",
+      "b": "cf"
+     },
+     {
+      "a": "cf",
+      "b": "p"
+     },
+     {
+      "a": "cf",
+      "b": "s",
+      "e": "on 5xx or timeout",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-55",
@@ -8481,37 +11975,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EFS replication keeps a read-only copy of a file system in another Region (or the same Region) up to date automatically. After the initial copy, it maintains an RPO of 15 minutes for most file systems.",
    "resource": "https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "eu-west-1",
+      "k": "cloud",
       "c": [
        {
-        "n": "EFS file system"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "EFS replication",
-      "s": "RPO about 15 min"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "eu-central-1",
-      "c": [
+        "k": "region",
+        "c": [
+         {
+          "id": "a",
+          "i": "efs",
+          "n": "EFS file system"
+         }
+        ],
+        "n": "eu-west-1"
+       },
        {
-        "n": "Read-only replica file system"
+        "k": "region",
+        "c": [
+         {
+          "id": "b",
+          "i": "efs",
+          "h": 1,
+          "n": "Replica file system",
+          "s": "read-only"
+         }
+        ],
+        "n": "eu-central-1"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "b",
+      "e": "EFS replication, RPO about 15 min"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-56",
@@ -8545,49 +12049,75 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Warm standby keeps a scaled-down but fully working copy of the production environment running in the recovery Region, so recovery means scaling it up. That gives an RTO measured in minutes.",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Primary Region",
-      "c": [
-       {
-        "n": "Full production"
-       }
-      ]
+      "id": "users",
+      "i": "users",
+      "n": "Users"
      },
      {
-      "e": "continuous replication",
-      "d": 1
-     },
-     {
-      "g": "DR Region",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Scaled-down working copy",
-        "s": "serves test traffic"
+        "k": "region",
+        "c": [
+         {
+          "id": "p",
+          "i": "asg",
+          "n": "Full production"
+         },
+         {
+          "id": "pdb",
+          "i": "rds",
+          "n": "Database"
+         }
+        ],
+        "n": "Primary Region"
+       },
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "d",
+          "i": "asg",
+          "h": 1,
+          "n": "Scaled-down copy",
+          "s": "running, scale up in disaster"
+         },
+         {
+          "id": "ddb",
+          "i": "rds",
+          "n": "Replica"
+         }
+        ],
+        "n": "DR Region"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Disaster"
+      "a": "users",
+      "b": "p"
      },
      {
-      "e": ""
+      "a": "p",
+      "b": "pdb"
      },
      {
-      "n": "Scale up DR Region"
+      "a": "pdb",
+      "b": "ddb",
+      "e": "continuous replication",
+      "t": "d"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Redirect users"
+      "a": "d",
+      "b": "ddb"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-57",
@@ -8621,48 +12151,71 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Multi-site active/active (active/active) runs the full workload in multiple Regions, all serving traffic, so losing a Region means only redirecting its users. It gives the lowest RTO and RPO, near zero, at the highest cost.",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/disaster-recovery-options-in-the-cloud.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Users"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "r53",
+      "i": "route53",
       "n": "Route 53"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "h": 1,
-        "n": "Region A",
-        "s": "full production, live"
-       },
-       {
-        "h": 1,
-        "n": "Region B",
-        "s": "full production, live"
+        "k": "col",
+        "c": [
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "a",
+            "i": "asg",
+            "h": 1,
+            "n": "Full production",
+            "s": "live traffic"
+           }
+          ],
+          "n": "Region A"
+         },
+         {
+          "k": "region",
+          "c": [
+           {
+            "id": "b",
+            "i": "asg",
+            "h": 1,
+            "n": "Full production",
+            "s": "live traffic"
+           }
+          ],
+          "n": "Region B"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Region A fails"
+      "a": "users",
+      "b": "r53"
      },
      {
-      "e": ""
+      "a": "r53",
+      "b": "a"
      },
      {
-      "n": "Users go to Region B",
-      "s": "near-zero RTO and RPO"
+      "a": "r53",
+      "b": "b"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-58",
@@ -8696,39 +12249,62 @@ window.QUESTION_BANK = {
    ],
    "explanation": "When the writer fails, Aurora automatically promotes one of the Aurora Replicas, based on its priority tier, to be the new writer. The cluster endpoint always points to the current writer, so the application reconnects without configuration changes.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "app",
+      "i": "ec2",
       "n": "App"
      },
      {
-      "e": "cluster endpoint"
-     },
-     {
-      "n": "Writer",
-      "s": "fails"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ep",
+        "i": "aurora",
+        "n": "Cluster endpoint",
+        "s": "always points to the writer"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "w",
+          "i": "aurora",
+          "n": "Old writer",
+          "s": "failed"
+         },
+         {
+          "id": "r",
+          "i": "aurora",
+          "h": 1,
+          "n": "Promoted replica",
+          "s": "chosen by priority tier"
+         }
+        ]
+       }
+      ],
+      "n": "Aurora cluster"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Aurora promotes replica",
-      "s": "by priority tier"
+      "a": "app",
+      "b": "ep"
      },
      {
-      "e": ""
+      "a": "ep",
+      "b": "w",
+      "e": "before failure",
+      "t": "x"
      },
      {
-      "n": "New writer"
-     },
-     {
-      "e": "cluster endpoint now points here"
-     },
-     {
-      "n": "App reconnects"
+      "a": "ep",
+      "b": "r",
+      "e": "after failover"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-59",
@@ -8762,36 +12338,55 @@ window.QUESTION_BANK = {
    ],
    "explanation": "RDS can replicate automated backups (snapshots and transaction logs) to another Region, so the database can be restored to a point in time there, without scripts to copy snapshots.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "us-east-1",
+      "k": "cloud",
       "c": [
        {
-        "n": "RDS for PostgreSQL"
-       }
-      ]
-     },
-     {
-      "e": "backups + logs"
-     },
-     {
-      "h": 1,
-      "n": "Cross-Region automated backups"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "us-west-2",
-      "c": [
+        "k": "region",
+        "c": [
+         {
+          "id": "db",
+          "i": "rds",
+          "n": "RDS for PostgreSQL"
+         }
+        ],
+        "n": "us-east-1"
+       },
        {
-        "n": "Point-in-time restore"
+        "k": "region",
+        "c": [
+         {
+          "id": "bk",
+          "i": "backup",
+          "h": 1,
+          "n": "Replicated automated backups"
+         },
+         {
+          "id": "rest",
+          "i": "rds",
+          "n": "Point-in-time restore"
+         }
+        ],
+        "n": "us-west-2"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "db",
+      "b": "bk",
+      "e": "snapshots and logs"
+     },
+     {
+      "a": "bk",
+      "b": "rest"
      }
     ]
-   ]
+   }
   },
   {
    "id": "2-60",
@@ -8825,51 +12420,70 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Multivalue answer routing returns up to eight healthy records for each query, chosen at random, and leaves out any record whose health check fails. It isn't a substitute for a load balancer, but it adds some availability at low cost.",
    "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-multivalue.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Client DNS query"
+      "id": "client",
+      "i": "client",
+      "n": "Client"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "r53",
+      "i": "route53",
       "h": 1,
-      "n": "Route 53 multivalue answer",
+      "n": "Multivalue answer",
       "s": "up to 8 healthy records"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2 IP 1"
-       },
-       {
-        "n": "EC2 IP 2"
-       },
-       {
-        "n": "EC2 IP 3"
+        "k": "col",
+        "c": [
+         {
+          "id": "e1",
+          "i": "ec2",
+          "n": "EC2 IP 1"
+         },
+         {
+          "id": "e2",
+          "i": "ec2",
+          "n": "EC2 IP 2"
+         },
+         {
+          "id": "e3",
+          "i": "ec2",
+          "n": "EC2 IP 3",
+          "s": "unhealthy"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Unhealthy instance"
+      "a": "client",
+      "b": "r53",
+      "e": "DNS query"
      },
      {
-      "e": "left out of answers",
-      "x": 1
+      "a": "r53",
+      "b": "e1"
      },
      {
-      "h": 1,
-      "n": "Route 53 multivalue answer",
-      "s": "up to 8 healthy records"
+      "a": "r53",
+      "b": "e2"
+     },
+     {
+      "a": "r53",
+      "b": "e3",
+      "e": "left out",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-01",
@@ -8903,39 +12517,43 @@ window.QUESTION_BANK = {
    ],
    "explanation": "io2 Block Express supports up to 256,000 IOPS with sub-millisecond latency. gp3 tops out at 80,000 IOPS per volume, and HDD volumes are built for throughput, not IOPS.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "EC2 instance",
+      "k": "cloud",
       "c": [
        {
-        "n": "Order-matching database"
+        "k": "az",
+        "c": [
+         {
+          "id": "db",
+          "i": "ec2",
+          "n": "Order-matching database",
+          "s": "EC2 instance"
+         },
+         {
+          "id": "vol",
+          "i": "ebs",
+          "h": 1,
+          "n": "io2 Block Express",
+          "s": "up to 256,000 IOPS, sub-ms"
+         }
+        ],
+        "d": "row",
+        "n": "Availability Zone"
        }
-      ]
-     },
-     {
-      "e": "150,000 IOPS, sub-ms"
-     },
-     {
-      "h": 1,
-      "n": "io2 Block Express",
-      "s": "up to 256,000 IOPS"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "gp3",
-      "s": "max 80,000 IOPS"
-     },
-     {
-      "e": "not enough",
-      "x": 1
-     },
-     {
-      "n": "Order-matching database"
+      "a": "db",
+      "b": "vol",
+      "e": "150,000 IOPS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-02",
@@ -8969,33 +12587,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "gp3 has a baseline of 3,000 IOPS and 125 MiB/s, and both can be raised independently of the volume's size, unlike io1, which ties cost to a larger provisioned volume.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Volume size"
+        "id": "ec2",
+        "i": "ec2",
+        "n": "EC2 instance"
        },
        {
-        "n": "IOPS",
-        "s": "baseline 3,000"
-       },
-       {
-        "n": "Throughput",
-        "s": "baseline 125 MiB/s"
+        "id": "vol",
+        "i": "ebs",
+        "h": 1,
+        "n": "gp3 volume",
+        "s": "size, IOPS and throughput set separately"
        }
-      ]
-     },
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": "each set separately"
-     },
-     {
-      "h": 1,
-      "n": "gp3 volume",
-      "s": "lower cost than gp2"
+      "a": "ec2",
+      "b": "vol",
+      "e": "baseline 3,000 IOPS, 125 MiB/s"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-03",
@@ -9029,34 +12649,51 @@ window.QUESTION_BANK = {
    ],
    "explanation": "st1 is built for high-throughput, sequential workloads at low cost. (HDD volumes like st1 and sc1 can't be used as boot volumes anyway, which rules out option C on its own.)",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/hdd-vols.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "EC2 instance",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "ec2",
+        "i": "ec2",
+        "n": "Nightly job",
+        "s": "EC2 instance"
+       },
+       {
+        "k": "col",
+        "c": [
          {
+          "id": "boot",
+          "i": "ebs",
           "n": "Boot volume",
           "s": "gp3"
          },
          {
-          "n": "Nightly job"
+          "id": "data",
+          "i": "ebs",
+          "h": 1,
+          "n": "st1 data volume",
+          "s": "throughput HDD, low cost per GB"
          }
         ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "ec2",
+      "b": "boot"
      },
      {
+      "a": "ec2",
+      "b": "data",
       "e": "large sequential reads"
-     },
-     {
-      "h": 1,
-      "n": "st1",
-      "s": "Throughput Optimized HDD, low cost per GB"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-04",
@@ -9090,32 +12727,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Instance store is ephemeral, physically attached NVMe storage with very high random I/O performance — a good fit when the data doesn't need to survive a stop or terminate.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "EC2 host",
+      "k": "cloud",
       "c": [
        {
-        "n": "Genomics pipeline"
+        "k": "group",
+        "c": [
+         {
+          "id": "job",
+          "i": "ec2",
+          "n": "Genomics pipeline"
+         },
+         {
+          "id": "nvme",
+          "i": "instancestore",
+          "h": 1,
+          "n": "Instance store NVMe",
+          "s": "lost on stop"
+         }
+        ],
+        "n": "EC2 host"
        },
        {
-        "e": "very high random I/O"
-       },
-       {
-        "h": 1,
-        "n": "Instance store NVMe",
-        "s": "lost on stop"
+        "id": "s3",
+        "i": "s3",
+        "n": "Amazon S3",
+        "s": "final results"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "job",
+      "b": "nvme",
+      "e": "scratch, random I/O"
      },
      {
-      "e": "final results"
-     },
-     {
-      "n": "Amazon S3"
+      "a": "job",
+      "b": "s3",
+      "e": "copy results"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-05",
@@ -9149,28 +12806,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "FSx for Lustre is a parallel file system designed for HPC-scale throughput and integrates directly with an S3 bucket as its data repository.",
    "resource": "https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "HPC cluster"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "hpc",
+        "i": "ec2",
+        "n": "HPC cluster"
+       },
+       {
+        "id": "fsx",
+        "i": "fsx",
+        "h": 1,
+        "n": "FSx for Lustre",
+        "s": "parallel, hundreds of GB/s"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 data lake",
+        "s": "data repository"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "hpc",
+      "b": "fsx",
+      "e": "read / write"
      },
      {
-      "e": "hundreds of GB/s"
-     },
-     {
-      "h": 1,
-      "n": "FSx for Lustre",
-      "s": "parallel file system"
-     },
-     {
-      "e": "lazy load / export"
-     },
-     {
-      "n": "S3 data lake",
-      "s": "multi-petabyte"
+      "a": "fsx",
+      "b": "s3",
+      "e": "linked import / export",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-06",
@@ -9204,27 +12880,51 @@ window.QUESTION_BANK = {
    ],
    "explanation": "FSx for Windows File Server provides a native SMB file system with AD integration and DFS support. EFS supports NFS only, for Linux clients.",
    "resource": "https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Windows clients"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "win",
+        "i": "client",
+        "n": "Windows clients"
+       }
+      ],
+      "n": "Corporate network"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fsx",
+        "i": "fsx",
+        "h": 1,
+        "n": "FSx for Windows File Server",
+        "s": "SMB, DFS namespaces"
+       },
+       {
+        "id": "ad",
+        "i": "directory",
+        "n": "Active Directory"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "win",
+      "b": "fsx",
       "e": "SMB"
      },
      {
-      "h": 1,
-      "n": "FSx for Windows File Server",
-      "s": "DFS namespaces"
-     },
-     {
+      "a": "fsx",
+      "b": "ad",
       "e": "domain-joined"
-     },
-     {
-      "n": "Active Directory"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-07",
@@ -9258,37 +12958,67 @@ window.QUESTION_BANK = {
    ],
    "explanation": "FSx for NetApp ONTAP provides multi-protocol (NFS, SMB, iSCSI) access and supports ONTAP features like SnapMirror, which the other options don't replicate.",
    "resource": "https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/what-is-fsx-ontap.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
+        "id": "nfs",
+        "i": "server",
         "n": "NFS clients"
        },
        {
+        "id": "smb",
+        "i": "client",
         "n": "SMB clients"
        },
        {
+        "id": "iscsi",
+        "i": "server",
         "n": "iSCSI hosts"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ontap",
+        "i": "fsx",
+        "h": 1,
+        "n": "FSx for NetApp ONTAP",
+        "s": "same volumes, all protocols"
+       },
+       {
+        "id": "rep",
+        "i": "fsx",
+        "n": "Replica ONTAP system"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "nfs",
+      "b": "ontap"
      },
      {
-      "h": 1,
-      "n": "FSx for NetApp ONTAP",
-      "s": "same volumes"
+      "a": "smb",
+      "b": "ontap"
      },
      {
+      "a": "iscsi",
+      "b": "ontap"
+     },
+     {
+      "a": "ontap",
+      "b": "rep",
       "e": "SnapMirror"
-     },
-     {
-      "n": "Replica ONTAP system"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-08",
@@ -9327,48 +13057,53 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Multipart upload is recommended for objects over 100 MB (and required over 5 GB) and lets a failed part be retried without restarting the whole file. Transfer Acceleration routes uploads through the nearest CloudFront edge location and over the AWS backbone, which especially helps the far-away studios.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "studio",
+      "i": "users",
       "n": "Tokyo studio"
      },
      {
-      "e": "nearest edge location"
-     },
-     {
-      "h": 1,
-      "n": "Transfer Acceleration",
-      "s": "AWS backbone"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "S3 bucket",
-      "s": "us-east-1"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "edge",
+        "i": "cloudfront",
+        "h": 1,
+        "n": "Transfer Acceleration",
+        "s": "nearest edge location"
+       },
+       {
+        "k": "region",
+        "c": [
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "S3 bucket"
+         }
+        ],
+        "n": "us-east-1"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Large file"
+      "a": "studio",
+      "b": "edge",
+      "no": 1,
+      "e": "multipart upload, parts retried"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Multipart upload",
-      "s": "parts in parallel"
-     },
-     {
-      "e": "retry only the failed part"
-     },
-     {
-      "n": "S3 bucket",
-      "s": "us-east-1"
+      "a": "edge",
+      "b": "s3",
+      "no": 2,
+      "e": "AWS backbone"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-09",
@@ -9402,39 +13137,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Each prefix supports 5,500 GET/HEAD and 3,500 PUT/POST/DELETE requests per second, and there's no limit on the number of prefixes, so spreading objects across more prefixes raises the effective ceiling.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "id": "app",
+      "i": "ec2",
+      "n": "Application"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "prefix-a/",
-        "s": "5,500 GET/s"
-       },
-       {
-        "n": "prefix-b/",
-        "s": "5,500 GET/s"
-       },
-       {
-        "n": "prefix-c/",
-        "s": "5,500 GET/s"
+        "k": "col",
+        "c": [
+         {
+          "id": "p1",
+          "i": "s3",
+          "n": "prefix-a/",
+          "s": "5,500 GET/s"
+         },
+         {
+          "id": "p2",
+          "i": "s3",
+          "n": "prefix-b/",
+          "s": "5,500 GET/s"
+         },
+         {
+          "id": "p3",
+          "i": "s3",
+          "n": "prefix-c/",
+          "s": "5,500 GET/s"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "S3 bucket"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "p1"
      },
      {
-      "e": ""
+      "a": "app",
+      "b": "p2"
      },
      {
-      "h": 1,
-      "n": "More prefixes, higher total rate"
+      "a": "app",
+      "b": "p3",
+      "e": "rate adds up per prefix"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-10",
@@ -9468,38 +13223,48 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 Express One Zone uses directory buckets co-located with compute in a single AZ, giving single-digit-millisecond access and the highest request rates of the S3 storage classes.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-high-performance.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "One AZ",
+      "k": "cloud",
       "c": [
        {
-        "n": "ML training on EC2"
+        "k": "az",
+        "c": [
+         {
+          "id": "ml",
+          "i": "ec2",
+          "n": "ML training"
+         },
+         {
+          "id": "dir",
+          "i": "s3",
+          "h": 1,
+          "n": "S3 Express One Zone",
+          "s": "directory bucket"
+         }
+        ],
+        "d": "row",
+        "n": "One Availability Zone"
        },
        {
-        "e": "single-digit ms, highest request rate"
-       },
-       {
-        "h": 1,
-        "n": "S3 Express One Zone",
-        "s": "directory bucket"
+        "id": "ia",
+        "i": "s3",
+        "n": "Older data",
+        "s": "stays in Standard-IA"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Older training data"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "S3 Standard-IA",
-      "s": "stays put"
+      "a": "ml",
+      "b": "dir",
+      "e": "single-digit ms"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-11",
@@ -9533,32 +13298,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 File Gateway caches frequently used files locally for low-latency access while storing the data durably in S3 as native objects.",
    "resource": "https://docs.aws.amazon.com/filegateway/latest/files3/what-is-file-s3.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Editing workstations"
-     },
-     {
-      "e": "NFS / SMB"
-     },
-     {
-      "g": "On premises",
+      "k": "onprem",
       "c": [
        {
+        "id": "ws",
+        "i": "client",
+        "n": "Editing workstations"
+       },
+       {
+        "id": "gw",
+        "i": "storagegateway",
         "h": 1,
         "n": "S3 File Gateway",
         "s": "local cache"
        }
-      ]
+      ],
+      "n": "Studio"
      },
      {
-      "e": "files stored as objects"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Amazon S3",
+        "s": "files as objects"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "ws",
+      "b": "gw",
+      "e": "NFS / SMB"
      },
      {
-      "n": "Amazon S3"
+      "a": "gw",
+      "b": "s3",
+      "e": "stored durably"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-46",
@@ -9592,33 +13377,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cached volumes present iSCSI block volumes on premises, store the full data in S3, and keep a local copy of frequently accessed data, so the hospital doesn't need to grow its on-premises storage.",
    "resource": "https://docs.aws.amazon.com/storagegateway/latest/vgw/WhatIsStorageGateway.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Imaging servers"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "srv",
+        "i": "server",
+        "n": "Imaging servers"
+       },
+       {
+        "id": "gw",
+        "i": "storagegateway",
+        "h": 1,
+        "n": "Volume Gateway, cached",
+        "s": "hot data local"
+       }
+      ],
+      "n": "Hospital"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Full volumes",
+        "s": "S3-backed"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "srv",
+      "b": "gw",
       "e": "iSCSI"
      },
      {
-      "g": "On premises",
-      "c": [
-       {
-        "h": 1,
-        "n": "Volume Gateway, cached",
-        "s": "hot data cached locally"
-       }
-      ]
-     },
-     {
-      "e": "full volumes"
-     },
-     {
-      "n": "AWS storage",
-      "s": "S3-backed"
+      "a": "gw",
+      "b": "s3",
+      "e": "all data stored"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-47",
@@ -9652,26 +13456,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "FSx for OpenZFS is a managed OpenZFS file system accessed over NFS, with low latency and ZFS features such as snapshots and clones, which makes it a natural fit for moving from an on-premises ZFS appliance.",
    "resource": "https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/what-is-fsx.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Build servers"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "build",
+        "i": "ec2",
+        "n": "Build servers"
+       },
+       {
+        "id": "zfs",
+        "i": "fsx",
+        "h": 1,
+        "n": "FSx for OpenZFS",
+        "s": "NFS, sub-ms"
+       },
+       {
+        "id": "test",
+        "i": "ec2",
+        "n": "Test environments"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "build",
+      "b": "zfs",
+      "e": "NFS"
      },
      {
-      "e": "NFS, sub-ms"
-     },
-     {
-      "h": 1,
-      "n": "FSx for OpenZFS"
-     },
-     {
-      "e": "instant snapshots and clones"
-     },
-     {
-      "n": "Test environments"
+      "a": "zfs",
+      "b": "test",
+      "e": "snapshots and clones"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-48",
@@ -9705,42 +13528,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Byte-range fetches use the HTTP `Range` header to download different parts of the same object in parallel over several connections, which gives much higher aggregate throughput than one long request.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance-guidelines.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "EC2"
-     },
-     {
-      "e": "Range: bytes 0-10 GB"
-     },
-     {
-      "n": "50 GB object"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ec2",
+        "i": "ec2",
+        "n": "Genomics app"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "h": 1,
+        "n": "50 GB object",
+        "s": "parallel byte-range GETs"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "EC2"
-     },
-     {
-      "e": "Range: bytes 10-20 GB ... in parallel"
-     },
-     {
-      "n": "50 GB object"
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "Parallel byte-range fetches"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Full file, much faster"
+      "a": "ec2",
+      "b": "s3",
+      "e": "Range requests in parallel"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-12",
@@ -9774,53 +13590,57 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A cluster placement group packs instances close together in a single AZ for the lowest latency and highest network throughput. Add Elastic Fabric Adapter (EFA) for MPI workloads.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Cluster placement group, one AZ",
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "k": "az",
+        "c": [
          {
+          "k": "group",
+          "c": [
+           {
+            "id": "a",
+            "i": "ec2",
+            "n": "Node"
+           },
+           {
+            "id": "b",
+            "i": "ec2",
+            "n": "Node"
+           },
+           {
+            "id": "c",
+            "i": "ec2",
+            "n": "Node"
+           }
+          ],
           "h": 1,
-          "n": "Node"
-         },
-         {
-          "h": 1,
-          "n": "Node"
+          "n": "Cluster placement group"
          }
-        ]
-       },
-       {
-        "e": "EFA, lowest latency"
-       },
-       {
-        "k": [
-         {
-          "h": 1,
-          "n": "Node"
-         },
-         {
-          "h": 1,
-          "n": "Node"
-         }
-        ]
+        ],
+        "n": "One Availability Zone"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "MPI job"
+      "a": "a",
+      "b": "b",
+      "e": "EFA, lowest latency",
+      "t": "both"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Highest packets per second between nodes"
+      "a": "b",
+      "b": "c",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-13",
@@ -9854,44 +13674,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A spread placement group places each instance on distinct underlying hardware (up to 7 running instances per AZ), which is exactly the isolation this scenario needs.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Spread placement group"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "License server 1",
-        "s": "rack 1"
-       },
-       {
-        "n": "License server 2",
-        "s": "rack 2"
-       },
-       {
-        "n": "License server 3",
-        "s": "rack 3"
+        "k": "group",
+        "c": [
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "r1",
+            "i": "ec2",
+            "n": "License server 1"
+           }
+          ],
+          "n": "Rack 1"
+         },
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "r2",
+            "i": "ec2",
+            "n": "License server 2"
+           }
+          ],
+          "n": "Rack 2"
+         },
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "r3",
+            "i": "ec2",
+            "n": "License server 3"
+           }
+          ],
+          "n": "Rack 3"
+         }
+        ],
+        "h": 1,
+        "n": "Spread placement group",
+        "s": "at most 7 per AZ"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
-     {
-      "n": "One hardware failure"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Only one server affected"
-     }
-    ]
-   ]
+    "f": []
+   }
   },
   {
    "id": "3-14",
@@ -9925,44 +13759,78 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Partition placement groups divide instances into logical partitions that don't share underlying hardware, which is the standard fit for rack-aware distributed systems like Cassandra, Hadoop, and Kafka.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-strategies.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Partition placement group"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Partition 1",
-        "s": "Cassandra nodes, rack A"
-       },
-       {
-        "n": "Partition 2",
-        "s": "Cassandra nodes, rack B"
-       },
-       {
-        "n": "Partition 3",
-        "s": "Cassandra nodes, rack C"
+        "k": "group",
+        "c": [
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "a1",
+            "i": "ec2",
+            "n": "Cassandra node"
+           },
+           {
+            "id": "a2",
+            "i": "ec2",
+            "n": "Cassandra node"
+           }
+          ],
+          "d": "col",
+          "n": "Partition 1",
+          "s": "rack A"
+         },
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "b1",
+            "i": "ec2",
+            "n": "Cassandra node"
+           },
+           {
+            "id": "b2",
+            "i": "ec2",
+            "n": "Cassandra node"
+           }
+          ],
+          "d": "col",
+          "n": "Partition 2",
+          "s": "rack B"
+         },
+         {
+          "k": "group",
+          "c": [
+           {
+            "id": "c1",
+            "i": "ec2",
+            "n": "Cassandra node"
+           },
+           {
+            "id": "c2",
+            "i": "ec2",
+            "n": "Cassandra node"
+           }
+          ],
+          "d": "col",
+          "n": "Partition 3",
+          "s": "rack C"
+         }
+        ],
+        "h": 1,
+        "n": "Partition placement group"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
-     {
-      "n": "Rack failure"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Only one partition affected"
-     }
-    ]
-   ]
+    "f": []
+   }
   },
   {
    "id": "3-15",
@@ -9996,27 +13864,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Memory optimized instance families (like R and X) are built for the highest memory-to-vCPU ratio, which fits a workload dominated by RAM usage rather than CPU or local disk throughput.",
    "resource": "https://aws.amazon.com/ec2/instance-types/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "s3",
+      "i": "s3",
       "n": "Large dataset"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ec2",
+        "i": "ec2",
+        "h": 1,
+        "n": "Memory optimized",
+        "s": "R or X, high GiB per vCPU"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "s3",
+      "b": "ec2",
       "e": "loaded into RAM"
-     },
-     {
-      "h": 1,
-      "n": "Memory optimized",
-      "s": "R or X, high GiB per vCPU"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "In-memory analytics"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-16",
@@ -10050,28 +13926,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Lambda has no direct vCPU setting — CPU power scales in proportion to the configured memory, up to 10,240 MB, which gives up to 6 vCPUs.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Memory setting",
-      "s": "up to 10,240 MB"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cfg",
+        "i": "lambda",
+        "h": 1,
+        "n": "Memory setting",
+        "s": "up to 10,240 MB"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Image resizer",
+        "s": "up to 6 vCPUs"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": "CPU scales in proportion"
-     },
-     {
-      "n": "vCPUs",
-      "s": "up to 6"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Faster image resizing"
+      "a": "cfg",
+      "b": "fn",
+      "e": "CPU scales with memory"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-17",
@@ -10105,44 +13989,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Reserved concurrency only limits or guarantees the number of concurrent executions; it doesn't pre-initialize execution environments. Provisioned concurrency (or SnapStart) keeps environments warm and ready, which is what actually cuts cold starts.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/provisioned-concurrency.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Request"
+      "id": "users",
+      "i": "users",
+      "n": "Requests"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Provisioned concurrency",
-      "s": "pre-initialized environments"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Handler runs at once"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "pc",
+        "i": "lambda",
+        "h": 1,
+        "n": "Provisioned concurrency",
+        "s": "initialized environments"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "n": "Handler"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Request"
+      "a": "users",
+      "b": "pc"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Cold environment"
-     },
-     {
-      "e": "init delay"
-     },
-     {
-      "n": "Handler runs late"
+      "a": "pc",
+      "b": "fn",
+      "e": "no cold start"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-18",
@@ -10176,40 +14060,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A single Lambda invocation can run for at most 15 minutes, far less than the 3 hours this job needs. AWS Batch, ECS/Fargate tasks, or EC2 instances are better fits for long-running batch jobs.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "file",
+      "i": "s3",
       "n": "Video file",
       "s": "3-hour job"
      },
      {
-      "e": "15-minute timeout",
-      "x": 1
-     },
-     {
-      "n": "Lambda"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda",
+          "s": "15-minute maximum"
+         },
+         {
+          "id": "batch",
+          "i": "batch",
+          "h": 1,
+          "n": "AWS Batch or ECS / EC2"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Video file",
-      "s": "3-hour job"
+      "a": "file",
+      "b": "fn",
+      "e": "too long",
+      "t": "x"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Batch or ECS / Fargate task or EC2"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Encoded output"
+      "a": "file",
+      "b": "batch",
+      "e": "runs for hours"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-19",
@@ -10243,35 +14139,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Batch manages job queues, dependencies, and priorities, and automatically provisions the optimal quantity and type of compute resources, including Spot, based on the jobs submitted.",
    "resource": "https://docs.aws.amazon.com/batch/latest/userguide/what-is-batch.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Jobs with dependencies"
+      "id": "jobs",
+      "i": "users",
+      "n": "Thousands of jobs"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "q",
+        "i": "batch",
+        "h": 1,
+        "n": "AWS Batch job queue",
+        "s": "dependencies, priorities"
+       },
+       {
+        "id": "ce",
+        "i": "ec2",
+        "n": "Managed compute",
+        "s": "On-Demand and Spot"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "jobs",
+      "b": "q",
+      "e": "submit"
      },
      {
-      "h": 1,
-      "n": "AWS Batch job queues",
-      "s": "priorities"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Managed compute environment",
-      "s": "On-Demand + Spot"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Containers run"
+      "a": "q",
+      "b": "ce",
+      "e": "provision and run"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-20",
@@ -10305,37 +14212,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Elastic Beanstalk provisions and manages the underlying EC2 instances, load balancer, and Auto Scaling group for you from an application code upload, while still giving access to the underlying resources if needed.",
    "resource": "https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "code",
+      "i": "client",
       "n": "Code upload"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Elastic Beanstalk"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "ALB"
+        "id": "eb",
+        "i": "beanstalk",
+        "h": 1,
+        "n": "Elastic Beanstalk"
        },
        {
-        "n": "Auto Scaling group"
-       },
-       {
-        "n": "EC2 instances",
-        "s": "still accessible"
+        "k": "group",
+        "c": [
+         {
+          "id": "alb",
+          "i": "alb",
+          "n": "Load balancer"
+         },
+         {
+          "id": "asg",
+          "i": "asg",
+          "n": "Auto Scaling group"
+         },
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2 instances",
+          "s": "still accessible"
+         }
+        ],
+        "n": "Environment"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "code",
+      "b": "eb"
+     },
+     {
+      "a": "eb",
+      "b": "alb",
+      "e": "provisions"
+     },
+     {
+      "a": "alb",
+      "b": "asg"
+     },
+     {
+      "a": "asg",
+      "b": "ec2"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-21",
@@ -10369,38 +14307,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "ALB listener rules can route based on the URL path (and also support host-based, header-based, and query-string routing), which is exactly what's needed to split traffic between the two target groups.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Client"
+      "id": "client",
+      "i": "users",
+      "n": "Clients"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "ALB listener"
-     },
-     {
-      "e": "path /api/*"
-     },
-     {
-      "h": 1,
-      "n": "Microservice target group"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "alb",
+        "i": "alb",
+        "h": 1,
+        "n": "ALB listener rules",
+        "s": "path-based routing"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "api",
+          "i": "ecs",
+          "n": "Microservice target group",
+          "s": "/api/*"
+         },
+         {
+          "id": "img",
+          "i": "ec2",
+          "n": "Image target group",
+          "s": "/images/*"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "ALB listener"
+      "a": "client",
+      "b": "alb"
      },
      {
-      "e": "path /images/*"
+      "a": "alb",
+      "b": "api",
+      "e": "/api/*"
      },
      {
-      "h": 1,
-      "n": "Image target group"
+      "a": "alb",
+      "b": "img",
+      "e": "/images/*"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-22",
@@ -10434,28 +14395,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Network Load Balancer operates at Layer 4, handles millions of requests per second, and offers a static IP per AZ, which fits both the throughput and the TCP/UDP requirement.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Clients",
+      "id": "client",
+      "i": "users",
+      "n": "Traders",
       "s": "TCP and UDP"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "nlb",
+        "i": "nlb",
+        "h": 1,
+        "n": "Network Load Balancer",
+        "s": "Layer 4, static IP per AZ"
+       },
+       {
+        "id": "eng",
+        "i": "ec2",
+        "n": "Matching engine"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "client",
+      "b": "nlb",
+      "e": "millions req/s"
      },
      {
-      "h": 1,
-      "n": "Network Load Balancer",
-      "s": "Layer 4, static IP per AZ, millions req/s"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Matching engine"
+      "a": "nlb",
+      "b": "eng"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-23",
@@ -10489,48 +14467,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Gateway Load Balancer uses GENEVE encapsulation to pass traffic transparently to third-party virtual appliances for inspection, then back out, which the other load balancer types aren't designed for.",
    "resource": "https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "inet",
+      "i": "internet",
       "n": "Internet"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Gateway Load Balancer",
-      "s": "GENEVE, packets unchanged"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Firewall appliance fleet"
-     },
-     {
-      "e": "inspected traffic"
-     },
-     {
-      "h": 1,
-      "n": "Gateway Load Balancer",
-      "s": "GENEVE, packets unchanged"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "gwlb",
+          "i": "gwlb",
+          "h": 1,
+          "n": "Gateway Load Balancer",
+          "s": "GENEVE, packets unchanged"
+         },
+         {
+          "id": "fw",
+          "i": "firewall",
+          "n": "Firewall appliances"
+         },
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Application"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Gateway Load Balancer",
-      "s": "GENEVE, packets unchanged"
+      "a": "inet",
+      "b": "gwlb",
+      "no": 1
      },
      {
-      "e": ""
+      "a": "gwlb",
+      "b": "fw",
+      "no": 2,
+      "e": "inspect"
      },
      {
-      "n": "Application in VPC"
+      "a": "gwlb",
+      "b": "app",
+      "no": 3,
+      "e": "allowed traffic"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-24",
@@ -10564,37 +14557,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Compute Optimizer analyzes utilization metrics over time and produces right-sizing recommendations for EC2, EBS, Lambda, and other resources, refreshed as usage patterns change.",
    "resource": "https://docs.aws.amazon.com/compute-optimizer/latest/ug/what-is-compute-optimizer.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Utilization metrics"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Compute Optimizer"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "EC2 sizes"
+        "id": "co",
+        "i": "computeoptimizer",
+        "h": 1,
+        "n": "AWS Compute Optimizer",
+        "s": "uses utilization history"
        },
        {
-        "n": "EBS volumes"
-       },
-       {
-        "n": "Lambda memory",
-        "s": "right-sizing recommendations"
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2 sizes"
+         },
+         {
+          "id": "ebs",
+          "i": "ebs",
+          "n": "EBS volumes"
+         },
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda memory"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "co",
+      "b": "ec2",
+      "e": "right-size"
+     },
+     {
+      "a": "co",
+      "b": "ebs"
+     },
+     {
+      "a": "co",
+      "b": "fn"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-50",
@@ -10628,38 +14642,52 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Outposts brings AWS infrastructure and services such as EC2, EBS and ECS into your own facility, managed from the same console and APIs, so data can stay on site with very low latency to local systems.",
    "resource": "https://docs.aws.amazon.com/outposts/latest/userguide/what-is-outposts.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Factory",
+      "k": "onprem",
       "c": [
        {
+        "id": "m",
+        "i": "server",
         "n": "Machines"
        },
        {
-        "e": "single-digit ms"
-       },
-       {
+        "id": "out",
+        "i": "outposts",
         "h": 1,
         "n": "AWS Outposts rack",
-        "s": "EC2, EBS, ECS"
-       },
-       {
-        "e": ""
-       },
-       {
-        "n": "Data stays on site"
+        "s": "EC2, EBS, ECS on site"
        }
-      ]
+      ],
+      "n": "Factory"
      },
      {
-      "e": "same console and APIs"
-     },
-     {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "con",
+        "i": "ssm",
+        "n": "Same console and APIs"
+       }
+      ],
       "n": "AWS Region"
      }
+    ],
+    "f": [
+     {
+      "a": "m",
+      "b": "out",
+      "e": "single-digit ms"
+     },
+     {
+      "a": "out",
+      "b": "con",
+      "e": "managed from Region",
+      "t": "d"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "3-51",
@@ -10693,27 +14721,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Local Zones place AWS compute, storage and other services in large metro areas, close to users, for single-digit-millisecond latency, without the customer hosting any hardware.",
    "resource": "https://docs.aws.amazon.com/local-zones/latest/ug/what-is-aws-local-zones.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Artists in Los Angeles"
+      "id": "artists",
+      "i": "users",
+      "n": "Los Angeles artists"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "lz",
+        "i": "localzone",
+        "h": 1,
+        "n": "Local Zone, Los Angeles",
+        "s": "workstations"
+       },
+       {
+        "id": "reg",
+        "i": "ec2",
+        "n": "Parent Region"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "artists",
+      "b": "lz",
       "e": "single-digit ms"
      },
      {
-      "h": 1,
-      "n": "Local Zone",
-      "s": "Los Angeles"
-     },
-     {
-      "e": "parent Region connection"
-     },
-     {
-      "n": "AWS Region"
+      "a": "lz",
+      "b": "reg",
+      "e": "AWS network",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-52",
@@ -10747,33 +14794,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Wavelength Zones embed AWS compute and storage inside telecom providers' 5G networks, so traffic from mobile devices reaches the application without leaving the carrier's network.",
    "resource": "https://docs.aws.amazon.com/wavelength/latest/developerguide/what-is-wavelength.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "phones",
+      "i": "mobile",
       "n": "5G phones"
      },
      {
-      "e": ""
-     },
-     {
-      "g": "Carrier 5G network",
+      "k": "group",
       "c": [
        {
+        "id": "wz",
+        "i": "wavelength",
         "h": 1,
         "n": "Wavelength Zone",
         "s": "game servers"
        }
-      ]
+      ],
+      "n": "Carrier 5G network"
      },
      {
-      "e": "no trip over the internet",
-      "x": 1
-     },
-     {
+      "id": "inet",
+      "i": "internet",
       "n": "Internet"
      }
+    ],
+    "f": [
+     {
+      "a": "phones",
+      "b": "wz",
+      "e": "stays in carrier network"
+     },
+     {
+      "a": "wz",
+      "b": "inet",
+      "e": "no detour",
+      "t": "x"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "3-53",
@@ -10807,28 +14867,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Accelerated computing instances use hardware accelerators such as GPUs, which run the massively parallel calculations in deep-learning training far faster than general-purpose CPUs.",
    "resource": "https://docs.aws.amazon.com/ec2/latest/instancetypes/ac.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "data",
+      "i": "s3",
       "n": "Millions of images"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "p",
+        "i": "ec2",
+        "h": 1,
+        "n": "P instances",
+        "s": "GPUs for parallel math"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "h": 1,
-      "n": "P instances",
-      "s": "GPUs, parallel matrix math"
+      "id": "model",
+      "i": "s3",
+      "n": "Trained model"
+     }
+    ],
+    "f": [
+     {
+      "a": "data",
+      "b": "p",
+      "e": "training"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Trained model",
-      "s": "days, not weeks"
+      "a": "p",
+      "b": "model",
+      "e": "days, not weeks"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-25",
@@ -10862,27 +14939,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "DAX is an in-memory cache built specifically in front of DynamoDB, giving microsecond read latency for cached items without any application-side cache-management code.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "game",
+      "i": "mobile",
       "n": "Game client"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "dax",
+        "i": "dax",
+        "h": 1,
+        "n": "DAX",
+        "s": "microsecond reads"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "Leaderboard table"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "game",
+      "b": "dax",
       "e": "read"
      },
      {
-      "h": 1,
-      "n": "DAX",
-      "s": "microsecond reads"
-     },
-     {
-      "e": "cache miss"
-     },
-     {
-      "n": "DynamoDB leaderboard table"
+      "a": "dax",
+      "b": "ddb",
+      "e": "cache miss only"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-26",
@@ -10916,51 +15011,72 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Aurora Replicas share the same underlying storage as the writer but serve reads independently, and the reader endpoint automatically load-balances across them, taking the reporting load off the writer entirely.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.Endpoints.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Transactions"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Aurora writer"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Shared cluster storage"
-     }
-    ],
-    [
-     {
-      "n": "Month-end reports"
-     },
-     {
-      "e": "reader endpoint"
-     },
-     {
-      "k": [
+      "k": "col",
+      "c": [
        {
-        "h": 1,
-        "n": "Aurora Replica"
+        "id": "tx",
+        "i": "ec2",
+        "n": "Transactions"
        },
        {
-        "h": 1,
-        "n": "Aurora Replica"
+        "id": "rep",
+        "i": "quicksight",
+        "n": "Month-end reports"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "w",
+          "i": "aurora",
+          "n": "Writer"
+         },
+         {
+          "id": "r",
+          "i": "aurora",
+          "h": 1,
+          "n": "Aurora Replicas",
+          "s": "reader endpoint"
+         }
+        ]
+       },
+       {
+        "id": "vol",
+        "i": "aurora",
+        "n": "Shared storage"
+       }
+      ],
+      "n": "Aurora cluster"
+     }
+    ],
+    "f": [
+     {
+      "a": "tx",
+      "b": "w"
      },
      {
-      "n": "Shared cluster storage"
+      "a": "rep",
+      "b": "r",
+      "e": "reader endpoint"
+     },
+     {
+      "a": "w",
+      "b": "vol"
+     },
+     {
+      "a": "r",
+      "b": "vol"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-27",
@@ -10994,34 +15110,49 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Aurora Serverless v2 scales database capacity up and down automatically in fine-grained increments based on load, which fits unpredictable, spiky per-customer usage far better than a fixed instance size.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
+        "id": "idle",
+        "i": "users",
         "n": "Idle tenants"
        },
        {
+        "id": "busy",
+        "i": "users",
         "n": "Bursting tenants"
        }
       ]
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sv2",
+        "i": "aurora",
+        "h": 1,
+        "n": "Aurora Serverless v2",
+        "s": "scales in small ACU steps"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "idle",
+      "b": "sv2"
      },
      {
-      "h": 1,
-      "n": "Aurora Serverless v2",
-      "s": "scales in fine-grained ACUs"
-     },
-     {
+      "a": "busy",
+      "b": "sv2",
       "e": "capacity follows load"
-     },
-     {
-      "n": "Low cost when idle"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-28",
@@ -11055,27 +15186,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Redshift is a columnar, petabyte-scale data warehouse purpose-built for complex analytical SQL over large historical datasets, unlike a row-oriented OLTP database.",
    "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "OLTP database"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "oltp",
+        "i": "rds",
+        "n": "OLTP database"
+       },
+       {
+        "id": "rs",
+        "i": "redshift",
+        "h": 1,
+        "n": "Amazon Redshift",
+        "s": "columnar, petabyte scale"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
+      "id": "bi",
+      "i": "users",
+      "n": "BI team"
+     }
+    ],
+    "f": [
+     {
+      "a": "oltp",
+      "b": "rs",
       "e": "load / ETL"
      },
      {
-      "h": 1,
-      "n": "Amazon Redshift",
-      "s": "columnar, petabyte scale"
-     },
-     {
-      "e": "complex SQL joins"
-     },
-     {
-      "n": "BI team"
+      "a": "bi",
+      "b": "rs",
+      "e": "complex SQL"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-29",
@@ -11109,54 +15258,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Neptune is a purpose-built graph database designed for exactly this kind of highly connected, multi-hop relationship query, which relational joins handle poorly at scale.",
    "resource": "https://docs.aws.amazon.com/neptune/latest/userguide/intro.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Alice"
+      "id": "app",
+      "i": "users",
+      "n": "Social app"
      },
      {
-      "e": "friend"
-     },
-     {
-      "n": "Bob"
-     },
-     {
-      "e": "friend"
-     },
-     {
-      "n": "Carol"
-     },
-     {
-      "e": "follows"
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Page 1"
-       },
-       {
-        "n": "Page 2"
-       },
-       {
-        "n": "Page 3"
+        "id": "nep",
+        "i": "neptune",
+        "h": 1,
+        "n": "Amazon Neptune",
+        "s": "graph database"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Multi-hop query"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon Neptune",
-      "s": "graph database"
+      "a": "app",
+      "b": "nep",
+      "e": "friends of friends query"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-30",
@@ -11190,44 +15320,79 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon DocumentDB is MongoDB-compatible, Amazon Keyspaces is Cassandra (CQL)-compatible, and Amazon Timestream is purpose-built for time-series data such as IoT telemetry.",
    "resource": "https://aws.amazon.com/products/databases/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "MongoDB-compatible documents"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon DocumentDB"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "row",
+        "c": [
+         {
+          "id": "m",
+          "i": "server",
+          "n": "MongoDB-compatible"
+         },
+         {
+          "id": "d",
+          "i": "documentdb",
+          "h": 1,
+          "n": "Amazon DocumentDB"
+         }
+        ]
+       },
+       {
+        "k": "row",
+        "c": [
+         {
+          "id": "c",
+          "i": "server",
+          "n": "Cassandra CQL"
+         },
+         {
+          "id": "k",
+          "i": "keyspaces",
+          "h": 1,
+          "n": "Amazon Keyspaces"
+         }
+        ]
+       },
+       {
+        "k": "row",
+        "c": [
+         {
+          "id": "i",
+          "i": "client",
+          "n": "IoT time series"
+         },
+         {
+          "id": "t",
+          "i": "timestream",
+          "h": 1,
+          "n": "Amazon Timestream"
+         }
+        ]
+       }
+      ],
+      "d": "col",
+      "n": "Purpose-built databases"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Cassandra CQL"
+      "a": "m",
+      "b": "d"
      },
      {
-      "e": ""
+      "a": "c",
+      "b": "k"
      },
      {
-      "h": 1,
-      "n": "Amazon Keyspaces"
-     }
-    ],
-    [
-     {
-      "n": "IoT time series"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon Timestream"
+      "a": "i",
+      "b": "t"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-31",
@@ -11261,49 +15426,67 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Throttling on a small number of keys while overall capacity is underused is the classic sign of a hot partition. Choosing a partition key with higher cardinality, or sharding the write key, spreads the load across more partitions.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Featured product writes"
+      "id": "w",
+      "i": "users",
+      "n": "Flash-sale writes"
      },
      {
-      "e": "hot partition",
-      "x": 1
-     },
-     {
-      "n": "Partition 1",
-      "s": "throttled"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "key",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "High-cardinality key",
+        "s": "or write sharding"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "p1",
+          "i": "dynamodb",
+          "n": "Partition 1"
+         },
+         {
+          "id": "p2",
+          "i": "dynamodb",
+          "n": "Partition 2"
+         },
+         {
+          "id": "p3",
+          "i": "dynamodb",
+          "n": "Partition 3"
+         }
+        ]
+       }
+      ],
+      "n": "DynamoDB table"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Writes"
+      "a": "w",
+      "b": "key"
      },
      {
-      "e": ""
+      "a": "key",
+      "b": "p1",
+      "e": "spread evenly"
      },
      {
-      "h": 1,
-      "n": "High-cardinality key or write sharding"
+      "a": "key",
+      "b": "p2"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "Partition 1"
-       },
-       {
-        "n": "Partition 2"
-       },
-       {
-        "n": "Partition 3"
-       }
-      ]
+      "a": "key",
+      "b": "p3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-32",
@@ -11337,45 +15520,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Redis OSS (and Valkey) supports rich data types like sorted sets, persistence, and Multi-AZ replication with automatic failover. Memcached is simple, multi-threaded, and has neither persistence nor built-in replication.",
    "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Leaderboard"
+      "id": "app",
+      "i": "ec2",
+      "n": "Game servers"
      },
      {
-      "e": "sorted sets"
-     },
-     {
-      "g": "ElastiCache for Redis OSS / Valkey",
+      "k": "cloud",
       "c": [
        {
+        "k": "group",
+        "c": [
+         {
+          "k": "az",
+          "c": [
+           {
+            "id": "pri",
+            "i": "elasticache",
+            "n": "Primary",
+            "s": "sorted sets, persistence"
+           }
+          ],
+          "n": "AZ A"
+         },
+         {
+          "k": "az",
+          "c": [
+           {
+            "id": "rep",
+            "i": "elasticache",
+            "n": "Replica",
+            "s": "auto failover"
+           }
+          ],
+          "n": "AZ B"
+         }
+        ],
         "h": 1,
-        "n": "Primary",
-        "s": "AZ a, persisted"
-       },
-       {
-        "e": "replication"
-       },
-       {
-        "h": 1,
-        "n": "Replica",
-        "s": "AZ b"
+        "n": "ElastiCache for Redis OSS or Valkey"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Primary fails"
+      "a": "app",
+      "b": "pri",
+      "e": "leaderboards"
      },
      {
-      "e": "automatic failover"
-     },
-     {
-      "n": "Replica becomes primary"
+      "a": "pri",
+      "b": "rep",
+      "e": "replication"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-54",
@@ -11409,28 +15611,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "MemoryDB is a durable, in-memory database that is Redis OSS and Valkey compatible. It stores writes in a Multi-AZ transaction log, so it can be the primary database, not just a cache.",
    "resource": "https://docs.aws.amazon.com/memorydb/latest/devguide/what-is-memorydb.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
+      "id": "app",
+      "i": "ec2",
+      "n": "Fintech app"
      },
      {
-      "e": "microsecond reads, ms writes"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "mdb",
+        "i": "memorydb",
+        "h": 1,
+        "n": "Amazon MemoryDB",
+        "s": "primary database"
+       },
+       {
+        "id": "log",
+        "i": "memorydb",
+        "n": "Multi-AZ transaction log"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "mdb",
+      "e": "microsecond reads"
      },
      {
-      "h": 1,
-      "n": "Amazon MemoryDB",
-      "s": "primary database"
-     },
-     {
-      "e": "every write"
-     },
-     {
-      "n": "Multi-AZ transaction log",
-      "s": "durable"
+      "a": "mdb",
+      "b": "log",
+      "e": "every write durable"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-55",
@@ -11464,28 +15683,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "OpenSearch Service is built for full-text search, with relevance ranking, fuzzy matching and faceted filters. The catalog can be kept in sync from DynamoDB, which stays the system of record.",
    "resource": "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "DynamoDB catalog",
-      "s": "system of record"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "Product catalog",
+        "s": "system of record"
+       },
+       {
+        "id": "os",
+        "i": "opensearch",
+        "h": 1,
+        "n": "OpenSearch Service",
+        "s": "full-text index"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
+      "id": "shop",
+      "i": "users",
+      "n": "Shoppers"
+     }
+    ],
+    "f": [
+     {
+      "a": "ddb",
+      "b": "os",
       "e": "sync"
      },
      {
-      "h": 1,
-      "n": "OpenSearch Service",
-      "s": "full-text index"
-     },
-     {
-      "e": "fuzzy match, ranking, facets"
-     },
-     {
-      "n": "Shopper search"
+      "a": "shop",
+      "b": "os",
+      "e": "fuzzy search, filters"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-56",
@@ -11519,28 +15756,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A global secondary index lets you query the table by a different partition key and sort key, such as `customerId` and `orderDate`. It's updated asynchronously, so its reads are eventually consistent, which the dashboard accepts.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Orders table",
-      "s": "key orderId"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "t",
+        "i": "dynamodb",
+        "n": "Orders table",
+        "s": "key orderId"
+       },
+       {
+        "id": "gsi",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "GSI",
+        "s": "customerId + orderDate"
+       }
+      ],
+      "n": "DynamoDB"
      },
      {
-      "e": "async copy"
-     },
-     {
-      "h": 1,
-      "n": "GSI",
-      "s": "customerId + orderDate"
-     },
-     {
-      "e": "Query, eventually consistent"
-     },
-     {
+      "id": "dash",
+      "i": "user",
       "n": "Support dashboard"
      }
+    ],
+    "f": [
+     {
+      "a": "t",
+      "b": "gsi",
+      "e": "asynchronous copy"
+     },
+     {
+      "a": "dash",
+      "b": "gsi",
+      "e": "Query, eventually consistent"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "3-57",
@@ -11574,46 +15829,50 @@ window.QUESTION_BANK = {
    ],
    "explanation": "With write-through, the application updates the cache at the same time as the database, so cached prices are never stale. Because writes are rare, the extra work on each write is small.",
    "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Price update"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "App writes both"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "RDS"
+        "id": "app",
+        "i": "ec2",
+        "h": 1,
+        "n": "Pricing service",
+        "s": "write-through"
        },
        {
-        "n": "ElastiCache",
-        "s": "always current"
+        "k": "col",
+        "c": [
+         {
+          "id": "cache",
+          "i": "elasticache",
+          "n": "ElastiCache"
+         },
+         {
+          "id": "db",
+          "i": "rds",
+          "n": "RDS"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Reads"
+      "a": "app",
+      "b": "db",
+      "e": "write price"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "ElastiCache",
-      "s": "always current"
+      "a": "app",
+      "b": "cache",
+      "e": "update same time"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-58",
@@ -11647,22 +15906,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon Keyspaces is a serverless, Cassandra-compatible database, so existing applications can use the same CQL drivers and queries while AWS manages the infrastructure and scaling.",
    "resource": "https://docs.aws.amazon.com/keyspaces/latest/devguide/what-is-keyspaces.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "apps",
+      "i": "server",
       "n": "Existing apps",
       "s": "CQL drivers"
      },
      {
-      "e": "same queries"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ks",
+        "i": "keyspaces",
+        "h": 1,
+        "n": "Amazon Keyspaces",
+        "s": "serverless Cassandra"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "h": 1,
-      "n": "Amazon Keyspaces",
-      "s": "serverless, Cassandra-compatible"
+      "a": "apps",
+      "b": "ks",
+      "e": "same queries"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-33",
@@ -11696,27 +15969,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "CloudFront caches content at edge locations close to users, cutting both latency and the number of requests that reach the origin. Global Accelerator improves routing to endpoints but doesn't cache content.",
    "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Users worldwide"
+      "id": "users",
+      "i": "users",
+      "n": "Readers worldwide"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cf",
+        "i": "cloudfront",
+        "h": 1,
+        "n": "CloudFront",
+        "s": "edge caches"
+       },
+       {
+        "id": "origin",
+        "i": "ec2",
+        "n": "Origin server"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "users",
+      "b": "cf"
      },
      {
-      "h": 1,
-      "n": "CloudFront edge locations",
-      "s": "cache static and dynamic"
-     },
-     {
+      "a": "cf",
+      "b": "origin",
       "e": "cache misses only"
-     },
-     {
-      "n": "Origin server"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-34",
@@ -11750,37 +16040,92 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Transit Gateway acts as a central hub that all VPCs and on-premises connections attach to once, replacing the need for a full, non-transitive mesh of peering connections.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/tgw/what-is-transit-gateway.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "VPC 1"
+        "k": "col",
+        "c": [
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "v1",
+            "i": "ec2",
+            "n": "Workloads"
+           }
+          ],
+          "n": "VPC 1"
+         },
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "v2",
+            "i": "ec2",
+            "n": "Workloads"
+           }
+          ],
+          "n": "VPC 2"
+         },
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "v50",
+            "i": "ec2",
+            "n": "Workloads"
+           }
+          ],
+          "n": "VPC 50"
+         }
+        ]
        },
        {
-        "n": "VPC 2"
-       },
-       {
-        "n": "VPC 50"
+        "id": "tgw",
+        "i": "tgw",
+        "h": 1,
+        "n": "Transit Gateway",
+        "s": "one attachment each"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": ""
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dc",
+        "i": "datacenter",
+        "n": "Data centers"
+       }
+      ],
+      "n": "On-premises"
+     }
+    ],
+    "f": [
+     {
+      "a": "v1",
+      "b": "tgw"
      },
      {
-      "h": 1,
-      "n": "Transit Gateway",
-      "s": "hub"
+      "a": "v2",
+      "b": "tgw"
      },
      {
-      "e": ""
+      "a": "v50",
+      "b": "tgw"
      },
      {
-      "n": "On-premises networks"
+      "a": "tgw",
+      "b": "dc",
+      "e": "VPN or DX",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-35",
@@ -11814,37 +16159,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "VPC peering connections are never transitive, no matter how route tables are configured, so A cannot reach C through B over peering alone.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "VPC A"
-     },
-     {
-      "e": "peering"
-     },
-     {
-      "n": "VPC B"
-     },
-     {
-      "e": "peering"
-     },
-     {
-      "n": "VPC C"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "n": "Server A"
+         }
+        ],
+        "n": "VPC A"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "Server B"
+         }
+        ],
+        "n": "VPC B"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "c",
+          "i": "ec2",
+          "n": "Server C"
+         }
+        ],
+        "n": "VPC C"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "VPC A"
+      "a": "a",
+      "b": "b",
+      "e": "peering",
+      "t": "both"
      },
      {
-      "e": "no transitive routing",
-      "x": 1
+      "a": "b",
+      "b": "c",
+      "e": "peering",
+      "t": "both"
      },
      {
-      "n": "VPC C"
+      "a": "a",
+      "b": "c",
+      "e": "not transitive",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-36",
@@ -11878,27 +16255,56 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Direct Connect provides a dedicated, private network connection with consistent bandwidth (dedicated ports come in 1, 10, 100 and 400 Gbps), unlike a VPN, which runs encrypted over the shared public internet.",
    "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dc",
+        "i": "datacenter",
+        "n": "CAD file servers"
+       }
+      ],
       "n": "Data center"
      },
      {
-      "e": "dedicated 10 Gbps private circuit"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "dx",
+        "i": "dx",
+        "h": 1,
+        "n": "Direct Connect",
+        "s": "dedicated 10 Gbps"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "vgw",
+          "i": "vgw",
+          "n": "Virtual private gateway"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "dc",
+      "b": "dx",
+      "e": "private circuit"
      },
      {
-      "h": 1,
-      "n": "Direct Connect location"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "AWS Region",
-      "s": "VPC"
+      "a": "dx",
+      "b": "vgw"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-37",
@@ -11932,50 +16338,63 @@ window.QUESTION_BANK = {
    ],
    "explanation": "VPN CloudHub uses the virtual private gateway as a hub that routes traffic between the existing VPN connections, and each branch's customer gateway needs its own BGP ASN. (For much larger global networks, AWS Cloud WAN is the managed alternative.)",
    "resource": "https://docs.aws.amazon.com/vpn/latest/s2svpn/VPN_CloudHub.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
+        "id": "b1",
+        "i": "datacenter",
         "n": "Branch 1",
         "s": "ASN 65001"
        },
        {
+        "id": "b2",
+        "i": "datacenter",
         "n": "Branch 2",
         "s": "ASN 65002"
        }
       ]
      },
      {
-      "e": "existing VPNs"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "vgw",
+        "i": "vgw",
+        "h": 1,
+        "n": "VPN CloudHub",
+        "s": "virtual private gateway as hub"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "h": 1,
-      "n": "VPN CloudHub",
-      "s": "virtual private gateway"
-     },
-     {
-      "e": ""
-     },
-     {
+      "id": "b3",
+      "i": "datacenter",
       "n": "Branch 3",
       "s": "ASN 65003"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Branch 1",
-      "s": "ASN 65001"
+      "a": "b1",
+      "b": "vgw",
+      "e": "VPN"
      },
      {
-      "e": "via the hub"
+      "a": "b2",
+      "b": "vgw",
+      "e": "VPN"
      },
      {
-      "n": "Branch 3",
-      "s": "ASN 65003"
+      "a": "vgw",
+      "b": "b3",
+      "e": "VPN, routed between branches"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-38",
@@ -12009,30 +16428,67 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Overlapping CIDRs break routing for VPC peering and VPN/Direct Connect connections back to on-premises networks, so planning non-overlapping ranges (and subnets sized with room to grow) up front avoids costly re-addressing later.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "onprem",
+      "c": [
        {
-        "n": "On-premises",
-        "s": "192.168.0.0/16"
+        "id": "dc",
+        "i": "datacenter",
+        "n": "Data centers"
+       }
+      ],
+      "n": "On-premises",
+      "s": "192.168.0.0/16"
+     },
+     {
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Workloads"
+         }
+        ],
+        "h": 1,
+        "n": "New VPC",
+        "s": "10.10.0.0/16, room to grow"
        },
        {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "other",
+          "i": "ec2",
+          "n": "Workloads"
+         }
+        ],
         "n": "Other VPCs",
         "s": "10.1.0.0/16, 10.2.0.0/16"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "dc",
+      "b": "app",
+      "e": "VPN, no overlap",
+      "t": "both"
      },
      {
-      "e": "no overlap"
-     },
-     {
-      "h": 1,
-      "n": "New VPC",
-      "s": "10.10.0.0/16, room to grow"
+      "a": "app",
+      "b": "other",
+      "e": "peering, no overlap",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-39",
@@ -12066,44 +16522,76 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Route 53 Resolver inbound endpoints let on-premises systems query the private hosted zone, and outbound endpoints with forwarding rules let VPC resources query on-premises DNS — together covering both directions privately.",
    "resource": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "On-premises servers"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dns",
+        "i": "server",
+        "n": "On-premises DNS"
+       }
+      ],
+      "n": "Data center"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "in",
+          "i": "resolver",
+          "h": 1,
+          "n": "Resolver inbound endpoint"
+         },
+         {
+          "id": "zone",
+          "i": "route53",
+          "n": "Private hosted zone"
+         },
+         {
+          "id": "out",
+          "i": "resolver",
+          "h": 1,
+          "n": "Resolver outbound endpoint"
+         },
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "VPC resources"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "dns",
+      "b": "in",
       "e": "query private zone"
      },
      {
-      "h": 1,
-      "n": "Resolver inbound endpoint"
+      "a": "in",
+      "b": "zone"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Private hosted zone"
-     }
-    ],
-    [
-     {
-      "n": "VPC resources"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Resolver outbound endpoint"
-     },
-     {
+      "a": "ec2",
+      "b": "out",
       "e": "forwarding rule"
      },
      {
-      "n": "On-premises DNS"
+      "a": "out",
+      "b": "dns",
+      "e": "query on-prem names"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-40",
@@ -12137,28 +16625,42 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Enhanced networking with ENA supports up to 100+ Gbps on supported instance types, and adding Elastic Fabric Adapter (EFA) provides OS-bypass networking that further cuts latency and jitter for MPI/HPC workloads.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Cluster placement group",
+      "k": "cloud",
       "c": [
        {
-        "h": 1,
-        "n": "Node",
-        "s": "ENA + EFA"
-       },
-       {
-        "e": "100+ Gbps, OS bypass, low jitter"
-       },
-       {
-        "h": 1,
-        "n": "Node",
-        "s": "ENA + EFA"
+        "k": "group",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "h": 1,
+          "n": "Node with ENA + EFA"
+         },
+         {
+          "id": "b",
+          "i": "ec2",
+          "h": 1,
+          "n": "Node with ENA + EFA"
+         }
+        ],
+        "n": "Cluster placement group"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "b",
+      "e": "100+ Gbps, OS bypass",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-59",
@@ -12192,36 +16694,57 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cloud WAN builds and manages a global network across Regions and on-premises locations from a single core network policy, including network segments that control which parts of the network can communicate.",
    "resource": "https://docs.aws.amazon.com/network-manager/latest/cloudwan/what-is-cloudwan.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
+      "id": "pol",
+      "i": "cloudwan",
       "n": "Core network policy",
       "s": "segments: prod, dev, branches"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "AWS Cloud WAN",
-      "s": "AWS backbone"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "VPCs in 8 Regions"
+        "id": "wan",
+        "i": "cloudwan",
+        "h": 1,
+        "n": "AWS Cloud WAN"
        },
        {
-        "n": "40 branch offices"
+        "k": "col",
+        "c": [
+         {
+          "id": "vpcs",
+          "i": "vgw",
+          "n": "VPCs in 8 Regions"
+         },
+         {
+          "id": "br",
+          "i": "datacenter",
+          "n": "40 branches"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS backbone"
+     }
+    ],
+    "f": [
+     {
+      "a": "pol",
+      "b": "wan"
+     },
+     {
+      "a": "wan",
+      "b": "vpcs"
+     },
+     {
+      "a": "wan",
+      "b": "br"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-60",
@@ -12255,33 +16778,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Client VPN is a managed, scalable VPN service that lets individual users connect to a VPC, and to networks reachable through it, from OpenVPN-based clients, with authentication options that include Active Directory.",
    "resource": "https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "home",
+      "i": "client",
       "n": "Remote laptops",
       "s": "OpenVPN client"
      },
      {
-      "e": "AD authentication"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cvpn",
+        "i": "clientvpn",
+        "h": 1,
+        "n": "Client VPN endpoint",
+        "s": "AD authentication"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "app",
+          "i": "ec2",
+          "n": "Private apps"
+         }
+        ],
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "h": 1,
-      "n": "Client VPN endpoint"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "sys",
+        "i": "server",
+        "n": "Internal systems"
+       }
+      ],
+      "n": "On-premises"
+     }
+    ],
+    "f": [
+     {
+      "a": "home",
+      "b": "cvpn"
      },
      {
-      "e": ""
+      "a": "cvpn",
+      "b": "app"
      },
      {
-      "n": "VPC apps"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "On-premises systems"
+      "a": "app",
+      "b": "sys",
+      "e": "via VPC"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-61",
@@ -12315,44 +16871,83 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A Direct Connect gateway is a global resource: one private or transit virtual interface can reach virtual private gateways or transit gateways, and through them VPCs, in multiple Regions.",
    "resource": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-gateways-intro.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dc",
+        "i": "datacenter",
+        "n": "Servers"
+       }
+      ],
       "n": "Data center"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "dx",
+        "i": "dx",
+        "n": "Direct Connect",
+        "s": "one connection"
+       },
+       {
+        "id": "dxgw",
+        "i": "dxgw",
+        "h": 1,
+        "n": "Direct Connect gateway",
+        "s": "global"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "v1",
+          "i": "vgw",
+          "n": "VGW us-east-1"
+         },
+         {
+          "id": "v2",
+          "i": "vgw",
+          "n": "VGW us-west-2"
+         },
+         {
+          "id": "v3",
+          "i": "vgw",
+          "n": "VGW eu-west-1"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "dc",
+      "b": "dx"
      },
      {
-      "n": "Direct Connect",
-      "s": "one connection"
-     },
-     {
+      "a": "dx",
+      "b": "dxgw",
       "e": "private VIF"
      },
      {
-      "h": 1,
-      "n": "Direct Connect gateway",
-      "s": "global"
+      "a": "dxgw",
+      "b": "v1"
      },
      {
-      "e": ""
+      "a": "dxgw",
+      "b": "v2"
      },
      {
-      "k": [
-       {
-        "n": "VGW us-east-1"
-       },
-       {
-        "n": "VGW us-west-2"
-       },
-       {
-        "n": "VGW eu-west-1"
-       }
-      ]
+      "a": "dxgw",
+      "b": "v3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-41",
@@ -12386,54 +16981,71 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Kinesis Data Streams retains data for a configurable period (up to 365 days) and lets multiple independent consumers read the same stream, with enhanced fan-out available for isolated per-consumer throughput.",
    "resource": "https://docs.aws.amazon.com/streams/latest/dev/introduction.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "col",
+      "c": [
        {
+        "id": "click",
+        "i": "mobile",
         "n": "Clickstream"
        },
        {
+        "id": "gps",
+        "i": "mobile",
         "n": "GPS pings"
        }
       ]
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Kinesis Data Streams",
-      "s": "retained 7 days"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Fraud detection consumer"
+        "id": "kds",
+        "i": "kinesis",
+        "h": 1,
+        "n": "Kinesis Data Streams",
+        "s": "retained 7 days, replayable"
        },
        {
-        "n": "Analytics consumer"
+        "k": "col",
+        "c": [
+         {
+          "id": "fraud",
+          "i": "lambda",
+          "n": "Fraud detection"
+         },
+         {
+          "id": "an",
+          "i": "emr",
+          "n": "Analytics"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Bug fixed"
+      "a": "click",
+      "b": "kds"
      },
      {
-      "e": "replay from an earlier position"
+      "a": "gps",
+      "b": "kds"
      },
      {
-      "h": 1,
-      "n": "Kinesis Data Streams",
-      "s": "retained 7 days"
+      "a": "kds",
+      "b": "fraud"
+     },
+     {
+      "a": "kds",
+      "b": "an"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-42",
@@ -12467,49 +17079,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Data Firehose is a fully managed delivery service that loads streaming data into destinations like S3, Redshift, and OpenSearch, with optional Lambda transformation and format conversion, and nothing to provision.",
    "resource": "https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "iot",
+      "i": "client",
       "n": "IoT sensors"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Amazon Data Firehose"
-     },
-     {
-      "e": "optional"
-     },
-     {
-      "n": "Lambda",
-      "s": "enrich"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "fh",
+        "i": "firehose",
+        "h": 1,
+        "n": "Amazon Data Firehose",
+        "s": "Lambda transform, to Parquet"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "S3"
+         },
+         {
+          "id": "rs",
+          "i": "redshift",
+          "n": "Redshift"
+         },
+         {
+          "id": "os",
+          "i": "opensearch",
+          "n": "OpenSearch"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Amazon Data Firehose"
+      "a": "iot",
+      "b": "fh"
      },
      {
-      "e": "convert to Parquet"
+      "a": "fh",
+      "b": "s3"
      },
      {
-      "k": [
-       {
-        "n": "S3"
-       },
-       {
-        "n": "Redshift"
-       },
-       {
-        "n": "OpenSearch"
-       }
-      ]
+      "a": "fh",
+      "b": "rs"
+     },
+     {
+      "a": "fh",
+      "b": "os"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-43",
@@ -12543,39 +17172,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Athena runs serverless, pay-per-query SQL directly against files in S3, using the Glue Data Catalog for schema — partitioning and columnar formats reduce the data scanned, and so the cost, without any cluster to manage.",
    "resource": "https://docs.aws.amazon.com/athena/latest/ug/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "analyst",
+      "i": "user",
       "n": "Analyst"
      },
      {
-      "e": "SQL, pay per query"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ath",
+        "i": "athena",
+        "h": 1,
+        "n": "Amazon Athena",
+        "s": "pay per query"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "cat",
+          "i": "glue",
+          "n": "Glue Data Catalog"
+         },
+         {
+          "id": "s3",
+          "i": "s3",
+          "n": "S3 logs",
+          "s": "CSV and Parquet"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "analyst",
+      "b": "ath",
+      "e": "SQL"
      },
      {
-      "h": 1,
-      "n": "Amazon Athena"
-     },
-     {
+      "a": "ath",
+      "b": "cat",
       "e": "schema"
      },
      {
-      "n": "Glue Data Catalog"
-     }
-    ],
-    [
-     {
-      "h": 1,
-      "n": "Amazon Athena"
-     },
-     {
+      "a": "ath",
+      "b": "s3",
       "e": "scan files"
-     },
-     {
-      "n": "S3",
-      "s": "CSV and Parquet logs"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-44",
@@ -12609,60 +17260,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Glue provides serverless ETL, crawlers for automatic schema discovery, and a central Data Catalog that Athena, Redshift Spectrum, and other services can query against. (Lake Formation adds fine-grained permissions on top of that same catalog.)",
    "resource": "https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "src",
+      "i": "server",
       "n": "Source systems"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Glue crawlers",
-      "s": "discover schemas"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Glue Data Catalog"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Athena"
+        "id": "crawl",
+        "i": "glue",
+        "h": 1,
+        "n": "Glue crawlers and ETL",
+        "s": "serverless"
        },
        {
-        "n": "Redshift Spectrum"
+        "id": "cat",
+        "i": "glue",
+        "n": "Data Catalog"
+       },
+       {
+        "id": "lake",
+        "i": "s3",
+        "n": "S3 data lake"
+       },
+       {
+        "id": "ath",
+        "i": "athena",
+        "n": "Athena / Redshift Spectrum"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Source systems"
+      "a": "src",
+      "b": "crawl"
      },
      {
-      "e": ""
+      "a": "crawl",
+      "b": "cat",
+      "e": "schemas"
      },
      {
-      "h": 1,
-      "n": "Glue ETL jobs",
-      "s": "serverless"
+      "a": "crawl",
+      "b": "lake",
+      "e": "transformed data"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "S3 data lake"
+      "a": "ath",
+      "b": "cat",
+      "e": "query"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-45",
@@ -12696,40 +17351,57 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Moving 500 TB over a 100 Mbps link would take well over a year, ruling out every network-based option here. Snowball Edge devices physically ship the data instead. (Snowball Edge is no longer available to new customers; AWS now points them to DataSync, AWS Data Transfer Terminal, or partner solutions, but the exam still tests this offline-transfer concept.)",
    "resource": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dc",
+        "i": "datacenter",
+        "n": "500 TB archive"
+       }
+      ],
       "n": "Data center",
-      "s": "500 TB"
+      "s": "100 Mbps link"
      },
      {
-      "e": "100 Mbps link: over a year",
-      "x": 1
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Amazon S3"
+       }
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "n": "Amazon S3"
+      "id": "snow",
+      "i": "snowball",
+      "h": 1,
+      "n": "Snowball Edge devices"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Data center",
-      "s": "500 TB"
+      "a": "dc",
+      "b": "s3",
+      "e": "over a year by network",
+      "t": "x"
      },
      {
+      "a": "dc",
+      "b": "snow",
       "e": "copy locally"
      },
      {
-      "h": 1,
-      "n": "Snowball Edge devices"
-     },
-     {
+      "a": "snow",
+      "b": "s3",
       "e": "shipped"
-     },
-     {
-      "n": "Amazon S3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-49",
@@ -12763,35 +17435,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "DataSync moves data online between on-premises storage (such as NFS) and AWS storage services including EFS, with scheduled tasks, encryption in transit and built-in integrity verification.",
    "resource": "https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "NFS server",
-      "s": "on premises"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "nfs",
+        "i": "server",
+        "n": "NFS server"
+       },
+       {
+        "id": "agent",
+        "i": "datasync",
+        "h": 1,
+        "n": "DataSync agent"
+       }
+      ],
+      "n": "Research institute"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "task",
+        "i": "datasync",
+        "n": "DataSync task",
+        "s": "nightly schedule"
+       },
+       {
+        "id": "efs",
+        "i": "efs",
+        "n": "Amazon EFS"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "nfs",
+      "b": "agent"
      },
      {
-      "h": 1,
-      "n": "DataSync agent"
+      "a": "agent",
+      "b": "task",
+      "e": "DX, encrypted, verified"
      },
      {
-      "e": "Direct Connect, encrypted, verified"
-     },
-     {
-      "h": 1,
-      "n": "DataSync task",
-      "s": "nightly schedule"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Amazon EFS"
+      "a": "task",
+      "b": "efs"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-62",
@@ -12825,43 +17521,75 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Lake Formation manages permissions centrally at the database, table, column and row level on Data Catalog resources, and integrated services such as Athena, Redshift Spectrum and EMR enforce them.",
    "resource": "https://docs.aws.amazon.com/lake-formation/latest/dg/what-is-lake-formation.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "analysts",
+      "i": "users",
       "n": "Analysts by department"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Athena"
+        "k": "col",
+        "c": [
+         {
+          "id": "ath",
+          "i": "athena",
+          "n": "Athena"
+         },
+         {
+          "id": "rs",
+          "i": "redshift",
+          "n": "Redshift Spectrum"
+         },
+         {
+          "id": "emr",
+          "i": "emr",
+          "n": "EMR"
+         }
+        ]
        },
        {
-        "n": "Redshift Spectrum"
+        "id": "lf",
+        "i": "lakeformation",
+        "h": 1,
+        "n": "Lake Formation",
+        "s": "column and row permissions"
        },
        {
-        "n": "EMR"
+        "id": "cat",
+        "i": "glue",
+        "n": "Data Catalog and S3"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "analysts",
+      "b": "ath"
      },
      {
-      "e": ""
+      "a": "ath",
+      "b": "lf"
      },
      {
-      "h": 1,
-      "n": "Lake Formation permissions",
-      "s": "column and row level"
+      "a": "rs",
+      "b": "lf"
      },
      {
-      "e": ""
+      "a": "emr",
+      "b": "lf"
      },
      {
-      "n": "Data Catalog + S3"
+      "a": "lf",
+      "b": "cat"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-63",
@@ -12895,48 +17623,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon Quick Sight, formerly QuickSight and now part of Amazon Quick, is a serverless BI service for interactive dashboards over sources such as Redshift and Athena, with sharing and embedding for business users.",
    "resource": "https://docs.aws.amazon.com/quick/latest/userguide/what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Redshift"
+        "k": "col",
+        "c": [
+         {
+          "id": "rs",
+          "i": "redshift",
+          "n": "Redshift"
+         },
+         {
+          "id": "ath",
+          "i": "athena",
+          "n": "Athena"
+         }
+        ]
        },
        {
-        "n": "Athena"
+        "id": "qs",
+        "i": "quicksight",
+        "h": 1,
+        "n": "Amazon Quick Sight",
+        "s": "serverless BI"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": ""
+      "id": "users",
+      "i": "users",
+      "n": "200 business users",
+      "s": "portal embedding"
+     }
+    ],
+    "f": [
+     {
+      "a": "rs",
+      "b": "qs"
      },
      {
-      "h": 1,
-      "n": "Amazon Quick Sight",
-      "s": "serverless BI"
+      "a": "ath",
+      "b": "qs"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Dashboards"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "200 business users"
-       },
-       {
-        "n": "Internal portal",
-        "s": "embedded"
-       }
-      ]
+      "a": "qs",
+      "b": "users",
+      "e": "dashboards"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-64",
@@ -12970,36 +17709,60 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Amazon EMR runs open-source frameworks such as Spark and Hive, so existing jobs run with few changes, and it gives control over cluster configuration and instance types, including Spot Instances.",
    "resource": "https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Existing Spark and Hive jobs"
+      "id": "jobs",
+      "i": "server",
+      "n": "Spark and Hive jobs",
+      "s": "few changes"
      },
      {
-      "e": "few changes"
-     },
-     {
-      "h": 1,
-      "n": "Amazon EMR cluster",
-      "s": "your configuration"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Core nodes",
-        "s": "On-Demand"
+        "id": "emr",
+        "i": "emr",
+        "h": 1,
+        "n": "Amazon EMR cluster",
+        "s": "your config"
        },
        {
-        "n": "Task nodes",
-        "s": "Spot"
+        "k": "col",
+        "c": [
+         {
+          "id": "core",
+          "i": "ec2",
+          "n": "Core nodes",
+          "s": "On-Demand"
+         },
+         {
+          "id": "task",
+          "i": "ec2",
+          "n": "Task nodes",
+          "s": "Spot"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "jobs",
+      "b": "emr"
+     },
+     {
+      "a": "emr",
+      "b": "core"
+     },
+     {
+      "a": "emr",
+      "b": "task"
      }
     ]
-   ]
+   }
   },
   {
    "id": "3-65",
@@ -13033,28 +17796,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Transfer Family provides a fully managed SFTP (and FTPS, FTP or AS2) endpoint that stores files directly in S3 or EFS, so partners keep using their existing SFTP clients and scripts.",
    "resource": "https://docs.aws.amazon.com/transfer/latest/userguide/what-is-aws-transfer-family.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "partners",
+      "i": "users",
       "n": "Partners",
       "s": "existing SFTP scripts"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "tf",
+        "i": "transfer",
+        "h": 1,
+        "n": "Transfer Family",
+        "s": "SFTP endpoint"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Amazon S3"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "partners",
+      "b": "tf",
       "e": "SFTP"
      },
      {
-      "h": 1,
-      "n": "Transfer Family endpoint",
-      "s": "fully managed"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Amazon S3"
+      "a": "tf",
+      "b": "s3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-01",
@@ -13088,31 +17868,48 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Standard retrieval from Deep Archive completes within 12 hours, which meets the requirement at the lowest storage cost for data that's rarely needed after 90 days.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "S3 Standard",
-      "s": "days 0-30"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "std",
+        "i": "s3",
+        "n": "S3 Standard",
+        "s": "days 0-30"
+       },
+       {
+        "id": "ia",
+        "i": "s3",
+        "h": 1,
+        "n": "Standard-IA",
+        "s": "days 30-90"
+       },
+       {
+        "id": "da",
+        "i": "glacier",
+        "h": 1,
+        "n": "Glacier Deep Archive",
+        "s": "to year 7, restore within 12 h"
+       }
+      ],
+      "n": "S3 lifecycle"
+     }
+    ],
+    "f": [
+     {
+      "a": "std",
+      "b": "ia",
+      "e": "lifecycle, day 30"
      },
      {
-      "e": "lifecycle: day 30"
-     },
-     {
-      "h": 1,
-      "n": "Standard-IA",
-      "s": "days 30-90"
-     },
-     {
-      "e": "lifecycle: day 90"
-     },
-     {
-      "h": 1,
-      "n": "Glacier Deep Archive",
-      "s": "to year 7, restore within 12 h"
+      "a": "ia",
+      "b": "da",
+      "e": "lifecycle, day 90"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-02",
@@ -13146,32 +17943,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 Intelligent-Tiering automatically moves objects between access tiers based on observed usage, with no retrieval fees, which is exactly suited to unpredictable, changing access patterns.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "New upload"
+      "id": "up",
+      "i": "users",
+      "n": "Uploads"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "freq",
+        "i": "s3",
+        "h": 1,
+        "n": "Frequent Access tier"
+       },
+       {
+        "id": "infreq",
+        "i": "s3",
+        "h": 1,
+        "n": "Infrequent Access tier"
+       }
+      ],
+      "n": "S3 Intelligent-Tiering",
+      "s": "no retrieval fees"
+     }
+    ],
+    "f": [
+     {
+      "a": "up",
+      "b": "freq"
      },
      {
-      "h": 1,
-      "n": "Intelligent-Tiering"
-     },
-     {
-      "e": "not accessed 30 days"
-     },
-     {
-      "n": "Infrequent Access tier"
-     },
-     {
-      "e": "accessed again, no retrieval fee"
-     },
-     {
-      "n": "Frequent Access tier"
+      "a": "freq",
+      "b": "infreq",
+      "e": "moves on 30 days unused, back on access",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-03",
@@ -13205,27 +18016,42 @@ window.QUESTION_BANK = {
    ],
    "explanation": "One Zone-IA is the cheapest class with millisecond access, and storing data in a single AZ is an acceptable trade-off here since the backup copy can simply be regenerated if that AZ is lost.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "src",
+      "i": "s3",
       "n": "Primary data"
      },
      {
-      "e": "regenerate if lost"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "k": "az",
+        "c": [
+         {
+          "id": "oz",
+          "i": "s3",
+          "h": 1,
+          "n": "S3 One Zone-IA",
+          "s": "cheapest with ms access"
+         }
+        ],
+        "d": "row",
+        "n": "One Availability Zone"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "h": 1,
-      "n": "S3 One Zone-IA",
-      "s": "one AZ, cheapest ms access"
-     },
-     {
-      "e": "rare read, milliseconds"
-     },
-     {
-      "n": "Restore job"
+      "a": "src",
+      "b": "oz",
+      "e": "regenerable copies"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-04",
@@ -13259,27 +18085,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Glacier Instant Retrieval is priced for infrequently accessed data (like quarterly access) but still returns objects with millisecond latency, unlike Glacier Flexible Retrieval or Deep Archive, which involve a retrieval wait.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Doctor's follow-up visit"
+      "id": "doc",
+      "i": "user",
+      "n": "Doctor at follow-up"
      },
      {
-      "e": "about once a quarter"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "gir",
+        "i": "glacier",
+        "h": 1,
+        "n": "Glacier Instant Retrieval",
+        "s": "archive price, ms access"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "h": 1,
-      "n": "Glacier Instant Retrieval",
-      "s": "low storage cost"
-     },
-     {
-      "e": "milliseconds"
-     },
-     {
-      "n": "Diagnostic image"
+      "a": "doc",
+      "b": "gir",
+      "e": "about once a quarter, milliseconds"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-05",
@@ -13313,42 +18147,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A lifecycle rule that expires noncurrent versions removes old versions after a set number of days while keeping rollback ability for recent changes. Suspending versioning stops new versions but doesn't delete versions that already exist.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Object v5",
-        "s": "current"
+        "id": "cur",
+        "i": "s3",
+        "n": "Current version"
        },
        {
-        "n": "v4"
+        "id": "old",
+        "i": "s3",
+        "n": "Noncurrent versions"
        },
        {
-        "n": "v3"
-       },
-       {
-        "n": "v2",
-        "s": "noncurrent"
+        "id": "rule",
+        "i": "s3",
+        "h": 1,
+        "n": "Lifecycle rule",
+        "s": "expire noncurrent after N days"
        }
-      ]
+      ],
+      "n": "Versioned bucket"
+     }
+    ],
+    "f": [
+     {
+      "a": "cur",
+      "b": "old",
+      "e": "each overwrite"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lifecycle rule",
-      "s": "expire noncurrent after N days"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Only recent versions kept"
+      "a": "rule",
+      "b": "old",
+      "e": "deletes old ones"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-06",
@@ -13382,44 +18219,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "S3 Storage Lens provides organization-wide visibility into storage usage and activity metrics, along with cost-optimization recommendations, across every account and bucket in scope.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Account 1 buckets"
+        "k": "col",
+        "c": [
+         {
+          "id": "a1",
+          "i": "s3",
+          "n": "Account 1 buckets"
+         },
+         {
+          "id": "a2",
+          "i": "s3",
+          "n": "Account 2 buckets"
+         },
+         {
+          "id": "a40",
+          "i": "s3",
+          "n": "Account 40 buckets"
+         }
+        ]
        },
        {
-        "n": "Account 2 buckets"
+        "id": "sl",
+        "i": "s3",
+        "h": 1,
+        "n": "S3 Storage Lens",
+        "s": "organization dashboard"
        },
        {
-        "n": "Account 40 buckets"
+        "id": "rec",
+        "i": "costexplorer",
+        "n": "Trends and recommendations"
        }
-      ]
+      ],
+      "n": "AWS Organization"
+     }
+    ],
+    "f": [
+     {
+      "a": "a1",
+      "b": "sl"
      },
      {
-      "e": ""
+      "a": "a2",
+      "b": "sl"
      },
      {
-      "h": 1,
-      "n": "S3 Storage Lens",
-      "s": "organization dashboard"
+      "a": "a40",
+      "b": "sl"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
-       {
-        "n": "Usage trends"
-       },
-       {
-        "n": "Cost recommendations"
-       }
-      ]
+      "a": "sl",
+      "b": "rec"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-07",
@@ -13453,28 +18312,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "gp3 is roughly 20% cheaper per GB than gp2 while matching or beating its baseline performance, and Elastic Volumes changes the volume type without downtime.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/requesting-ebs-volume-modifications.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "gp2 volume"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "gp2",
+        "i": "ebs",
+        "n": "gp2 volume"
+       },
+       {
+        "id": "ev",
+        "i": "ebs",
+        "h": 1,
+        "n": "Elastic Volumes",
+        "s": "change type, no downtime"
+       },
+       {
+        "id": "gp3",
+        "i": "ebs",
+        "n": "gp3 volume",
+        "s": "about 20% cheaper"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "gp2",
+      "b": "ev"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Elastic Volumes",
-      "s": "change type, no downtime"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "gp3 volume",
-      "s": "about 20% cheaper"
+      "a": "ev",
+      "b": "gp3"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-08",
@@ -13508,28 +18383,37 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The EBS Snapshots Archive tier is up to 75% cheaper than standard snapshot storage, with a minimum 90-day storage duration and restores that take 24–72 hours — matching this exact access pattern.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "EBS snapshot",
-      "s": "standard tier"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "snap",
+        "i": "ebs",
+        "n": "EBS snapshot",
+        "s": "standard tier"
+       },
+       {
+        "id": "arc",
+        "i": "ebs",
+        "h": 1,
+        "n": "Snapshots Archive tier",
+        "s": "up to 75% cheaper, 90-day minimum"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": "archive"
-     },
-     {
-      "h": 1,
-      "n": "Snapshots Archive tier",
-      "s": "up to 75% cheaper, 90-day minimum"
-     },
-     {
-      "e": "restore 24-72 h"
-     },
-     {
-      "n": "Standard snapshot"
+      "a": "snap",
+      "b": "arc",
+      "e": "archive; restore takes 24-72 h",
+      "t": "both"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-09",
@@ -13563,43 +18447,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EFS lifecycle management automatically moves files that haven't been accessed for a configurable period into the lower-cost IA or Archive storage classes, with no application changes needed.",
    "resource": "https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "File not accessed for 30 days"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "EFS lifecycle management"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "EFS IA"
-     },
-     {
-      "e": "longer"
-     },
-     {
-      "n": "EFS Archive"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "std",
+        "i": "efs",
+        "n": "EFS Standard"
+       },
+       {
+        "id": "ia",
+        "i": "efs",
+        "h": 1,
+        "n": "EFS IA"
+       },
+       {
+        "id": "arc",
+        "i": "efs",
+        "h": 1,
+        "n": "EFS Archive"
+       }
+      ],
+      "n": "Amazon EFS"
      }
     ],
-    [
+    "f": [
      {
-      "n": "File accessed again"
+      "a": "std",
+      "b": "ia",
+      "e": "lifecycle, 30 days unused"
      },
      {
-      "e": "optional: move back"
-     },
-     {
-      "n": "EFS Standard"
+      "a": "ia",
+      "b": "arc",
+      "e": "longer unused"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-10",
@@ -13633,38 +18519,61 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Tape Gateway presents a virtual tape library that existing backup software can keep using unchanged, while the tapes themselves are actually stored in S3 and S3 Glacier.",
    "resource": "https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGateway.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Backup software",
-      "s": "unchanged"
-     },
-     {
-      "e": "iSCSI virtual tape library"
-     },
-     {
-      "g": "On premises",
+      "k": "onprem",
       "c": [
        {
+        "id": "bk",
+        "i": "server",
+        "n": "Backup software",
+        "s": "unchanged"
+       },
+       {
+        "id": "tg",
+        "i": "storagegateway",
         "h": 1,
-        "n": "Tape Gateway"
+        "n": "Tape Gateway",
+        "s": "virtual tape library"
        }
-      ]
+      ],
+      "n": "Data center"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Virtual tapes in S3"
+       },
+       {
+        "id": "gl",
+        "i": "glacier",
+        "n": "Archived tapes"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "bk",
+      "b": "tg",
+      "e": "iSCSI VTL"
      },
      {
-      "n": "Virtual tapes in S3"
+      "a": "tg",
+      "b": "s3"
      },
      {
-      "e": "archive"
-     },
-     {
-      "n": "S3 Glacier"
+      "a": "s3",
+      "b": "gl",
+      "e": "eject to archive"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-41",
@@ -13698,33 +18607,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Bulk retrieval is the lowest-cost way to restore data from S3 Glacier Flexible Retrieval. It typically completes within 5 to 12 hours, which is fine when the data isn't needed urgently.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objects-retrieval-options.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "400 TB in Glacier Flexible Retrieval"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "gl",
+        "i": "glacier",
+        "n": "Glacier Flexible Retrieval",
+        "s": "400 TB"
+       },
+       {
+        "id": "bulk",
+        "i": "glacier",
+        "h": 1,
+        "n": "Bulk retrieval",
+        "s": "5-12 h, lowest cost"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Restored copies"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "gl",
+      "b": "bulk"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Bulk retrieval",
-      "s": "5-12 h, lowest cost"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Temporary restored copies"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Reprocessing"
+      "a": "bulk",
+      "b": "s3",
+      "e": "ready before project"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-42",
@@ -13758,28 +18679,45 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A lifecycle rule with `AbortIncompleteMultipartUpload` automatically removes the parts of uploads that haven't completed within a set number of days, so they stop incurring storage charges.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incomplete-mpu-lifecycle-config.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Failed multipart uploads",
-      "s": "orphaned parts"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "Upload app"
+       },
+       {
+        "id": "parts",
+        "i": "s3",
+        "n": "Orphaned upload parts"
+       },
+       {
+        "id": "rule",
+        "i": "s3",
+        "h": 1,
+        "n": "Lifecycle rule",
+        "s": "AbortIncompleteMultipartUpload, 7 days"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "parts",
+      "e": "failed uploads"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lifecycle rule",
-      "s": "AbortIncompleteMultipartUpload after 7 days"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Parts deleted"
+      "a": "rule",
+      "b": "parts",
+      "e": "deleted"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-43",
@@ -13813,34 +18751,50 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Data Lifecycle Manager creates EBS snapshots on a schedule for tagged volumes and deletes them automatically according to a retention rule, such as keeping 14 days of daily snapshots.",
    "resource": "https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Tagged volumes"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "dlm",
+        "i": "backup",
+        "h": 1,
+        "n": "Data Lifecycle Manager",
+        "s": "daily policy"
+       },
+       {
+        "id": "vol",
+        "i": "ebs",
+        "n": "Tagged volumes"
+       },
+       {
+        "id": "snap",
+        "i": "ebs",
+        "n": "Snapshots",
+        "s": "kept 14 days"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "dlm",
+      "b": "vol",
+      "e": "snapshot daily"
      },
      {
-      "e": ""
+      "a": "vol",
+      "b": "snap"
      },
      {
-      "h": 1,
-      "n": "Data Lifecycle Manager policy",
-      "s": "daily"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Snapshots",
-      "s": "14-day retention"
-     },
-     {
-      "e": "older"
-     },
-     {
-      "n": "Deleted automatically"
+      "a": "dlm",
+      "b": "snap",
+      "e": "delete older"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-44",
@@ -13874,38 +18828,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Intelligent-Tiering's optional archive tiers must be turned on. Once they are, objects not accessed for at least 90 days move to Archive Access and after 180 days to Deep Archive Access, for much lower storage costs, with retrieval taking minutes to hours.",
    "resource": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tiering-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Intelligent-Tiering object"
-     },
-     {
-      "e": "90 days no access"
-     },
-     {
-      "h": 1,
-      "n": "Archive Access tier"
-     },
-     {
-      "e": "180 days"
-     },
-     {
-      "h": 1,
-      "n": "Deep Archive Access tier"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "freq",
+        "i": "s3",
+        "n": "Frequent / Infrequent tiers"
+       },
+       {
+        "id": "arc",
+        "i": "glacier",
+        "h": 1,
+        "n": "Archive Access",
+        "s": "after 90 days"
+       },
+       {
+        "id": "deep",
+        "i": "glacier",
+        "h": 1,
+        "n": "Deep Archive Access",
+        "s": "after 180 days"
+       }
+      ],
+      "n": "S3 Intelligent-Tiering"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Rare request"
+      "a": "freq",
+      "b": "arc",
+      "e": "turned on"
      },
      {
-      "e": "restore: minutes to hours"
-     },
-     {
-      "n": "Object back in Frequent Access"
+      "a": "arc",
+      "b": "deep"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-45",
@@ -13939,26 +18901,42 @@ window.QUESTION_BANK = {
    ],
    "explanation": "One Zone file systems store data in a single Availability Zone, which costs less than Regional storage across several AZs. That's a reasonable trade-off for data that can be regenerated, and instances still mount it over NFS.",
    "resource": "https://docs.aws.amazon.com/efs/latest/ug/features.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "One AZ",
+      "k": "cloud",
       "c": [
        {
-        "n": "Test instances"
-       },
-       {
-        "e": "NFS"
-       },
-       {
-        "h": 1,
-        "n": "EFS One Zone file system",
-        "s": "lower cost"
+        "k": "az",
+        "c": [
+         {
+          "id": "test",
+          "i": "ec2",
+          "n": "Test instances"
+         },
+         {
+          "id": "efs",
+          "i": "efs",
+          "h": 1,
+          "n": "EFS One Zone",
+          "s": "cheaper"
+         }
+        ],
+        "d": "row",
+        "n": "One Availability Zone"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "test",
+      "b": "efs",
+      "e": "NFS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-11",
@@ -13992,33 +18970,47 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Spot Instances can cost up to 90% less than On-Demand and come with a 2-minute interruption notice, which a checkpointing, fault-tolerant workload can absorb easily.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Batch job"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "job",
+        "i": "batch",
+        "n": "Batch simulation",
+        "s": "checkpoints progress"
+       },
+       {
+        "id": "spot",
+        "i": "ec2",
+        "h": 1,
+        "n": "Spot Instances",
+        "s": "up to 90% off, 2-minute notice"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Checkpoints",
+        "s": "resume from here"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "job",
+      "b": "spot",
+      "e": "run"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Spot Instance",
-      "s": "up to 90% off"
-     },
-     {
-      "e": "2-minute interruption notice"
-     },
-     {
-      "n": "Checkpoint saved"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "New Spot Instance resumes"
+      "a": "spot",
+      "b": "s3",
+      "e": "save progress"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-12",
@@ -14052,31 +19044,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Compute Savings Plans apply automatically across instance families, Regions, and compute services (EC2, Fargate, Lambda), unlike EC2 Instance Savings Plans, which give a higher discount but lock in one instance family in one Region.",
    "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "sp",
+      "i": "savingsplans",
       "h": 1,
       "n": "Compute Savings Plan",
       "s": "$/hour commitment"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2"
+         },
+         {
+          "id": "fg",
+          "i": "fargate",
+          "n": "Fargate"
+         },
+         {
+          "id": "fn",
+          "i": "lambda",
+          "n": "Lambda"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud",
+      "s": "any Region, any family"
+     }
+    ],
+    "f": [
+     {
+      "a": "sp",
+      "b": "ec2",
+      "e": "discount"
      },
      {
-      "k": [
-       {
-        "n": "EC2 any family, any Region"
-       },
-       {
-        "n": "AWS Fargate"
-       },
-       {
-        "n": "AWS Lambda"
-       }
-      ]
+      "a": "sp",
+      "b": "fg"
+     },
+     {
+      "a": "sp",
+      "b": "fn"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-13",
@@ -14110,28 +19130,43 @@ window.QUESTION_BANK = {
    ],
    "explanation": "On-Demand Capacity Reservations reserve capacity in a specific AZ for as long as needed, with no long-term commitment — you simply pay the On-Demand rate while the reservation is active.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "On-Demand Capacity Reservation",
-      "s": "specific AZ, no term"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "k": "az",
+        "c": [
+         {
+          "id": "cr",
+          "i": "ec2",
+          "h": 1,
+          "n": "On-Demand Capacity Reservation",
+          "s": "no term"
+         },
+         {
+          "id": "ev",
+          "i": "ec2",
+          "n": "Trade show fleet",
+          "s": "2 weeks"
+         }
+        ],
+        "d": "row",
+        "n": "One Availability Zone"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": ""
-     },
-     {
-      "n": "Trade show instances",
-      "s": "2 weeks"
-     },
-     {
-      "e": "cancel afterwards"
-     },
-     {
-      "n": "No commitment left"
+      "a": "cr",
+      "b": "ev",
+      "e": "guaranteed capacity"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-14",
@@ -14165,27 +19200,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Dedicated Hosts give visibility into, and control over, the specific physical server (including sockets and cores), which is what per-socket or per-core BYOL licensing terms typically require. Dedicated Instances only guarantee single-tenant hardware, without that visibility.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "BYOL Windows / SQL Server"
+      "id": "lic",
+      "i": "server",
+      "n": "BYOL Windows and SQL Server"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "dh",
+        "i": "server",
+        "h": 1,
+        "n": "Dedicated Host",
+        "s": "visible sockets and cores"
+       },
+       {
+        "id": "vm",
+        "i": "ec2",
+        "n": "Instances"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "lic",
+      "b": "dh",
+      "e": "license per socket / core"
      },
      {
-      "h": 1,
-      "n": "Dedicated Host",
-      "s": "visible sockets and cores"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "License compliance"
+      "a": "dh",
+      "b": "vm"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-15",
@@ -14219,46 +19271,64 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Covering the predictable baseline with discounted, committed On-Demand capacity and bursting onto cheaper Spot Instances for short, unpredictable peaks avoids paying peak-sized On-Demand rates around the clock.",
    "resource": "https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Auto Scaling group, mixed instances policy",
+      "id": "users",
+      "i": "users",
+      "n": "Traffic"
+     },
+     {
+      "k": "cloud",
       "c": [
        {
-        "k": [
+        "id": "alb",
+        "i": "alb",
+        "n": "ALB"
+       },
+       {
+        "k": "asg",
+        "c": [
          {
+          "id": "base",
+          "i": "ec2",
           "h": 1,
           "n": "Baseline",
           "s": "On-Demand, Savings Plans"
          },
          {
+          "id": "peak",
+          "i": "ec2",
           "h": 1,
           "n": "Peaks",
           "s": "Spot Instances"
          }
-        ]
+        ],
+        "d": "col",
+        "n": "Auto Scaling group",
+        "s": "mixed instances"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Traffic peak, a few minutes"
+      "a": "users",
+      "b": "alb"
      },
      {
-      "e": ""
+      "a": "alb",
+      "b": "base",
+      "e": "always"
      },
      {
-      "n": "Spot capacity added"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Removed after the peak"
+      "a": "alb",
+      "b": "peak",
+      "e": "brief peaks"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-16",
@@ -14292,21 +19362,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Graviton instances often deliver up to 40% better price-performance than comparable x86 instances for compatible Linux workloads, typically requiring just a rebuild for the Arm architecture.",
    "resource": "https://aws.amazon.com/ec2/graviton/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "x86 instance"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "x86",
+        "i": "ec2",
+        "n": "x86 instance"
+       },
+       {
+        "id": "arm",
+        "i": "ec2",
+        "h": 1,
+        "n": "Graviton instance",
+        "s": "up to 40% better price-performance"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
+      "a": "x86",
+      "b": "arm",
       "e": "rebuild for Arm"
-     },
-     {
-      "h": 1,
-      "n": "Graviton instance",
-      "s": "up to 40% better price-performance"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-17",
@@ -14340,33 +19424,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Stopping instances outside business hours (through Instance Scheduler on AWS, or scheduled Auto Scaling actions for instances in an ASG) avoids paying for the roughly two-thirds of the day they sit unused.",
    "resource": "https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aws/solution-overview.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Instance Scheduler"
-     },
-     {
-      "e": "8:45 AM weekdays: start"
-     },
-     {
-      "n": "Dev / test instances"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sch",
+        "i": "scheduler",
+        "h": 1,
+        "n": "Instance Scheduler",
+        "s": "business hours only"
+       },
+       {
+        "id": "dev",
+        "i": "ec2",
+        "n": "Dev / test instances"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "Instance Scheduler"
-     },
-     {
-      "e": "6 PM and weekends: stop"
-     },
-     {
-      "n": "Dev / test instances",
-      "s": "no compute charge"
+      "a": "sch",
+      "b": "dev",
+      "e": "start 9 AM, stop 6 PM"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-18",
@@ -14400,40 +19486,50 @@ window.QUESTION_BANK = {
    ],
    "explanation": "At a few thousand requests a day, paying per request and per millisecond of execution with API Gateway and Lambda costs far less than keeping any number of EC2 instances running around the clock.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Few thousand requests a day"
+      "id": "users",
+      "i": "users",
+      "n": "A few thousand requests a day"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "API Gateway"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Lambda",
-      "s": "pay per request and ms"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "api",
+        "i": "apigw",
+        "h": 1,
+        "n": "API Gateway"
+       },
+       {
+        "id": "fn",
+        "i": "lambda",
+        "h": 1,
+        "n": "Lambda",
+        "s": "pay per request and ms"
+       },
+       {
+        "id": "old",
+        "i": "ec2",
+        "n": "Always-on EC2",
+        "s": "retired"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Two always-on EC2 instances"
+      "a": "users",
+      "b": "api"
      },
      {
-      "e": "paying while idle",
-      "x": 1
-     },
-     {
-      "n": "Retired"
+      "a": "api",
+      "b": "fn"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-19",
@@ -14467,31 +19563,58 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Trusted Advisor's cost optimization checks specifically flag things like low-utilization EC2 instances and unassociated Elastic IP addresses, among other waste indicators.",
    "resource": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "ta",
+      "i": "trustedadvisor",
       "h": 1,
       "n": "Trusted Advisor",
       "s": "cost checks"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "Low-utilization EC2"
+         },
+         {
+          "id": "eip",
+          "i": "eni",
+          "n": "Unassociated Elastic IPs"
+         },
+         {
+          "id": "lb",
+          "i": "alb",
+          "n": "Idle load balancers"
+         }
+        ]
+       }
+      ],
+      "n": "AWS account"
+     }
+    ],
+    "f": [
+     {
+      "a": "ta",
+      "b": "ec2",
+      "e": "flag"
      },
      {
-      "k": [
-       {
-        "n": "Low-utilization EC2"
-       },
-       {
-        "n": "Unassociated Elastic IPs"
-       },
-       {
-        "n": "Idle load balancers"
-       }
-      ]
+      "a": "ta",
+      "b": "eip"
+     },
+     {
+      "a": "ta",
+      "b": "lb"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-20",
@@ -14525,33 +19648,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS Budgets can alert based on forecasted spend, not just actual spend so far, which is exactly what's needed to get ahead of a projected overage. (AWS Cost Anomaly Detection is the complementary tool for catching unusual spikes that a fixed threshold might miss.)",
    "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Month-to-date spend"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ce",
+        "i": "costexplorer",
+        "n": "Spend forecast"
+       },
+       {
+        "id": "bud",
+        "i": "budgets",
+        "h": 1,
+        "n": "AWS Budgets",
+        "s": "forecast > $10,000"
+       }
+      ],
+      "n": "AWS Billing"
      },
      {
-      "e": ""
+      "id": "fin",
+      "i": "users",
+      "n": "Finance"
+     }
+    ],
+    "f": [
+     {
+      "a": "ce",
+      "b": "bud"
      },
      {
-      "n": "AWS forecast"
-     },
-     {
-      "e": "forecast > $10,000"
-     },
-     {
-      "h": 1,
-      "n": "AWS Budgets alert"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Finance",
-      "s": "email or SNS"
+      "a": "bud",
+      "b": "fin",
+      "e": "alert email / SNS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-21",
@@ -14585,28 +19719,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cost allocation tags, once applied to resources and activated in Billing, let costs be broken out by tag value (such as team or department) in Cost Explorer and billing reports. Separate accounts under consolidated billing achieve the same split cleanly if the teams are split that way instead.",
    "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Resources",
-      "s": "tag team=alpha, team=beta"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "n": "Resources",
+          "s": "team=alpha"
+         },
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "Resources",
+          "s": "team=beta"
+         }
+        ]
+       },
+       {
+        "id": "tags",
+        "i": "billing",
+        "h": 1,
+        "n": "Cost allocation tags",
+        "s": "activated in Billing"
+       },
+       {
+        "id": "ce",
+        "i": "costexplorer",
+        "n": "Cost per team"
+       }
+      ],
+      "n": "Shared account"
+     }
+    ],
+    "f": [
+     {
+      "a": "a",
+      "b": "tags"
      },
      {
-      "e": "activate in Billing"
+      "a": "b",
+      "b": "tags"
      },
      {
-      "h": 1,
-      "n": "Cost allocation tags"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Cost Explorer",
-      "s": "cost per team"
+      "a": "tags",
+      "b": "ce"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-22",
@@ -14640,44 +19805,80 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Consolidated billing combines usage across member accounts so the organization can reach volume pricing tiers together, and it shares Reserved Instance and Savings Plans discounts across accounts by default.",
    "resource": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolidated-billing.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Account 1"
+        "k": "col",
+        "c": [
+         {
+          "id": "a1",
+          "i": "organizations",
+          "n": "Account 1"
+         },
+         {
+          "id": "a2",
+          "i": "organizations",
+          "n": "Account 2"
+         },
+         {
+          "id": "a15",
+          "i": "organizations",
+          "n": "Account 15"
+         }
+        ]
        },
        {
-        "n": "Account 2"
+        "id": "cb",
+        "i": "billing",
+        "h": 1,
+        "n": "Consolidated billing",
+        "s": "management account"
        },
        {
-        "n": "Account 15"
+        "k": "col",
+        "c": [
+         {
+          "id": "vol",
+          "i": "costexplorer",
+          "n": "Combined volume tiers"
+         },
+         {
+          "id": "sp",
+          "i": "savingsplans",
+          "n": "Shared RIs and Savings Plans"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Organizations"
+     }
+    ],
+    "f": [
+     {
+      "a": "a1",
+      "b": "cb"
      },
      {
-      "e": ""
+      "a": "a2",
+      "b": "cb"
      },
      {
-      "h": 1,
-      "n": "Consolidated billing",
-      "s": "management account"
+      "a": "a15",
+      "b": "cb"
      },
      {
-      "e": ""
+      "a": "cb",
+      "b": "vol"
      },
      {
-      "k": [
-       {
-        "n": "Combined volume tiers"
-       },
-       {
-        "n": "Shared RI and Savings Plans discounts"
-       }
-      ]
+      "a": "cb",
+      "b": "sp"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-46",
@@ -14711,28 +19912,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cost Anomaly Detection uses machine learning to learn normal spending patterns and alerts on unusual spikes, such as a sudden jump in EC2 spend in one Region, without fixed thresholds.",
    "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/manage-ad.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Spend history"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "hist",
+        "i": "costexplorer",
+        "n": "Spend history"
+       },
+       {
+        "id": "cad",
+        "i": "costexplorer",
+        "h": 1,
+        "n": "Cost Anomaly Detection",
+        "s": "ML baseline"
+       }
+      ],
+      "n": "AWS Billing"
      },
      {
-      "e": ""
+      "id": "team",
+      "i": "users",
+      "n": "Alert subscribers"
+     }
+    ],
+    "f": [
+     {
+      "a": "hist",
+      "b": "cad"
      },
      {
-      "h": 1,
-      "n": "Cost Anomaly Detection",
-      "s": "ML baseline"
-     },
-     {
+      "a": "cad",
+      "b": "team",
       "e": "unusual spike"
-     },
-     {
-      "n": "Alert subscription",
-      "s": "email or SNS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-47",
@@ -14766,37 +19983,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cost Explorer lets you view and analyze historical cost and usage, grouping and filtering by service, linked account, tag and other dimensions, and it can also forecast future spending.",
    "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-is.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Analyst"
+      "id": "analyst",
+      "i": "user",
+      "n": "Finance analyst"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Cost Explorer",
-      "s": "12 months"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Group by service"
+        "id": "ce",
+        "i": "costexplorer",
+        "h": 1,
+        "n": "Cost Explorer",
+        "s": "12 months"
        },
        {
-        "n": "Group by team tag"
-       },
-       {
-        "n": "Filter: one linked account"
+        "k": "col",
+        "c": [
+         {
+          "id": "s",
+          "i": "billing",
+          "n": "By service"
+         },
+         {
+          "id": "t",
+          "i": "billing",
+          "n": "By team tag"
+         },
+         {
+          "id": "a",
+          "i": "billing",
+          "n": "One linked account"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Billing"
+     }
+    ],
+    "f": [
+     {
+      "a": "analyst",
+      "b": "ce"
+     },
+     {
+      "a": "ce",
+      "b": "s"
+     },
+     {
+      "a": "ce",
+      "b": "t"
+     },
+     {
+      "a": "ce",
+      "b": "a"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-48",
@@ -14830,31 +20076,51 @@ window.QUESTION_BANK = {
    ],
    "explanation": "EC2 Instance Savings Plans commit to one instance family in one Region, but still apply across sizes, operating systems and tenancy within it, and they offer the largest Savings Plans discount (up to 72% off On-Demand).",
    "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "sp",
+      "i": "savingsplans",
       "h": 1,
       "n": "EC2 Instance Savings Plan",
       "s": "M family, eu-west-1, 3 years"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "n": "m6i.large"
+         },
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "m7i.xlarge",
+          "s": "Windows"
+         }
+        ]
+       }
+      ],
+      "n": "eu-west-1"
+     }
+    ],
+    "f": [
+     {
+      "a": "sp",
+      "b": "a",
+      "e": "any size"
      },
      {
-      "k": [
-       {
-        "n": "m6i.large"
-       },
-       {
-        "n": "m7i.xlarge"
-       },
-       {
-        "n": "Linux or Windows"
-       }
-      ]
+      "a": "sp",
+      "b": "b",
+      "e": "any OS"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-49",
@@ -14888,36 +20154,62 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The `price-capacity-optimized` strategy chooses Spot pools with the most available capacity and then the lowest price among them, balancing cost against interruptions. AWS recommends it for most Spot workloads.",
    "resource": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocation-strategy.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "EC2 Fleet"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "price-capacity-optimized"
-     },
-     {
-      "e": "deepest capacity, then lowest price"
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Spot pool A"
+        "id": "fleet",
+        "i": "ec2",
+        "h": 1,
+        "n": "EC2 Fleet",
+        "s": "price-capacity-optimized"
        },
        {
-        "n": "Spot pool B"
-       },
-       {
-        "n": "Spot pool C"
+        "k": "col",
+        "c": [
+         {
+          "id": "pa",
+          "i": "ec2",
+          "n": "Spot pool A",
+          "s": "deep capacity"
+         },
+         {
+          "id": "pb",
+          "i": "ec2",
+          "n": "Spot pool B",
+          "s": "deep capacity"
+         },
+         {
+          "id": "pc",
+          "i": "ec2",
+          "n": "Spot pool C",
+          "s": "shallow"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "fleet",
+      "b": "pa"
+     },
+     {
+      "a": "fleet",
+      "b": "pb"
+     },
+     {
+      "a": "fleet",
+      "b": "pc",
+      "e": "skipped despite price",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-50",
@@ -14951,33 +20243,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Fargate Spot runs interruption-tolerant ECS tasks on spare capacity at a discount compared with regular Fargate pricing. Tasks get a two-minute warning before they're stopped, which checkpointing handles.",
    "resource": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Nightly ECS tasks"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ecs",
+        "i": "ecs",
+        "n": "ECS tasks",
+        "s": "checkpointing"
+       },
+       {
+        "id": "fs",
+        "i": "fargate",
+        "h": 1,
+        "n": "Fargate Spot",
+        "s": "discounted, 2-minute warning"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Fargate Spot capacity provider",
-      "s": "discounted"
-     },
-     {
-      "e": "2-minute warning"
-     },
-     {
-      "n": "Task checkpoints"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Restarted task"
+      "a": "ecs",
+      "b": "fs",
+      "e": "capacity provider"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-51",
@@ -15011,26 +20306,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Lambda functions on the `arm64` architecture, which runs on AWS Graviton processors, can get significantly better price-performance than on `x86_64`, and interpreted languages without native x86 dependencies usually need no code changes.",
    "resource": "https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Python / Node.js function"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "x86",
+        "i": "lambda",
+        "n": "x86_64 functions"
+       },
+       {
+        "id": "arm",
+        "i": "lambda",
+        "h": 1,
+        "n": "arm64 functions",
+        "s": "Graviton"
+       }
+      ],
+      "n": "AWS Lambda"
+     }
+    ],
+    "f": [
      {
-      "e": "change architecture setting"
-     },
-     {
-      "h": 1,
-      "n": "arm64 on Graviton"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Better price-performance"
+      "a": "x86",
+      "b": "arm",
+      "e": "change architecture"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-52",
@@ -15064,34 +20368,59 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Budget actions can run automatically, or after approval, when a threshold is reached. They can apply an IAM policy or SCP and stop specific EC2 or RDS instances.",
    "resource": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Sandbox account spend"
-     },
-     {
-      "e": "100% of $200 budget"
-     },
-     {
-      "h": 1,
-      "n": "Budget action"
-     },
-     {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Stop EC2 instances"
+        "id": "bud",
+        "i": "budgets",
+        "n": "AWS Budgets",
+        "s": "$200"
        },
        {
-        "n": "Apply SCP or IAM policy",
-        "s": "block launches"
+        "id": "act",
+        "i": "budgets",
+        "h": 1,
+        "n": "Budget action"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "ec2",
+          "i": "ec2",
+          "n": "EC2 stopped"
+         },
+         {
+          "id": "pol",
+          "i": "scp",
+          "n": "SCP applied",
+          "s": "blocks launches"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "Sandbox account"
+     }
+    ],
+    "f": [
+     {
+      "a": "bud",
+      "b": "act",
+      "e": "100% reached"
+     },
+     {
+      "a": "act",
+      "b": "ec2"
+     },
+     {
+      "a": "act",
+      "b": "pol"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-23",
@@ -15125,27 +20454,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "For predictable, steady traffic, provisioned capacity (with auto scaling to absorb small variations, and reserved capacity for further savings) is usually cheaper than on-demand, which is priced for unknown or spiky traffic.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capacity-mode.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Steady traffic"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "Internal tool",
+        "s": "steady traffic"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "Provisioned capacity",
+        "s": "auto scaling for small swings"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Provisioned capacity",
-      "s": "auto scaling for small swings"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Lower cost than on-demand mode"
+      "a": "app",
+      "b": "ddb",
+      "e": "predictable reads / writes"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-24",
@@ -15179,27 +20517,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "The Standard-IA table class lowers per-GB storage price in exchange for a somewhat higher per-request cost, which is the right trade-off for large amounts of rarely read data. (For data that's rarely needed at all, TTL plus export to S3 is another option.)",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.TableClasses.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Rarely read history"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "Order history app"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "Standard-IA table class",
+        "s": "cheaper storage"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Standard-IA table class",
-      "s": "cheaper storage, pricier requests"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Still queryable"
+      "a": "app",
+      "b": "ddb",
+      "e": "rare reads, still queryable"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-25",
@@ -15233,29 +20579,46 @@ window.QUESTION_BANK = {
    ],
    "explanation": "TTL deletes expired items in the background at no additional cost and without consuming write capacity, unlike a Lambda job that would call `DeleteItem` and consume write capacity for every deletion. (Deletion isn't instant: DynamoDB typically removes expired items within a few days, so queries should filter out expired items.)",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Session item",
-      "s": "expiresAt = now + 24 h"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "App"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "Sessions table",
+        "s": "expiresAt attribute"
+       },
+       {
+        "id": "ttl",
+        "i": "dynamodb",
+        "h": 1,
+        "n": "TTL",
+        "s": "background deletes, free"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "app",
+      "b": "ddb",
+      "e": "write session"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "TTL",
-      "s": "background deletion, free"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Item removed",
-      "s": "no write capacity used"
+      "a": "ttl",
+      "b": "ddb",
+      "e": "remove after 24 h"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-26",
@@ -15289,22 +20652,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "For a stable, long-term commitment, RDS Reserved Instances or a Database Savings Plan give a substantial discount over On-Demand. Spot pricing isn't available for RDS in any form.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithReservedDBInstances.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "ri",
+      "i": "savingsplans",
       "h": 1,
-      "n": "RDS Reserved Instance or Database Savings Plan",
-      "s": "3-year term"
+      "n": "RDS Reserved Instance",
+      "s": "or Database Savings Plan, 3 years"
      },
      {
-      "e": ""
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "db",
+        "i": "rds",
+        "n": "Production RDS",
+        "s": "24/7, stable size"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "n": "Production RDS",
-      "s": "24/7, stable size"
+      "a": "ri",
+      "b": "db",
+      "e": "discount"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-27",
@@ -15338,39 +20715,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Stopping the instance outside business hours avoids paying for compute during the roughly two-thirds of the week it sits idle. (A stopped RDS instance restarts automatically after 7 days; Aurora Serverless v2, which can scale down to 0 ACUs, is another option for this pattern.)",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInstance.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Weekdays 9-5"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "RDS instance",
-      "s": "running"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sch",
+        "i": "scheduler",
+        "n": "Schedule"
+       },
+       {
+        "id": "db",
+        "i": "rds",
+        "h": 1,
+        "n": "Dev RDS instance",
+        "s": "stopped outside 9-5"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Evenings and weekends"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "RDS instance stopped",
-      "s": "pay storage only"
-     },
-     {
-      "e": "auto-restarts after 7 days"
-     },
-     {
-      "n": "Restart / stop again"
+      "a": "sch",
+      "b": "db",
+      "e": "start weekdays, stop evenings"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-28",
@@ -15404,44 +20777,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "This is a heterogeneous migration (different source and target engines). The Schema Conversion Tool converts the Oracle schema and code to Aurora PostgreSQL, and DMS migrates and can continuously replicate the data.",
    "resource": "https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Oracle on premises"
+      "k": "onprem",
+      "c": [
+       {
+        "id": "ora",
+        "i": "server",
+        "n": "Oracle database"
+       }
+      ],
+      "n": "Data center"
      },
      {
+      "k": "cloud",
+      "c": [
+       {
+        "id": "sct",
+        "i": "dms",
+        "h": 1,
+        "n": "Schema Conversion",
+        "s": "SCT or DMS SC"
+       },
+       {
+        "id": "dms",
+        "i": "dms",
+        "h": 1,
+        "n": "AWS DMS",
+        "s": "full load + CDC"
+       },
+       {
+        "id": "pg",
+        "i": "aurora",
+        "n": "Aurora PostgreSQL"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "ora",
+      "b": "sct",
       "e": "schema and code"
      },
      {
-      "h": 1,
-      "n": "AWS SCT or DMS Schema Conversion"
+      "a": "sct",
+      "b": "pg"
      },
      {
-      "e": ""
+      "a": "ora",
+      "b": "dms",
+      "e": "data"
      },
      {
-      "n": "Aurora PostgreSQL"
-     }
-    ],
-    [
-     {
-      "n": "Oracle on premises"
-     },
-     {
-      "e": "data + ongoing changes"
-     },
-     {
-      "h": 1,
-      "n": "AWS DMS"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Aurora PostgreSQL"
+      "a": "dms",
+      "b": "pg"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-29",
@@ -15475,44 +20870,65 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Offloading hot reads to ElastiCache or spreading them across read replicas addresses the actual read-heavy bottleneck directly, often far more cheaply than repeatedly scaling up the primary instance class.",
    "resource": "https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "App"
-     },
-     {
-      "e": "hot reads"
-     },
-     {
-      "h": 1,
-      "n": "ElastiCache"
-     },
-     {
-      "e": "misses only"
-     },
-     {
-      "n": "RDS primary"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "app",
+        "i": "ec2",
+        "n": "App"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "cache",
+          "i": "elasticache",
+          "h": 1,
+          "n": "ElastiCache",
+          "s": "hot reads"
+         },
+         {
+          "id": "rr",
+          "i": "rds",
+          "h": 1,
+          "n": "Read replicas"
+         }
+        ]
+       },
+       {
+        "id": "db",
+        "i": "rds",
+        "n": "Primary",
+        "s": "no more scale-ups"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "App"
+      "a": "app",
+      "b": "cache"
      },
      {
-      "e": "other reads"
+      "a": "app",
+      "b": "rr"
      },
      {
-      "h": 1,
-      "n": "Read replicas"
+      "a": "cache",
+      "b": "db",
+      "e": "misses"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Smaller primary instance"
+      "a": "rr",
+      "b": "db",
+      "e": "replication"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-30",
@@ -15546,26 +20962,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "RDS storage autoscaling increases allocated storage automatically when free space runs low, removing the need to over-provision \"just in case.\" (Aurora's storage grows automatically by design and doesn't need this feature.)",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.Autoscaling.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Free space runs low"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cw",
+        "i": "cloudwatch",
+        "n": "Free space low"
+       },
+       {
+        "id": "db",
+        "i": "rds",
+        "h": 1,
+        "n": "RDS storage autoscaling",
+        "s": "grows automatically"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "RDS storage autoscaling"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Allocated storage grows automatically"
+      "a": "cw",
+      "b": "db",
+      "e": "trigger"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-31",
@@ -15599,22 +21024,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Aurora I/O-Optimized removes per-I/O charges in exchange for a higher instance and storage price, which becomes cheaper overall once I/O costs pass roughly 25% of the Aurora bill.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Overview.StorageReliability.html#aurora-storage-type",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Aurora Standard",
-      "s": "instances + storage + per-I/O charges"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "std",
+        "i": "aurora",
+        "n": "Aurora Standard",
+        "s": "pays per I/O"
+       },
+       {
+        "id": "io",
+        "i": "aurora",
+        "h": 1,
+        "n": "Aurora I/O-Optimized",
+        "s": "no I/O charges"
+       }
+      ],
+      "n": "Aurora"
+     }
+    ],
+    "f": [
      {
-      "e": "I/O over 25% of bill"
-     },
-     {
-      "h": 1,
-      "n": "Aurora I/O-Optimized",
-      "s": "no per-I/O charges"
+      "a": "std",
+      "b": "io",
+      "e": "when I/O is over 25% of bill"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-32",
@@ -15648,39 +21087,51 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Athena runs pay-per-query SQL directly against the S3 data with nothing to keep running between queries, avoiding the cost of an always-on cluster for infrequent access. (Redshift Spectrum or Redshift Serverless are other ways to avoid paying for idle cluster time.)",
    "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "analyst",
+      "i": "user",
       "n": "Analyst",
       "s": "a few queries a week"
      },
      {
-      "e": "pay per query"
-     },
-     {
-      "h": 1,
-      "n": "Amazon Athena"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "S3 log data"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ath",
+        "i": "athena",
+        "h": 1,
+        "n": "Amazon Athena",
+        "s": "pay per query"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 log data"
+       },
+       {
+        "id": "rs",
+        "i": "redshift",
+        "n": "Always-on cluster",
+        "s": "removed"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Always-on Redshift cluster"
+      "a": "analyst",
+      "b": "ath"
      },
      {
-      "e": "idle most of the time",
-      "x": 1
-     },
-     {
-      "n": "Removed"
+      "a": "ath",
+      "b": "s3",
+      "e": "query in place"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-53",
@@ -15714,28 +21165,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Reserved capacity gives discounted pricing for a committed amount of provisioned read and write capacity on Standard table class tables, which suits steady, long-term throughput.",
    "resource": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/reserved-capacity.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Steady 20,000 reads + 5,000 writes per second"
-     },
-     {
-      "e": ""
-     },
-     {
+      "id": "rc",
+      "i": "savingsplans",
       "h": 1,
-      "n": "Reserved capacity",
-      "s": "1 or 3 years"
+      "n": "DynamoDB reserved capacity"
      },
      {
-      "e": ""
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "Provisioned table",
+        "s": "20,000 reads, 5,000 writes per s"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "n": "Provisioned table",
-      "s": "Standard class"
+      "a": "rc",
+      "b": "ddb",
+      "e": "discount on baseline"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-54",
@@ -15769,46 +21227,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Aurora Serverless v2 can scale down to 0 ACUs and pause automatically after a period of no connections, so idle databases don't incur compute charges, and they resume when a connection arrives.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2-auto-pause.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "No connections"
+      "id": "dev",
+      "i": "user",
+      "n": "Developers"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Aurora Serverless v2",
-      "s": "scales to 0 ACUs, pauses"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "No compute charge"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "au",
+        "i": "aurora",
+        "h": 1,
+        "n": "Aurora Serverless v2",
+        "s": "scales to 0 ACUs, pauses"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "New connection"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Aurora Serverless v2",
-      "s": "scales to 0 ACUs, pauses"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Resumes automatically"
+      "a": "dev",
+      "b": "au",
+      "e": "connect, resumes"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-55",
@@ -15842,47 +21289,35 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Redshift Serverless provisions and scales data warehouse capacity automatically, and you pay only for the capacity used while queries run, with no charge for idle compute. Existing SQL and BI tools keep working.",
    "resource": "https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverless.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Monthly reports",
-      "s": "existing BI tools"
+      "id": "bi",
+      "i": "quicksight",
+      "n": "BI tools"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Redshift Serverless",
-      "s": "pay while queries run"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Data"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "rs",
+        "i": "redshift",
+        "h": 1,
+        "n": "Redshift Serverless",
+        "s": "pay while queries run"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Rest of the month"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Redshift Serverless",
-      "s": "pay while queries run"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "No compute charge"
+      "a": "bi",
+      "b": "rs",
+      "e": "monthly reports"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-56",
@@ -15916,46 +21351,66 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Database Savings Plans reduce costs by up to 35% across services including Aurora, RDS, DynamoDB and ElastiCache, and keep applying when a workload moves between them, for example from RDS to DynamoDB.",
    "resource": "https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "dsp",
+      "i": "savingsplans",
       "h": 1,
       "n": "Database Savings Plan",
       "s": "one commitment"
      },
      {
-      "e": ""
-     },
-     {
-      "k": [
+      "k": "cloud",
+      "c": [
        {
-        "n": "Aurora"
-       },
-       {
-        "n": "RDS"
-       },
-       {
-        "n": "DynamoDB"
-       },
-       {
-        "n": "ElastiCache"
+        "k": "col",
+        "c": [
+         {
+          "id": "a",
+          "i": "aurora",
+          "n": "Aurora"
+         },
+         {
+          "id": "r",
+          "i": "rds",
+          "n": "RDS"
+         },
+         {
+          "id": "d",
+          "i": "dynamodb",
+          "n": "DynamoDB"
+         },
+         {
+          "id": "e",
+          "i": "elasticache",
+          "n": "ElastiCache"
+         }
+        ]
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Workload moves from RDS"
+      "a": "dsp",
+      "b": "a"
      },
      {
-      "e": ""
+      "a": "dsp",
+      "b": "r"
      },
      {
-      "n": "DynamoDB",
-      "s": "discount still applies"
+      "a": "dsp",
+      "b": "d"
+     },
+     {
+      "a": "dsp",
+      "b": "e"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-57",
@@ -15989,29 +21444,36 @@ window.QUESTION_BANK = {
    ],
    "explanation": "gp3 storage on RDS includes a baseline of 3,000 IOPS in its storage price, which covers this workload, so moving off io1 removes the separate charge for provisioned IOPS.",
    "resource": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "RDS for MySQL",
-      "s": "peaks at 2,000 IOPS"
-     },
+      "k": "cloud",
+      "c": [
+       {
+        "id": "io1",
+        "i": "rds",
+        "n": "RDS on io1",
+        "s": "3,000 provisioned IOPS"
+       },
+       {
+        "id": "gp3",
+        "i": "rds",
+        "h": 1,
+        "n": "RDS on gp3",
+        "s": "3,000 IOPS included"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
      {
-      "e": "change storage"
-     },
-     {
-      "h": 1,
-      "n": "gp3",
-      "s": "3,000 IOPS included"
-     },
-     {
-      "e": "no longer paid",
-      "x": 1
-     },
-     {
-      "n": "io1 provisioned IOPS charge"
+      "a": "io1",
+      "b": "gp3",
+      "e": "modify storage"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-33",
@@ -16045,50 +21507,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "An S3 gateway VPC endpoint routes traffic to S3 without going through the NAT gateway at all, and it's free to use, eliminating the NAT data-processing charge for that traffic.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Private subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "Instances"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "id": "ep",
+          "i": "gwendpoint",
+          "h": 1,
+          "n": "S3 gateway endpoint",
+          "s": "free"
+         },
+         {
+          "id": "nat",
+          "i": "nat",
+          "n": "NAT gateway",
+          "s": "per-GB charge"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "Amazon S3"
        }
-      ]
-     },
-     {
-      "e": "route to S3 prefix list"
-     },
-     {
-      "h": 1,
-      "n": "S3 gateway endpoint",
-      "s": "free"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Amazon S3"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "g": "Private subnet",
-      "c": [
-       {
-        "n": "EC2"
-       }
-      ]
+      "a": "ec2",
+      "b": "ep",
+      "e": "route to S3"
      },
      {
-      "e": "no longer used",
-      "d": 1
+      "a": "ep",
+      "b": "s3"
      },
      {
-      "n": "NAT gateway",
-      "s": "per-GB charge"
+      "a": "ec2",
+      "b": "nat",
+      "e": "no longer used for S3",
+      "t": "x"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-34",
@@ -16122,49 +21602,56 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Inbound data transfer from the internet is generally free. Cross-AZ traffic is charged in each direction, and outbound-to-the-internet and cross-Region transfer both carry data-transfer-out charges. (Traffic within the same AZ over private IP addresses is also free.)",
    "resource": "https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "inet",
+      "i": "internet",
       "n": "Internet"
      },
      {
-      "e": "inbound"
-     },
-     {
-      "h": 1,
-      "n": "Free",
-      "s": "data transfer in"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "AWS"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "az",
+        "c": [
+         {
+          "id": "a",
+          "i": "ec2",
+          "n": "Instance"
+         }
+        ],
+        "n": "AZ A"
+       },
+       {
+        "k": "az",
+        "c": [
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "Instance"
+         }
+        ],
+        "n": "AZ B"
+       }
+      ],
+      "n": "AWS Region"
      }
     ],
-    [
+    "f": [
      {
-      "n": "AWS"
+      "a": "inet",
+      "b": "a",
+      "e": "in free, out charged",
+      "t": "both"
      },
      {
-      "e": "outbound to internet: charged"
-     },
-     {
-      "n": "Internet"
-     }
-    ],
-    [
-     {
-      "n": "AZ a"
-     },
-     {
-      "e": "cross-AZ: charged each way"
-     },
-     {
-      "n": "AZ b"
+      "a": "a",
+      "b": "b",
+      "e": "cross-AZ, charged each way"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-35",
@@ -16198,55 +21685,70 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Cross-AZ traffic is billed in each direction, so preferring same-AZ cache nodes for normal traffic cuts that cost, while the cache nodes in other AZs remain available for failover if the local one becomes unhealthy.",
    "resource": "https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-pillar/plan-for-data-transfer.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "AZ a",
+      "k": "cloud",
       "c": [
        {
-        "n": "App tier"
+        "k": "az",
+        "c": [
+         {
+          "id": "app1",
+          "i": "ec2",
+          "n": "App tier"
+         },
+         {
+          "id": "c1",
+          "i": "elasticache",
+          "h": 1,
+          "n": "Cache node A"
+         }
+        ],
+        "d": "col",
+        "n": "AZ A"
        },
        {
-        "e": "same AZ: free"
-       },
-       {
-        "h": 1,
-        "n": "Cache node a"
+        "k": "az",
+        "c": [
+         {
+          "id": "app2",
+          "i": "ec2",
+          "n": "App tier"
+         },
+         {
+          "id": "c2",
+          "i": "elasticache",
+          "h": 1,
+          "n": "Cache node B"
+         }
+        ],
+        "d": "col",
+        "n": "AZ B"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "g": "AZ b",
-      "c": [
-       {
-        "n": "App tier"
-       },
-       {
-        "e": "same AZ: free"
-       },
-       {
-        "h": 1,
-        "n": "Cache node b"
-       }
-      ]
-     }
-    ],
-    [
-     {
-      "n": "App tier",
-      "s": "AZ a"
+      "a": "app1",
+      "b": "c1",
+      "e": "same AZ"
      },
      {
-      "e": "only on failover",
-      "d": 1
+      "a": "app2",
+      "b": "c2",
+      "e": "same AZ"
      },
      {
-      "n": "Cache node b"
+      "a": "app1",
+      "b": "c2",
+      "e": "failover only",
+      "t": "d"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-36",
@@ -16280,26 +21782,44 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Data transfer from S3 to CloudFront is free, and CloudFront's data-transfer-out pricing is typically cheaper than S3's directly, while also serving cached content from edge locations closer to users.",
    "resource": "https://aws.amazon.com/cloudfront/pricing/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "id": "users",
+      "i": "users",
       "n": "Global users"
      },
      {
-      "e": ""
+      "k": "cloud",
+      "c": [
+       {
+        "id": "cf",
+        "i": "cloudfront",
+        "h": 1,
+        "n": "CloudFront",
+        "s": "cheaper egress, edge cache"
+       },
+       {
+        "id": "s3",
+        "i": "s3",
+        "n": "S3 bucket"
+       }
+      ],
+      "n": "AWS Cloud"
+     }
+    ],
+    "f": [
+     {
+      "a": "users",
+      "b": "cf"
      },
      {
-      "h": 1,
-      "n": "CloudFront edge cache"
-     },
-     {
-      "e": "origin fetch: free from S3"
-     },
-     {
-      "n": "S3 bucket"
+      "a": "cf",
+      "b": "s3",
+      "e": "origin fetch free"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-37",
@@ -16333,45 +21853,69 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Direct Connect has lower data-transfer-out rates than transferring the same volume over the internet (as a VPN does), plus more consistent, dedicated bandwidth.",
    "resource": "https://aws.amazon.com/directconnect/pricing/pay-as-you-go/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
+      "k": "onprem",
+      "c": [
+       {
+        "id": "dc",
+        "i": "datacenter",
+        "n": "Hundreds of TB a month"
+       }
+      ],
       "n": "Data center"
      },
      {
-      "e": "dedicated, consistent bandwidth"
-     },
-     {
-      "h": 1,
-      "n": "Direct Connect",
-      "s": "lower transfer-out rate"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "AWS"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "dx",
+          "i": "dx",
+          "h": 1,
+          "n": "Direct Connect",
+          "s": "lower transfer-out rate"
+         },
+         {
+          "id": "vpn",
+          "i": "vpn",
+          "n": "Site-to-Site VPN",
+          "s": "over internet"
+         }
+        ]
+       },
+       {
+        "id": "vpc",
+        "i": "vgw",
+        "n": "VPC"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Data center"
+      "a": "dc",
+      "b": "dx"
      },
      {
-      "e": "over the internet",
-      "d": 1
+      "a": "dc",
+      "b": "vpn",
+      "t": "d"
      },
      {
-      "n": "Site-to-Site VPN"
+      "a": "dx",
+      "b": "vpc"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "AWS"
+      "a": "vpn",
+      "b": "vpc"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-38",
@@ -16405,47 +21949,83 @@ window.QUESTION_BANK = {
    ],
    "explanation": "Centralizing egress through a shared VPC reached over Transit Gateway consolidates NAT gateways down to a much smaller, shared set. (Weigh the Transit Gateway attachment and data-processing charges against the NAT gateway hours actually saved.)",
    "resource": "https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secure-multi-vpc-network-infrastructure/centralized-egress-to-internet.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "k": [
-       {
-        "n": "VPC 1"
-       },
-       {
-        "n": "VPC 2"
-       },
-       {
-        "n": "VPC 20"
-       }
-      ]
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Transit Gateway"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "Shared egress VPC",
+      "k": "cloud",
       "c": [
        {
+        "k": "col",
+        "c": [
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "v1",
+            "i": "ec2",
+            "n": "Private apps"
+           }
+          ],
+          "n": "VPC 1"
+         },
+         {
+          "k": "vpc",
+          "c": [
+           {
+            "id": "v20",
+            "i": "ec2",
+            "n": "Private apps"
+           }
+          ],
+          "n": "VPC 20"
+         }
+        ]
+       },
+       {
+        "id": "tgw",
+        "i": "tgw",
+        "n": "Transit Gateway"
+       },
+       {
+        "k": "vpc",
+        "c": [
+         {
+          "id": "nat",
+          "i": "nat",
+          "n": "Shared NAT gateways"
+         }
+        ],
         "h": 1,
-        "n": "Shared NAT gateways"
+        "n": "Shared egress VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": ""
-     },
-     {
+      "id": "inet",
+      "i": "internet",
       "n": "Internet"
      }
+    ],
+    "f": [
+     {
+      "a": "v1",
+      "b": "tgw"
+     },
+     {
+      "a": "v20",
+      "b": "tgw"
+     },
+     {
+      "a": "tgw",
+      "b": "nat"
+     },
+     {
+      "a": "nat",
+      "b": "inet"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "4-39",
@@ -16479,34 +22059,50 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS charges an hourly rate for all public IPv4 addresses, including unattached Elastic IPs, and NAT gateways are billed hourly whether or not they're processing traffic. The other three are free regardless of use.",
    "resource": "https://aws.amazon.com/vpc/pricing/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "h": 1,
-      "n": "Public IPv4 address",
-      "s": "hourly, even unattached"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Charges while idle"
+      "k": "cloud",
+      "c": [
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "ip",
+          "i": "eni",
+          "h": 1,
+          "n": "Public IPv4 address",
+          "s": "hourly, even unattached"
+         },
+         {
+          "id": "nat",
+          "i": "nat",
+          "h": 1,
+          "n": "NAT gateway",
+          "s": "hourly, even with no traffic"
+         }
+        ]
+       },
+       {
+        "id": "bill",
+        "i": "billing",
+        "n": "Charged while idle"
+       }
+      ],
+      "n": "AWS account"
      }
     ],
-    [
+    "f": [
      {
-      "h": 1,
-      "n": "NAT gateway",
-      "s": "hourly, even with no traffic"
+      "a": "ip",
+      "b": "bill"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "Charges while idle"
+      "a": "nat",
+      "b": "bill"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-40",
@@ -16540,46 +22136,73 @@ window.QUESTION_BANK = {
    ],
    "explanation": "VPC peering connections themselves have no hourly charge — only the data transferred over them is billed. Transit Gateway, by contrast, charges per attachment-hour plus per GB processed through it.",
    "resource": "https://aws.amazon.com/transit-gateway/pricing/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "VPC A"
-     },
-     {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "Peering",
-      "s": "no hourly charge, pay per GB transferred"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "VPC B"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "a",
+        "i": "ec2",
+        "n": "VPC A"
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "pcx",
+          "i": "peering",
+          "h": 1,
+          "n": "VPC peering",
+          "s": "no hourly charge, pay per GB"
+         },
+         {
+          "id": "tgw",
+          "i": "tgw",
+          "h": 1,
+          "n": "Transit Gateway",
+          "s": "per attachment-hour + per GB"
+         }
+        ]
+       },
+       {
+        "k": "col",
+        "c": [
+         {
+          "id": "b",
+          "i": "ec2",
+          "n": "VPC B"
+         },
+         {
+          "id": "c",
+          "i": "ec2",
+          "n": "VPC C"
+         }
+        ]
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "VPC A"
+      "a": "a",
+      "b": "pcx"
      },
      {
-      "e": ""
+      "a": "pcx",
+      "b": "b"
      },
      {
-      "h": 1,
-      "n": "Transit Gateway",
-      "s": "per attachment-hour + per GB processed"
+      "a": "a",
+      "b": "tgw"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "VPC C"
+      "a": "tgw",
+      "b": "c"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-58",
@@ -16613,40 +22236,43 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A price class limits CloudFront to edge locations in lower-cost regions, such as North America and Europe. Readers elsewhere are still served, from those edge locations, with somewhat higher latency.",
    "resource": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesGeneral.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Readers in North America and Europe"
+      "id": "readers",
+      "i": "users",
+      "n": "North America and Europe"
      },
      {
-      "e": ""
-     },
-     {
-      "h": 1,
-      "n": "CloudFront price class",
-      "s": "lower-cost edge locations only"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "Origin"
+      "k": "cloud",
+      "c": [
+       {
+        "id": "pc",
+        "i": "cloudfront",
+        "h": 1,
+        "n": "CloudFront price class",
+        "s": "lower-cost edges only"
+       },
+       {
+        "id": "origin",
+        "i": "s3",
+        "n": "Origin"
+       }
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "n": "Rare readers elsewhere"
+      "a": "readers",
+      "b": "pc"
      },
      {
-      "e": "slightly higher latency"
-     },
-     {
-      "h": 1,
-      "n": "CloudFront price class",
-      "s": "lower-cost edge locations only"
+      "a": "pc",
+      "b": "origin"
      }
     ]
-   ]
+   }
   },
   {
    "id": "4-59",
@@ -16680,46 +22306,75 @@ window.QUESTION_BANK = {
    ],
    "explanation": "AWS charges for every public IPv4 address, including Elastic IPs, but not for IPv6 addresses. Moving to IPv6 (for example, dual-stack or IPv6-only subnets, with an egress-only internet gateway for outbound traffic) and removing unneeded public IPv4 addresses reduces the charge.",
    "resource": "https://aws.amazon.com/vpc/pricing/",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "n": "Client",
-      "s": "IPv6"
+      "id": "client",
+      "i": "client",
+      "n": "IPv6 clients"
      },
      {
-      "e": ""
-     },
-     {
-      "n": "ALB",
-      "s": "dual-stack"
-     },
-     {
-      "e": ""
-     },
-     {
-      "g": "IPv6 subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2",
-        "s": "no public IPv4"
+        "k": "vpc",
+        "c": [
+         {
+          "id": "alb",
+          "i": "alb",
+          "n": "ALB",
+          "s": "dual-stack"
+         },
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "Instances",
+            "s": "no public IPv4"
+           }
+          ],
+          "h": 1,
+          "n": "IPv6 subnet"
+         },
+         {
+          "id": "eigw",
+          "i": "eigw",
+          "n": "Egress-only internet gateway"
+         }
+        ],
+        "n": "VPC"
        }
-      ]
+      ],
+      "n": "AWS Cloud"
      },
      {
-      "e": "outbound"
-     },
-     {
-      "h": 1,
-      "n": "Egress-only internet gateway"
-     },
-     {
-      "e": ""
-     },
-     {
+      "id": "inet",
+      "i": "internet",
       "n": "Internet"
      }
+    ],
+    "f": [
+     {
+      "a": "client",
+      "b": "alb"
+     },
+     {
+      "a": "alb",
+      "b": "ec2"
+     },
+     {
+      "a": "ec2",
+      "b": "eigw",
+      "e": "outbound only"
+     },
+     {
+      "a": "eigw",
+      "b": "inet"
+     }
     ]
-   ]
+   }
   },
   {
    "id": "4-60",
@@ -16753,50 +22408,68 @@ window.QUESTION_BANK = {
    ],
    "explanation": "A gateway endpoint for DynamoDB adds a route so traffic reaches DynamoDB without passing through the NAT gateway, and gateway endpoints have no charge.",
    "resource": "https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-ddb.html",
-   "diagram": [
-    [
+   "arch": {
+    "c": [
      {
-      "g": "Private subnet",
+      "k": "cloud",
       "c": [
        {
-        "n": "EC2"
+        "k": "vpc",
+        "c": [
+         {
+          "k": "private",
+          "c": [
+           {
+            "id": "ec2",
+            "i": "ec2",
+            "n": "Instances"
+           }
+          ],
+          "n": "Private subnet"
+         },
+         {
+          "id": "ep",
+          "i": "gwendpoint",
+          "h": 1,
+          "n": "DynamoDB gateway endpoint",
+          "s": "free"
+         },
+         {
+          "id": "nat",
+          "i": "nat",
+          "n": "NAT gateway",
+          "s": "per-GB charge"
+         }
+        ],
+        "n": "VPC"
+       },
+       {
+        "id": "ddb",
+        "i": "dynamodb",
+        "n": "DynamoDB"
        }
-      ]
-     },
-     {
-      "e": "route to DynamoDB prefix list"
-     },
-     {
-      "h": 1,
-      "n": "DynamoDB gateway endpoint",
-      "s": "free"
-     },
-     {
-      "e": ""
-     },
-     {
-      "n": "DynamoDB"
+      ],
+      "n": "AWS Cloud"
      }
     ],
-    [
+    "f": [
      {
-      "g": "Private subnet",
-      "c": [
-       {
-        "n": "EC2"
-       }
-      ]
+      "a": "ec2",
+      "b": "ep",
+      "e": "route to DynamoDB"
      },
      {
-      "e": "bypassed",
-      "d": 1
+      "a": "ep",
+      "b": "ddb"
      },
      {
-      "n": "NAT gateway",
-      "s": "per-GB charge"
+      "a": "ec2",
+      "b": "nat",
+      "e": "no longer used",
+      "t": "x"
      }
     ]
-   ]
+   }
   }
  ]
 };

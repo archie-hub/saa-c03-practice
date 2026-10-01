@@ -21,16 +21,21 @@ GitHub Pages from `main`); the question bank is Markdown in `saa-c03-questions/`
   must cover every wrong option and no correct one; the build script checks this. Keep each reason to
   one or two sentences that say what the named service or approach actually does and why that doesn't
   fit this scenario. When reordering options, move their notes' letters with them.
-- Each answer block can also have one diagram of the correct answer: a fenced ```` ```diagram ```` block
-  after the explanation, before "Why not the others:" (see domain 1). Each line is a row of boxes joined
-  by arrows, drawn left to right (top to bottom on phones):
-  - `Label | small sub-label` is a box; a leading `*` highlights the answer's key piece.
-  - `->` is an arrow, `-(label)->` a labelled one, `-x->` / `-x(label)->` a blocked or denied path,
-    `~>` / `~(label)~>` a dashed (asynchronous or optional) one.
-  - `A & B` stacks boxes across the flow; `[Title: A -> B]` frames part of a row (a VPC, account or
-    Region). Frames can't be nested.
-  Keep rows to about five boxes, and draw the mechanism that makes the answer right. The build script
-  rejects malformed diagrams.
+- Each answer block can also have one architecture diagram of the correct answer: a fenced
+  ```` ```arch ```` block after the explanation, before "Why not the others:" (see any question). The
+  first part nests boxes by indentation (two spaces per level); after a `---` line come the arrows:
+  - A box is `<kind> Label | small sub-label`, with kind one of `cloud`, `onprem`, `account`, `region`,
+    `vpc`, `az`, `public`, `private`, `asg`, `sg`, `group`. `row` and `col` are invisible boxes that only
+    arrange what they hold. A box lays out its contents left to right (an `az` top to bottom); add
+    ` [col]` or ` [row]` at the end of the line to change that.
+  - A service icon is `id: icon Label | sub-label`. Icon keys are listed in `ARCH_ICONS` in
+    `scripts/build_questions.py`, and their files are the official AWS Architecture Icons in `docs/icons/`.
+  - A leading `*` on a label highlights the answer's key piece (not on sub-labels or arrow labels).
+  - Arrows: `a -> b : label`, numbered steps `1. a -> b`, `a -x-> b` for a blocked or denied path,
+    `a ~> b` dashed (asynchronous or optional), `a <-> b` both ways.
+  Lay icons out in the order the request flows, put fan-in or fan-out targets in a `col`, and avoid two
+  arrows between the same pair of icons. Check the result in a browser at desktop and phone width (it
+  shrinks to fit on phones, and a tap opens it full size). The build script rejects malformed diagrams.
 - `docs/legacy-answer-map.js` is a frozen, one-time snapshot used to migrate exam history saved before
   options got stable ids. Never regenerate or edit it.
 
