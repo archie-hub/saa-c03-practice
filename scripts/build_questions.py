@@ -23,8 +23,7 @@ ANSWER_RE = re.compile(r"^\*\*([A-F](?:,\s*[A-F])*)\.\*\*\s*(.*)")
 RESOURCE_RE = re.compile(r"^Resource:\s*<([^>]+)>")
 WHY_HEADER_RE = re.compile(r"^Why not the others:\s*$")
 WHY_RE = re.compile(r"^- \*\*([A-F])\.\*\*\s+(.+)")
-DIAGRAM_OPEN_RE = re.compile(r"^```diagram\s*$")
-EDGE_RE = re.compile(r"\s+(?:-(?:(x)?(?:\(([^()]*)\))?-)?>|(~)(?:\(([^()]*)\)~)?>)\s+")
+ARCH_OPEN_RE = re.compile(r"^```arch\s*$")
 SELECT_IN_STEM_RE = re.compile(r"\s*\(Select (\w+)\.\)\s*$")
 WORDS = {"TWO": 2, "THREE": 3}
 
@@ -40,81 +39,152 @@ def option_id(question_id, text):
     return digest[:10]
 
 
-def parse_node(text):
-    """`*Label | sub-label`: a box; a leading * highlights the answer's key piece."""
-    text = text.strip()
-    node = {}
-    if text.startswith("*"):
-        node["h"] = 1
-        text = text[1:].strip()
-    label, _, sub = text.partition(" | ")
-    if not label.strip() or any(c in text for c in ("[", "]", "\x00", "->", "~>")):
-        raise ValueError(f"bad box {text!r}")
-    node["n"] = label.strip()
-    if sub.strip().startswith("*"):
-        raise ValueError(f"put * before the box's label, not its sub-label: {text!r}")
-    if sub.strip():
-        node["s"] = sub.strip()
-    return node
+# Architecture diagrams (```arch blocks). Box kinds, outermost first in a typical nesting;
+# `row` and `col` are invisible boxes that only arrange what they hold.
+ARCH_BOXES = {"cloud", "onprem", "account", "region", "vpc", "az", "public", "private", "asg", "sg", "group", "row", "col"}
+# Service icons: key -> (category, short label shown on the placeholder icon).
+ARCH_ICONS = {
+    # people and places
+    "users": ("general", "Users"), "user": ("general", "User"), "internet": ("general", "Web"),
+    "client": ("general", "PC"), "mobile": ("general", "Phone"), "server": ("general", "Srv"),
+    "datacenter": ("general", "DC"), "firewall": ("general", "FW"),
+    # compute
+    "ec2": ("compute", "EC2"), "asg": ("compute", "ASG"), "lambda": ("compute", "λ"),
+    "ecs": ("container", "ECS"), "eks": ("container", "EKS"), "fargate": ("container", "Fgt"),
+    "ecr": ("container", "ECR"), "batch": ("compute", "Bat"), "beanstalk": ("compute", "EB"),
+    "outposts": ("compute", "Out"), "localzone": ("compute", "LZ"), "wavelength": ("compute", "WL"),
+    # networking
+    "alb": ("network", "ALB"), "nlb": ("network", "NLB"), "gwlb": ("network", "GWLB"), "elb": ("network", "ELB"),
+    "igw": ("network", "IGW"), "eigw": ("network", "EIGW"), "nat": ("network", "NAT"), "tgw": ("network", "TGW"),
+    "vgw": ("network", "VGW"), "cgw": ("network", "CGW"), "vpn": ("network", "VPN"), "clientvpn": ("network", "CVPN"),
+    "dx": ("network", "DX"), "dxgw": ("network", "DXGW"), "peering": ("network", "PCX"),
+    "endpoint": ("network", "VPCE"), "gwendpoint": ("network", "GWE"), "privatelink": ("network", "PL"),
+    "route53": ("network", "R53"), "resolver": ("network", "Rslv"), "cloudfront": ("network", "CF"),
+    "accelerator": ("network", "GA"), "apigw": ("network", "API"), "lattice": ("network", "Lat"),
+    "cloudwan": ("network", "WAN"), "eni": ("network", "ENI"), "nacl": ("network", "NACL"),
+    "flowlogs": ("network", "Flow"), "rtb": ("network", "RT"), "networkfirewall": ("security", "NFW"),
+    "verifiedaccess": ("security", "VA"),
+    # storage
+    "s3": ("storage", "S3"), "ebs": ("storage", "EBS"), "efs": ("storage", "EFS"), "fsx": ("storage", "FSx"),
+    "glacier": ("storage", "Glac"), "storagegateway": ("storage", "SGW"), "backup": ("storage", "Bkp"),
+    "snowball": ("storage", "Snow"), "instancestore": ("storage", "NVMe"), "drs": ("storage", "DRS"),
+    # database
+    "rds": ("database", "RDS"), "aurora": ("database", "Aur"), "dynamodb": ("database", "DDB"),
+    "elasticache": ("database", "EC"), "dax": ("database", "DAX"), "memorydb": ("database", "MDB"),
+    "redshift": ("analytics", "RS"), "neptune": ("database", "Nep"), "documentdb": ("database", "Doc"),
+    "keyspaces": ("database", "Ksp"), "timestream": ("database", "TS"), "rdsproxy": ("database", "Prx"),
+    # integration
+    "sqs": ("integration", "SQS"), "sns": ("integration", "SNS"), "eventbridge": ("integration", "EvB"),
+    "stepfunctions": ("integration", "SFN"), "mq": ("integration", "MQ"), "appsync": ("integration", "AS"),
+    "scheduler": ("integration", "Sch"),
+    # analytics
+    "kinesis": ("analytics", "KDS"), "firehose": ("analytics", "Fire"), "msk": ("analytics", "MSK"),
+    "athena": ("analytics", "Ath"), "glue": ("analytics", "Glue"), "emr": ("analytics", "EMR"),
+    "opensearch": ("analytics", "OS"), "quicksight": ("analytics", "QS"), "lakeformation": ("analytics", "LF"),
+    "datasync": ("migration", "DS"), "dms": ("migration", "DMS"), "transfer": ("migration", "SFTP"),
+    # security and identity
+    "iam": ("security", "IAM"), "role": ("security", "Role"), "policy": ("security", "Pol"), "sts": ("security", "STS"),
+    "identitycenter": ("security", "SSO"), "cognito": ("security", "Cog"), "directory": ("security", "AD"),
+    "kms": ("security", "KMS"), "cloudhsm": ("security", "HSM"), "secrets": ("security", "SM"),
+    "acm": ("security", "ACM"), "privateca": ("security", "PCA"), "waf": ("security", "WAF"),
+    "shield": ("security", "Shld"), "guardduty": ("security", "GD"), "inspector": ("security", "Insp"),
+    "macie": ("security", "Mac"), "securityhub": ("security", "SH"), "detective": ("security", "Det"),
+    "accessanalyzer": ("security", "AA"), "firewallmanager": ("security", "FM"), "ram": ("security", "RAM"),
+    "artifact": ("security", "Art"), "auditmanager": ("security", "Aud"), "dnsfirewall": ("security", "DNSF"),
+    # management and cost
+    "organizations": ("management", "Org"), "scp": ("management", "SCP"), "controltower": ("management", "CT"),
+    "cloudtrail": ("management", "Trail"), "cloudwatch": ("management", "CW"), "config": ("management", "Cfg"),
+    "ssm": ("management", "SSM"), "servicecatalog": ("management", "SC"), "trustedadvisor": ("management", "TA"),
+    "computeoptimizer": ("management", "CO"), "xray": ("management", "XRay"), "fis": ("management", "FIS"),
+    "resiliencehub": ("management", "RH"), "arc": ("management", "ARC"), "budgets": ("cost", "Bdgt"),
+    "costexplorer": ("cost", "CE"), "savingsplans": ("cost", "SP"), "billing": ("cost", "Bill"),
+}
+ARCH_NODE_RE = re.compile(r"^([a-z][\w-]*):\s+([a-z0-9]+)\s+(.+)$")
+ARCH_FLOW_RE = re.compile(r"^(?:(\d+)\.\s+)?([a-z][\w-]*)\s+(->|-x->|~>|<->)\s+([a-z][\w-]*)(?:\s*:\s*(.+))?$")
 
 
-def parse_chain(text, groups, nested=False):
-    """`A -> B -(label)-> C -x-> D ~> E`: boxes joined by arrows, left to right.
-
-    `-x->` is a blocked or denied path, `~>` a dashed (asynchronous or optional) one.
-    `A & B` stacks boxes side by side across the flow; `[Title: A -> B]` frames part
-    of the chain (a VPC, an account, a Region).
+def parse_arch(lines):
+    """Nested boxes by indentation (`vpc Label | sub`), service icons (`id: icon Label | sub`),
+    then a `---` line and arrows between ids (`1. a -> b : label`; `-x->` blocked, `~>` dashed,
+    `<->` both ways). A leading `*` on a label highlights the answer's key piece.
     """
-    parts = EDGE_RE.split(text)
-    chain = []
-    for i in range(0, len(parts), 5):
-        piece = parts[i].strip()
-        if i:
-            x, label, dashed, dashed_label = parts[i - 4 : i]
-            edge = {"e": (label or dashed_label or "").strip()}
-            if edge["e"].startswith("*"):
-                raise ValueError(f"arrow labels can't be highlighted: {edge['e']!r}")
-            if x:
-                edge["x"] = 1
-            if dashed:
-                edge["d"] = 1
-            chain.append(edge)
-        if m := re.fullmatch(r"\x00(\d+)\x00", piece):
-            if nested:
-                raise ValueError("frames can't be nested")
-            title, sep, inner = groups[int(m[1])].partition(": ")
-            if not sep or not title.strip() or title.strip().startswith("*"):
-                raise ValueError(f"frame needs 'Title: ...' (no * highlight), got {groups[int(m[1])]!r}")
-            chain.append({"g": title.strip(), "c": parse_chain(inner, groups, nested=True)})
+    if "---" not in [l.strip() for l in lines]:
+        raise ValueError("needs a --- line before the arrows")
+    cut = [l.strip() for l in lines].index("---")
+    root = {"c": []}
+    stack = [(-1, root)]
+    ids = set()
+    for raw in lines[:cut]:
+        indent = len(raw) - len(raw.lstrip(" "))
+        text = raw.strip()
+        while stack[-1][0] >= indent:
+            stack.pop()
+        parent = stack[-1][1]
+        if "c" not in parent:
+            raise ValueError(f"only boxes can contain things: {text!r}")
+        if m := ARCH_NODE_RE.match(text):
+            nid, icon, rest = m[1], m[2], m[3]
+            if icon not in ARCH_ICONS:
+                raise ValueError(f"unknown icon {icon!r}")
+            if nid in ids:
+                raise ValueError(f"duplicate id {nid!r}")
+            ids.add(nid)
+            node = {"id": nid, "i": icon}
+            stack.append((indent, node))
         else:
-            boxes = [parse_node(t) for t in piece.split(" & ")]
-            chain.append(boxes[0] if len(boxes) == 1 else {"k": boxes})
-    return chain
-
-
-def parse_diagram(lines):
-    rows = []
-    for line in lines:
-        groups = []
-
-        def stash(m):
-            groups.append(m[1])
-            return f"\x00{len(groups) - 1}\x00"
-
-        flat = re.sub(r"\[([^\[\]]+)\]", stash, line)
-        if "[" in flat or "]" in flat:
-            raise ValueError(f"unbalanced [ ] in {line!r}")
-        rows.append(parse_chain(flat, groups))
-    if not rows:
+            kind, _, rest = text.partition(" ")
+            if kind not in ARCH_BOXES:
+                raise ValueError(f"unknown box kind {kind!r} (or a node missing 'id: icon')")
+            node = {"k": kind, "c": []}
+            if m := re.search(r"\s*\[(row|col)\]$", rest):
+                node["d"] = m[1]
+                rest = rest[: m.start()]
+            stack.append((indent, node))
+        rest = rest.strip()
+        if rest.startswith("*"):
+            node["h"] = 1
+            rest = rest[1:].strip()
+        label, _, sub = rest.partition(" | ")
+        if sub.strip().startswith("*"):
+            raise ValueError(f"put * before the label, not the sub-label: {text!r}")
+        if label.strip():
+            node["n"] = label.strip()
+        if sub.strip():
+            node["s"] = sub.strip()
+        if "k" not in node and "n" not in node:
+            raise ValueError(f"icon {nid!r} needs a label")
+        parent["c"].append(node)
+    flows = []
+    for raw in lines[cut + 1 :]:
+        text = raw.strip()
+        if not text:
+            continue
+        m = ARCH_FLOW_RE.match(text)
+        if not m:
+            raise ValueError(f"bad arrow {text!r}")
+        for nid in (m[2], m[4]):
+            if nid not in ids:
+                raise ValueError(f"arrow names unknown id {nid!r}")
+        flow = {"a": m[2], "b": m[4]}
+        if m[1]:
+            flow["no"] = int(m[1])
+        if m[5]:
+            if m[5].strip().startswith("*"):
+                raise ValueError(f"arrow labels can't be highlighted: {text!r}")
+            flow["e"] = m[5].strip()
+        if m[3] != "->":
+            flow["t"] = {"-x->": "x", "~>": "d", "<->": "both"}[m[3]]
+        flows.append(flow)
+    if not root["c"]:
         raise ValueError("empty diagram")
-    return rows
+    return {"c": root["c"], "f": flows}
 
 
 def parse_file(path):
     domains, questions = [], []
     domain = task = q = None
     in_answer = False
-    diagram = None
+    arch = None
 
     def finish():
         if q is None:
@@ -141,8 +211,8 @@ def parse_file(path):
             for o in q["options"]
         ]
         del q["why"]
-        if q["diagram"] is None:
-            del q["diagram"]
+        if q["arch"] is None:
+            del q["arch"]
         q["explanation"] = " ".join(q["explanation"]).strip()
         questions.append(q)
 
@@ -172,26 +242,26 @@ def parse_file(path):
                 "explanation": [],
                 "resource": None,
                 "why": {},
-                "diagram": None,
+                "arch": None,
             }
             in_answer = False
         elif q is None:
             continue
-        elif diagram is not None:
+        elif arch is not None:
             if line == "```":
-                if q["diagram"] is not None:
-                    sys.exit(f"{path.name} {q['id']}: more than one diagram")
+                if q["arch"] is not None:
+                    sys.exit(f"{path.name} {q['id']}: more than one arch block")
                 try:
-                    q["diagram"] = parse_diagram(diagram)
+                    q["arch"] = parse_arch(arch)
                 except ValueError as e:
-                    sys.exit(f"{path.name} {q['id']}: diagram: {e}")
-                diagram = None
+                    sys.exit(f"{path.name} {q['id']}: arch: {e}")
+                arch = None
             elif line.startswith("</details>"):
-                sys.exit(f"{path.name} {q['id']}: diagram block not closed with ```")
+                sys.exit(f"{path.name} {q['id']}: arch block not closed with ```")
             elif line:
-                diagram.append(line)
-        elif in_answer and DIAGRAM_OPEN_RE.match(line):
-            diagram = []
+                arch.append(raw.rstrip())
+        elif in_answer and ARCH_OPEN_RE.match(line):
+            arch = []
         elif line.startswith("<details>"):
             in_answer = True
         elif line.startswith("</details>"):
@@ -220,13 +290,28 @@ def parse_file(path):
     return domains, questions
 
 
+def arch_nodes(items):
+    for it in items:
+        if "i" in it:
+            yield it
+        yield from arch_nodes(it.get("c", []))
+
+
 def main():
     domains, questions = [], []
     for path in sorted(SRC.glob("domain*.md")):
         d, q = parse_file(path)
         domains += d
         questions += q
-    bank = {"exam": "SAA-C03", "domains": domains, "questions": questions}
+    used = {n["i"] for q in questions if "arch" in q for n in arch_nodes(q["arch"]["c"])}
+    icons = {}
+    for k in sorted(used):
+        if not (ROOT / "docs" / "icons" / f"{k}.svg").exists():
+            sys.exit(f"missing docs/icons/{k}.svg")
+        icons[k] = {"c": ARCH_ICONS[k][0], "a": ARCH_ICONS[k][1]}
+        if (ROOT / "docs" / "icons" / f"{k}-dark.svg").exists():
+            icons[k]["dark"] = 1
+    bank = {"exam": "SAA-C03", "domains": domains, "icons": icons, "questions": questions}
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(
         "// Generated by scripts/build_questions.py from saa-c03-questions/*.md. Do not edit by hand.\n"

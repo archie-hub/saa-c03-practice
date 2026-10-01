@@ -540,44 +540,220 @@
     const why = reveal && !isAnswer && opt.why ? `<span class="why">${fmt(opt.why)}</span>` : '';
     return `<${tag} class="${cls}">${input}<span class="key">${LETTERS[idx]}.</span><span class="otext">${fmt(opt.text)}${why}</span>${verdict ? `<span class="verdict">${verdict}</span>` : ''}</${tag}>`;
   }
-  // Diagrams come pre-parsed from scripts/build_questions.py: rows of boxes ({n, s, h}),
-  // side-by-side stacks ({k}), and frames ({g, c}), joined by arrows ({e, x, d}).
-  function diagramNodeHtml(n) {
-    return `<div class="dg-node${n.h ? ' hl' : ''}"><span>${fmt(n.n)}</span>${n.s ? `<small>${fmt(n.s)}</small>` : ''}</div>`;
+  // Architecture diagrams (q.arch, from ```arch blocks): nested boxes (Region, VPC, AZ, subnet,
+  // security group...) holding service icons, with arrows between icons drawn once laid out.
+  const ICONS = BANK.icons || {};
+  // Official AWS Architecture Icons in docs/icons; general icons (users, internet...) and the AWS
+  // Cloud group logo have a separate dark-theme file.
+  const GROUP_ICONS = { cloud: 1, account: 1, region: 1, vpc: 1, public: 1, private: 1, onprem: 1, asg: 1 };
+  const iconImg = (name, dark) => dark
+    ? `<img class="on-light" src="icons/${esc(name)}.svg" alt=""><img class="on-dark" src="icons/${esc(name)}-dark.svg" alt="">`
+    : `<img src="icons/${esc(name)}.svg" alt="">`;
+  function archItemHtml(it) {
+    if (it.k === 'row' || it.k === 'col') return `<div class="ar-${it.k}">${it.c.map(archItemHtml).join('')}</div>`;
+    if (it.k) {
+      return `<div class="ar-box k-${it.k}${it.d ? ` d-${it.d}` : ''}${it.h ? ' hl' : ''}">` +
+        (it.n ? `<div class="ar-title">${GROUP_ICONS[it.k] ? `<span class="ar-tag">${iconImg(`group-${it.k}`, it.k === 'cloud')}</span>` : ''}<span>${fmt(it.n)}${it.s ? ` <small>${fmt(it.s)}</small>` : ''}</span></div>` : '') +
+        `<div class="ar-kids">${it.c.map(archItemHtml).join('')}</div></div>`;
+    }
+    const icon = ICONS[it.i] || { c: 'general', a: '?' };
+    return `<div class="ar-node${it.h ? ' hl' : ''}" data-id="${esc(it.id)}">` +
+      `<span class="ar-icon">${iconImg(it.i, icon.dark)}</span>` +
+      `<span class="ar-label">${fmt(it.n || '')}</span>${it.s ? `<small>${fmt(it.s)}</small>` : ''}</div>`;
   }
-  function diagramChainHtml(chain) {
-    return chain.map((el) => {
-      if ('e' in el) {
-        return `<div class="dg-edge${el.x ? ' x' : ''}${el.d ? ' d' : ''}">${el.e ? `<span class="dg-elabel">${fmt(el.e)}</span>` : ''}<span class="dg-line"></span></div>`;
+  function archText(q) {
+    const names = {};
+    (function walk(items) { items.forEach((it) => { if (it.id) names[it.id] = it.n; if (it.c) walk(it.c); }); })(q.arch.c);
+    if (!q.arch.f.length) return 'Architecture diagram: ' + Object.values(names).join(', ');
+    return 'Architecture diagram: ' + q.arch.f.map((f) =>
+      `${names[f.a]} ${f.t === 'x' ? 'cannot reach' : 'to'} ${names[f.b]}${f.e ? ` (${f.e})` : ''}`).join('; ');
+  }
+  function archHtml(q) {
+    return `<figure class="arch-wrap" role="img" aria-label="${esc(archText(q))}" data-q="${esc(q.id)}">` +
+      `<div class="arch">${q.arch.c.map(archItemHtml).join('')}</div>` +
+      `<button type="button" class="ghost ar-zoom">Tap to enlarge</button></figure>`;
+  }
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs, parent) {
+    const el = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+    if (parent) parent.appendChild(el);
+    return el;
+  }
+  // Picks an elbow route from icon A to icon B that crosses the fewest other nodes, then the shortest.
+  function routeArrow(A, B, others, bounds) {
+    const ac = { x: (A.l + A.r) / 2, y: A.cy }, bc = { x: (B.l + B.r) / 2, y: B.cy };
+    const cands = [];
+    const right = B.l > A.r, left = A.l > B.r, down = B.t > A.b, up = A.t > B.b;
+    if (right || left) {
+      const sx = right ? A.r : A.l, ex = right ? B.l : B.r;
+      [0.5, 0.3, 0.7, 0.15, 0.85].forEach((k) => {
+        const mx = sx + (ex - sx) * k;
+        cands.push([[sx, ac.y], [mx, ac.y], [mx, bc.y], [ex, bc.y]]);
+      });
+      if (down) cands.push([[sx, ac.y], [bc.x, ac.y], [bc.x, B.t]]);
+      cands.push([[ac.x, down ? A.b : A.t], [ac.x, bc.y], [ex, bc.y]]);
+    }
+    if (down || up) {
+      const sy = down ? A.b : A.t, ey = down ? B.t : B.b;
+      [0.5, 0.3, 0.7].forEach((k) => {
+        const my = sy + (ey - sy) * k;
+        cands.push([[ac.x, sy], [ac.x, my], [bc.x, my], [bc.x, ey]]);
+      });
+    }
+    // Detours over the top of, or under, everything in between.
+    const lo = Math.min(ac.x, bc.x), hi = Math.max(ac.x, bc.x);
+    const between = others.filter((o) => o.r > lo && o.l < hi);
+    const top = Math.min(A.t, B.t, ...between.map((o) => o.t)) - 16;
+    const bottom = Math.max(A.b, B.b, ...between.map((o) => o.b)) + 16;
+    cands.push([[ac.x, A.t], [ac.x, top], [bc.x, top], [bc.x, B.t]]);
+    cands.push([[ac.x, A.b], [ac.x, bottom], [bc.x, bottom], [bc.x, B.b]]);
+    const loY = Math.min(ac.y, bc.y), hiY = Math.max(ac.y, bc.y);
+    const beside = others.filter((o) => o.b > loY && o.t < hiY);
+    const rightX = Math.max(A.r, B.r, ...beside.map((o) => o.r)) + 16;
+    const leftX = Math.min(A.l, B.l, ...beside.map((o) => o.l)) - 16;
+    cands.push([[A.r, ac.y], [rightX, ac.y], [rightX, bc.y], [B.r, bc.y]]);
+    cands.push([[A.l, ac.y], [leftX, ac.y], [leftX, bc.y], [B.l, bc.y]]);
+    const hits = (pts) => {
+      let n = 0;
+      for (let i = 1; i < pts.length; i++) {
+        const [x1, y1] = pts[i - 1], [x2, y2] = pts[i];
+        const l = Math.min(x1, x2), r = Math.max(x1, x2), t = Math.min(y1, y2), b = Math.max(y1, y2);
+        others.forEach((o) => { if (r > o.l && l < o.r && b > o.t && t < o.b) n += o.title ? 0.3 : 1; });
+        if (t < 2 || l < 2 || r > bounds.w - 2 || b > bounds.h - 2) n += 0.5;
       }
-      if (el.g) return `<div class="dg-group"><div class="dg-gtitle">${fmt(el.g)}</div><div class="dg-chain">${diagramChainHtml(el.c)}</div></div>`;
-      if (el.k) return `<div class="dg-stack">${el.k.map(diagramNodeHtml).join('')}</div>`;
-      return diagramNodeHtml(el);
-    }).join('');
+      return n;
+    };
+    const len = (pts) => pts.slice(1).reduce((n, p, i) => n + Math.abs(p[0] - pts[i][0]) + Math.abs(p[1] - pts[i][1]), 0);
+    return cands.map((pts) => ({ pts, score: hits(pts) * 10000 + len(pts) + pts.length * 20 }))
+      .sort((a, b) => a.score - b.score)[0].pts;
   }
-  function diagramText(chain) {
-    return chain.map((el) => {
-      if ('e' in el) return el.x ? ` blocked${el.e ? ` (${el.e})` : ''} from ` : el.e ? ` to (${el.e}) ` : ' to ';
-      if (el.g) return `[${el.g}: ${diagramText(el.c)}]`;
-      if (el.k) return el.k.map((n) => n.n).join(' and ');
-      return el.s ? `${el.n} (${el.s})` : el.n;
-    }).join('');
+  // Draws the arrows for one .arch element at full size, in its own coordinates.
+  function drawArch(arch, q) {
+    arch.querySelectorAll(':scope > svg').forEach((el) => el.remove());
+    const base = arch.getBoundingClientRect();
+    const scale = base.width / arch.offsetWidth || 1;
+    const rel = (el) => {
+      const r = el.getBoundingClientRect();
+      return { l: (r.left - base.left) / scale, t: (r.top - base.top) / scale, r: (r.right - base.left) / scale, b: (r.bottom - base.top) / scale };
+    };
+    // Horizontal arrows meet the icon's sides; vertical ones meet the top of the icon or the bottom of its label.
+    const box = (id) => {
+      const node = arch.querySelector(`[data-id="${CSS.escape(id)}"]`);
+      const i = rel(node.querySelector('.ar-icon')), n = rel(node);
+      return { l: i.l, r: i.r, t: i.t, b: n.b, cy: (i.t + i.b) / 2 };
+    };
+    const nodeRects = [...arch.querySelectorAll('.ar-node')].map((el) => {
+      const r = rel(el);
+      return { id: el.dataset.id, l: r.l + 18, r: r.r - 18, t: r.t, b: r.b };
+    }).concat([...arch.querySelectorAll('.ar-title > span:last-child')].map((el) => Object.assign(rel(el), { title: true })));
+    const svg = svgEl('svg', { class: 'ar-lines', width: arch.offsetWidth, height: arch.offsetHeight, 'aria-hidden': 'true' });
+    const defs = svgEl('defs', {}, svg);
+    [['a', 'ar-stroke'], ['ax', 'ar-stroke-x']].forEach(([id, cls]) => {
+      const m = svgEl('marker', { id: `arm-${id}`, viewBox: '0 0 10 10', refX: '9', refY: '5', markerWidth: '7', markerHeight: '7', orient: 'auto-start-reverse' }, defs);
+      svgEl('path', { d: 'M0,0 L10,5 L0,10 z', class: cls.replace('stroke', 'fill') }, m);
+    });
+    arch.appendChild(svg); // attached first, so label widths can be measured
+    const labels = svgEl('g', {}, svg);
+    const pending = [];
+    q.arch.f.forEach((f) => {
+      const A = box(f.a), B = box(f.b);
+      const pts = routeArrow(A, B, nodeRects.filter((r) => r.id !== f.a && r.id !== f.b), { w: arch.offsetWidth, h: arch.offsetHeight });
+      const x = f.t === 'x';
+      const path = svgEl('path', { d: 'M' + pts.map((p) => p.join(',')).join(' L'), class: `ar-path${x ? ' x' : ''}${f.t === 'd' ? ' d' : ''}`, 'marker-end': `url(#arm-${x ? 'ax' : 'a'})` }, svg);
+      if (f.t === 'both') path.setAttribute('marker-start', 'url(#arm-a)');
+      const text = (x ? '✕ ' : '') + (f.e || '');
+      if (text || f.no) pending.push({ pts, text, no: f.no, x });
+    });
+    // Each label goes at the point along its arrow that covers the least text (titles, icon
+    // labels, other arrow labels), preferring the middle of the arrow.
+    const obstacles = [...arch.querySelectorAll('.ar-title > span:not(.ar-tag), .ar-icon, .ar-label, .ar-node small')]
+      .map((el) => Object.assign(rel(el), { icon: el.classList.contains('ar-icon') }));
+    const overlap = (r, o) => Math.max(0, Math.min(r.r, o.r) - Math.max(r.l, o.l)) * Math.max(0, Math.min(r.b, o.b) - Math.max(r.t, o.t));
+    pending.forEach((lb) => {
+      const g = svgEl('g', { class: `ar-lbl${lb.x ? ' x' : ''}` }, labels);
+      let w = 0, t, lines = [];
+      if (lb.text) {
+        // Long labels wrap onto two balanced lines.
+        const words = lb.text.split(' ');
+        let cut = 0;
+        if (lb.text.length > 20 && words.length > 1) {
+          let best = Infinity;
+          for (let i = 1; i < words.length; i++) {
+            const d = Math.abs(words.slice(0, i).join(' ').length - words.slice(i).join(' ').length);
+            if (d < best) { best = d; cut = i; }
+          }
+        }
+        lines = cut ? [words.slice(0, cut).join(' '), words.slice(cut).join(' ')] : [lb.text];
+        t = svgEl('text', { 'text-anchor': 'middle' }, g);
+        lines.forEach((line) => { svgEl('tspan', {}, t).textContent = line; });
+        w = Math.max(...[...t.children].map((ts) => ts.getComputedTextLength())) + 8;
+      }
+      const W = w + (lb.no ? (w ? 22 : 18) : 0);
+      const H = lines.length > 1 ? 30 : 16;
+      const segs = lb.pts.slice(1).map((p, i) => [lb.pts[i], p]);
+      const total = segs.reduce((n, [p, q]) => n + Math.hypot(q[0] - p[0], q[1] - p[1]), 0);
+      let best = null, run = 0;
+      segs.forEach(([p, q]) => {
+        const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
+        for (let d = 0; d <= len; d += 4) {
+          const at = run + d;
+          if (at < 14 || at > total - 14) continue;
+          const cx = p[0] + ((q[0] - p[0]) * d) / (len || 1), cy = p[1] + ((q[1] - p[1]) * d) / (len || 1);
+          const r = { l: cx - W / 2 - 2, r: cx + W / 2 + 2, t: cy - H / 2 - 3, b: cy + H / 2 + 3 };
+          const score = obstacles.reduce((n, o) => n + overlap(r, o) * (o.icon ? 4 : 1), 0) + Math.abs(at - total / 2) * 0.3;
+          if (!best || score < best.score) best = { cx, cy, r, score };
+        }
+        run += len;
+      });
+      if (!best) { const [p, q] = segs[Math.floor(segs.length / 2)]; best = { cx: (p[0] + q[0]) / 2, cy: (p[1] + q[1]) / 2 }; best.r = { l: best.cx - W / 2, r: best.cx + W / 2, t: best.cy - 9, b: best.cy + 9 }; }
+      const left = best.cx - W / 2;
+      if (lb.no) {
+        svgEl('circle', { cx: left + 9, cy: best.cy, r: 9, class: 'ar-no' }, g);
+        const n = svgEl('text', { x: left + 9, y: best.cy + 4, 'text-anchor': 'middle', class: 'ar-no-t' }, g);
+        n.textContent = lb.no;
+      }
+      if (t) {
+        const tx = left + W - w;
+        [...t.children].forEach((ts, i) => {
+          ts.setAttribute('x', tx + w / 2);
+          ts.setAttribute('y', best.cy + 4 + (lines.length > 1 ? (i ? 7 : -7) : 0));
+        });
+        g.insertBefore(svgEl('rect', { x: tx, y: best.cy - H / 2, width: w, height: H, rx: 4 }), t);
+      }
+      obstacles.push(best.r);
+    });
+    svg.appendChild(labels);
   }
-  function diagramHtml(q) {
-    if (!q.diagram) return '';
-    const label = 'Diagram: ' + q.diagram.map(diagramText).join('; ');
-    return `<figure class="diagram" role="img" aria-label="${esc(label)}">${q.diagram.map((row) => `<div class="dg-row">${diagramChainHtml(row)}</div>`).join('')}</figure>`;
-  }
-  // A row that doesn't fit across the explanation box is drawn top to bottom instead.
-  function fitDiagrams() {
-    app.querySelectorAll('.dg-row').forEach((row) => {
-      row.classList.remove('vertical');
-      row.classList.add('measure');
-      const tooWide = row.offsetWidth > row.parentElement.clientWidth;
-      row.classList.remove('measure');
-      row.classList.toggle('vertical', tooWide);
+  // Scales each architecture diagram down to fit its box; tapping a shrunken one opens it full size.
+  function fitArchs() {
+    app.querySelectorAll('.arch-wrap').forEach((wrap) => {
+      const arch = wrap.querySelector('.arch');
+      arch.style.transform = '';
+      drawArch(arch, QUESTIONS.get(wrap.dataset.q));
+      const s = Math.min(1, wrap.clientWidth / arch.offsetWidth);
+      arch.style.transform = s < 1 ? `scale(${s})` : '';
+      wrap.style.height = `${arch.offsetHeight * s + (s < 0.85 ? 34 : 0)}px`;
+      wrap.classList.toggle('shrunk', s < 0.85);
     });
   }
+  function openArch(wrap) {
+    const dlg = document.createElement('dialog');
+    dlg.className = 'ar-dialog';
+    dlg.innerHTML = `<div class="ar-dialog-bar"><strong>Diagram</strong><button type="button" class="ghost" data-close>Close</button></div><div class="ar-dialog-body"></div>`;
+    const arch = wrap.querySelector('.arch').cloneNode(true);
+    arch.style.transform = '';
+    dlg.querySelector('.ar-dialog-body').appendChild(arch);
+    document.body.appendChild(dlg);
+    dlg.addEventListener('close', () => dlg.remove());
+    dlg.querySelector('[data-close]').addEventListener('click', () => dlg.close());
+    dlg.showModal();
+    drawArch(arch, QUESTIONS.get(wrap.dataset.q));
+  }
+  document.addEventListener('click', (e) => {
+    const wrap = e.target.closest('.arch-wrap.shrunk');
+    if (wrap && !e.target.closest('dialog')) openArch(wrap);
+  });
 
   function explanationHtml(run, q) {
     const ok = isCorrect(run, q.id);
@@ -586,7 +762,7 @@
     return `<div class="explain ${ok ? 'good' : 'bad'}">
       <strong>${ok ? '✓ Correct' : answered ? '✗ Incorrect' : '– Not answered'}</strong> · Answer: ${letters}
       ${q.explanation ? `<p style="margin:6px 0 6px">${fmt(q.explanation)}</p>` : ''}
-      ${diagramHtml(q)}
+      ${q.arch ? archHtml(q) : ''}
       ${q.resource ? `<div class="small">Learn more: <a href="${esc(q.resource)}" target="_blank" rel="noopener">${esc(q.resource.replace(/^https:\/\//, ''))}</a></div>` : ''}
     </div>`;
   }
@@ -914,8 +1090,8 @@
   });
 
   window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
-  new MutationObserver(fitDiagrams).observe(app, { childList: true });
+  new MutationObserver(fitArchs).observe(app, { childList: true });
   let fitTimer;
-  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitDiagrams, 100); });
+  window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitArchs, 100); });
   render();
 })();

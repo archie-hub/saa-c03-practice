@@ -16,9 +16,16 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 **C.** SQS buffers messages so workers can process them at their own pace instead of dropping requests during a spike. Scale the worker fleet on `ApproximateNumberOfMessagesVisible` (backlog per instance) rather than on web-tier metrics.
 
-```diagram
-Web tier -(send order)-> *SQS queue | buffers the spike -(poll at own pace)-> Worker Auto Scaling group
-*SQS queue | buffers the spike ~(backlog per instance)~> Scaling policy -> Worker Auto Scaling group
+```arch
+users: users Black Friday shoppers
+cloud AWS Cloud
+  web: ec2 Web tier
+  sqs: sqs *SQS queue | buffers the spike
+  asg: asg Worker Auto Scaling group | scales on backlog per instance
+---
+1. users -> web : orders
+2. web -> sqs : send message
+3. asg -> sqs : poll at own pace
 ```
 
 Why not the others:
@@ -39,8 +46,17 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **B.** FIFO queues preserve order within a message group and deduplicate messages, so using the customer ID as the group ID keeps each customer's transactions in order without mixing them with other customers'.
 
-```diagram
-Transactions | all customers -> *SQS FIFO queue -> Group: customer A | in order & Group: customer B | in order -> Statement generator | exactly once
+```arch
+col
+  a: users Customer A transactions
+  b: users Customer B transactions
+cloud AWS Cloud
+  fifo: sqs *SQS FIFO queue | message group ID = customer ID
+  gen: lambda Statement generator | exactly once, in order per customer
+---
+a -> fifo : group A
+b -> fifo : group B
+fifo -> gen
 ```
 
 Why not the others:
@@ -61,8 +77,26 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **D.** SNS-to-SQS fan-out delivers one copy of the event to each queue, so billing, shipping, and analytics each consume independently and a backlog in one queue has no effect on the others.
 
-```diagram
-Order placed -> *SNS topic -> *SQS: billing & *SQS: shipping & *SQS: analytics | may lag -> Each consumer at its own pace
+```arch
+cloud AWS Cloud
+  pub: ec2 Order service
+  sns: sns *SNS topic | order placed
+  col
+    q1: sqs SQS: billing
+    q2: sqs SQS: shipping
+    q3: sqs SQS: analytics | may lag for hours
+  col
+    c1: lambda Billing
+    c2: ec2 Shipping
+    c3: emr Analytics
+---
+pub -> sns
+sns -> q1
+sns -> q2
+sns -> q3
+q1 -> c1
+q2 -> c2
+q3 -> c3
 ```
 
 Why not the others:
@@ -83,9 +117,15 @@ Resource: <https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html>
 
 **C.** After a message fails a set number of receives (`maxReceiveCount`), the redrive policy moves it to a DLQ instead of leaving it to block the head of the queue, so healthy messages keep flowing.
 
-```diagram
-SQS queue -(receive fails 5x)-> *Redrive policy | maxReceiveCount = 5 -> *Dead-letter queue | malformed order
-SQS queue -(valid orders keep flowing)-> Consumers
+```arch
+cloud AWS Cloud
+  q: sqs Orders queue | redrive policy, maxReceiveCount 5
+  col
+    c: ec2 Consumers | valid orders keep flowing
+    dlq: sqs *Dead-letter queue | malformed order parked
+---
+q -> c : receive
+q -> dlq : after 5 failed receives
 ```
 
 Why not the others:
@@ -106,9 +146,15 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **B.** If a message isn't deleted before the visibility timeout expires, SQS makes it visible to other consumers again, causing duplicate processing. Setting the timeout comfortably above the worst-case processing time prevents that.
 
-```diagram
-Worker 1 -(receive)-> SQS message | hidden for visibility timeout -(timeout > worst-case processing)-> Worker 1 deletes it
-SQS message | hidden for visibility timeout -x(timeout expired too early)-> Worker 2 | duplicate transcode
+```arch
+cloud AWS Cloud
+  q: sqs *SQS queue | visibility timeout above worst-case time
+  col
+    w1: ec2 Worker 1 | deletes message when done
+    w2: ec2 Worker 2
+---
+q -> w1 : receive, message hidden
+q -x-> w2 : still hidden, no duplicate
 ```
 
 Why not the others:
@@ -129,9 +175,12 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **C.** Long polling keeps the connection open for up to 20 seconds waiting for a message to arrive, instead of returning immediately with an empty response, which sharply cuts the number of empty polls and their cost.
 
-```diagram
-Consumer -(ReceiveMessage, WaitTimeSeconds=20)-> *Long polling | waits for a message -> Message as soon as one arrives
-Short polling -x(fewer of these)-> Empty responses | billed API calls
+```arch
+cloud AWS Cloud
+  c: ec2 Consumers
+  q: sqs *SQS queue | long polling, WaitTimeSeconds 20
+---
+c -> q : ReceiveMessage waits up to 20 s
 ```
 
 Why not the others:
@@ -152,9 +201,18 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **D.** Standard workflows can run for up to a year and are built for exactly this kind of long-running, auditable process with waits and human approval. Express workflows (wrong here) are for high-volume executions that complete within 5 minutes.
 
-```diagram
-Application submitted -> Credit check | retries -> Human approval -> *Wait for documents | up to months -> Decision
-*Step Functions Standard | runs up to 1 year, full history
+```arch
+app: user Applicant
+cloud AWS Cloud
+  sfn: stepfunctions *Step Functions Standard | runs up to 1 year
+  check: lambda Credit check | retries
+  appr: users Human approval
+  wait: scheduler Wait for documents | up to months
+---
+1. app -> sfn : start
+2. sfn -> check
+3. check -> appr : task token
+4. appr -> wait
 ```
 
 Why not the others:
@@ -175,9 +233,20 @@ Resource: <https://docs.aws.amazon.com/step-functions/latest/dg/welcome.html>
 
 **A.** EventBridge supports partner event sources like Zendesk alongside native AWS events, and its rules can filter and route based on event content to multiple targets.
 
-```diagram
-Zendesk partner source & AWS events | e.g. EC2 state change -> *EventBridge event bus -(rule: priority = high)-> On-call Lambda
-*EventBridge event bus -(other rules)-> Other targets
+```arch
+col
+  zd: internet Zendesk | partner event source
+  ec2: ec2 EC2 state changes
+cloud AWS Cloud
+  eb: eventbridge *EventBridge event bus
+  col
+    oncall: lambda On-call Lambda
+    other: sqs Other targets
+---
+zd -> eb
+ec2 -> eb
+eb -> oncall : rule: priority = high
+eb -> other : other rules
 ```
 
 Why not the others:
@@ -198,8 +267,15 @@ Resource: <https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.h
 
 **D.** Amazon MQ is a managed message broker for Apache ActiveMQ and RabbitMQ that supports standard protocols including AMQP and MQTT, letting existing clients connect with little to no code change.
 
-```diagram
-Existing clients | AMQP and MQTT -(no code changes)-> *Amazon MQ | managed ActiveMQ broker -> Order-routing consumers
+```arch
+onprem Existing clients | no code changes
+  cl: server AMQP and MQTT clients
+cloud AWS Cloud
+  mq: mq *Amazon MQ | managed ActiveMQ broker
+  cons: ec2 Order routing
+---
+1. cl -> mq : AMQP / MQTT
+2. mq -> cons
 ```
 
 Why not the others:
@@ -220,9 +296,17 @@ Resource: <https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/welcome.
 
 **B.** Keeping session state out of the instances and in a shared, external store lets any instance serve any request, so scaling in no longer logs users out.
 
-```diagram
-Users -> ALB -> EC2 1 & EC2 2 & EC2 3 -(read / write session)-> *Shared session store | ElastiCache or DynamoDB
-Scale-in removes EC2 3 -> Session survives in the shared store
+```arch
+users: users Users
+cloud AWS Cloud
+  vpc VPC
+    alb: alb ALB
+    asg: asg Auto Scaling group | any instance can serve
+    cache: elasticache *ElastiCache or DynamoDB | shared session store
+---
+1. users -> alb
+2. alb -> asg
+3. asg -> cache : read / write sessions
 ```
 
 Why not the others:
@@ -243,9 +327,16 @@ Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/elasticache-u
 
 **B.** This combination scales automatically from zero to very high request rates with nothing to provision or patch, unlike the other options, which all involve managing servers or fixed capacity.
 
-```diagram
-Clients | 0 to thousands per second -> *API Gateway -> *Lambda -> *DynamoDB | on-demand
-*Fully serverless | scales from zero, nothing to patch
+```arch
+clients: users Clients | zero to thousands per second
+cloud AWS Cloud | nothing to patch
+  api: apigw *API Gateway
+  fn: lambda *Lambda
+  ddb: dynamodb *DynamoDB | on-demand
+---
+1. clients -> api
+2. api -> fn
+3. fn -> ddb
 ```
 
 Why not the others:
@@ -266,9 +357,14 @@ Resource: <https://docs.aws.amazon.com/wellarchitected/latest/serverless-applica
 
 **A.** Fargate is a serverless compute engine for containers: ECS or EKS schedules the containers, and there are no EC2 instances for the customer to provision or manage.
 
-```diagram
-Container images -> *ECS or EKS | scheduling -> *AWS Fargate | serverless compute -> Running tasks / pods
-Your EC2 cluster -x(nothing to manage)-> Patching & Capacity planning
+```arch
+img: ecr Container images
+cloud AWS Cloud
+  ecs: ecs ECS or EKS | scheduling
+  fg: fargate *AWS Fargate | no instances to manage
+---
+1. img -> ecs
+2. ecs -> fg : run tasks / pods
 ```
 
 Why not the others:
@@ -289,9 +385,17 @@ Resource: <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Farga
 
 **A.** Usage plans tied to API keys let you set per-client throttling (rate and burst) limits, so one client's traffic spike can't consume the capacity other clients depend on.
 
-```diagram
-Client A -(API key A)-> *Usage plan | rate + burst limit per key -> API Gateway -> Backend
-Misbehaving client -x(429 over the limit)-> *Usage plan | rate + burst limit per key
+```arch
+col
+  a: user Client A | API key A
+  bad: user Noisy client | API key B
+cloud AWS Cloud
+  plan: apigw *Usage plan | rate and burst limit per key
+  be: lambda Backend
+---
+a -> plan
+bad -x-> plan : 429 over its limit
+plan -> be
 ```
 
 Why not the others:
@@ -312,8 +416,18 @@ Resource: <https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gate
 
 **B.** S3 event notifications trigger the Lambda function the moment an object is created, with no polling and no direct dependency between the upload path and the thumbnail generator.
 
-```diagram
-Upload -> S3 bucket -(ObjectCreated event)-> *Event notification or EventBridge -> *Lambda | thumbnail -> Thumbnails bucket
+```arch
+up: users Uploads
+cloud AWS Cloud
+  s3: s3 Images bucket
+  ev: eventbridge *Event notification | ObjectCreated
+  fn: lambda *Thumbnail Lambda
+  out: s3 Thumbnails
+---
+1. up -> s3
+2. s3 -> ev
+3. ev -> fn
+4. fn -> out
 ```
 
 Why not the others:
@@ -334,8 +448,15 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/EventNotificati
 
 **A.** RDS Proxy pools and shares a smaller number of underlying database connections across many Lambda invocations, and it also speeds up failover. A bigger instance class or more replicas don't solve a connection-exhaustion problem by themselves.
 
-```diagram
-Many Lambda invocations -> *RDS Proxy | connection pool -(few shared connections)-> RDS for MySQL
+```arch
+cloud AWS Cloud
+  fn: lambda Burst of Lambda invocations
+  vpc VPC
+    proxy: rdsproxy *RDS Proxy | connection pool
+    db: rds RDS for MySQL
+---
+1. fn -> proxy : many connections
+2. proxy -> db : few shared connections
 ```
 
 Why not the others:
@@ -356,9 +477,15 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html
 
 **C.** ElastiCache caches frequently read, rarely changed query results in memory, cutting both database load and response latency for hot reads.
 
-```diagram
-App -(1. read)-> *ElastiCache | hot items in memory -(2. on a miss)-> Database
-App -(cache hit, sub-millisecond)-> *ElastiCache | hot items in memory
+```arch
+cloud AWS Cloud
+  vpc VPC
+    app: ec2 Catalog app
+    cache: elasticache *ElastiCache | hot items in memory
+    db: rds Database
+---
+1. app -> cache : read, mostly hits
+2. cache -> db : on a miss
 ```
 
 Why not the others:
@@ -380,10 +507,14 @@ Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html>
 
 **C, E.** Loose coupling means components don't need to know each other's location or scaling state — they exchange work through queues or events, and each can scale on its own. Shared disks, hard-coded IPs, and cascading failures are all signs of tight coupling.
 
-```diagram
-Producer service -> *Queue or event bus -> Consumer service
-Producer service ~> *Scales on its own
-Consumer service ~> *Scales on its own
+```arch
+cloud AWS Cloud
+  asg1: asg Producers | scale on their own
+  q: sqs *Queue or event bus
+  asg2: asg Consumers | scale on their own
+---
+asg1 -> q : no hard-coded IPs
+q -> asg2
 ```
 
 Why not the others:
@@ -404,8 +535,17 @@ Resource: <https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar
 
 **A.** VPC Lattice provides application-layer networking — service discovery, routing, and IAM authorization — across VPCs and accounts, without peering connections or managing individual load balancers per service.
 
-```diagram
-[VPC, Account A: Service A] -(HTTP)-> *VPC Lattice service network | discovery, routing, IAM auth -> [VPC, Account B: Service B]
+```arch
+account Account A
+  vpc VPC A
+    a: ecs Service A
+lat: lattice *VPC Lattice service network | discovery, routing, IAM auth
+account Account B
+  vpc VPC B
+    b: ecs Service B
+---
+1. a -> lat : HTTP
+2. lat -> b
 ```
 
 Why not the others:
@@ -426,8 +566,14 @@ Resource: <https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice
 
 **D.** Target tracking scaling automatically creates and manages the underlying CloudWatch alarms to hold a metric like average CPU at a target value, which is far less configuration than step or simple scaling.
 
-```diagram
-Fleet CPU -> *Target tracking policy | target 50% CPU -(creates and manages alarms)-> Auto Scaling group | adds / removes instances
+```arch
+cloud AWS Cloud
+  cw: cloudwatch Average CPU
+  tt: asg *Target tracking policy | target 50%
+  asg: ec2 Auto Scaling group
+---
+cw -> tt : alarms managed for you
+tt -> asg : add / remove instances
 ```
 
 Why not the others:
@@ -448,9 +594,17 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-targ
 
 **B.** Because the traffic pattern is predictable, scheduled or predictive scaling can add capacity before 8 AM, and a warm pool keeps pre-initialized instances ready so they don't need the full 10-minute boot-and-warm-up cycle when traffic arrives.
 
-```diagram
-*Scheduled or predictive scaling | before 8 AM -> Auto Scaling group -> In service at 8 AM
-*Warm pool | pre-initialized instances -(skip 10-minute warm-up)-> Auto Scaling group
+```arch
+cloud AWS Cloud
+  col
+    sched: scheduler *Scheduled or predictive scaling | before 8 AM
+    warm: ec2 *Warm pool | pre-initialized instances
+  asg: asg Auto Scaling group
+  alb: alb In service at 8 AM
+---
+sched -> asg : raise capacity
+warm -> asg : skip 10-min warm-up
+asg -> alb
 ```
 
 Why not the others:
@@ -471,8 +625,13 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 
 **C.** Amazon MSK runs Apache Kafka for you, handling the brokers and their patching, and existing applications keep using the standard Kafka APIs and client libraries without code changes.
 
-```diagram
-Producers | standard Kafka clients -(no code changes)-> *Amazon MSK | AWS manages brokers -> Consumers | standard Kafka clients
+```arch
+onprem Existing producers and consumers
+  p: server Kafka clients | no code changes
+cloud AWS Cloud
+  msk: msk *Amazon MSK | AWS runs the brokers
+---
+p <-> msk : standard Kafka APIs
 ```
 
 Why not the others:
@@ -493,9 +652,20 @@ Resource: <https://docs.aws.amazon.com/msk/latest/developerguide/what-is-msk.htm
 
 **A.** AppSync is a managed GraphQL service that can combine several data sources behind one API, and its subscriptions push updates to connected clients in real time over WebSockets that AppSync manages.
 
-```diagram
-Mobile & Web clients -(GraphQL + subscriptions)-> *AWS AppSync -> DynamoDB & Lambda services
-Score change -> *AWS AppSync -(push over managed WebSockets)-> Subscribed clients
+```arch
+col
+  m: mobile Mobile app
+  w: client Web app
+cloud AWS Cloud
+  as: appsync *AWS AppSync | GraphQL, managed WebSockets
+  col
+    ddb: dynamodb DynamoDB
+    fn: lambda Lambda services
+---
+m <-> as : subscriptions push updates
+w <-> as
+as -> ddb
+as -> fn
 ```
 
 Why not the others:
@@ -516,8 +686,14 @@ Resource: <https://docs.aws.amazon.com/appsync/latest/devguide/what-is-appsync.h
 
 **D.** A delay queue hides every new message from consumers for the configured delay, up to 15 minutes, so each confirmation becomes visible only 5 minutes after it's sent.
 
-```diagram
-Checkout -> *SQS delay queue | DelaySeconds = 300 -(visible after 5 minutes)-> Email sender
+```arch
+cloud AWS Cloud
+  shop: ec2 Checkout
+  q: sqs *SQS delay queue | DelaySeconds 300
+  mail: lambda Email sender
+---
+1. shop -> q : confirmation
+2. q -> mail : visible after 5 min
 ```
 
 Why not the others:
@@ -538,8 +714,19 @@ Resource: <https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloper
 
 **B.** An SNS FIFO topic delivering to SQS FIFO queues keeps strict ordering within each message group (such as the account ID) and deduplicates messages, while giving each system its own queue to consume at its own pace.
 
-```diagram
-Trade events -> *SNS FIFO topic | group = account ID -> *SQS FIFO: settlement & *SQS FIFO: risk & *SQS FIFO: reporting
+```arch
+cloud AWS Cloud
+  pub: ec2 Trade events
+  sns: sns *SNS FIFO topic | group = account ID
+  col
+    q1: sqs SQS FIFO: settlement
+    q2: sqs SQS FIFO: risk
+    q3: sqs SQS FIFO: reporting
+---
+pub -> sns
+sns -> q1
+sns -> q2
+sns -> q3
 ```
 
 Why not the others:
@@ -560,9 +747,17 @@ Resource: <https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html>
 
 **A.** Express workflows are built for high-volume, short-lived event processing lasting up to 5 minutes, and they're billed by number of runs and duration. Their at-least-once execution model is fine because the steps are idempotent.
 
-```diagram
-Device readings | 50,000 per second -> [Step Functions Express workflow: Validate -> Enrich -> Write] -> Database
-*Express workflow | at-least-once, up to 5 min, billed per run
+```arch
+dev: client Device readings | 50,000 per second
+cloud AWS Cloud
+  group *Step Functions Express workflow | at-least-once, under 5 min
+    v: lambda Validate
+    e: lambda Enrich
+    w: dynamodb Write
+---
+dev -> v
+v -> e
+e -> w
 ```
 
 Why not the others:
@@ -583,8 +778,18 @@ Resource: <https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflo
 
 **C.** API Gateway can send each request straight to an SQS queue with no code in the request path, so every submission is accepted immediately. A Lambda function then reads the queue at a controlled rate, protecting the database.
 
-```diagram
-Burst of submissions -> API Gateway -(direct integration, no code)-> *SQS queue -(steady rate)-> Lambda -> Database
+```arch
+users: users Burst of submissions
+cloud AWS Cloud
+  api: apigw API Gateway | direct integration
+  q: sqs *SQS queue
+  fn: lambda Lambda | steady rate
+  db: rds Database
+---
+1. users -> api
+2. api -> q : no code in path
+3. fn -> q : poll
+4. fn -> db
 ```
 
 Why not the others:
@@ -605,8 +810,21 @@ Resource: <https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api
 
 **B.** DynamoDB Streams records every item change, including the old and new values, and can trigger a Lambda function automatically, so downstream actions run without changing the writing application or polling the table.
 
-```diagram
-Tier update -> DynamoDB table -(item change)-> *DynamoDB Streams | old + new image -> *Lambda -> Email & Analytics store
+```arch
+cloud AWS Cloud
+  app: ec2 Existing app | unchanged
+  ddb: dynamodb Customers table
+  st: dynamodb *DynamoDB Streams | old and new image
+  fn: lambda *Lambda
+  col
+    mail: sns Email
+    an: redshift Analytics store
+---
+app -> ddb : update tier
+ddb -> st
+st -> fn
+fn -> mail
+fn -> an
 ```
 
 Why not the others:
@@ -627,9 +845,15 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Stre
 
 **D.** Reserved concurrency caps how many executions of one function can run at the same time, so the function never opens more than 20 connections. It also sets aside that capacity without limiting other functions.
 
-```diagram
-Upload burst -> *Lambda | reserved concurrency = 20 -(at most 20 connections)-> On-premises database
-Other functions -> Unreserved account concurrency | still scale
+```arch
+up: users Upload burst
+cloud AWS Cloud
+  fn: lambda *File processor | reserved concurrency 20
+onprem On premises
+  db: server Legacy database | max 20 connections
+---
+up -> fn
+fn -> db : at most 20 at once
 ```
 
 Why not the others:
@@ -650,8 +874,18 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrenc
 
 **C.** EventBridge Scheduler can create millions of one-time or recurring schedules, each invoking a target such as a Lambda function at a precise time, without running any servers.
 
-```diagram
-*EventBridge Scheduler -> Schedule: customer 1 at its date & Schedule: customer 2 at its date & Millions more -> Lambda | send reminder
+```arch
+cloud AWS Cloud
+  sch: scheduler *EventBridge Scheduler | one schedule per reminder
+  col
+    s1: scheduler Customer 1 | own date
+    s2: scheduler Customer 2 | own date
+  fn: lambda Send reminder
+---
+sch -> s1
+sch -> s2
+s1 -> fn
+s2 -> fn
 ```
 
 Why not the others:
@@ -672,8 +906,14 @@ Resource: <https://docs.aws.amazon.com/scheduler/latest/UserGuide/what-is-schedu
 
 **A.** Lambda destinations send a record of each asynchronous invocation, including the request, response and error details, to a target such as an SQS queue when it succeeds or, as here, when it finally fails after retries.
 
-```diagram
-S3 event -(asynchronous invoke)-> Lambda -(fails after retries)-> *On-failure destination -> SQS queue | event + error details
+```arch
+cloud AWS Cloud
+  s3: s3 S3 bucket
+  fn: lambda Image processor
+  dest: sqs *On-failure destination | SQS queue
+---
+1. s3 -> fn : asynchronous invoke
+2. fn -> dest : event and error after retries
 ```
 
 Why not the others:
@@ -698,9 +938,17 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-
 
 **B.** Multi-AZ keeps a synchronous standby in a different AZ and fails over to it automatically, typically within 60–120 seconds, while the database's DNS endpoint stays the same.
 
-```diagram
-App -(same DNS endpoint)-> [AZ a: Primary DB] -(synchronous replication)-> [AZ b: *Multi-AZ standby]
-AZ a fails -(automatic failover, ~1-2 min)-> *Multi-AZ standby | becomes primary
+```arch
+app: ec2 Payment app | one DNS endpoint
+cloud AWS Cloud
+  region Region
+    az AZ A
+      db: rds *Primary
+    az AZ B
+      sb: rds *Multi-AZ standby | takes over automatically
+---
+app -> db : writes
+db -> sb : synchronous replication
 ```
 
 Why not the others:
@@ -721,9 +969,22 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.Multi
 
 **A.** Read replicas use asynchronous replication and are meant to offload read traffic; Multi-AZ maintains a synchronous standby purely for high availability and automatic failover. (A Multi-AZ DB cluster deployment, with two readable standbys, is the exception that can also serve reads.)
 
-```diagram
-Writes -> Primary -(synchronous)-> *Multi-AZ standby | high availability, no reads
-Primary ~(asynchronous)~> *Read replicas | scale reads -> Reporting queries
+```arch
+app: ec2 App
+cloud AWS Cloud
+  region Region
+    az AZ A
+      db: rds Primary
+    col
+      az AZ B
+        sb: rds *Multi-AZ standby | HA only
+      az AZ C
+        rr: rds *Read replica | scales reads
+---
+1. app -> db : writes
+db -> sb : synchronous
+db ~> rr : asynchronous
+app -> rr : reads
 ```
 
 Why not the others:
@@ -744,9 +1005,20 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.
 
 **B.** Spreading instances across at least two AZs in an Auto Scaling group means the loss of one AZ still leaves capacity running in another, which two instances in a single AZ can't provide no matter how many load balancers front them.
 
-```diagram
-Users -> ALB -> [Auto Scaling group across AZs: EC2 instances | AZ a & EC2 instances | AZ b]
-AZ a fails -> Instances in AZ b keep serving -> ASG replaces capacity
+```arch
+users: users Users
+cloud AWS Cloud
+  vpc VPC
+    alb: alb ALB
+    group Auto Scaling group [col]
+      az AZ A
+        i1: ec2 *Instances
+      az AZ B
+        i2: ec2 *Instances
+---
+1. users -> alb
+2. alb -> i1
+2. alb -> i2
 ```
 
 Why not the others:
@@ -767,9 +1039,14 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 
 **C.** Ordered roughly by cost and by RTO/RPO: backup and restore (hours), pilot light (tens of minutes), warm standby (minutes), then multi-site active/active (near zero) — backup and restore is the cheapest option that still meets an hours-level target.
 
-```diagram
-[Primary Region: Workload] -(regular backups)-> [DR Region: *Backups only]
-Disaster -(restore, hours)-> New environment | cheapest
+```arch
+cloud AWS Cloud
+  region Primary Region
+    app: ec2 Workload
+  region DR Region
+    bk: backup *Backups only | restore in hours
+---
+app -> bk : regular backups
 ```
 
 Why not the others:
@@ -790,9 +1067,17 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 
 **C.** In pilot light, the critical data (like a database) is kept continuously up to date in the DR Region, while the compute layer sits idle until it's needed and is then quickly launched.
 
-```diagram
-[Primary Region: App servers -> Database] ~(continuous replication)~> [DR Region: *Replica database | always on & AMIs | servers off]
-Disaster -(launch from AMIs)-> App servers in DR Region
+```arch
+cloud AWS Cloud
+  region Primary Region [col]
+    app: ec2 App servers
+    db: rds Database
+  region DR Region [col]
+    ami: ec2 AMIs | servers off
+    rep: rds *Replica database | always running
+---
+db ~> rep : continuous replication
+ami ~> rep : launched in a disaster
 ```
 
 Why not the others:
@@ -813,9 +1098,14 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 
 **D.** Aurora Global Database typically replicates across Regions in under a second, and a secondary Region's cluster usually takes over as the primary within a few minutes, which snapshot copies or a single-Region Multi-AZ cluster can't match.
 
-```diagram
-[Primary Region: Aurora writer cluster] -(storage replication, under 1 second)-> [Secondary Region: *Aurora read-only cluster]
-Primary Region outage -(promote in minutes)-> *Aurora read-only cluster | becomes primary
+```arch
+cloud AWS Cloud
+  region Primary Region
+    w: aurora Aurora writer cluster
+  region Secondary Region
+    r: aurora *Aurora secondary cluster | promoted in minutes
+---
+w -> r : storage replication, under 1 s
 ```
 
 Why not the others:
@@ -836,9 +1126,20 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-g
 
 **D.** DynamoDB global tables replicate a table across chosen Regions and accept writes in any of them (multi-active), which is exactly what's needed for low-latency, multi-Region writes — a single-Region table, even with DAX, still funnels every write through one Region.
 
-```diagram
-Users in Europe -(local write)-> [eu-west-1: *Global table replica] ~(replicates)~> [us-east-1: *Global table replica]
-Users in America -(local write)-> [us-east-1: *Global table replica] ~(replicates)~> [ap-southeast-1: *Global table replica]
+```arch
+col
+  eu: users Users in Europe
+  us: users Users in America
+cloud AWS Cloud
+  col
+    region eu-west-1
+      t1: dynamodb *Global table replica
+    region us-east-1
+      t2: dynamodb *Global table replica
+---
+eu -> t1 : local write
+us -> t2 : local write
+t1 <-> t2 : multi-active replication
 ```
 
 Why not the others:
@@ -859,9 +1160,19 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Glob
 
 **C.** Failover routing designates a primary and a secondary record; Route 53 monitors the primary's health check and automatically starts answering with the secondary the moment the primary is unhealthy.
 
-```diagram
-Users -> *Route 53 failover record -(primary healthy)-> [us-east-1: Primary stack]
-*Route 53 failover record -(health check fails)-> [us-west-2: Standby stack]
+```arch
+users: users Users
+r53: route53 *Route 53 failover record | health check on primary
+cloud AWS Cloud
+  col
+    region us-east-1
+      p: alb Primary stack
+    region us-west-2
+      s: alb Standby stack
+---
+1. users -> r53
+r53 -> p : healthy
+r53 ~> s : primary unhealthy
 ```
 
 Why not the others:
@@ -882,8 +1193,22 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failove
 
 **B.** Latency-based routing answers with the Region that gives the lowest measured network latency for that resolver, which is a better fit here than geolocation routing (based on the viewer's location, not measured latency).
 
-```diagram
-Viewer DNS query -> *Route 53 latency record | lowest measured latency -> Region A & Region B & Region C
+```arch
+viewer: users Viewer
+r53: route53 *Route 53 latency record
+cloud AWS Cloud
+  col
+    region Region A
+      a: cloudfront Stack A
+    region Region B
+      b: cloudfront Stack B | lowest latency
+    region Region C
+      c: cloudfront Stack C
+---
+viewer -> r53 : DNS query
+r53 -> b : answer
+r53 ~> a
+r53 ~> c
 ```
 
 Why not the others:
@@ -904,9 +1229,19 @@ Resource: <https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-pol
 
 **D.** Global Accelerator provides static anycast IP addresses that don't change, and it reroutes traffic to a healthy endpoint group within seconds of a health check failing — and it works for TCP/UDP, unlike CloudFront, which is HTTP(S)-focused.
 
-```diagram
-Players | allow-listed IPs -(TCP / UDP)-> *Global Accelerator | 2 static anycast IPs -> Endpoint group | Region 1 & Endpoint group | Region 2
-*Global Accelerator | 2 static anycast IPs -(health check fails, seconds)-> Healthy Region
+```arch
+players: users Players | firewalls allow-list 2 IPs
+ga: accelerator *Global Accelerator | static anycast IPs
+cloud AWS Cloud
+  col
+    region Region 1
+      e1: nlb Endpoint group
+    region Region 2
+      e2: nlb Endpoint group
+---
+1. players -> ga : TCP / UDP
+2. ga -> e1 : healthy
+ga ~> e2 : failover in seconds
 ```
 
 Why not the others:
@@ -927,8 +1262,21 @@ Resource: <https://docs.aws.amazon.com/global-accelerator/latest/dg/what-is-glob
 
 **B.** Regional EFS is a shared, POSIX-compliant file system that can be mounted concurrently from instances in multiple AZs and stores data redundantly across AZs, unlike EFS One Zone, instance store, or EBS Multi-Attach (which is also limited to a single AZ).
 
-```diagram
-EC2 | AZ a & EC2 | AZ b & EC2 | AZ c -(NFS, concurrent)-> *Amazon EFS Regional | stored across AZs
+```arch
+cloud AWS Cloud
+  region Region
+    col
+      az AZ A
+        a: ec2 Render nodes
+      az AZ B
+        b: ec2 Render nodes
+      az AZ C
+        c: ec2 Render nodes
+    efs: efs *Amazon EFS | Regional, data across AZs
+---
+a -> efs : NFS
+b -> efs : NFS
+c -> efs : NFS
 ```
 
 Why not the others:
@@ -949,8 +1297,16 @@ Resource: <https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html>
 
 **D.** EC2 status checks only detect infrastructure-level problems with the instance, not application-level failures. ELB health checks let the load balancer's health check (which can probe an actual application endpoint) drive instance replacement instead.
 
-```diagram
-ALB health check -(GET /health returns 500)-> Instance | EC2 status checks OK -> *ELB health checks on the ASG -> Instance replaced
+```arch
+cloud AWS Cloud
+  vpc VPC
+    alb: alb ALB | health check /health
+    asg Auto Scaling group | ELB health checks on
+      bad: ec2 Instance returning 500s
+      new: ec2 Replacement
+---
+alb -x-> bad : unhealthy
+bad -> new : replaced
 ```
 
 Why not the others:
@@ -971,9 +1327,16 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 
 **A.** Cross-Region Replication requires versioning on both the source and destination buckets, and Replication Time Control adds the 15-minute, 99.99% SLA the requirement calls for.
 
-```diagram
-[us-east-1: Source bucket | versioning on] -> *Cross-Region Replication | with RTC -> [us-west-2: Destination bucket | versioning on]
-*Replication Time Control -> 99.99% of objects copied within 15 minutes
+```arch
+cloud AWS Cloud
+  region us-east-1
+    src: s3 Source bucket | versioning on
+  crr: s3 *Cross-Region Replication | with RTC: 99.99% in 15 min
+  region us-west-2
+    dst: s3 Destination bucket | versioning on
+---
+src -> crr
+crr -> dst
 ```
 
 Why not the others:
@@ -994,9 +1357,16 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.htm
 
 **A.** AWS DRS keeps servers continuously replicated for ongoing recovery readiness and supports failback. Application Migration Service uses similar underlying replication technology but is designed for one-time lift-and-shift migrations, not standing DR.
 
-```diagram
-On-premises servers -(continuous block-level replication)-> *AWS DRS | staging area -(launch in minutes)-> Recovery EC2 instances
-Recovery EC2 instances ~(failback when fixed)~> On-premises servers
+```arch
+onprem Data center
+  srv: server Servers | replication agent
+cloud AWS Cloud
+  drs: drs *Elastic Disaster Recovery | staging area
+  rec: ec2 Recovery instances | launched in minutes
+---
+1. srv -> drs : continuous block replication
+2. drs -> rec : recover
+rec ~> srv : failback
 ```
 
 Why not the others:
@@ -1017,10 +1387,26 @@ Resource: <https://docs.aws.amazon.com/drs/latest/userguide/what-is-drs.html>
 
 **B.** A standard (zonal) NAT gateway lives entirely in one AZ, so instances in other AZs that route through it lose outbound connectivity if that AZ is impaired. The standard fix is one NAT gateway per AZ, with each AZ's private subnets routing to the NAT gateway in the same AZ. (A regional NAT gateway is a newer alternative that spans AZs automatically.)
 
-```diagram
-[AZ a: Private subnet -> *NAT gateway a] -> Internet
-[AZ b: Private subnet -> *NAT gateway b] -> Internet
-[AZ c: Private subnet -> *NAT gateway c] -> Internet
+```arch
+cloud AWS Cloud
+  vpc VPC [col]
+    igw: igw Internet gateway
+    row
+      az AZ A [col]
+        public Public subnet A
+          n1: nat *NAT gateway A
+        private Private subnet A
+          p1: ec2 Instances
+      az AZ B [col]
+        public Public subnet B
+          n2: nat *NAT gateway B
+        private Private subnet B
+          p2: ec2 Instances
+---
+p1 -> n1 : same-AZ route
+p2 -> n2 : same-AZ route
+n1 -> igw
+n2 -> igw
 ```
 
 Why not the others:
@@ -1041,9 +1427,19 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-basics.h
 
 **D.** The most resilient option is a second Direct Connect connection at a separate location, but since that's ruled out, a Site-to-Site VPN as a backup path is the standard lower-cost way to add resiliency to a single DX link.
 
-```diagram
-On-premises -(primary path)-> Direct Connect | one location -> VPC
-On-premises ~(backup path over the internet)~> *Site-to-Site VPN -> VPC
+```arch
+onprem Data center
+  cgw: cgw Customer gateway
+cloud AWS Cloud
+  col
+    dx: dx Direct Connect | primary
+    vpn: vpn *Site-to-Site VPN | backup
+  vgw: vgw Virtual private gateway
+---
+cgw -> dx
+cgw ~> vpn : over internet
+dx -> vgw
+vpn -> vgw
 ```
 
 Why not the others:
@@ -1064,9 +1460,16 @@ Resource: <https://docs.aws.amazon.com/directconnect/latest/UserGuide/resiliency
 
 **C.** The Aurora cluster storage volume itself maintains six copies across three AZs and self-heals, tolerating the loss of up to two copies for writes and three for reads — this is separate from Aurora Replicas, Backtrack, or Serverless scaling.
 
-```diagram
-Writer & Aurora Replicas -> *Aurora cluster volume | 6 copies across 3 AZs, self-healing
-*Aurora cluster volume | 6 copies across 3 AZs, self-healing -> AZ a: 2 copies & AZ b: 2 copies & AZ c: 2 copies
+```arch
+cloud AWS Cloud
+  region Region
+    col
+      w: aurora Writer
+      r: aurora Aurora Replicas
+    vol: aurora *Cluster volume | 6 copies across 3 AZs, self-healing
+---
+w -> vol
+r -> vol
 ```
 
 Why not the others:
@@ -1087,9 +1490,17 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.O
 
 **D.** AWS FIS runs controlled chaos-engineering experiments, such as simulating AZ impairment or terminating instances, so teams can observe real behavior under failure conditions rather than just reviewing static findings or traces.
 
-```diagram
-*FIS experiment template -(inject)-> AZ impairment & Instance terminations -> Production-like workload -> Observe real behavior
-Stop condition | CloudWatch alarm -x(halts experiment)-> *FIS experiment template
+```arch
+cloud AWS Cloud
+  fis: fis *Fault Injection Service | experiment template
+  col
+    az: ec2 Simulated AZ impairment
+    term: asg Instance terminations
+  cw: cloudwatch Stop condition alarm
+---
+fis -> az : inject
+fis -> term : inject
+cw ~> fis : halt if needed
 ```
 
 Why not the others:
@@ -1110,9 +1521,16 @@ Resource: <https://docs.aws.amazon.com/fis/latest/userguide/what-is.html>
 
 **C.** PITR continuously backs up the table and can restore it to any second within the retention window (1–35 days, 35 by default) — precise enough to restore to 2:16 PM, which daily snapshots can't do.
 
-```diagram
-Bad script at 2:17 PM -> DynamoDB table | overwritten items
-*PITR | continuous backups, 35 days -(restore to 2:16 PM)-> New restored table
+```arch
+script: user Bad script at 2:17 PM
+cloud AWS Cloud
+  ddb: dynamodb DynamoDB table
+  pitr: backup *Point-in-time recovery | any second, 35 days
+  new: dynamodb Restored table | as of 2:16 PM
+---
+script -> ddb : overwrites
+ddb -> pitr : continuous backups
+pitr -> new : restore
 ```
 
 Why not the others:
@@ -1133,9 +1551,18 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Poin
 
 **A.** X-Ray traces a request end-to-end across services and builds a service map showing where time is spent and where errors occur, which VPC Flow Logs, Config, and CloudTrail aren't designed to do.
 
-```diagram
-Request -> Service A -> Service B -> Service C | slow
-Service A & Service B & Service C -(trace segments)-> *AWS X-Ray -> Service map | latency and errors per hop
+```arch
+user: user Request
+cloud AWS Cloud
+  a: ecs Service A
+  b: ecs Service B
+  c: ecs Service C | slow
+  xr: xray *AWS X-Ray | service map
+---
+user -> a
+a -> b
+b -> c
+c ~> xr : trace segments
 ```
 
 Why not the others:
@@ -1156,9 +1583,19 @@ Resource: <https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html>
 
 **D.** ARC routing controls are on/off switches, backed by a highly available data plane spread across five Regions, that shift traffic between Regional replicas through Route 53 health checks. Safety rules help prevent mistakes such as turning off every Region.
 
-```diagram
-Operator -(flip switch)-> *ARC routing control | highly available data plane -> Route 53 health checks -> Region A off & Region B on
-*ARC routing control | highly available data plane -x(safety rule)-> All Regions off
+```arch
+op: user Operator
+arc: arc *ARC routing control | highly available data plane
+cloud AWS Cloud
+  col
+    region Region A | impaired
+      a: alb Stack A | off
+    region Region B
+      b: alb Stack B | on
+---
+1. op -> arc : flip switch
+arc ~> a : traffic off
+arc -> b : traffic on
 ```
 
 Why not the others:
@@ -1179,9 +1616,22 @@ Resource: <https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.htm
 
 **B.** Resilience Hub assesses an application's resources against a resiliency policy that sets RTO and RPO targets, estimates whether they're met for disruptions such as AZ or Region failure, and recommends improvements.
 
-```diagram
-*Resiliency policy | RTO 1 h, RPO 15 min -> *Resilience Hub assessment -> EC2 & RDS & DynamoDB & S3
-*Resilience Hub assessment -> Met or not per disruption & Recommendations
+```arch
+cloud AWS Cloud
+  col
+    pol: resiliencehub Resiliency policy | RTO 1 h, RPO 15 min
+    rh: resiliencehub *Resilience Hub assessment | gaps and recommendations
+  col
+    ec2: ec2 EC2
+    rds: rds RDS
+    ddb: dynamodb DynamoDB
+    s3: s3 S3
+---
+pol -> rh : targets
+rh -> ec2 : assess
+rh -> rds
+rh -> ddb
+rh -> s3
 ```
 
 Why not the others:
@@ -1202,9 +1652,22 @@ Resource: <https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.h
 
 **C.** A Multi-Region Access Point gives one global endpoint for buckets in several Regions. It routes requests over the AWS network to the lowest-latency bucket and can fail over to another Region's bucket.
 
-```diagram
-Apps worldwide -> *Multi-Region Access Point | one global endpoint -(lowest latency)-> Bucket: Region 1 & Bucket: Region 2 & Bucket: Region 3
-*Multi-Region Access Point | one global endpoint -(Region unavailable)-> Another Region's bucket
+```arch
+apps: users Apps worldwide
+mrap: s3 *Multi-Region Access Point | one global endpoint
+cloud AWS Cloud
+  col
+    region Region 1
+      b1: s3 Bucket | closest
+    region Region 2
+      b2: s3 Bucket
+    region Region 3
+      b3: s3 Bucket
+---
+apps -> mrap
+mrap -> b1 : lowest latency
+mrap ~> b2 : failover
+mrap ~> b3
 ```
 
 Why not the others:
@@ -1225,8 +1688,17 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAcce
 
 **A.** An origin group has a primary and a secondary origin. When the primary returns specified HTTP error codes or times out, CloudFront automatically retries the request against the secondary origin.
 
-```diagram
-Viewer -> CloudFront -> [Origin group: *Primary origin | us-east-1 bucket ~(on 5xx or timeout)~> *Secondary origin | us-west-2 bucket]
+```arch
+viewer: users Viewers
+cloud AWS Cloud
+  cf: cloudfront CloudFront
+  group *Origin group [col]
+    p: s3 Primary | us-east-1 bucket
+    s: s3 Secondary | us-west-2 bucket
+---
+viewer -> cf
+cf -> p
+cf ~> s : on 5xx or timeout
 ```
 
 Why not the others:
@@ -1247,8 +1719,14 @@ Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/hi
 
 **D.** EFS replication keeps a read-only copy of a file system in another Region (or the same Region) up to date automatically. After the initial copy, it maintains an RPO of 15 minutes for most file systems.
 
-```diagram
-[eu-west-1: EFS file system] -> *EFS replication | RPO about 15 min -> [eu-central-1: Read-only replica file system]
+```arch
+cloud AWS Cloud
+  region eu-west-1
+    a: efs EFS file system
+  region eu-central-1
+    b: efs *Replica file system | read-only
+---
+a -> b : EFS replication, RPO about 15 min
 ```
 
 Why not the others:
@@ -1269,9 +1747,20 @@ Resource: <https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html>
 
 **B.** Warm standby keeps a scaled-down but fully working copy of the production environment running in the recovery Region, so recovery means scaling it up. That gives an RTO measured in minutes.
 
-```diagram
-[Primary Region: Full production] ~(continuous replication)~> [DR Region: *Scaled-down working copy | serves test traffic]
-Disaster -> Scale up DR Region -> Redirect users
+```arch
+users: users Users
+cloud AWS Cloud
+  region Primary Region
+    p: asg Full production
+    pdb: rds Database
+  region DR Region
+    d: asg *Scaled-down copy | running, scale up in disaster
+    ddb: rds Replica
+---
+users -> p
+p -> pdb
+pdb ~> ddb : continuous replication
+d -> ddb
 ```
 
 Why not the others:
@@ -1292,9 +1781,19 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 
 **C.** Multi-site active/active (active/active) runs the full workload in multiple Regions, all serving traffic, so losing a Region means only redirecting its users. It gives the lowest RTO and RPO, near zero, at the highest cost.
 
-```diagram
-Users -> Route 53 -> *Region A | full production, live & *Region B | full production, live
-Region A fails -> Users go to Region B | near-zero RTO and RPO
+```arch
+users: users Users
+r53: route53 Route 53
+cloud AWS Cloud
+  col
+    region Region A
+      a: asg *Full production | live traffic
+    region Region B
+      b: asg *Full production | live traffic
+---
+users -> r53
+r53 -> a
+r53 -> b
 ```
 
 Why not the others:
@@ -1315,9 +1814,17 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-work
 
 **A.** When the writer fails, Aurora automatically promotes one of the Aurora Replicas, based on its priority tier, to be the new writer. The cluster endpoint always points to the current writer, so the application reconnects without configuration changes.
 
-```diagram
-App -(cluster endpoint)-> Writer | fails
-*Aurora promotes replica | by priority tier -> New writer -(cluster endpoint now points here)-> App reconnects
+```arch
+app: ec2 App
+cloud Aurora cluster
+  ep: aurora Cluster endpoint | always points to the writer
+  col
+    w: aurora Old writer | failed
+    r: aurora *Promoted replica | chosen by priority tier
+---
+app -> ep
+ep -x-> w : before failure
+ep -> r : after failover
 ```
 
 Why not the others:
@@ -1338,8 +1845,16 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts
 
 **D.** RDS can replicate automated backups (snapshots and transaction logs) to another Region, so the database can be restored to a point in time there, without scripts to copy snapshots.
 
-```diagram
-[us-east-1: RDS for PostgreSQL] -(backups + logs)-> *Cross-Region automated backups -> [us-west-2: Point-in-time restore]
+```arch
+cloud AWS Cloud
+  region us-east-1
+    db: rds RDS for PostgreSQL
+  region us-west-2
+    bk: backup *Replicated automated backups
+    rest: rds Point-in-time restore
+---
+db -> bk : snapshots and logs
+bk -> rest
 ```
 
 Why not the others:
@@ -1360,9 +1875,19 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Replicate
 
 **B.** Multivalue answer routing returns up to eight healthy records for each query, chosen at random, and leaves out any record whose health check fails. It isn't a substitute for a load balancer, but it adds some availability at low cost.
 
-```diagram
-Client DNS query -> *Route 53 multivalue answer | up to 8 healthy records -> EC2 IP 1 & EC2 IP 2 & EC2 IP 3
-Unhealthy instance -x(left out of answers)-> *Route 53 multivalue answer | up to 8 healthy records
+```arch
+client: client Client
+r53: route53 *Multivalue answer | up to 8 healthy records
+cloud AWS Cloud
+  col
+    e1: ec2 EC2 IP 1
+    e2: ec2 EC2 IP 2
+    e3: ec2 EC2 IP 3 | unhealthy
+---
+client -> r53 : DNS query
+r53 -> e1
+r53 -> e2
+r53 -x-> e3 : left out
 ```
 
 Why not the others:

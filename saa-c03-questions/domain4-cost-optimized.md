@@ -16,8 +16,14 @@ Guide page: <https://docs.aws.amazon.com/aws-certification/latest/solutions-arch
 
 **B.** Standard retrieval from Deep Archive completes within 12 hours, which meets the requirement at the lowest storage cost for data that's rarely needed after 90 days.
 
-```diagram
-*S3 Standard | days 0-30 -(lifecycle: day 30)-> *Standard-IA | days 30-90 -(lifecycle: day 90)-> *Glacier Deep Archive | to year 7, restore within 12 h
+```arch
+cloud S3 lifecycle
+  std: s3 S3 Standard | days 0-30
+  ia: s3 *Standard-IA | days 30-90
+  da: glacier *Glacier Deep Archive | to year 7, restore within 12 h
+---
+std -> ia : lifecycle, day 30
+ia -> da : lifecycle, day 90
 ```
 
 Why not the others:
@@ -38,8 +44,14 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycl
 
 **D.** S3 Intelligent-Tiering automatically moves objects between access tiers based on observed usage, with no retrieval fees, which is exactly suited to unpredictable, changing access patterns.
 
-```diagram
-New upload -> *Intelligent-Tiering -(not accessed 30 days)-> Infrequent Access tier -(accessed again, no retrieval fee)-> Frequent Access tier
+```arch
+up: users Uploads
+cloud S3 Intelligent-Tiering | no retrieval fees
+  freq: s3 *Frequent Access tier
+  infreq: s3 *Infrequent Access tier
+---
+up -> freq
+freq <-> infreq : moves on 30 days unused, back on access
 ```
 
 Why not the others:
@@ -60,8 +72,13 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tie
 
 **A.** One Zone-IA is the cheapest class with millisecond access, and storing data in a single AZ is an acceptable trade-off here since the backup copy can simply be regenerated if that AZ is lost.
 
-```diagram
-Primary data -(regenerate if lost)-> *S3 One Zone-IA | one AZ, cheapest ms access -(rare read, milliseconds)-> Restore job
+```arch
+src: s3 Primary data
+cloud AWS Cloud
+  az One Availability Zone [row]
+    oz: s3 *S3 One Zone-IA | cheapest with ms access
+---
+src -> oz : regenerable copies
 ```
 
 Why not the others:
@@ -82,8 +99,12 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-i
 
 **C.** Glacier Instant Retrieval is priced for infrequently accessed data (like quarterly access) but still returns objects with millisecond latency, unlike Glacier Flexible Retrieval or Deep Archive, which involve a retrieval wait.
 
-```diagram
-Doctor's follow-up visit -(about once a quarter)-> *Glacier Instant Retrieval | low storage cost -(milliseconds)-> Diagnostic image
+```arch
+doc: user Doctor at follow-up
+cloud AWS Cloud
+  gir: glacier *Glacier Instant Retrieval | archive price, ms access
+---
+doc -> gir : about once a quarter, milliseconds
 ```
 
 Why not the others:
@@ -104,8 +125,14 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-i
 
 **A.** A lifecycle rule that expires noncurrent versions removes old versions after a set number of days while keeping rollback ability for recent changes. Suspending versioning stops new versions but doesn't delete versions that already exist.
 
-```diagram
-Object v5 | current & v4 & v3 & v2 | noncurrent -> *Lifecycle rule | expire noncurrent after N days -> Only recent versions kept
+```arch
+cloud Versioned bucket
+  cur: s3 Current version
+  old: s3 Noncurrent versions
+  rule: s3 *Lifecycle rule | expire noncurrent after N days
+---
+cur -> old : each overwrite
+rule -> old : deletes old ones
 ```
 
 Why not the others:
@@ -126,8 +153,19 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-confi
 
 **B.** S3 Storage Lens provides organization-wide visibility into storage usage and activity metrics, along with cost-optimization recommendations, across every account and bucket in scope.
 
-```diagram
-Account 1 buckets & Account 2 buckets & Account 40 buckets -> *S3 Storage Lens | organization dashboard -> Usage trends & Cost recommendations
+```arch
+cloud AWS Organization
+  col
+    a1: s3 Account 1 buckets
+    a2: s3 Account 2 buckets
+    a40: s3 Account 40 buckets
+  sl: s3 *S3 Storage Lens | organization dashboard
+  rec: costexplorer Trends and recommendations
+---
+a1 -> sl
+a2 -> sl
+a40 -> sl
+sl -> rec
 ```
 
 Why not the others:
@@ -148,8 +186,14 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.ht
 
 **A.** gp3 is roughly 20% cheaper per GB than gp2 while matching or beating its baseline performance, and Elastic Volumes changes the volume type without downtime.
 
-```diagram
-gp2 volume -> *Elastic Volumes | change type, no downtime -> gp3 volume | about 20% cheaper
+```arch
+cloud AWS Cloud
+  gp2: ebs gp2 volume
+  ev: ebs *Elastic Volumes | change type, no downtime
+  gp3: ebs gp3 volume | about 20% cheaper
+---
+gp2 -> ev
+ev -> gp3
 ```
 
 Why not the others:
@@ -170,8 +214,12 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/requesting-ebs-volum
 
 **B.** The EBS Snapshots Archive tier is up to 75% cheaper than standard snapshot storage, with a minimum 90-day storage duration and restores that take 24–72 hours — matching this exact access pattern.
 
-```diagram
-EBS snapshot | standard tier -(archive)-> *Snapshots Archive tier | up to 75% cheaper, 90-day minimum -(restore 24-72 h)-> Standard snapshot
+```arch
+cloud AWS Cloud
+  snap: ebs EBS snapshot | standard tier
+  arc: ebs *Snapshots Archive tier | up to 75% cheaper, 90-day minimum
+---
+snap <-> arc : archive; restore takes 24-72 h
 ```
 
 Why not the others:
@@ -192,9 +240,14 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.htm
 
 **C.** EFS lifecycle management automatically moves files that haven't been accessed for a configurable period into the lower-cost IA or Archive storage classes, with no application changes needed.
 
-```diagram
-File not accessed for 30 days -> *EFS lifecycle management -> EFS IA -(longer)-> EFS Archive
-File accessed again -(optional: move back)-> EFS Standard
+```arch
+cloud Amazon EFS
+  std: efs EFS Standard
+  ia: efs *EFS IA
+  arc: efs *EFS Archive
+---
+std -> ia : lifecycle, 30 days unused
+ia -> arc : longer unused
 ```
 
 Why not the others:
@@ -215,8 +268,17 @@ Resource: <https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.ht
 
 **B.** Tape Gateway presents a virtual tape library that existing backup software can keep using unchanged, while the tapes themselves are actually stored in S3 and S3 Glacier.
 
-```diagram
-Backup software | unchanged -(iSCSI virtual tape library)-> [On premises: *Tape Gateway] -> Virtual tapes in S3 -(archive)-> S3 Glacier
+```arch
+onprem Data center
+  bk: server Backup software | unchanged
+  tg: storagegateway *Tape Gateway | virtual tape library
+cloud AWS Cloud
+  s3: s3 Virtual tapes in S3
+  gl: glacier Archived tapes
+---
+bk -> tg : iSCSI VTL
+tg -> s3
+s3 -> gl : eject to archive
 ```
 
 Why not the others:
@@ -237,8 +299,14 @@ Resource: <https://docs.aws.amazon.com/storagegateway/latest/tgw/WhatIsStorageGa
 
 **C.** Bulk retrieval is the lowest-cost way to restore data from S3 Glacier Flexible Retrieval. It typically completes within 5 to 12 hours, which is fine when the data isn't needed urgently.
 
-```diagram
-400 TB in Glacier Flexible Retrieval -> *Bulk retrieval | 5-12 h, lowest cost -> Temporary restored copies -> Reprocessing
+```arch
+cloud AWS Cloud
+  gl: glacier Glacier Flexible Retrieval | 400 TB
+  bulk: glacier *Bulk retrieval | 5-12 h, lowest cost
+  s3: s3 Restored copies
+---
+gl -> bulk
+bulk -> s3 : ready before project
 ```
 
 Why not the others:
@@ -259,8 +327,14 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/restoring-objec
 
 **A.** A lifecycle rule with `AbortIncompleteMultipartUpload` automatically removes the parts of uploads that haven't completed within a set number of days, so they stop incurring storage charges.
 
-```diagram
-Failed multipart uploads | orphaned parts -> *Lifecycle rule | AbortIncompleteMultipartUpload after 7 days -> Parts deleted
+```arch
+cloud AWS Cloud
+  app: ec2 Upload app
+  parts: s3 Orphaned upload parts
+  rule: s3 *Lifecycle rule | AbortIncompleteMultipartUpload, 7 days
+---
+app -> parts : failed uploads
+rule -> parts : deleted
 ```
 
 Why not the others:
@@ -281,8 +355,15 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incom
 
 **D.** Data Lifecycle Manager creates EBS snapshots on a schedule for tagged volumes and deletes them automatically according to a retention rule, such as keeping 14 days of daily snapshots.
 
-```diagram
-Tagged volumes -> *Data Lifecycle Manager policy | daily -> Snapshots | 14-day retention -(older)-> Deleted automatically
+```arch
+cloud AWS Cloud
+  dlm: backup *Data Lifecycle Manager | daily policy
+  vol: ebs Tagged volumes
+  snap: ebs Snapshots | kept 14 days
+---
+dlm -> vol : snapshot daily
+vol -> snap
+dlm -> snap : delete older
 ```
 
 Why not the others:
@@ -303,9 +384,14 @@ Resource: <https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-lifecycle.h
 
 **B.** Intelligent-Tiering's optional archive tiers must be turned on. Once they are, objects not accessed for at least 90 days move to Archive Access and after 180 days to Deep Archive Access, for much lower storage costs, with retrieval taking minutes to hours.
 
-```diagram
-Intelligent-Tiering object -(90 days no access)-> *Archive Access tier -(180 days)-> *Deep Archive Access tier
-Rare request -(restore: minutes to hours)-> Object back in Frequent Access
+```arch
+cloud S3 Intelligent-Tiering
+  freq: s3 Frequent / Infrequent tiers
+  arc: glacier *Archive Access | after 90 days
+  deep: glacier *Deep Archive Access | after 180 days
+---
+freq -> arc : turned on
+arc -> deep
 ```
 
 Why not the others:
@@ -326,8 +412,13 @@ Resource: <https://docs.aws.amazon.com/AmazonS3/latest/userguide/intelligent-tie
 
 **C.** One Zone file systems store data in a single Availability Zone, which costs less than Regional storage across several AZs. That's a reasonable trade-off for data that can be regenerated, and instances still mount it over NFS.
 
-```diagram
-[One AZ: Test instances -(NFS)-> *EFS One Zone file system | lower cost]
+```arch
+cloud AWS Cloud
+  az One Availability Zone [row]
+    test: ec2 Test instances
+    efs: efs *EFS One Zone | cheaper
+---
+test -> efs : NFS
 ```
 
 Why not the others:
@@ -352,8 +443,14 @@ Resource: <https://docs.aws.amazon.com/efs/latest/ug/features.html>
 
 **A.** Spot Instances can cost up to 90% less than On-Demand and come with a 2-minute interruption notice, which a checkpointing, fault-tolerant workload can absorb easily.
 
-```diagram
-Batch job -> *Spot Instance | up to 90% off -(2-minute interruption notice)-> Checkpoint saved -> New Spot Instance resumes
+```arch
+cloud AWS Cloud
+  job: batch Batch simulation | checkpoints progress
+  spot: ec2 *Spot Instances | up to 90% off, 2-minute notice
+  s3: s3 Checkpoints | resume from here
+---
+job -> spot : run
+spot -> s3 : save progress
 ```
 
 Why not the others:
@@ -374,8 +471,17 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instan
 
 **C.** Compute Savings Plans apply automatically across instance families, Regions, and compute services (EC2, Fargate, Lambda), unlike EC2 Instance Savings Plans, which give a higher discount but lock in one instance family in one Region.
 
-```diagram
-*Compute Savings Plan | $/hour commitment -> EC2 any family, any Region & AWS Fargate & AWS Lambda
+```arch
+sp: savingsplans *Compute Savings Plan | $/hour commitment
+cloud AWS Cloud | any Region, any family
+  col
+    ec2: ec2 EC2
+    fg: fargate Fargate
+    fn: lambda Lambda
+---
+sp -> ec2 : discount
+sp -> fg
+sp -> fn
 ```
 
 Why not the others:
@@ -396,8 +502,13 @@ Resource: <https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-sav
 
 **A.** On-Demand Capacity Reservations reserve capacity in a specific AZ for as long as needed, with no long-term commitment — you simply pay the On-Demand rate while the reservation is active.
 
-```diagram
-*On-Demand Capacity Reservation | specific AZ, no term -> Trade show instances | 2 weeks -(cancel afterwards)-> No commitment left
+```arch
+cloud AWS Cloud
+  az One Availability Zone [row]
+    cr: ec2 *On-Demand Capacity Reservation | no term
+    ev: ec2 Trade show fleet | 2 weeks
+---
+cr -> ev : guaranteed capacity
 ```
 
 Why not the others:
@@ -418,8 +529,14 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-rese
 
 **D.** Dedicated Hosts give visibility into, and control over, the specific physical server (including sockets and cores), which is what per-socket or per-core BYOL licensing terms typically require. Dedicated Instances only guarantee single-tenant hardware, without that visibility.
 
-```diagram
-BYOL Windows / SQL Server -> *Dedicated Host | visible sockets and cores -> License compliance
+```arch
+lic: server BYOL Windows and SQL Server
+cloud AWS Cloud
+  dh: server *Dedicated Host | visible sockets and cores
+  vm: ec2 Instances
+---
+lic -> dh : license per socket / core
+dh -> vm
 ```
 
 Why not the others:
@@ -440,9 +557,17 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-o
 
 **D.** Covering the predictable baseline with discounted, committed On-Demand capacity and bursting onto cheaper Spot Instances for short, unpredictable peaks avoids paying peak-sized On-Demand rates around the clock.
 
-```diagram
-[Auto Scaling group, mixed instances policy: *Baseline | On-Demand, Savings Plans & *Peaks | Spot Instances]
-Traffic peak, a few minutes -> Spot capacity added -> Removed after the peak
+```arch
+users: users Traffic
+cloud AWS Cloud
+  alb: alb ALB
+  asg Auto Scaling group | mixed instances [col]
+    base: ec2 *Baseline | On-Demand, Savings Plans
+    peak: ec2 *Peaks | Spot Instances
+---
+users -> alb
+alb -> base : always
+alb -> peak : brief peaks
 ```
 
 Why not the others:
@@ -463,8 +588,12 @@ Resource: <https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scalin
 
 **B.** AWS Graviton instances often deliver up to 40% better price-performance than comparable x86 instances for compatible Linux workloads, typically requiring just a rebuild for the Arm architecture.
 
-```diagram
-x86 instance -(rebuild for Arm)-> *Graviton instance | up to 40% better price-performance
+```arch
+cloud AWS Cloud
+  x86: ec2 x86 instance
+  arm: ec2 *Graviton instance | up to 40% better price-performance
+---
+x86 -> arm : rebuild for Arm
 ```
 
 Why not the others:
@@ -485,9 +614,12 @@ Resource: <https://aws.amazon.com/ec2/graviton/>
 
 **D.** Stopping instances outside business hours (through Instance Scheduler on AWS, or scheduled Auto Scaling actions for instances in an ASG) avoids paying for the roughly two-thirds of the day they sit unused.
 
-```diagram
-*Instance Scheduler -(8:45 AM weekdays: start)-> Dev / test instances
-*Instance Scheduler -(6 PM and weekends: stop)-> Dev / test instances | no compute charge
+```arch
+cloud AWS Cloud
+  sch: scheduler *Instance Scheduler | business hours only
+  dev: ec2 Dev / test instances
+---
+sch -> dev : start 9 AM, stop 6 PM
 ```
 
 Why not the others:
@@ -508,9 +640,15 @@ Resource: <https://docs.aws.amazon.com/solutions/latest/instance-scheduler-on-aw
 
 **C.** At a few thousand requests a day, paying per request and per millisecond of execution with API Gateway and Lambda costs far less than keeping any number of EC2 instances running around the clock.
 
-```diagram
-Few thousand requests a day -> *API Gateway -> *Lambda | pay per request and ms
-Two always-on EC2 instances -x(paying while idle)-> Retired
+```arch
+users: users A few thousand requests a day
+cloud AWS Cloud
+  api: apigw *API Gateway
+  fn: lambda *Lambda | pay per request and ms
+  old: ec2 Always-on EC2 | retired
+---
+users -> api
+api -> fn
 ```
 
 Why not the others:
@@ -531,8 +669,17 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/welcome.html>
 
 **C.** Trusted Advisor's cost optimization checks specifically flag things like low-utilization EC2 instances and unassociated Elastic IP addresses, among other waste indicators.
 
-```diagram
-*Trusted Advisor | cost checks -> Low-utilization EC2 & Unassociated Elastic IPs & Idle load balancers
+```arch
+ta: trustedadvisor *Trusted Advisor | cost checks
+cloud AWS account
+  col
+    ec2: ec2 Low-utilization EC2
+    eip: eni Unassociated Elastic IPs
+    lb: alb Idle load balancers
+---
+ta -> ec2 : flag
+ta -> eip
+ta -> lb
 ```
 
 Why not the others:
@@ -553,8 +700,14 @@ Resource: <https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.ht
 
 **D.** AWS Budgets can alert based on forecasted spend, not just actual spend so far, which is exactly what's needed to get ahead of a projected overage. (AWS Cost Anomaly Detection is the complementary tool for catching unusual spikes that a fixed threshold might miss.)
 
-```diagram
-Month-to-date spend -> AWS forecast -(forecast > $10,000)-> *AWS Budgets alert -> Finance | email or SNS
+```arch
+cloud AWS Billing
+  ce: costexplorer Spend forecast
+  bud: budgets *AWS Budgets | forecast > $10,000
+fin: users Finance
+---
+ce -> bud
+bud -> fin : alert email / SNS
 ```
 
 Why not the others:
@@ -575,8 +728,17 @@ Resource: <https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-
 
 **B.** Cost allocation tags, once applied to resources and activated in Billing, let costs be broken out by tag value (such as team or department) in Cost Explorer and billing reports. Separate accounts under consolidated billing achieve the same split cleanly if the teams are split that way instead.
 
-```diagram
-Resources | tag team=alpha, team=beta -(activate in Billing)-> *Cost allocation tags -> Cost Explorer | cost per team
+```arch
+cloud Shared account
+  col
+    a: ec2 Resources | team=alpha
+    b: ec2 Resources | team=beta
+  tags: billing *Cost allocation tags | activated in Billing
+  ce: costexplorer Cost per team
+---
+a -> tags
+b -> tags
+tags -> ce
 ```
 
 Why not the others:
@@ -597,8 +759,22 @@ Resource: <https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-all
 
 **C.** Consolidated billing combines usage across member accounts so the organization can reach volume pricing tiers together, and it shares Reserved Instance and Savings Plans discounts across accounts by default.
 
-```diagram
-Account 1 & Account 2 & Account 15 -> *Consolidated billing | management account -> Combined volume tiers & Shared RI and Savings Plans discounts
+```arch
+cloud AWS Organizations
+  col
+    a1: organizations Account 1
+    a2: organizations Account 2
+    a15: organizations Account 15
+  cb: billing *Consolidated billing | management account
+  col
+    vol: costexplorer Combined volume tiers
+    sp: savingsplans Shared RIs and Savings Plans
+---
+a1 -> cb
+a2 -> cb
+a15 -> cb
+cb -> vol
+cb -> sp
 ```
 
 Why not the others:
@@ -619,8 +795,14 @@ Resource: <https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolid
 
 **A.** Cost Anomaly Detection uses machine learning to learn normal spending patterns and alerts on unusual spikes, such as a sudden jump in EC2 spend in one Region, without fixed thresholds.
 
-```diagram
-Spend history -> *Cost Anomaly Detection | ML baseline -(unusual spike)-> Alert subscription | email or SNS
+```arch
+cloud AWS Billing
+  hist: costexplorer Spend history
+  cad: costexplorer *Cost Anomaly Detection | ML baseline
+team: users Alert subscribers
+---
+hist -> cad
+cad -> team : unusual spike
 ```
 
 Why not the others:
@@ -641,8 +823,19 @@ Resource: <https://docs.aws.amazon.com/cost-management/latest/userguide/manage-a
 
 **D.** Cost Explorer lets you view and analyze historical cost and usage, grouping and filtering by service, linked account, tag and other dimensions, and it can also forecast future spending.
 
-```diagram
-Analyst -> *Cost Explorer | 12 months -> Group by service & Group by team tag & Filter: one linked account
+```arch
+analyst: user Finance analyst
+cloud AWS Billing
+  ce: costexplorer *Cost Explorer | 12 months
+  col
+    s: billing By service
+    t: billing By team tag
+    a: billing One linked account
+---
+analyst -> ce
+ce -> s
+ce -> t
+ce -> a
 ```
 
 Why not the others:
@@ -663,8 +856,15 @@ Resource: <https://docs.aws.amazon.com/cost-management/latest/userguide/ce-what-
 
 **B.** EC2 Instance Savings Plans commit to one instance family in one Region, but still apply across sizes, operating systems and tenancy within it, and they offer the largest Savings Plans discount (up to 72% off On-Demand).
 
-```diagram
-*EC2 Instance Savings Plan | M family, eu-west-1, 3 years -> m6i.large & m7i.xlarge & Linux or Windows
+```arch
+sp: savingsplans *EC2 Instance Savings Plan | M family, eu-west-1, 3 years
+cloud eu-west-1
+  col
+    a: ec2 m6i.large
+    b: ec2 m7i.xlarge | Windows
+---
+sp -> a : any size
+sp -> b : any OS
 ```
 
 Why not the others:
@@ -685,8 +885,17 @@ Resource: <https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.
 
 **C.** The `price-capacity-optimized` strategy chooses Spot pools with the most available capacity and then the lowest price among them, balancing cost against interruptions. AWS recommends it for most Spot workloads.
 
-```diagram
-EC2 Fleet -> *price-capacity-optimized -(deepest capacity, then lowest price)-> Spot pool A & Spot pool B & Spot pool C
+```arch
+cloud AWS Cloud
+  fleet: ec2 *EC2 Fleet | price-capacity-optimized
+  col
+    pa: ec2 Spot pool A | deep capacity
+    pb: ec2 Spot pool B | deep capacity
+    pc: ec2 Spot pool C | shallow
+---
+fleet -> pa
+fleet -> pb
+fleet -x-> pc : skipped despite price
 ```
 
 Why not the others:
@@ -707,8 +916,12 @@ Resource: <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-allocat
 
 **A.** Fargate Spot runs interruption-tolerant ECS tasks on spare capacity at a discount compared with regular Fargate pricing. Tasks get a two-minute warning before they're stopped, which checkpointing handles.
 
-```diagram
-Nightly ECS tasks -> *Fargate Spot capacity provider | discounted -(2-minute warning)-> Task checkpoints -> Restarted task
+```arch
+cloud AWS Cloud
+  ecs: ecs ECS tasks | checkpointing
+  fs: fargate *Fargate Spot | discounted, 2-minute warning
+---
+ecs -> fs : capacity provider
 ```
 
 Why not the others:
@@ -729,8 +942,12 @@ Resource: <https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-c
 
 **D.** Lambda functions on the `arm64` architecture, which runs on AWS Graviton processors, can get significantly better price-performance than on `x86_64`, and interpreted languages without native x86 dependencies usually need no code changes.
 
-```diagram
-Python / Node.js function -(change architecture setting)-> *arm64 on Graviton -> Better price-performance
+```arch
+cloud AWS Lambda
+  x86: lambda x86_64 functions
+  arm: lambda *arm64 functions | Graviton
+---
+x86 -> arm : change architecture
 ```
 
 Why not the others:
@@ -751,8 +968,17 @@ Resource: <https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html>
 
 **B.** Budget actions can run automatically, or after approval, when a threshold is reached. They can apply an IAM policy or SCP and stop specific EC2 or RDS instances.
 
-```diagram
-Sandbox account spend -(100% of $200 budget)-> *Budget action -> Stop EC2 instances & Apply SCP or IAM policy | block launches
+```arch
+cloud Sandbox account
+  bud: budgets AWS Budgets | $200
+  act: budgets *Budget action
+  col
+    ec2: ec2 EC2 stopped
+    pol: scp SCP applied | blocks launches
+---
+bud -> act : 100% reached
+act -> ec2
+act -> pol
 ```
 
 Why not the others:
@@ -777,8 +1003,12 @@ Resource: <https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-
 
 **A.** For predictable, steady traffic, provisioned capacity (with auto scaling to absorb small variations, and reserved capacity for further savings) is usually cheaper than on-demand, which is priced for unknown or spiky traffic.
 
-```diagram
-Steady traffic -> *Provisioned capacity | auto scaling for small swings -> Lower cost than on-demand mode
+```arch
+cloud AWS Cloud
+  app: ec2 Internal tool | steady traffic
+  ddb: dynamodb *Provisioned capacity | auto scaling for small swings
+---
+app -> ddb : predictable reads / writes
 ```
 
 Why not the others:
@@ -799,8 +1029,12 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/capa
 
 **B.** The Standard-IA table class lowers per-GB storage price in exchange for a somewhat higher per-request cost, which is the right trade-off for large amounts of rarely read data. (For data that's rarely needed at all, TTL plus export to S3 is another option.)
 
-```diagram
-Rarely read history -> *Standard-IA table class | cheaper storage, pricier requests -> Still queryable
+```arch
+cloud AWS Cloud
+  app: ec2 Order history app
+  ddb: dynamodb *Standard-IA table class | cheaper storage
+---
+app -> ddb : rare reads, still queryable
 ```
 
 Why not the others:
@@ -821,8 +1055,14 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowI
 
 **C.** TTL deletes expired items in the background at no additional cost and without consuming write capacity, unlike a Lambda job that would call `DeleteItem` and consume write capacity for every deletion. (Deletion isn't instant: DynamoDB typically removes expired items within a few days, so queries should filter out expired items.)
 
-```diagram
-Session item | expiresAt = now + 24 h -> *TTL | background deletion, free -> Item removed | no write capacity used
+```arch
+cloud AWS Cloud
+  app: ec2 App
+  ddb: dynamodb Sessions table | expiresAt attribute
+  ttl: dynamodb *TTL | background deletes, free
+---
+app -> ddb : write session
+ttl -> ddb : remove after 24 h
 ```
 
 Why not the others:
@@ -843,8 +1083,12 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.
 
 **D.** For a stable, long-term commitment, RDS Reserved Instances or a Database Savings Plan give a substantial discount over On-Demand. Spot pricing isn't available for RDS in any form.
 
-```diagram
-*RDS Reserved Instance or Database Savings Plan | 3-year term -> Production RDS | 24/7, stable size
+```arch
+ri: savingsplans *RDS Reserved Instance | or Database Savings Plan, 3 years
+cloud AWS Cloud
+  db: rds Production RDS | 24/7, stable size
+---
+ri -> db : discount
 ```
 
 Why not the others:
@@ -865,9 +1109,12 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWi
 
 **A.** Stopping the instance outside business hours avoids paying for compute during the roughly two-thirds of the week it sits idle. (A stopped RDS instance restarts automatically after 7 days; Aurora Serverless v2, which can scale down to 0 ACUs, is another option for this pattern.)
 
-```diagram
-Weekdays 9-5 -> RDS instance | running
-Evenings and weekends -> *RDS instance stopped | pay storage only -(auto-restarts after 7 days)-> Restart / stop again
+```arch
+cloud AWS Cloud
+  sch: scheduler Schedule
+  db: rds *Dev RDS instance | stopped outside 9-5
+---
+sch -> db : start weekdays, stop evenings
 ```
 
 Why not the others:
@@ -888,9 +1135,18 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_StopInsta
 
 **B.** This is a heterogeneous migration (different source and target engines). The Schema Conversion Tool converts the Oracle schema and code to Aurora PostgreSQL, and DMS migrates and can continuously replicate the data.
 
-```diagram
-Oracle on premises -(schema and code)-> *AWS SCT or DMS Schema Conversion -> Aurora PostgreSQL
-Oracle on premises -(data + ongoing changes)-> *AWS DMS -> Aurora PostgreSQL
+```arch
+onprem Data center
+  ora: server Oracle database
+cloud AWS Cloud
+  sct: dms *Schema Conversion | SCT or DMS SC
+  dms: dms *AWS DMS | full load + CDC
+  pg: aurora Aurora PostgreSQL
+---
+ora -> sct : schema and code
+sct -> pg
+ora -> dms : data
+dms -> pg
 ```
 
 Why not the others:
@@ -911,9 +1167,18 @@ Resource: <https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html>
 
 **B.** Offloading hot reads to ElastiCache or spreading them across read replicas addresses the actual read-heavy bottleneck directly, often far more cheaply than repeatedly scaling up the primary instance class.
 
-```diagram
-App -(hot reads)-> *ElastiCache -(misses only)-> RDS primary
-App -(other reads)-> *Read replicas -> Smaller primary instance
+```arch
+cloud AWS Cloud
+  app: ec2 App
+  col
+    cache: elasticache *ElastiCache | hot reads
+    rr: rds *Read replicas
+  db: rds Primary | no more scale-ups
+---
+app -> cache
+app -> rr
+cache -> db : misses
+rr -> db : replication
 ```
 
 Why not the others:
@@ -934,8 +1199,12 @@ Resource: <https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Strategies.ht
 
 **B.** RDS storage autoscaling increases allocated storage automatically when free space runs low, removing the need to over-provision "just in case." (Aurora's storage grows automatically by design and doesn't need this feature.)
 
-```diagram
-Free space runs low -> *RDS storage autoscaling -> Allocated storage grows automatically
+```arch
+cloud AWS Cloud
+  cw: cloudwatch Free space low
+  db: rds *RDS storage autoscaling | grows automatically
+---
+cw -> db : trigger
 ```
 
 Why not the others:
@@ -956,8 +1225,12 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.Aut
 
 **C.** Aurora I/O-Optimized removes per-I/O charges in exchange for a higher instance and storage price, which becomes cheaper overall once I/O costs pass roughly 25% of the Aurora bill.
 
-```diagram
-Aurora Standard | instances + storage + per-I/O charges -(I/O over 25% of bill)-> *Aurora I/O-Optimized | no per-I/O charges
+```arch
+cloud Aurora
+  std: aurora Aurora Standard | pays per I/O
+  io: aurora *Aurora I/O-Optimized | no I/O charges
+---
+std -> io : when I/O is over 25% of bill
 ```
 
 Why not the others:
@@ -978,9 +1251,15 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.O
 
 **A.** Athena runs pay-per-query SQL directly against the S3 data with nothing to keep running between queries, avoiding the cost of an always-on cluster for infrequent access. (Redshift Spectrum or Redshift Serverless are other ways to avoid paying for idle cluster time.)
 
-```diagram
-Analyst | a few queries a week -(pay per query)-> *Amazon Athena -> S3 log data
-Always-on Redshift cluster -x(idle most of the time)-> Removed
+```arch
+analyst: user Analyst | a few queries a week
+cloud AWS Cloud
+  ath: athena *Amazon Athena | pay per query
+  s3: s3 S3 log data
+  rs: redshift Always-on cluster | removed
+---
+analyst -> ath
+ath -> s3 : query in place
 ```
 
 Why not the others:
@@ -1001,8 +1280,12 @@ Resource: <https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverl
 
 **C.** Reserved capacity gives discounted pricing for a committed amount of provisioned read and write capacity on Standard table class tables, which suits steady, long-term throughput.
 
-```diagram
-Steady 20,000 reads + 5,000 writes per second -> *Reserved capacity | 1 or 3 years -> Provisioned table | Standard class
+```arch
+rc: savingsplans *DynamoDB reserved capacity
+cloud AWS Cloud
+  ddb: dynamodb Provisioned table | 20,000 reads, 5,000 writes per s
+---
+rc -> ddb : discount on baseline
 ```
 
 Why not the others:
@@ -1023,9 +1306,12 @@ Resource: <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rese
 
 **A.** Aurora Serverless v2 can scale down to 0 ACUs and pause automatically after a period of no connections, so idle databases don't incur compute charges, and they resume when a connection arrives.
 
-```diagram
-No connections -> *Aurora Serverless v2 | scales to 0 ACUs, pauses -> No compute charge
-New connection -> *Aurora Serverless v2 | scales to 0 ACUs, pauses -> Resumes automatically
+```arch
+dev: user Developers
+cloud AWS Cloud
+  au: aurora *Aurora Serverless v2 | scales to 0 ACUs, pauses
+---
+dev -> au : connect, resumes
 ```
 
 Why not the others:
@@ -1046,9 +1332,12 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-s
 
 **D.** Redshift Serverless provisions and scales data warehouse capacity automatically, and you pay only for the capacity used while queries run, with no charge for idle compute. Existing SQL and BI tools keep working.
 
-```diagram
-Monthly reports | existing BI tools -> *Redshift Serverless | pay while queries run -> Data
-Rest of the month -> *Redshift Serverless | pay while queries run -> No compute charge
+```arch
+bi: quicksight BI tools
+cloud AWS Cloud
+  rs: redshift *Redshift Serverless | pay while queries run
+---
+bi -> rs : monthly reports
 ```
 
 Why not the others:
@@ -1069,9 +1358,19 @@ Resource: <https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-serverl
 
 **B.** Database Savings Plans reduce costs by up to 35% across services including Aurora, RDS, DynamoDB and ElastiCache, and keep applying when a workload moves between them, for example from RDS to DynamoDB.
 
-```diagram
-*Database Savings Plan | one commitment -> Aurora & RDS & DynamoDB & ElastiCache
-Workload moves from RDS -> DynamoDB | discount still applies
+```arch
+dsp: savingsplans *Database Savings Plan | one commitment
+cloud AWS Cloud
+  col
+    a: aurora Aurora
+    r: rds RDS
+    d: dynamodb DynamoDB
+    e: elasticache ElastiCache
+---
+dsp -> a
+dsp -> r
+dsp -> d
+dsp -> e
 ```
 
 Why not the others:
@@ -1092,8 +1391,12 @@ Resource: <https://docs.aws.amazon.com/savingsplans/latest/userguide/plan-types.
 
 **C.** gp3 storage on RDS includes a baseline of 3,000 IOPS in its storage price, which covers this workload, so moving off io1 removes the separate charge for provisioned IOPS.
 
-```diagram
-RDS for MySQL | peaks at 2,000 IOPS -(change storage)-> *gp3 | 3,000 IOPS included -x(no longer paid)-> io1 provisioned IOPS charge
+```arch
+cloud AWS Cloud
+  io1: rds RDS on io1 | 3,000 provisioned IOPS
+  gp3: rds *RDS on gp3 | 3,000 IOPS included
+---
+io1 -> gp3 : modify storage
 ```
 
 Why not the others:
@@ -1118,9 +1421,18 @@ Resource: <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.h
 
 **A.** An S3 gateway VPC endpoint routes traffic to S3 without going through the NAT gateway at all, and it's free to use, eliminating the NAT data-processing charge for that traffic.
 
-```diagram
-[Private subnet: EC2] -(route to S3 prefix list)-> *S3 gateway endpoint | free -> Amazon S3
-[Private subnet: EC2] ~(no longer used)~> NAT gateway | per-GB charge
+```arch
+cloud AWS Cloud
+  vpc VPC
+    private Private subnet
+      ec2: ec2 Instances
+    ep: gwendpoint *S3 gateway endpoint | free
+    nat: nat NAT gateway | per-GB charge
+  s3: s3 Amazon S3
+---
+ec2 -> ep : route to S3
+ep -> s3
+ec2 -x-> nat : no longer used for S3
 ```
 
 Why not the others:
@@ -1141,10 +1453,16 @@ Resource: <https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.h
 
 **D.** Inbound data transfer from the internet is generally free. Cross-AZ traffic is charged in each direction, and outbound-to-the-internet and cross-Region transfer both carry data-transfer-out charges. (Traffic within the same AZ over private IP addresses is also free.)
 
-```diagram
-Internet -(inbound)-> *Free | data transfer in -> AWS
-AWS -(outbound to internet: charged)-> Internet
-AZ a -(cross-AZ: charged each way)-> AZ b
+```arch
+inet: internet Internet
+cloud AWS Region
+  az AZ A
+    a: ec2 Instance
+  az AZ B
+    b: ec2 Instance
+---
+inet <-> a : in free, out charged
+a -> b : cross-AZ, charged each way
 ```
 
 Why not the others:
@@ -1165,10 +1483,18 @@ Resource: <https://aws.amazon.com/ec2/pricing/on-demand/#Data_Transfer>
 
 **A.** Cross-AZ traffic is billed in each direction, so preferring same-AZ cache nodes for normal traffic cuts that cost, while the cache nodes in other AZs remain available for failover if the local one becomes unhealthy.
 
-```diagram
-[AZ a: App tier -(same AZ: free)-> *Cache node a]
-[AZ b: App tier -(same AZ: free)-> *Cache node b]
-App tier | AZ a ~(only on failover)~> Cache node b
+```arch
+cloud AWS Cloud
+  az AZ A [col]
+    app1: ec2 App tier
+    c1: elasticache *Cache node A
+  az AZ B [col]
+    app2: ec2 App tier
+    c2: elasticache *Cache node B
+---
+app1 -> c1 : same AZ
+app2 -> c2 : same AZ
+app1 ~> c2 : failover only
 ```
 
 Why not the others:
@@ -1189,8 +1515,14 @@ Resource: <https://docs.aws.amazon.com/wellarchitected/latest/cost-optimization-
 
 **C.** Data transfer from S3 to CloudFront is free, and CloudFront's data-transfer-out pricing is typically cheaper than S3's directly, while also serving cached content from edge locations closer to users.
 
-```diagram
-Global users -> *CloudFront edge cache -(origin fetch: free from S3)-> S3 bucket
+```arch
+users: users Global users
+cloud AWS Cloud
+  cf: cloudfront *CloudFront | cheaper egress, edge cache
+  s3: s3 S3 bucket
+---
+users -> cf
+cf -> s3 : origin fetch free
 ```
 
 Why not the others:
@@ -1211,9 +1543,19 @@ Resource: <https://aws.amazon.com/cloudfront/pricing/>
 
 **B.** Direct Connect has lower data-transfer-out rates than transferring the same volume over the internet (as a VPN does), plus more consistent, dedicated bandwidth.
 
-```diagram
-Data center -(dedicated, consistent bandwidth)-> *Direct Connect | lower transfer-out rate -> AWS
-Data center ~(over the internet)~> Site-to-Site VPN -> AWS
+```arch
+onprem Data center
+  dc: datacenter Hundreds of TB a month
+cloud AWS Cloud
+  col
+    dx: dx *Direct Connect | lower transfer-out rate
+    vpn: vpn Site-to-Site VPN | over internet
+  vpc: vgw VPC
+---
+dc -> dx
+dc ~> vpn
+dx -> vpc
+vpn -> vpc
 ```
 
 Why not the others:
@@ -1234,8 +1576,22 @@ Resource: <https://aws.amazon.com/directconnect/pricing/pay-as-you-go/>
 
 **A.** Centralizing egress through a shared VPC reached over Transit Gateway consolidates NAT gateways down to a much smaller, shared set. (Weigh the Transit Gateway attachment and data-processing charges against the NAT gateway hours actually saved.)
 
-```diagram
-VPC 1 & VPC 2 & VPC 20 -> Transit Gateway -> [Shared egress VPC: *Shared NAT gateways] -> Internet
+```arch
+cloud AWS Cloud
+  col
+    vpc VPC 1
+      v1: ec2 Private apps
+    vpc VPC 20
+      v20: ec2 Private apps
+  tgw: tgw Transit Gateway
+  vpc *Shared egress VPC
+    nat: nat Shared NAT gateways
+inet: internet Internet
+---
+v1 -> tgw
+v20 -> tgw
+tgw -> nat
+nat -> inet
 ```
 
 Why not the others:
@@ -1256,9 +1612,15 @@ Resource: <https://docs.aws.amazon.com/whitepapers/latest/building-scalable-secu
 
 **A.** AWS charges an hourly rate for all public IPv4 addresses, including unattached Elastic IPs, and NAT gateways are billed hourly whether or not they're processing traffic. The other three are free regardless of use.
 
-```diagram
-*Public IPv4 address | hourly, even unattached -> Charges while idle
-*NAT gateway | hourly, even with no traffic -> Charges while idle
+```arch
+cloud AWS account
+  col
+    ip: eni *Public IPv4 address | hourly, even unattached
+    nat: nat *NAT gateway | hourly, even with no traffic
+  bill: billing Charged while idle
+---
+ip -> bill
+nat -> bill
 ```
 
 Why not the others:
@@ -1279,9 +1641,20 @@ Resource: <https://aws.amazon.com/vpc/pricing/>
 
 **D.** VPC peering connections themselves have no hourly charge — only the data transferred over them is billed. Transit Gateway, by contrast, charges per attachment-hour plus per GB processed through it.
 
-```diagram
-VPC A -> *Peering | no hourly charge, pay per GB transferred -> VPC B
-VPC A -> *Transit Gateway | per attachment-hour + per GB processed -> VPC C
+```arch
+cloud AWS Cloud
+  a: ec2 VPC A
+  col
+    pcx: peering *VPC peering | no hourly charge, pay per GB
+    tgw: tgw *Transit Gateway | per attachment-hour + per GB
+  col
+    b: ec2 VPC B
+    c: ec2 VPC C
+---
+a -> pcx
+pcx -> b
+a -> tgw
+tgw -> c
 ```
 
 Why not the others:
@@ -1302,9 +1675,14 @@ Resource: <https://aws.amazon.com/transit-gateway/pricing/>
 
 **A.** A price class limits CloudFront to edge locations in lower-cost regions, such as North America and Europe. Readers elsewhere are still served, from those edge locations, with somewhat higher latency.
 
-```diagram
-Readers in North America and Europe -> *CloudFront price class | lower-cost edge locations only -> Origin
-Rare readers elsewhere -(slightly higher latency)-> *CloudFront price class | lower-cost edge locations only
+```arch
+readers: users North America and Europe
+cloud AWS Cloud
+  pc: cloudfront *CloudFront price class | lower-cost edges only
+  origin: s3 Origin
+---
+readers -> pc
+pc -> origin
 ```
 
 Why not the others:
@@ -1325,8 +1703,20 @@ Resource: <https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Do
 
 **D.** AWS charges for every public IPv4 address, including Elastic IPs, but not for IPv6 addresses. Moving to IPv6 (for example, dual-stack or IPv6-only subnets, with an egress-only internet gateway for outbound traffic) and removing unneeded public IPv4 addresses reduces the charge.
 
-```diagram
-Client | IPv6 -> ALB | dual-stack -> [IPv6 subnet: EC2 | no public IPv4] -(outbound)-> *Egress-only internet gateway -> Internet
+```arch
+client: client IPv6 clients
+cloud AWS Cloud
+  vpc VPC
+    alb: alb ALB | dual-stack
+    private *IPv6 subnet
+      ec2: ec2 Instances | no public IPv4
+    eigw: eigw Egress-only internet gateway
+inet: internet Internet
+---
+client -> alb
+alb -> ec2
+ec2 -> eigw : outbound only
+eigw -> inet
 ```
 
 Why not the others:
@@ -1347,9 +1737,18 @@ Resource: <https://aws.amazon.com/vpc/pricing/>
 
 **B.** A gateway endpoint for DynamoDB adds a route so traffic reaches DynamoDB without passing through the NAT gateway, and gateway endpoints have no charge.
 
-```diagram
-[Private subnet: EC2] -(route to DynamoDB prefix list)-> *DynamoDB gateway endpoint | free -> DynamoDB
-[Private subnet: EC2] ~(bypassed)~> NAT gateway | per-GB charge
+```arch
+cloud AWS Cloud
+  vpc VPC
+    private Private subnet
+      ec2: ec2 Instances
+    ep: gwendpoint *DynamoDB gateway endpoint | free
+    nat: nat NAT gateway | per-GB charge
+  ddb: dynamodb DynamoDB
+---
+ec2 -> ep : route to DynamoDB
+ep -> ddb
+ec2 -x-> nat : no longer used
 ```
 
 Why not the others:
