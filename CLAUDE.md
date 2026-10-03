@@ -46,4 +46,6 @@ GitHub Pages from `main`); the question bank is Markdown in `saa-c03-questions/`
 
 ## Pull requests
 
-- Keep each pull request to one issue, and write `Closes #<issue>` in its description.
+- Always open a pull request for finished work as soon as it's pushed, without asking first.
+- Keep each pull request to one issue, and write `Closes #<issue>` in its description. If the work came
+  from a direct request with no issue, say so in the description instead.
