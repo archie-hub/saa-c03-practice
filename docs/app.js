@@ -251,7 +251,7 @@
       mode,
       domain: domain || null,
       study: !!study,
-      timed: !!timed,
+      timed: !!timed && !study, // study mode is never timed
       limitSec: qids.length * SECONDS_PER_QUESTION,
       elapsedSec: 0,
       qids,
@@ -282,6 +282,8 @@
   }
 
   // ---------- timer ----------
+  // Runs saved before study mode dropped the timer can still have timed: true.
+  const isTimed = (run) => run.timed && !run.study;
   function startTimer() {
     stopTimer();
     let ticks = 0;
@@ -293,10 +295,10 @@
       const el = document.getElementById('timer');
       if (el) {
         const remaining = run.limitSec - run.elapsedSec;
-        el.textContent = run.timed ? `${fmtDuration(remaining)} left` : fmtDuration(run.elapsedSec);
-        el.classList.toggle('low', run.timed && remaining <= 300);
+        el.textContent = isTimed(run) ? `${fmtDuration(remaining)} left` : fmtDuration(run.elapsedSec);
+        el.classList.toggle('low', isTimed(run) && remaining <= 300);
       }
-      if (run.timed && run.elapsedSec >= run.limitSec) {
+      if (isTimed(run) && run.elapsedSec >= run.limitSec) {
         alert('Time is up. Your exam will be submitted now.');
         finishRun();
       }
@@ -365,7 +367,7 @@
             </label>
           </div>
           <div class="row between">
-            <label class="check"><input type="checkbox" name="timed" checked> Timed (2 minutes per question; 130 minutes for 65)</label>
+            <label class="check"><input type="checkbox" name="timed" disabled> Timed (2 minutes per question; 130 minutes for 65; exam mode only)</label>
             <button class="primary" type="submit">Start exam</button>
           </div>
           <p class="muted small" id="mode-help" style="margin:10px 0 0">${MODES.fresh.help}</p>
@@ -784,7 +786,7 @@
       <div class="exam-bar">
         <div><strong>Question ${run.current + 1}</strong> <span class="muted">of ${ids.length}</span> · <span class="muted">${answeredCount} answered</span></div>
         <div class="row">
-          <span class="timer ${run.timed && remaining <= 300 ? 'low' : ''}" id="timer">${run.timed ? `${fmtDuration(remaining)} left` : fmtDuration(run.elapsedSec)}</span>
+          ${run.study ? '' : `<span class="timer ${isTimed(run) && remaining <= 300 ? 'low' : ''}" id="timer">${isTimed(run) ? `${fmtDuration(remaining)} left` : fmtDuration(run.elapsedSec)}</span>`}
           <button data-action="submit" class="primary">Submit exam</button>
         </div>
       </div>
@@ -945,6 +947,14 @@
     };
     form.elements.mode.addEventListener('change', () => { help.textContent = MODES[form.elements.mode.value].help; });
     form.elements.domain.addEventListener('change', syncMax);
+    // Study mode has no timer: the Timed box only applies to exam mode, where it's on by default.
+    let timedChoice = true;
+    form.elements.study.addEventListener('change', () => {
+      const study = form.elements.study.value === '1';
+      if (study) timedChoice = form.elements.timed.checked;
+      form.elements.timed.checked = study ? false : timedChoice;
+      form.elements.timed.disabled = study;
+    });
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (state.active && !confirm('You have an exam in progress. Discard it and start a new one?')) return;
