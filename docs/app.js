@@ -243,7 +243,26 @@
   }
   function createRun({ mode, qids, study, timed, domain }) {
     const order = {};
-    for (const id of qids) order[id] = shuffle(QUESTIONS.get(id).options.map((o) => o.id));
+    // Single-answer questions get their correct option placed so that, across the exam, each letter is
+    // used about equally (never more than 2 ahead of the least-used one) and no letter is the answer
+    // three times in a row. Within those limits the letter is random, so it can't be predicted from
+    // the previous answers. The wrong options fill the other slots in random order; multi-select
+    // questions are simply shuffled.
+    const used = [];
+    const last = [];
+    for (const id of qids) {
+      const q = QUESTIONS.get(id);
+      if (q.answer.length !== 1) { order[id] = shuffle(q.options.map((o) => o.id)); continue; }
+      let slots = q.options.map((_, i) => i);
+      if (last.length >= 2 && last[last.length - 1] === last[last.length - 2]) slots = slots.filter((i) => i !== last[last.length - 1]);
+      const least = Math.min(...slots.map((i) => used[i] || 0));
+      const pos = shuffle(slots.filter((i) => (used[i] || 0) <= least + 2))[0];
+      const opts = shuffle(q.options.map((o) => o.id).filter((o) => o !== q.answer[0]));
+      opts.splice(pos, 0, q.answer[0]);
+      order[id] = opts;
+      used[pos] = (used[pos] || 0) + 1;
+      last.push(pos);
+    }
     return {
       id: uid(),
       createdAt: Date.now(),
